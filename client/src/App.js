@@ -1,0 +1,43 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+import './App.css'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import Home from './Components/Home.js'
+import LogIn from './Components/LogIn.js'
+import SignUp from './Components/SignUp.js'
+
+function App() {
+  return (
+    <div className="App">
+     <Router>
+        <header>
+         
+               <ul>
+                   <li style={{color:'white'}}><Link to="/Home">Home</Link></li>
+                   <li style={{color:'white'}}><Link to="/Log-in">Log-in</Link></li>
+                   <li style={{color:'white'}}><Link to="/Sign-in">Sign-in</Link></li>
+          
+               </ul>
+              
+              </header>
+       
+
+        <Switch>
+           
+            <Route exact path="/Home"><Home></Home></Route>
+            <Route exact path="/Log-in"><LogIn></LogIn></Route>  
+            <Route exact path="/Sign-UP"><SignUp></SignUp></Route> 
+           
+        </Switch>
+        </Router>
+    </div>
+  );
+}
+
+export default App;
+ 
