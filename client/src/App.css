@@ -7,10 +7,11 @@ ul{
   overflow: hidden;
   background-color: rgba(5, 142, 233, 0.863);
   
+  
 }
 li {
 float: left;
-padding-left: 20%;
+padding-left: 15%;
 }
 
 li a {
@@ -22,7 +23,8 @@ li a {
 }
 
 li a:hover {
-  background-color: rgb(5, 53, 97);
+  background-color: rgb(87, 167, 241);
+  color: azure;
 }
 .phone{
   width: 100%;

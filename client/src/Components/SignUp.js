@@ -7,6 +7,12 @@ import PropTypes from 'prop-types'
 import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
 import en from 'react-phone-number-input/locale/en.json'
 import Axios from 'axios'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 function SignUp() {
   const url = "http://localhost:3001/api/signup";
 
@@ -88,7 +94,7 @@ const handleSubmit= event =>{
         <Container fluid style={{height:'100%'}}>
         <Row>
         <Col ></Col>
-        <Col style={{marginTop:'5%', height:'100%'}}>
+        <Col xs={10} md={6} lg={5} style={{marginTop:'5%', height:'100%'}}>
         <Form onSubmit={handleSubmit}>
 
  
@@ -96,7 +102,7 @@ const handleSubmit= event =>{
     <Form.Group controlId="formEmail">
     <Form.Label
        style={{color:"#0394fc"}}>
-       Address email
+       Adresse email
     </Form.Label>
     <Form.Control
        required
@@ -153,12 +159,12 @@ const handleSubmit= event =>{
     <Form.Group controlId="formPassword">
     <Form.Label 
       style={{color:"#0394fc"}}>
-      Mot de pass
+      Mot de passe
     </Form.Label>
     <Form.Control 
      required
      type="password" 
-     placeholder="Entrée Mot de pass"
+     placeholder="Entrée Mot de passe"
      style={{
           borderLeft: 0 ,
           borderTop : 0,
@@ -172,7 +178,7 @@ const handleSubmit= event =>{
     <Form.Group controlId="formPhone">
     <Form.Label
        style={{color:"#0394fc"}}>
-       Numéro de télephone
+       Pays
     </Form.Label>
     <CountrySelect
       required
@@ -191,7 +197,7 @@ const handleSubmit= event =>{
     <Form.Group controlId="formPhone">
     <Form.Label 
       style={{color:"#0394fc"}}>
-      Numéro de télephone
+        &nbsp;  Numéro de télephone
     </Form.Label>
     <Input
       required
@@ -208,21 +214,26 @@ const handleSubmit= event =>{
      
     </Form.Group>
  
+    <center>
   <Button 
    style={{
-     marginTop:'30px',
+     marginTop:'40px',
      alignContent:'center',
-     width:'100%',
-     height:'40px',
+     width:'90%',
+     height:'50px',
      borderRadius:'0.5em',
-     alignItems:'center'}}
+     alignItems:'center',
+    fontSize:'20px',
+    justifySelf:'center'
+}}
      variant="primary" type="submit"
      >
-     Submit
+       submit
   </Button>
-  
+  </center>
   </Form>
-        
+        <hr></hr>
+        <center>Vous avez déjà un compte? <Link to="/Log-in">Log-in</Link> </center>
         </Col>
         <Col ></Col>
         </Row>

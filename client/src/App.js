@@ -15,16 +15,18 @@ function App() {
   return (
     <div className="App">
      <Router>
-        <header>
+          {/* <header>
          
                <ul>
                    <li style={{color:'white'}}><Link to="/Home">Home</Link></li>
                    <li style={{color:'white'}}><Link to="/Log-in">Log-in</Link></li>
-                   <li style={{color:'white'}}><Link to="/Sign-in">Sign-in</Link></li>
+                   <li style={{color:'white'}}><Link to="/Sign-UP">Sign-in</Link></li>
           
                </ul>
               
-              </header>
+              </header> */}
+       
+
        
 
         <Switch>
