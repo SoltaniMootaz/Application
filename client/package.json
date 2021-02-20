@@ -1,6 +1,5 @@
 {
-  "homepage": "http://SoltaniMootaz.github.io/ProjectReact",
-  "name": "mon-app",
+  "name": "application",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
