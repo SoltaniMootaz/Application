@@ -1,18 +1,18 @@
 const router = require('express').Router();
-const pool = require('../database/db');
+const pool = require('../database/creerDB-postgreSQL');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-//const verif = require('./verifToken');
+const session = require('sessionstorage');
 
 router.post("/api/signup", async (req,res) => {
     try {
-        const { nom,prenom,tel,email,adr,mdp } = req.body;
-        bcrypt.genSalt(parseInt(process.env.saltRounds), function(err, salt) {
+        const { nom,prenom,tel,email,adr,mdp,commerce } = req.body;
+        bcrypt.genSalt(parseInt(process.env.saltRounds), (err, salt) => {
             bcrypt.hash(mdp, salt,(err, hash) => {
                 if(err) {
                     console.error(err);
                 }else {
-                    pool.query("INSERT INTO utilisateur(nom,prenom,telephone,email,adresse,mdp) VALUES($1,$2,$3,$4,$5,$6) RETURNING *", [nom,prenom,tel,email,adr,hash],(err,result) => {
+                    pool.query("INSERT INTO utilisateur(nom,prenom,telephone,email,adresse,mdp,commerce) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *", [nom,prenom,tel,email,adr,hash,commerce],(err,result) => {
                         if(err) {
                             res.status(400).send('error');
                         }else {
@@ -30,18 +30,20 @@ router.post("/api/signup", async (req,res) => {
 router.post("/api/login", async (req,res) => {
     try {
         const { email,mdp } = req.body;
-        pool.query("SELECT mdp FROM utilisateur WHERE email = $1",[email],(err,result) => {
+        pool.query("SELECT id,mdp,commerce FROM utilisateur WHERE email = $1",[email],(err,result) => {
             if(err) {
                 console.error('Error executing query', err.stack);
             }else {
                 if(result.rowCount > 0) {
-                    bcrypt.compare(mdp, result.rows[0].mdp, function(err, result) {
+                    bcrypt.compare(mdp, result.rows[0].mdp, function(err, result1) {
                         if(err) {
                             console.error(err);
                         }else {
-                            if(result) {
+                            if(result1) {
+                                session.setItem('commerce', result.rows[0].commerce);
+
                                 //create and assign a token 
-                                const token = jwt.sign({_email: email}, process.env.TOKEN_SECRET);
+                                const token = jwt.sign({id: result.rows[0].id}, process.env.TOKEN_SECRET);
                                 res.header('auth_token', token).status(200).send("success");
                             }else {
                                 res.status(200).send('mot de passe incorrecte');

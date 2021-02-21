@@ -1,11 +1,5 @@
 {
-<<<<<<< HEAD
-  "homepage": "http://SoltaniMootaz.github.io/application",
-  "name": "Application",
-=======
-  
   "name": "application",
->>>>>>> 4d5c1723e27a655a811235e533205a3838913434
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -25,6 +19,7 @@
     "pg": "^8.5.1",
     "pgtools": "^0.3.0",
     "request": "^2.88.2",
+    "sessionstorage": "^0.1.0",
     "sqlite3": "^5.0.2"
   }
 }
