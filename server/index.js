@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-require('./database/creerDB.js');
+require('./database/creerDB-SQLite.js');
 const dotenv = require('dotenv');
 dotenv.config();
 

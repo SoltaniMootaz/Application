@@ -21,11 +21,11 @@ router.post("/api/ajouterCateg",verif,async (req,res) => {
 
 router.post("/api/ajouterArticle", verif, async (req,res) => {
     try {
-        const { nom,prix,unite,cout } = req.body;
+        const { nom,prix,unite,cout,categorie } = req.body;
 
-        var stmt = await db.prepare("INSERT INTO 'article-menu'(nom,prix,unite,cout) VALUES (?,?,?,?)");
+        var stmt = await db.prepare("INSERT INTO 'article-menu'(nom,prix,unite,cout,nomCategorie) VALUES (?,?,?,?,?)");
 
-        stmt.run(nom,prix,unite,cout, (err) => {
+        stmt.run(nom,prix,unite,cout,categorie, (err) => {
             if(err)
                 res.status(400).json(err);
             else
@@ -49,7 +49,41 @@ router.post("/api/ajouterIngredient", verif, async (req,res) => {
             else
                 res.status(201).send("succes");
         });
+
         stmt.finalize();
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+
+router.get("/api/afficherArticles", verif, async (req,res) => {
+    try {
+        db.all("SELECT * FROM 'article-menu'", (err, rows) => {
+            if(err)
+                res.send(err);
+            else {
+                res.json(rows);
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+
+router.get("/api/rechercherArticle/:attr", verif, async (req,res) => {
+    try {
+        const { attr } = req.params;
+        const sql = "SELECT * FROM 'article-menu' where nom LIKE '%" + attr + "%' or nomCategorie LIKE '%" + attr + "%'"
+
+        db.all(sql, (err, rows) => {
+            if(err)
+                res.send(err);
+            else {
+                res.json(rows);
+            }
+        });
     } catch (error) {
         console.error(error);
     }
