@@ -57,9 +57,36 @@ router.post("/api/ajouterIngredient", verif, async (req,res) => {
 });
 
 
-router.get("/api/afficherArticles", verif, async (req,res) => {
+router.get("/api/afficherArticles&*?", verif, async (req,res) => {
     try {
-        db.all("SELECT * FROM 'article-menu'", (err, rows) => {
+        if(!req.params[0]) {
+            db.all("SELECT * FROM 'article-menu'", (err, rows) => {
+                if(err)
+                    res.send(err);
+                else {
+                    res.json(rows);
+                }
+            });
+
+        }else {
+            const sql = "SELECT " + req.params[0] + " FROM 'article-menu'";
+
+            db.all(sql, (err, rows) => {
+                if(err)
+                    res.send(err);
+                else {
+                    res.json(rows);
+                }
+            });
+        }
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+router.get("/api/afficherCategorie", verif, async (req,res) => {
+    try {
+        db.all("SELECT * FROM 'categorie'", (err, rows) => {
             if(err)
                 res.send(err);
             else {
@@ -70,7 +97,6 @@ router.get("/api/afficherArticles", verif, async (req,res) => {
         console.error(error);
     }
 });
-
 
 router.get("/api/rechercherArticle/:attr", verif, async (req,res) => {
     try {
