@@ -1,21 +1,22 @@
 import React from 'react'
 import{Container, Nav, Row, Col, Navbar, Form, FormControl, Button} from 'react-bootstrap'
+import { AiFillHome } from "react-icons/ai";
 function Navbarup() {
     return (
       <>
         <Navbar expand="lg" >
-        <Navbar.Brand href="#home"></Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-       <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar.Brand href="#home"><AiFillHome /></Navbar.Brand>
+       
+      
        <Nav className="mr-auto">
-  <Nav.Link href="#home">Home</Nav.Link>
+  <Nav.Link href="#home" style={{marginTop:'17%'}}>Home</Nav.Link>
   
   
 </Nav>
 <Form inline>
-  <FormControl type="text" placeholder="Search"  className="mr-sm-2"  style={{borderTop:'0px',borderLeft:'0px',borderRight:'0px',borderRadius:'0px', }}/>
+  <FormControl type="text" placeholder="Search"  className="md-3"  style={{borderRadius:'0.8em', }}/>
 </Form>
-</Navbar.Collapse>
+
 </Navbar>
 <hr style={{width:'100%'}}></hr>
 </>
