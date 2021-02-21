@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import '../css/Article.css'
 import{Nav, Button} from 'react-bootstrap'
 import AjouterCat from './ajouterCategorie'
+import {BiPlusCircle} from 'react-icons/bi'
 
 function Sidebar() {
     const [state, setState] = useState({
@@ -17,10 +18,11 @@ function Sidebar() {
         <div className="sidebar-sticky"></div>
         <div className="s-link">
             <Nav.Item >
-                <Nav.Link  style={{color:'white'}}><Button onClick={() => setState({ isOpen: true })} variant="outline" style={{borderRadius:"1.5em",borderColor:"white",color:'white'}}>+</Button> Ajouter article</Nav.Link>
+                <Nav.Link  style={{color:'white',fontSize:"25px"}}><BiPlusCircle style={{width:"45px",height:"45px"}} /> Ajouter article</Nav.Link>
             </Nav.Item>
+            <hr />
             <Nav.Item > 
-                <Nav.Link href="/Article" style={{color:'white'}}><Button variant="outline" style={{borderRadius:"1.5em",borderColor:"white",color:'white'}}>+</Button> Ajouter catégorie</Nav.Link>
+                <Nav.Link style={{color:'white',fontSize:"25px"}} onClick={() => setState({ isOpen: true })}><BiPlusCircle style={{width:"45px",height:"45px"}} /> Ajouter catégorie</Nav.Link>
             </Nav.Item>
         </div>
         </Nav>
