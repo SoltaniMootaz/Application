@@ -22,6 +22,7 @@ function LogIn() {
     email: user.email,
     mdp: user.password
     }).then(res => {
+      
       console.log(res.data);
     })
   }

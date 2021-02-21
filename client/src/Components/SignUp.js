@@ -18,7 +18,7 @@ function SignUp() {
 
   const [value, setValue] = useState()
   const [country, setCountry] = useState()
-
+  
   const [user ,setUser]= useState(
     {
       name:"",
@@ -26,7 +26,8 @@ function SignUp() {
       email:"",
       password:"",
       Country:"",
-      phoneNumber:""
+      phoneNumber:"",
+      commerce :""
 
     }
   )
@@ -40,6 +41,7 @@ const handleSubmit= event =>{
           adr: user.Country,
           tel: user.phoneNumber,
           mdp: user.password,
+          commerce:user.commerce
       }).then(res => {
           console.log(res.data);
       })
@@ -62,6 +64,7 @@ const handleSubmit= event =>{
       ))}
     </select>
   )
+
   
   CountrySelect.propTypes = {
     value: PropTypes.string,
@@ -83,7 +86,9 @@ const handleSubmit= event =>{
       setUser({...user ,password:e.target.value})
     }
 
-  
+   const handleCommerceChange=(e)=>{
+     setUser({...user, commerce:e.target.value})
+   }
 
      
     
@@ -174,6 +179,20 @@ const handleSubmit= event =>{
           onChange={handlePasswordChange}/>
     </Form.Group>
 
+    <Form.Group controlId="formCommerce">
+    <Form.Label
+       style={{color:"#0394fc"}}>
+       Votre commerce
+    </Form.Label>
+    <select className="commerce"   onChange={handleCommerceChange}>
+      <option value="attar">Attar</option>
+      <option value="hammas">Hammas</option>
+      <option value="boutique">Boutique</option>
+      <option value="cosmetique">Cosmetique</option>
+      <option value="boulangerie">Boulangerie</option>
+      <option value="patisserie">Patisserie</option>
+    </select>
+    </Form.Group>
 
     <Form.Group controlId="formPhone">
     <Form.Label
@@ -197,7 +216,7 @@ const handleSubmit= event =>{
     <Form.Group controlId="formPhone">
     <Form.Label 
       style={{color:"#0394fc"}}>
-        &nbsp;  Numéro de télephone
+       Numéro de télephone
     </Form.Label>
     <Input
       required
