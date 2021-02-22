@@ -51,7 +51,7 @@ function Article() {
         <>
      <Container fluid>
                 <Row>
-                <Col  xs={10} id="page-content-wrapper" className="nopadding" > 
+                <Col  xs={9} id="page-content-wrapper" className="nopadding" > 
                     <Row>  <Col  xs={12} id="page-content-wrapper"><Navbarup /></Col> </Row>
                     <Row>
                     <Col style={{marginTop:'5%'}}>
@@ -61,7 +61,7 @@ function Article() {
                     </Col>
                     </Row>
                      </Col>
-                    <Col  xs={2} id="sidebar-wrapper" className="nopadding" >
+                    <Col  xs={3} id="sidebar-wrapper" className="nopadding" >
                     <Sidebar />
                     </Col>
                 </Row>
