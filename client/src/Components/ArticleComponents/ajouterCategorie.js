@@ -30,7 +30,6 @@ function AjouterCat(props) {
       setData(newData);
   }
 
-
     return (
       <>
         <Modal show={props.handleOpen} onHide={props.handleClose}>
