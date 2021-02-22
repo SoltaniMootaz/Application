@@ -30,7 +30,6 @@ function AjouterCat(props) {
       setData(newData);
   }
 
-
     return (
       <>
         <Modal show={props.handleOpen} onHide={props.handleClose}>
@@ -38,7 +37,7 @@ function AjouterCat(props) {
             <div style={{backgroundColor:"#00A600",width:"100%",height:"10px",marginTop:"0px"}}></div>
             <br />
             {error ? <Modal.Header>
-              <Modal.Title style={{color:"red",fontSize:"20px",alignContent:"center"}}>Catégorie existe déja</Modal.Title>
+              <Modal.Title style={{color:"red",fontSize:"20px",textAlign: 'center'}}>Catégorie existe déja</Modal.Title>
             </Modal.Header> : "" }
           <Modal.Body>
             <Form.Label>Catégorie</Form.Label>

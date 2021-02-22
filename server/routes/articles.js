@@ -3,13 +3,13 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./database/mydb.db');
 const verif = require('./verifToken');
 
-router.post("/api/ajouterCateg",verif,async (req,res) => {
+router.post("/api/ajouterCateg",async (req,res) => {
     try {
         var stmt = await db.prepare("INSERT INTO categorie(nom) VALUES (?)");
 
         stmt.run(req.body.categorie, (err) => {
             if(err)
-                res.status(400).json(err);
+                res.status(400).send("erreur");
             else
                 res.status(201).send("succes");
         });
