@@ -1,30 +1,57 @@
-import React from 'react'
-import{Button,Modal} from 'react-bootstrap'
+import React, {useState} from 'react'
+import{Modal,Form} from 'react-bootstrap'
+import {BsFillPlusCircleFill} from 'react-icons/bs'
+import Axios from 'axios'
 
 function AjouterCat(props) {
-    const btnStyle = {
-      borderRadius:"1.2em",
-      borderColor:"#00A600",
-      color:'#00A600',
-      fontSize:25,
-      textAlign: "center",
-      alignContent: "center"    
-    }
+  const url = "http://localhost:3001/api/ajouterCateg";
+  const [error,setError] = useState(false);
+
+  const [Data,setData] = useState({
+      categorie : "",
+  });
+
+  function submit(e) {
+      e.preventDefault();
+      Axios.post(url,{
+        categorie: Data.categorie,
+      }).then(res => {
+        props.handleClose();
+        console.log(res.data);
+      }).catch(err => {
+        setError(true);
+        console.log(err.response.data);
+      });
+  }
+
+  function handle(e) {
+      const newData = {...Data};
+      newData[e.target.id] = e.target.value;
+      setData(newData);
+  }
 
     return (
       <>
         <Modal show={props.handleOpen} onHide={props.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Form>
+            <div style={{backgroundColor:"#00A600",width:"100%",height:"10px",marginTop:"0px"}}></div>
+            <br />
+            {error ? <Modal.Header>
+              <Modal.Title style={{color:"red",fontSize:"20px",textAlign: 'center'}}>Catégorie existe déja</Modal.Title>
+            </Modal.Header> : "" }
+          <Modal.Body>
+            <Form.Label>Catégorie</Form.Label>
+            <Form.Control type="text" id="categorie" placeholder="jus,café.." onChange={(e) => handle(e)} value={Data.categorie} />
+          </Modal.Body>
+          <br /><br />
           <Modal.Footer style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}>
-            <Button variant="outline" onClick={props.handleClose} style={btnStyle}>+</Button>
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+            <BsFillPlusCircleFill onClick={props.handleClose,(e) => submit(e)} style={{width:"50px",height:"50px",color:"#00A600"}} />
           </Modal.Footer>
+          </Form>
         </Modal>
       </>
     );
