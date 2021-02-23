@@ -9,14 +9,14 @@ function AjouterCat(props) {
   const [error,setError] = useState(false);
   const [vente,setVente] = useState(false);
   const [tracer,setTracer] = useState(false);
+  const [ajouter, setAjouter] = useState(false);
+
  
   const [Data,setData] = useState({
       categorie : "",
   });
 
-  callback = (e) => {
-    
-  }
+ 
 
   function submit(e) {
       e.preventDefault();
@@ -44,8 +44,6 @@ function AjouterCat(props) {
   function changeTracer() {
     setTracer(!tracer);
 }
-
-
 
     return (
       <>
@@ -115,11 +113,14 @@ function AjouterCat(props) {
                     onChange={()=>changeTracer()}
                 />
             </Form.Group>
-
-            {tracer ? <Ingredient 
-              ajouter
-            /> : "" }
-
+           
+            {tracer ?
+             <BsFillPlusCircleFill style={{width:"30px",height:"30px%",marginTop:"15px"}} 
+             />
+            :""
+            }<div>
+            
+            </div>
           </Modal.Body>
           <br /><br />
           <Modal.Footer style={{
@@ -127,7 +128,9 @@ function AjouterCat(props) {
             justifyContent: "center",
             alignItems: "center",
           }}>
-            <BsFillPlusCircleFill onClick={props.handleClose,(e) => submit(e)} style={{width:"50px",height:"50px",color:"#00A600"}} />
+            <BsFillPlusCircleFill onClick={(e) =>{ 
+              submit(e);
+              props.handleClose();}} style={{width:"50px",height:"50px",color:"#00A600"}} />
           </Modal.Footer>
           </Form>
         </Modal>

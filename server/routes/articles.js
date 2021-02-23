@@ -18,6 +18,24 @@ router.post("/api/ajouterCateg",async (req,res) => {
         res.send(err);
     }
 });
+router.delete('/api/deleteCateg/:nom', (req, res) => {
+  
+    try {
+        var stmt = await db.prepare("DELETE FROM categorie WHERE nom=?");
+
+        stmt.run(req.params.nom, (err) => {
+            if(err)
+                res.status(400).send("erreur");
+            else
+                res.status(201).send("succes");
+        });
+        stmt.finalize();
+    }catch(err) {
+        res.send(err);
+    }
+});
+
+    
 
 router.post("/api/ajouterArticle", async (req,res) => {
     try {
