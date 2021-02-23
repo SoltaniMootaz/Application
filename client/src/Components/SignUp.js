@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {Row, Col, Form, Button, Container} from 'react-bootstrap'
+import {Row, Col, Form, Button, Container, Alert} from 'react-bootstrap'
 import 'react-phone-number-input/style.css'
 import Input from 'react-phone-number-input/input'
 import '../App.css'
@@ -16,6 +16,12 @@ import {
 function SignUp() {
   const url = "http://localhost:3001/api/signup";
 
+  const [succes,setSucces] = useState({
+    data:""
+  });
+  const [error,setError] = useState({
+    data:""
+  });
   const [value, setValue] = useState()
   const [country, setCountry] = useState()
   
@@ -43,7 +49,11 @@ const handleSubmit= event =>{
           mdp: user.password,
           commerce:user.commerce
       }).then(res => {
-          console.log(res.data);
+          setSucces({...succes, data : res.data});
+          setError({...error, data : ""});
+      }).catch(err => {
+          setSucces({...succes, data : ""});
+          setError({...error, data : err.response.data});
       })
   }
 
@@ -112,7 +122,7 @@ const handleSubmit= event =>{
     <Form.Control
        required
        type="email" 
-       placeholder="Entrée email" 
+       placeholder="Entrer votre email" 
        style={{
           borderLeft: 0 ,
           borderTop : 0, 
@@ -131,7 +141,7 @@ const handleSubmit= event =>{
     <Form.Control 
      required
      type="text" 
-     placeholder="Entrée Prénom"  
+     placeholder="Entrer votre Prénom"  
      style={{
        borderLeft: 0 , 
        borderTop : 0, 
@@ -151,7 +161,7 @@ const handleSubmit= event =>{
     <Form.Control
      required
      type="text" 
-     placeholder="Entrée Nom"  
+     placeholder="Entrer votre Nom"  
      style={{
         borderLeft: 0 , 
         borderTop : 0, 
@@ -169,7 +179,7 @@ const handleSubmit= event =>{
     <Form.Control 
      required
      type="password" 
-     placeholder="Entrée Mot de passe"
+     placeholder="Entrer votre mot de passe"
      style={{
           borderLeft: 0 ,
           borderTop : 0,
@@ -187,9 +197,8 @@ const handleSubmit= event =>{
     <select className="commerce"   onChange={handleCommerceChange}>
       <option value="attar">Attar</option>
       <option value="hammas">Hammas</option>
-      <option value="boutique">Boutique</option>
-      <option value="cosmetique">Cosmetique</option>
-      <option value="boulangerie">Boulangerie</option>
+      <option value="café">Café</option>
+      <option value="restaurant">Restaurant</option>
       <option value="patisserie">Patisserie</option>
     </select>
     </Form.Group>
@@ -222,6 +231,8 @@ const handleSubmit= event =>{
       required
       placeholder="numéro de télephone"
       className="phone"
+      pattern=".{8,}"
+      required title="8 chiffres minimum"
       country={country}
       international
       withCountryCallingCode
@@ -232,7 +243,17 @@ const handleSubmit= event =>{
       }}/>
      
     </Form.Group>
- 
+
+        {succes.data.length>0 ? <center>
+          <Alert variant="success">
+            <center>Compte crée avec succés, <Alert.Link href="/Log-in">Connexion</Alert.Link></center>
+          </Alert>
+        </center> : error.data.length>0 ? <center>
+          <Alert variant="danger">
+            <center>Compte existe déja, <Alert.Link href="/Log-in">Connexion</Alert.Link></center>
+          </Alert>
+        </center> : "" } 
+
     <center>
   <Button 
    style={{
@@ -247,12 +268,13 @@ const handleSubmit= event =>{
 }}
      variant="primary" type="submit"
      >
-       submit
+       Valider
   </Button>
   </center>
   </Form>
         <hr></hr>
-        <center>Vous avez déjà un compte? <Link to="/Log-in">Log-in</Link> </center>
+        <center>Vous avez déjà un compte? <Link to="/Log-in">Connexion</Link> </center>
+        <br /><br />
         </Col>
         <Col ></Col>
         </Row>

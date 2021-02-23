@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {Row, Col, Form, Button, Container} from 'react-bootstrap'
+import {Row, Col, Form, Button, Container, Alert} from 'react-bootstrap'
 import '../App.css'
 import Axios from 'axios'
 import {
@@ -16,14 +16,19 @@ function LogIn() {
       password : ""
   });
 
+  const [error,setError] = useState({
+    data:""
+  });
+
   const handleSubmit= event=> {
     event.preventDefault();
     Axios.post(url,{
     email: user.email,
     mdp: user.password
     }).then(res => {
-      
-      console.log(res.data);
+      window.location.href = "home"
+    }).catch(err => {
+      setError({...error, data : err.response.data});
     })
   }
 
@@ -51,12 +56,12 @@ function LogIn() {
   <Form.Group controlId="formEmail">
   <Form.Label
      style={{color:"#0394fc"}}>
-     Address email
+     Adresse email
   </Form.Label>
   <Form.Control
      required
      type="email" 
-     placeholder="Entrée email" 
+     placeholder="Entrer votre email" 
      style={{
         borderLeft: 0 ,
         borderTop : 0, 
@@ -75,7 +80,7 @@ function LogIn() {
     <Form.Control 
      required
      type="password" 
-     placeholder="Entrée Mot de passe"
+     placeholder="Entrer votre mot de passe"
      style={{
           borderLeft: 0 ,
           borderTop : 0,
@@ -85,6 +90,13 @@ function LogIn() {
           onChange={handlePasswordChange}
        />
     </Form.Group>
+
+        {error.data.length>0 ? <center>
+          <Alert variant="danger">
+            <center>{error.data}</center>
+          </Alert>
+        </center> : "" } 
+
 <center>
   <Button 
    style={{
@@ -98,13 +110,13 @@ function LogIn() {
   justifySelf:'center'}}
      variant="primary" type="submit"
      >
-     Log-in
+     Connexion
   </Button>
   </center>
   </Form>
   <hr></hr>
         <center>
-Vous n'avez pas de compte? <Link to="/Sign-UP">Sign-up</Link></center>
+Vous n'avez pas de compte? <Link to="/Sign-UP">Créer un compte</Link></center>
         </Col>
         <Col ></Col>
         </Row>

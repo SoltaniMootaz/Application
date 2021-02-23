@@ -14,9 +14,7 @@ function AjouterCat(props) {
       categorie : "",
   });
 
-  callback = (e) => {
-    
-  }
+
 
   function submit(e) {
       e.preventDefault();
