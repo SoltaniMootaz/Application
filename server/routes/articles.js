@@ -18,10 +18,11 @@ router.post("/api/ajouterCateg",async (req,res) => {
         res.send(err);
     }
 });
-router.delete('/api/deleteCateg/:nom', (req, res) => {
+
+router.delete('/api/deleteArt/:nom', async (req, res) => {
   
     try {
-        var stmt = await db.prepare("DELETE FROM categorie WHERE nom=?");
+        var stmt = await db.prepare("DELETE FROM 'article-menu' WHERE nom=?");
 
         stmt.run(req.params.nom, (err) => {
             if(err)
