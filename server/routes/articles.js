@@ -9,7 +9,7 @@ router.post("/api/ajouterCateg",async (req,res) => {
 
         stmt.run(req.body.categorie, (err) => {
             if(err)
-                res.status(400).json(err);
+                res.status(400).send("erreur");
             else
                 res.status(201).send("succes");
         });
