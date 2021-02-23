@@ -19,6 +19,25 @@ router.post("/api/ajouterCateg",async (req,res) => {
     }
 });
 
+router.delete('/api/deleteArt/:nom', async (req, res) => {
+  
+    try {
+        var stmt = await db.prepare("DELETE FROM 'article-menu' WHERE nom=?");
+
+        stmt.run(req.params.nom, (err) => {
+            if(err)
+                res.status(400).send("erreur");
+            else
+                res.status(201).send("succes");
+        });
+        stmt.finalize();
+    }catch(err) {
+        res.send(err);
+    }
+});
+
+    
+
 router.post("/api/ajouterArticle", async (req,res) => {
     try {
         const { nom,prix,unite,cout,categorie } = req.body;

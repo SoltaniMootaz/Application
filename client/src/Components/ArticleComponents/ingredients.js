@@ -3,10 +3,11 @@ import {BsFillPlusCircleFill} from 'react-icons/bs'
 import{Form,Col} from 'react-bootstrap'
 
 function Ingredient({ parentCallback }) {
-    const [ajouter, setAjouter] = useState(false);
+
 
     return (
         <>
+        
             <Form.Row>
                 <Form.Group as={Col} md="4">
                 <Form.Label>Nom du produit</Form.Label>
@@ -28,13 +29,9 @@ function Ingredient({ parentCallback }) {
                 </Form.Group>
 
                 <Form.Group as={Col} md="1">
-                <BsFillPlusCircleFill style={{width:"100%",height:"100%",marginTop:"15px"}} 
-                    onClick={()=>{
-                        setAjouter(true)
-                        parentCallback(ajouter)
-                    }}  />
-                </Form.Group>
+                  </Form.Group>
             </Form.Row>
+         
         </>
     )
 }
