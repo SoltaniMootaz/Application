@@ -5,23 +5,38 @@ import Axios from 'axios'
 import Ingredient from './ingredients';
 
 function AjouterCat(props) { 
-  const url = "http://localhost:3001/api/ajouterCateg";
+  const url = "http://localhost:3001/api/ajouterArticle";
   const [error,setError] = useState(false);
   const [vente,setVente] = useState(false);
   const [tracer,setTracer] = useState(false);
  
   const [Data,setData] = useState({
-      categorie : "",
+    nom: "",
+    categorie: "",
+    prix: "",
+    unite: ""
   });
+
+  const items = [];
+  const [length,setLength] = useState(1);
+
+  for (var i=0;i<length;i++) {
+    items.push(<Ingredient id={i} />)
+  }
 
 
 
   function submit(e) {
       e.preventDefault();
       Axios.post(url,{
+        nom: Data.nom,
         categorie: Data.categorie,
+        prix: Data.prix,
+        unite: Data.unite,
+        
       }).then(res => {
         props.handleClose();
+        window.location.reload(false);
         console.log(res.data);
       }).catch(err => {
         setError(true);
@@ -29,11 +44,22 @@ function AjouterCat(props) {
       });
   }
 
-  function handle(e) {
-      const newData = {...Data};
-      newData[e.target.id] = e.target.value;
-      setData(newData);
+  function handleNom(e) {
+    setData({...Data ,nom:e.target.value})
   }
+
+  function handleCategorie(e) {
+    setData({...Data ,categorie:e.target.value})
+  }
+
+  function handlePrix(e) {
+    setData({...Data ,prix:e.target.value})
+  }
+
+  function handleUnite(e) {
+    setData({...Data ,unite:e.target.value})
+  }
+
 
   function changeVente() {
       setVente(!vente);
@@ -52,20 +78,21 @@ function AjouterCat(props) {
             <div style={{backgroundColor:"#00A600",width:"100%",height:"10px",marginTop:"0px"}}></div>
             <br />
             {error ? <Modal.Header>
-              <Modal.Title style={{color:"red",fontSize:"20px",textAlign: 'center'}}>Catégorie existe déja</Modal.Title>
+              <Modal.Title style={{color:"red",fontSize:"20px",textAlign: 'center'}}>Article existe déja</Modal.Title>
             </Modal.Header> : "" }
           <Modal.Body>
             <Form.Group>
                 <Form.Label>Nom</Form.Label>
-                <Form.Control type="text" placeholder="" />
+                <Form.Control type="text" id="nom" onChange={(e) => handleNom(e)}/>
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Catégorie</Form.Label>
-                <Form.Control as="select">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
+                <Form.Control as="select" id="categorie" onChange={(e) => handleCategorie(e)}>
+                    <option value=""></option>
+                    <option value="jus">jus</option>
+                    <option value="cafe">café</option>
+                    <option value="test123">test123</option>
                     <option>4</option>
                     <option>5</option>
                 </Form.Control>
@@ -82,25 +109,19 @@ function AjouterCat(props) {
             <Form.Row>
                 <Form.Group as={Col} md="9">
                 <Form.Label>Prix</Form.Label>
-                <Form.Control type="number" />
+                <Form.Control type="number" id="prix" onChange={(e) => handlePrix(e)}/>
                 </Form.Group>
                 {vente ?
                 <Form.Group as={Col} md="3">
                     <Form.Label>Unité</Form.Label>
-                    <Form.Control as="select">
-                        <option>Gramme</option>
-                        <option>KG</option>
-                        <option>Litre</option>
+                    <Form.Control as="select" id="unite" onChange={(e) => handleUnite(e)}>
+                        <option value="gramme">Gramme</option>
+                        <option value="KG">KG</option>
+                        <option value="litre">Litre</option>
                     </Form.Control>
                 </Form.Group> : "" }
             </Form.Row>
-            {/* {!vente ? 
-            <Form.Row>
-                <Form.Group as={Col} md="9">
-                    <Form.Label>Coût</Form.Label>
-                    <Form.Control type="number" />
-                </Form.Group>
-            </Form.Row> : ""} */}
+
             <Form.Group>
                 <Form.File id="image" label="Image" />
             </Form.Group>
@@ -114,9 +135,18 @@ function AjouterCat(props) {
                 />
             </Form.Group>
 
-            {tracer ? <Ingredient 
-              ajouter
-            /> : "" }
+            {tracer ? <div>
+              {items} 
+              <Form.Group>
+                <center>
+                  <BsFillPlusCircleFill style={{width:"12%",height:"12%",marginTop:"15px"}} 
+                  onClick={(e)=> {
+                    e.preventDefault();
+                    setLength(length + 1);
+                  }}/>
+                  </center>
+              </Form.Group>
+            </div>: "" }
 
           </Modal.Body>
           <br /><br />

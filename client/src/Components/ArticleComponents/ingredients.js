@@ -2,37 +2,31 @@ import React,{useState} from 'react'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 import{Form,Col} from 'react-bootstrap'
 
-function Ingredient({ parentCallback }) {
-    const [ajouter, setAjouter] = useState(false);
+function Ingredient({ id }) {
+    var nom = "nom" + id;
+    var quant = "quant" + id;
+    var unite = "unite" + id;
 
     return (
         <>
             <Form.Row>
-                <Form.Group as={Col} md="4">
+                <Form.Group as={Col} md="5">
                 <Form.Label>Nom du produit</Form.Label>
-                <Form.Control type="text" />
+                <Form.Control type="text" id={nom}/>
                 </Form.Group>
 
                 <Form.Group as={Col} md="4">
                     <Form.Label>Quantite</Form.Label>
-                    <Form.Control type="number" />
+                    <Form.Control type="number" id={quant} />
                 </Form.Group>
 
                 <Form.Group as={Col} md="3">
                     <Form.Label>Unité</Form.Label>
-                    <Form.Control as="select">
+                    <Form.Control as="select" id={unite}>
                         <option>Gramme</option>
                         <option>KG</option>
                         <option>Litre</option>
                     </Form.Control> 
-                </Form.Group>
-
-                <Form.Group as={Col} md="1">
-                <BsFillPlusCircleFill style={{width:"100%",height:"100%",marginTop:"15px"}} 
-                    onClick={()=>{
-                        setAjouter(true)
-                        parentCallback(ajouter)
-                    }}  />
                 </Form.Group>
             </Form.Row>
         </>
