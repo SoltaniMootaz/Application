@@ -19,7 +19,7 @@ router.post("/api/ajouterCateg",async (req,res) => {
     }
 });
 
-router.post("/api/ajouterArticle", verif, async (req,res) => {
+router.post("/api/ajouterArticle", async (req,res) => {
     try {
         const { nom,prix,unite,cout,categorie } = req.body;
 
@@ -37,7 +37,7 @@ router.post("/api/ajouterArticle", verif, async (req,res) => {
     }
 });
 
-router.post("/api/ajouterIngredient", verif, async (req,res) => {
+router.post("/api/ajouterIngredient",  async (req,res) => {
     try {
         const { nomArt,nomIngr,quantite } = req.body;
 
@@ -57,7 +57,7 @@ router.post("/api/ajouterIngredient", verif, async (req,res) => {
 });
 
 
-router.get("/api/afficherArticles&*?", verif, async (req,res) => {
+router.get("/api/afficherArticles&*?",  async (req,res) => {
     try {
         if(!req.params[0]) {
             db.all("SELECT * FROM 'article-menu'", (err, rows) => {
@@ -84,7 +84,7 @@ router.get("/api/afficherArticles&*?", verif, async (req,res) => {
     }
 });
 
-router.get("/api/afficherCategorie", verif, async (req,res) => {
+router.get("/api/afficherCategorie",  async (req,res) => {
     try {
         db.all("SELECT * FROM 'categorie'", (err, rows) => {
             if(err)
@@ -98,7 +98,7 @@ router.get("/api/afficherCategorie", verif, async (req,res) => {
     }
 });
 
-router.get("/api/rechercherArticle/:attr", verif, async (req,res) => {
+router.get("/api/rechercherArticle/:attr", async (req,res) => {
     try {
         const { attr } = req.params;
         const sql = "SELECT * FROM 'article-menu' where nom LIKE '%" + attr + "%' or nomCategorie LIKE '%" + attr + "%'"
