@@ -1,7 +1,8 @@
-import React, {useState,useEffect} from 'react'
-import{Modal,Form,Col,Row} from 'react-bootstrap'
+import React, {useState} from 'react'
+import{Modal,Form,Col} from 'react-bootstrap'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 import Axios from 'axios'
+import Ingredient from './ingredients';
 
 function AjouterCat(props) { 
   const url = "http://localhost:3001/api/ajouterCateg";
@@ -12,6 +13,10 @@ function AjouterCat(props) {
   const [Data,setData] = useState({
       categorie : "",
   });
+
+  callback = (e) => {
+    
+  }
 
   function submit(e) {
       e.preventDefault();
@@ -39,6 +44,8 @@ function AjouterCat(props) {
   function changeTracer() {
     setTracer(!tracer);
 }
+
+
 
     return (
       <>
@@ -70,6 +77,7 @@ function AjouterCat(props) {
                     type="switch"
                     id="custom-switch"
                     label="Vente par poids"
+                    checked={vente}
                     onChange={()=>changeVente()}
                 />
             </Form.Group>
@@ -103,28 +111,15 @@ function AjouterCat(props) {
                     type="switch"
                     id="tracer"
                     label="Tracer dans l'inventaire"
+                    checked={tracer}
                     onChange={()=>changeTracer()}
                 />
             </Form.Group>
-            <Form.Row>
-                {tracer ?
-                <Form.Group as={Col} md="5">
-                <Form.Label>Nom du produit</Form.Label>
-                <Form.Control type="text" />
-                </Form.Group> : "" }
-                {tracer ? <Form.Group as={Col} md="4">
-                    <Form.Label>Quantite</Form.Label>
-                    <Form.Control type="number" />
-                </Form.Group> : "" }
-                {tracer ? <Form.Group as={Col} md="3">
-                    <Form.Label>Unité</Form.Label>
-                    <Form.Control as="select">
-                        <option>Gramme</option>
-                        <option>KG</option>
-                        <option>Litre</option>
-                    </Form.Control>
-                </Form.Group> : "" }
-            </Form.Row>
+
+            {tracer ? <Ingredient 
+              ajouter
+            /> : "" }
+
           </Modal.Body>
           <br /><br />
           <Modal.Footer style={{
