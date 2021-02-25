@@ -22,13 +22,17 @@ function Article() {
 
 
     const getCategories=()=>{
-    Axios.get(urlcat).then(res => setDataCat(res.data)).catch(err=>console.log(err))
+    Axios.get(urlcat)
+        .then(res => setDataCat([res.data]))
+        .catch(err=>console.log(err))
     setLoading1(false)
 }
 
 
    const getArticles=()=>{
-   Axios.get(urlart).then(res => setDataArt(res.data)).catch(err=>console.log(err))
+   Axios.get(urlart)
+   .then(res => setDataArt([res.data]))
+   .catch(err=>console.log(err))
    setLoading2(false)
 }
 

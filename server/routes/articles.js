@@ -48,10 +48,10 @@ router.post("/api/ajouterIngredient",  async (req,res) => {
 });
 
 
-router.get("/api/afficherArticles&*?",  async (req,res) => {
+router.get("/api/afficherArticles&*?", (req,res) => {
     try {
         if(!req.params[0]) {
-            pool.query("SELECT * FROM public.article-menu", (err, result) => {
+            pool.query("SELECT * FROM public.'article-menu'", (err, result) => {
                 if(err)
                     res.status(400).send(err);
                 else {
@@ -61,7 +61,7 @@ router.get("/api/afficherArticles&*?",  async (req,res) => {
             });
 
         }else {
-            pool.query("SELECT $1 FROM public.article-menu",[req.params[0]], (err, rows) => {
+            pool.query("SELECT $1 FROM public.'article-menu'",[req.params[0]], (err, rows) => {
                 if(err)
                     res.send(err);
                 else {
@@ -74,11 +74,11 @@ router.get("/api/afficherArticles&*?",  async (req,res) => {
     }
 });
 
-router.get("/api/afficherCategorie",  async (req,res) => {
+router.get("/api/afficherCategorie", (req,res) => {
     //res.send(req.body);
 
     try {
-        pool.query("SELECT * FROM public.categorie", (err, rows) => {
+        pool.query("SELECT * FROM categorie", (err, rows) => {
             if(err) {
                 res.status(400).send(err);
             }else {
