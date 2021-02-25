@@ -17,6 +17,7 @@ function AjouterCat(props) {
         categorie: Data.categorie,
       }).then(res => {
         props.handleClose();
+        window.location.reload(false);
         console.log(res.data);
       }).catch(err => {
         setError(true);

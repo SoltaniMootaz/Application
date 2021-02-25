@@ -12,11 +12,19 @@ router.post("/api/signup", async (req,res) => {
                 if(err) {
                     console.error(err);
                 }else {
-                    pool.query("INSERT INTO utilisateur(nom,prenom,telephone,email,adresse,mdp,commerce) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *", [nom,prenom,tel,email,adr,hash,commerce],(err,result) => {
-                        if(err) {
-                            res.status(400).send('error');
+                    pool.query("SELECT * FROM utilisateur WHERE email = $1",[email],(err,result) => {
+                        if(err){
+                            res.status(400).send("error dans l'execution de la requete select");
+                        }else if(result.rowCount > 0) {
+                            res.status(400).send("utilisateur existe déja");
                         }else {
-                            res.status(201).send('success');
+                            pool.query("INSERT INTO utilisateur(nom,prenom,telephone,email,adresse,mdp,commerce) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *", [nom,prenom,tel,email,adr,hash,commerce],(err,result) => {
+                                if(err) {
+                                    res.status(400).send("error dans l'execution de la requete insert");
+                                }else {
+                                    res.status(201).send('success');
+                                }
+                            });
                         }
                     });
                 }
@@ -37,6 +45,7 @@ router.post("/api/login", async (req,res) => {
                 if(result.rowCount > 0) {
                     bcrypt.compare(mdp, result.rows[0].mdp, function(err, result1) {
                         if(err) {
+                            res.status(400).send("Mot de passe incorrecte");
                             console.error(err);
                         }else {
                             if(result1) {
@@ -46,12 +55,12 @@ router.post("/api/login", async (req,res) => {
                                 const token = jwt.sign({id: result.rows[0].id}, process.env.TOKEN_SECRET);
                                 res.header('auth_token', token).status(200).send("success");
                             }else {
-                                res.status(200).send('mot de passe incorrecte');
+                                res.status(400).send('Mot de passe incorrecte');
                             }
                         }
                     });
                 }else {
-                    res.send("adresse email n'existe pas");
+                    res.status(400).send("Adresse email n'existe pas");
                 }
             }
         });

@@ -12,8 +12,7 @@ db.serialize(function() {
     db.run(`CREATE TABLE if not exists "article-menu"(
         nom	TEXT NOT NULL,
         prix	INTEGER NOT NULL,
-        unite	TEXT NOT NULL,
-        cout	INTEGER NOT NULL,
+        unite	TEXT,
         image	TEXT,
         nomCategorie TEXT NOT NULL,
         PRIMARY KEY("nom"),
