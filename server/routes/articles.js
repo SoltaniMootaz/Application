@@ -82,7 +82,7 @@ router.get("/api/afficherCategorie",  async (req,res) => {
     try {
         pool.query("SELECT * FROM public.categorie", (err, rows) => {
             if(err) {
-                res.status(200).send(err);
+                res.status(400).send(err);
             }else {
                 res.status(200).json(rows);
             }

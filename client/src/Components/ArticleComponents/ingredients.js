@@ -2,15 +2,10 @@ import React,{useState} from 'react'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 import{Form,Col} from 'react-bootstrap'
 
-<<<<<<< HEAD
 function Ingredient({ id }) {
     var nom = "nom" + id;
     var quant = "quant" + id;
     var unite = "unite" + id;
-=======
-function Ingredient({ parentCallback }) {
-
->>>>>>> 49b9f916b9040913d56d6cbdf4b7e011492ed915
 
     return (
         <>
@@ -34,12 +29,9 @@ function Ingredient({ parentCallback }) {
                         <option>Litre</option>
                     </Form.Control> 
                 </Form.Group>
-<<<<<<< HEAD
-=======
 
                 <Form.Group as={Col} md="1">
                   </Form.Group>
->>>>>>> 49b9f916b9040913d56d6cbdf4b7e011492ed915
             </Form.Row>
          
         </>
