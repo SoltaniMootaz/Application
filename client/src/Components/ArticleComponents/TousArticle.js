@@ -7,7 +7,6 @@ import def from './img/def.jpg'
 function TousArticle(props) {
   
   var src=def;
-  console.log(props.dataCat);
   const isSRC=(data)=>{
       if (data == null) {
       return true;
@@ -19,17 +18,19 @@ function TousArticle(props) {
                return (
                 <>
                    {props.dataCat.map(((data)=> {
-                        return (<div  key={data.nom} >
-                           <Row style={{marginLeft:'5%', color:'#00886C', textTransform:'uppercase'}}>
-                           <h3>{data.nom}</h3> 
-                           </Row>
+                        return (
+                          <div  key={data.nom} >
+                            <Row style={{marginLeft:'5%', color:'#00886C', textTransform:'uppercase'}}>
+                            <h3>{data.nom}</h3> 
+                            </Row>
             
                           <Row style={{marginLeft:'4%'}}>
                        
                         {props.dataArt.map((data1)=>{
-                           return( <div key={data1.nom}>                    
-                           {(data1.nomCategorie===data.nom)?
-                            <Col xs={3}  key={data1.nomCategorie} >
+                           return( 
+                            <div key={data1.nom}>                    
+                            {(data1.nomCategorie===data.nom)?
+                              <Col xs={3}  key={data1.nomCategorie} >
                                       
                                     
                                         

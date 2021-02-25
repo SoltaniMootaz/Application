@@ -4,7 +4,7 @@ const pool = require('../database/creerDB-postgreSQL');
 const db = new sqlite3.Database('./database/mydb.db');
 const verif = require('./verifToken');
 
-router.post("/api/ajouterCateg",async (req,res) => {
+router.post("/api/ajouterCateg", (req,res) => {
     try {
         pool.query("INSERT INTO categorie(nom) VALUES ($1)",[req.body.categorie], (err) => {
             if(err)
@@ -17,11 +17,11 @@ router.post("/api/ajouterCateg",async (req,res) => {
     }
 });
 
-router.post("/api/ajouterArticle", async (req,res) => {
+router.post("/api/ajouterArticle", (req,res) => {
     try {
         const { nom,prix,unite,categorie } = req.body;
 
-        pool.query("INSERT INTO 'article-menu'(nom,prix,unite,nomCategorie) VALUES ($1,$2,$3,$4)",[nom,prix,unite,categorie], (err) => {
+        pool.query("INSERT INTO public.'article-menu'(nom,prix,unite,nomCategorie) VALUES ($1,$2,$3,$4) RETURNING *",[nom,prix,unite,categorie], (err) => {
             if(err)
                 res.status(400).json(err);
             else
@@ -32,7 +32,7 @@ router.post("/api/ajouterArticle", async (req,res) => {
     }
 });
 
-router.post("/api/ajouterIngredient",  async (req,res) => {
+router.post("/api/ajouterIngredient", (req,res) => {
     try {
         const { nomArt,nomIngr,quantite } = req.body;
 
@@ -51,9 +51,9 @@ router.post("/api/ajouterIngredient",  async (req,res) => {
 router.get("/api/afficherArticles&*?", (req,res) => {
     try {
         if(!req.params[0]) {
-            pool.query("SELECT * FROM public.'article-menu'", (err, result) => {
+            pool.query('SELECT * FROM public."article-menu"', (err, result) => {
                 if(err)
-                    res.status(400).send(err);
+                    res.status(400).json(err);
                 else {
                     console.log(res);
                     res.status(200).json(result);
@@ -61,11 +61,11 @@ router.get("/api/afficherArticles&*?", (req,res) => {
             });
 
         }else {
-            pool.query("SELECT $1 FROM public.'article-menu'",[req.params[0]], (err, rows) => {
+            pool.query('SELECT $1 FROM public."article-menu"',[req.params[0]], (err, rows) => {
                 if(err)
-                    res.send(err);
+                    res.status(400).send(err);
                 else {
-                    res.json(rows);
+                    res.status(200).json(rows);
                 }
             });
         }
@@ -75,10 +75,8 @@ router.get("/api/afficherArticles&*?", (req,res) => {
 });
 
 router.get("/api/afficherCategorie", (req,res) => {
-    //res.send(req.body);
-
     try {
-        pool.query("SELECT * FROM categorie", (err, rows) => {
+        pool.query('SELECT * FROM public.categorie', (err, rows) => {
             if(err) {
                 res.status(400).send(err);
             }else {

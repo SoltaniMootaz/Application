@@ -20,10 +20,9 @@ function Article() {
     const [isSearching,setIsSearching]=useState(false);
     const [value,setValue]=useState();
 
-
     const getCategories=()=>{
     Axios.get(urlcat)
-        .then(res => setDataCat([res.data]))
+        .then(res => setDataCat(res.data.rows))
         .catch(err=>console.log(err))
     setLoading1(false)
 }
@@ -31,7 +30,7 @@ function Article() {
 
    const getArticles=()=>{
    Axios.get(urlart)
-   .then(res => setDataArt([res.data]))
+   .then(res => setDataArt(res.data.rows))
    .catch(err=>console.log(err))
    setLoading2(false)
 }
