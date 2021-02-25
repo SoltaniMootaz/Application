@@ -53,7 +53,7 @@ router.get("/api/afficherArticles&*?",  async (req,res) => {
         if(!req.params[0]) {
             pool.query("SELECT * FROM public.article-menu", (err, result) => {
                 if(err)
-                    res.status(400).send("erreur dans la select des menu");
+                    res.status(400).send(err);
                 else {
                     console.log(res);
                     res.status(200).json(result);
@@ -61,9 +61,7 @@ router.get("/api/afficherArticles&*?",  async (req,res) => {
             });
 
         }else {
-            const sql = "SELECT " + req.params[0] + " FROM 'article-menu'";
-
-            pool.query(sql, (err, rows) => {
+            pool.query("SELECT $1 FROM public.article-menu",[req.params[0]], (err, rows) => {
                 if(err)
                     res.send(err);
                 else {
@@ -82,7 +80,7 @@ router.get("/api/afficherCategorie",  async (req,res) => {
     try {
         pool.query("SELECT * FROM public.categorie", (err, rows) => {
             if(err) {
-                res.status(200).send(err);
+                res.status(400).send(err);
             }else {
                 res.status(200).json(rows);
             }

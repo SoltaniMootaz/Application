@@ -19,16 +19,12 @@ function AjouterCat(props) {
     unite: ""
   });
 
-<<<<<<< HEAD
   const items = [];
   const [length,setLength] = useState(1);
 
   for (var i=0;i<length;i++) {
     items.push(<Ingredient id={i} />)
   }
-=======
- 
->>>>>>> 49b9f916b9040913d56d6cbdf4b7e011492ed915
 
 
 
@@ -138,7 +134,6 @@ function AjouterCat(props) {
                     onChange={()=>changeTracer()}
                 />
             </Form.Group>
-<<<<<<< HEAD
 
             {tracer ? <div>
               {items} 
@@ -153,16 +148,6 @@ function AjouterCat(props) {
               </Form.Group>
             </div>: "" }
 
-=======
-           
-            {tracer ?
-             <BsFillPlusCircleFill style={{width:"30px",height:"30px%",marginTop:"15px"}} 
-             />
-            :""
-            }<div>
-            
-            </div>
->>>>>>> 49b9f916b9040913d56d6cbdf4b7e011492ed915
           </Modal.Body>
           <br /><br />
           <Modal.Footer style={{
