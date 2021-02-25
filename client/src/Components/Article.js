@@ -72,7 +72,7 @@ function Article() {
                     <Row>  <Col  xs={12} id="page-content-wrapper">
 
 
-                        <Navbar className="bg-light justify-content-between" expand="lg" style={{  boxShadow:'inset -1px 0 0 rgba(0, 0, 0, .1)'}}>
+                        <Navbar className="bg-light justify-content-between border-bottom border-dark border-1" expand="lg" style={{  boxShadow:'inset -1px 0 0 rgba(0, 0, 0, .1)',borderColor:'blue'}}>
                         <Navbarup/>
                         <div style={{alignContent:'flex-end',float:'left'}}>
                         <Form inline >  

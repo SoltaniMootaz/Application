@@ -91,7 +91,7 @@ function AjouterCat(props) {
                 <Form.Control as="select" id="categorie" onChange={(e) => handleCategorie(e)}>
                     <option value=""></option>
                     <option value="jus">jus</option>
-                    <option value="cafe">café</option>
+                    <option value="café">café</option>
                     <option value="test123">test123</option>
                     <option value="khoj">4</option>
                     <option>5</option>
