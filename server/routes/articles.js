@@ -1,19 +1,17 @@
 const router = require('express').Router();
 const sqlite3 = require('sqlite3').verbose();
+const pool = require('../database/creerDB-postgreSQL');
 const db = new sqlite3.Database('./database/mydb.db');
 const verif = require('./verifToken');
 
 router.post("/api/ajouterCateg",async (req,res) => {
     try {
-        var stmt = await db.prepare("INSERT INTO categorie(nom) VALUES (?)");
-
-        stmt.run(req.body.categorie, (err) => {
+        pool.query("INSERT INTO categorie(nom) VALUES ($1)",[req.body.categorie], (err) => {
             if(err)
                 res.status(400).send("erreur");
             else
                 res.status(201).send("succes");
         });
-        stmt.finalize();
     }catch(err) {
         res.send(err);
     }
@@ -23,17 +21,14 @@ router.post("/api/ajouterArticle", async (req,res) => {
     try {
         const { nom,prix,unite,categorie } = req.body;
 
-        var stmt = await db.prepare("INSERT INTO 'article-menu'(nom,prix,unite,nomCategorie) VALUES (?,?,?,?)");
-
-        stmt.run(nom,prix,unite,categorie, (err) => {
+        pool.query("INSERT INTO 'article-menu'(nom,prix,unite,nomCategorie) VALUES ($1,$2,$3,$4)",[nom,prix,unite,categorie], (err) => {
             if(err)
                 res.status(400).json(err);
             else
                 res.status(201).send("succes");
         });
-        stmt.finalize();
     } catch (error) {
-        console.error(error);
+        res.status(400).send(error);
     }
 });
 
@@ -41,18 +36,14 @@ router.post("/api/ajouterIngredient",  async (req,res) => {
     try {
         const { nomArt,nomIngr,quantite } = req.body;
 
-        var stmt = await db.prepare("INSERT INTO 'ingredient'(nom,quantite,nomArt) VALUES (?,?,?)");
-
-        stmt.run(nomIngr,quantite,nomArt, (err) => {
+        pool.query("INSERT INTO 'ingredient'(nom,quantite,nomArt) VALUES ($1,$2,$3)",[nomArt,nomIngr,quantite], (err) => {
             if(err)
                 res.status(400).json(err);
             else
                 res.status(201).send("succes");
         });
-
-        stmt.finalize();
     } catch (error) {
-        console.error(error);
+        res.status(400).send(error);
     }
 });
 
@@ -60,18 +51,18 @@ router.post("/api/ajouterIngredient",  async (req,res) => {
 router.get("/api/afficherArticles&*?",  async (req,res) => {
     try {
         if(!req.params[0]) {
-            db.all("SELECT * FROM 'article-menu'", (err, rows) => {
+            pool.query("SELECT * FROM 'article-menu'", (err, result) => {
                 if(err)
-                    res.send(err);
+                    res.status(400).send(err);
                 else {
-                    res.json(rows);
+                    res.status(200).json(result);
                 }
             });
 
         }else {
             const sql = "SELECT " + req.params[0] + " FROM 'article-menu'";
 
-            db.all(sql, (err, rows) => {
+            pool.query(sql, (err, rows) => {
                 if(err)
                     res.send(err);
                 else {
@@ -86,24 +77,7 @@ router.get("/api/afficherArticles&*?",  async (req,res) => {
 
 router.get("/api/afficherCategorie",  async (req,res) => {
     try {
-        db.all("SELECT * FROM 'categorie'", (err, rows) => {
-            if(err)
-                res.send(err);
-            else {
-                res.json(rows);
-            }
-        });
-    } catch (error) {
-        console.error(error);
-    }
-});
-
-router.get("/api/rechercherArticle/:attr", async (req,res) => {
-    try {
-        const { attr } = req.params;
-        const sql = "SELECT * FROM 'article-menu' where nom LIKE '%" + attr + "%' or nomCategorie LIKE '%" + attr + "%'"
-
-        db.all(sql, (err, rows) => {
+        pool.query("SELECT * FROM 'categorie'", (err, rows) => {
             if(err)
                 res.send(err);
             else {

@@ -93,7 +93,7 @@ function AjouterCat(props) {
                     <option value="jus">jus</option>
                     <option value="cafe">café</option>
                     <option value="test123">test123</option>
-                    <option>4</option>
+                    <option value="khoj">4</option>
                     <option>5</option>
                 </Form.Control>
             </Form.Group>
