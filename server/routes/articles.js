@@ -53,7 +53,7 @@ router.get("/api/afficherArticles&*?",  async (req,res) => {
         if(!req.params[0]) {
             pool.query("SELECT * FROM public.article-menu", (err, result) => {
                 if(err)
-                    res.status(400).send(err);
+                    res.status(400).send("erreur dans la select des menu");
                 else {
                     console.log(res);
                     res.status(200).json(result);
