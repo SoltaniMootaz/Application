@@ -6,11 +6,13 @@ import Sidebar from './ArticleComponents/Sidebar.js'
 import Axios from 'axios'
 import TousArticle from './ArticleComponents/TousArticle.js'
 import ArticlesChercher from './ArticleComponents/ArticleChercher.js'
+
+
 function Article() {
     const urlcat="http://localhost:3001/api/afficherCategorie";
     const urlart="http://localhost:3001/api/afficherArticles&";
     var isLoading=true;
-
+    var lineLength = 0;
 
 
     const [dataCat,setDataCat]=useState([]);
@@ -22,7 +24,7 @@ function Article() {
 
     const getCategories=()=>{
     Axios.get(urlcat)
-        .then(res => setDataCat(res.data.rows))
+        .then(res => setDataCat(res.data))
         .catch(err=>console.log(err))
     setLoading1(false)
 }
@@ -30,7 +32,7 @@ function Article() {
 
    const getArticles=()=>{
    Axios.get(urlart)
-   .then(res => setDataArt(res.data.rows))
+   .then(res => setDataArt(res.data))
    .catch(err=>console.log(err))
    setLoading2(false)
 }
@@ -84,12 +86,12 @@ function Article() {
 
                         </Col> </Row>
                     <Row>
-                    <Col style={{marginTop:'5%',marginLeft:'5%'}}>
+                        <Col style={{marginTop:'5%',marginLeft:'5%'}} >
                             { !isSearching ?
-                      <TousArticle dataCat={dataCat} dataArt={dataArt}  isLoading={isLoading}></TousArticle>
-                           :
-                          <ArticlesChercher value={value}  chercherDans={dataArt} /> }
-                    </Col>
+                            <TousArticle dataCat={dataCat} dataArt={dataArt}  isLoading={isLoading}></TousArticle>
+                            :
+                            <ArticlesChercher value={value}  chercherDans={dataArt} /> }
+                        </Col>
                     </Row>
                      </Col>
                     <Col  xs={3} id="sidebar-wrapper" className="nopadding" >
@@ -99,7 +101,6 @@ function Article() {
     </Container>
     </>
     );}
-    
 }
 
 export default Article

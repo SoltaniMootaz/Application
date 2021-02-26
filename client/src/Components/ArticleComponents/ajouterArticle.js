@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import{Modal,Form,Col} from 'react-bootstrap'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 import Axios from 'axios'
@@ -6,30 +6,49 @@ import Ingredient from './ingredients';
 
 function AjouterCat(props) { 
   const url = "http://localhost:3001/api/ajouterArticle";
+  const url2 = "http://localhost:3001/api/afficherCategorie";
+  const categ = [];
+  const items = [];
   const [error,setError] = useState(false);
   const [vente,setVente] = useState(false);
   const [tracer,setTracer] = useState(false);
-  const [ajouter, setAjouter] = useState(false);
-
- 
+  const [categories,setCategories] = useState([]);
+  const [length,setLength] = useState(1);
+  const [_submit,setSubmit] = useState(false);
   const [Data,setData] = useState({
     nom: "",
     categorie: "",
     prix: "",
     unite: ""
   });
+  
 
-  const items = [];
-  const [length,setLength] = useState(1);
+const getCategories=()=>{
+  Axios.get(url2)
+    .then(res => {
+      setCategories(res.data);
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
+  useEffect(()=> {
+    getCategories();
+  },[]);
+
+  categories.map((categorie,i) => {
+    categ.push(<option key={i} value={categorie.nom}>{categorie.nom}</option>);
+  });
 
   for (var i=0;i<length;i++) {
-    items.push(<Ingredient id={i} />)
+    items.push(<Ingredient key={i} id={i} submitForm={_submit} />)
   }
 
 
 
   function submit(e) {
       e.preventDefault();
+      setSubmit(true);
       Axios.post(url,{
         nom: Data.nom,
         categorie: Data.categorie,
@@ -37,28 +56,30 @@ function AjouterCat(props) {
         unite: Data.unite,
         
       }).then(res => {
+        setSubmit(false);
         props.handleClose();
-        window.location.reload(false);
-        console.log(res.data);
       }).catch(err => {
         setError(true);
-        console.log(err.response.data);
       });
   }
 
   function handleNom(e) {
+    setSubmit(false);
     setData({...Data ,nom:e.target.value})
   }
 
   function handleCategorie(e) {
+    setSubmit(false);
     setData({...Data ,categorie:e.target.value})
   }
 
   function handlePrix(e) {
+    setSubmit(false);
     setData({...Data ,prix:e.target.value})
   }
 
   function handleUnite(e) {
+    setSubmit(false);
     setData({...Data ,unite:e.target.value})
   }
 
@@ -69,7 +90,7 @@ function AjouterCat(props) {
 
   function changeTracer() {
     setTracer(!tracer);
-}
+  }
 
     return (
       <>
@@ -83,18 +104,14 @@ function AjouterCat(props) {
           <Modal.Body>
             <Form.Group>
                 <Form.Label>Nom</Form.Label>
-                <Form.Control type="text" id="nom" onChange={(e) => handleNom(e)}/>
+                <Form.Control type="text" id="nom" onChange={(e) => handleNom(e)} required/>
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Catégorie</Form.Label>
-                <Form.Control as="select" id="categorie" onChange={(e) => handleCategorie(e)}>
-                    <option value=""></option>
-                    <option value="jus">jus</option>
-                    <option value="cafe">café</option>
-                    <option value="test123">test123</option>
-                    <option value="khoj">4</option>
-                    <option>5</option>
+                <Form.Control as="select" id="categorie" onChange={(e) => handleCategorie(e)} required>
+                  <option value=""></option>
+                  {categ}
                 </Form.Control>
             </Form.Group>
             <Form.Group>
@@ -109,7 +126,7 @@ function AjouterCat(props) {
             <Form.Row>
                 <Form.Group as={Col} md="9">
                 <Form.Label>Prix</Form.Label>
-                <Form.Control type="number" id="prix" onChange={(e) => handlePrix(e)}/>
+                <Form.Control type="number" id="prix" onChange={(e) => handlePrix(e)} required/>
                 </Form.Group>
                 {vente ?
                 <Form.Group as={Col} md="3">
@@ -155,9 +172,7 @@ function AjouterCat(props) {
             justifyContent: "center",
             alignItems: "center",
           }}>
-            <BsFillPlusCircleFill onClick={(e) =>{ 
-              submit(e);
-              props.handleClose();}} style={{width:"50px",height:"50px",color:"#00A600"}} />
+            <BsFillPlusCircleFill onClick={(e) =>{submit(e)}} style={{width:"50px",height:"50px",color:"#00A600"}} />
           </Modal.Footer>
           </Form>
         </Modal>

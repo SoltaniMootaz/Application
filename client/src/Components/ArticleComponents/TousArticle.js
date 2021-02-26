@@ -33,7 +33,7 @@ function TousArticle(props) {
                               <Col xs={3}  key={data1.nomCategorie} >
                                       
                                     
-                                        
+                          <br />       
                                       
                         <Card    style={{ width: '15rem' }}>
                   
