@@ -24,21 +24,19 @@ function Sidebar() {
         <div className="s-link">
           <Nav.Item>
             <Nav.Link
-              style={{ color: "white", fontSize: "25px" }}
+              style={{ color: "white", fontSize: "22px" }}
               onClick={() => setState1({ isOpen: true })}
             >
-              <BiPlusCircle style={{ width: "45px", height: "45px" }} /> Ajouter
-              article
+              <BiPlusCircle style={{ width: "1.5em", height: "1.5em" }} />   article
             </Nav.Link>
           </Nav.Item>
           <hr />
           <Nav.Item>
             <Nav.Link
-              style={{ color: "white", fontSize: "25px" }}
+              style={{ color: "white", fontSize: "22px" }}
               onClick={() => setState({ isOpen: true })}
             >
-              <BiPlusCircle style={{ width: "45px", height: "45px" }} /> Ajouter
-              catégorie
+              <BiPlusCircle style={{  width: "1.5em", height: "1.5em" }} />   catégorie
             </Nav.Link>
           </Nav.Item>
         </div>

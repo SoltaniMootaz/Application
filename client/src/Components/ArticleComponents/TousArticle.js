@@ -21,9 +21,9 @@ function TousArticle(props) {
                    {props.dataCat.map(((data)=> {
                         return (
                           <div  key={data.nom} >
-                            <Row style={{color:'#00886C', textTransform:'uppercase'}}>
+                            <Row style={{color:'#00886C', textTransform:'uppercase',marginTop:'5%',marginLeft:'1rem'}}>
                               
-                            <h3>{data.nom}</h3> 
+                            <h3 >{data.nom}</h3> 
                            
 
                             </Row>

@@ -71,19 +71,52 @@ Form.Group{
 .homeBtn{
   text-align: justify;
   margin-top: 50%;
+}
+.homeBtn:active{
+  color:#00A600 ;
+}
+.homeBtn:hover{
+ color:#00A600 ;
+}
+.searchForm{
+ display: flex;
   
+ }
+ .icon{
+   color: #8a8a8a;
+ }
+ .icon:active{
+   color:#00A600 ;
+ }
+ .icon:hover{
+  color:#00A600 ;
 }
-.searchBar{
-  width: 12rem;
-}
-@media (max-width: 576px){
+
+ @media (max-width: 768px){
   .homeBtn{
-    text-indent: 100%;
-    white-space: nowrap;
-    overflow: hidden;
+    display: none;
+  }
+ 
+
+  .navItem{
+    display: block;
+  }
+  .searchForm1{
+  display: none;
+
   }
   .searchForm{
-   justify-content: center;
-   float: inline-start;
+   width: 13.7rem; 
+    }
+
+}
+@media  (min-width: 800px){
+  .navItem {
+    display: none;
+  }
+
+  .searchForm1{
+  display: block;
+  width: 16em;
   }
 }
