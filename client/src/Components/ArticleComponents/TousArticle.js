@@ -1,6 +1,7 @@
 import React  from 'react'
 import { Row, Card, Col, Image} from 'react-bootstrap'
 import def from './img/def.jpg'
+import PropTypes from 'prop-types';
 
 
 
@@ -36,7 +37,7 @@ function TousArticle(props) {
                               <Col xs={3}  key={data1.nomCategorie} style={{padding:'1em'}}>
                                       
                                     
-                                        
+                          <br />       
                                       
                         <Card    style={{ width: '14rem' ,border:'0px'}}>
                   
@@ -60,5 +61,8 @@ function TousArticle(props) {
                 </>
             )}
 }
-
+TousArticle.propTypes = {
+  dataArt: PropTypes.array,
+  dataCat: PropTypes.array
+};
 export default TousArticle
