@@ -11,6 +11,7 @@ import Home from './Components/Home.js'
 import LogIn from './Components/LogIn.js'
 import SignUp from './Components/SignUp.js'
 import Article from './Components/Article.js'
+import Caisse from './Components/Caisse.js'
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
             <Route exact path="/Article"><Article></Article></Route>
             <Route exact path="/Log-in"><LogIn></LogIn></Route>  
             <Route exact path="/Sign-UP"><SignUp></SignUp></Route> 
-           
+            <Route exact path="/Caisse"><Caisse></Caisse></Route> 
         </Switch>
         </Router>
     </div>

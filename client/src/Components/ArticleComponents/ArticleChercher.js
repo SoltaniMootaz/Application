@@ -2,16 +2,20 @@ import React from 'react'
 import { Row, Card, Col, Image} from 'react-bootstrap'
 import def from './img/def.jpg'
 function ArticleChercher(props) {
-    const article= props.chercherDans.filter(art=> art.nomCategorie.toLowerCase().indexOf(props.value )>-1||art.nom.toLowerCase().indexOf(props.value )>-1)
-    console.log(article);
-     
-  var src=def;
+  const article = props.chercherDans.filter(
+    (art) =>
+      art.nomCategorie.toLowerCase().indexOf(props.value) > -1 ||
+      art.nom.toLowerCase().indexOf(props.value) > -1
+  );
+  console.log(article);
 
-  const isSRC=(data)=>{
-      if (data == null) {
+  var src = def;
+
+  const isSRC = (data) => {
+    if (data == null) {
       return true;
-      }
-      else return false;};
+    } else return false;
+  };
 
     return (
         <>
@@ -39,4 +43,4 @@ function ArticleChercher(props) {
     )
 }
 
-export default ArticleChercher
+export default ArticleChercher;
