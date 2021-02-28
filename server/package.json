@@ -1,12 +1,9 @@
 {
-  "homepage": "http://SoltaniMootaz.github.io/ProjectReact",
-  "name": "First React Project",
+  "name": "application",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": { 
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d build",
+  "scripts": {
     "start": "nodemon index.js"
   },
   "keywords": [],
@@ -20,9 +17,11 @@
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.7",
     "pg": "^8.5.1",
-    "pgtools": "^0.3.0"
-  },
-  "devDependencies": {
-    "gh-pages": "^3.1.0"
+    "pgtools": "^0.3.0",
+    "read-excel-file": "^5.0.0",
+    "request": "^2.88.2",
+    "sessionstorage": "^0.1.0",
+    "sqlite3": "^5.0.2",
+    "xlsx": "^0.16.9"
   }
 }
