@@ -16,7 +16,7 @@ function Sidebar() {
 
     return (
         <>
-        <Nav className="col-3 d-none d-md-block sidebar"
+        <Nav className="col-sm-0 col-xl-0 col-md-3 d-none d-md-block sidebar"
         activeKey="/"
         style={{backgroundColor:'#00A600'}}
         >

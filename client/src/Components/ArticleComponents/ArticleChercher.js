@@ -15,29 +15,26 @@ function ArticleChercher(props) {
 
     return (
         <>
+        <Row>
             {article.map((data1)=>{
                            return( 
                            <div key={data1.nom}>                    
                            
-                            <Col xs={3}  key={data1.nomCategorie} >
-                                      
-                                    
-                                        
-                                      
-                        <Card    style={{ width: '15rem' }}>
+                            <Col xs={3}  key={data1.nomCategorie} style={{padding:'1em'}}>               
+                        <Card    style={{ width: '14rem' }}>
                   
-                          <Card.Img as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image}   style={{height:'150px'}}/>
-                            <Card.Body>
+                        <Card.Img as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}}/>
+                            <Card.Body className="bg-light">
                               
-                                <Card.Title >{data1.nom}</Card.Title>                
+                                <Card.Title ><center>{data1.nom}</center></Card.Title>                
                             </Card.Body>
                         </Card> 
-                        
                           </Col>
                           </div>)
                           }
                  )         
             } 
+            </Row>
         </>
     )
 }

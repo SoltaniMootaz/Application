@@ -1,16 +1,14 @@
-import React ,{useState} from 'react'
-import{ Nav, Navbar, Form, FormControl} from 'react-bootstrap'
+import React  from 'react'
+import{ Nav, Navbar,} from 'react-bootstrap'
 import { AiFillHome } from "react-icons/ai";
 function Navbarup(props) {
 
     return (
       <>
        
-        <Navbar.Brand href="#home"><AiFillHome /></Navbar.Brand>
-       
-      
-        <Nav className="mr-auto">
-        <Nav.Link href="#home" style={{marginTop:'17%'}}>Home</Nav.Link>
+        <Navbar.Brand href="#home"><AiFillHome  style={{width:'1.7em',height:'1.7em'}}/></Navbar.Brand>
+        <Nav className="mr-auto " >
+        <Nav.Link href=""  ><p className="homeBtn " >Home</p></Nav.Link>
         </Nav>
 
  

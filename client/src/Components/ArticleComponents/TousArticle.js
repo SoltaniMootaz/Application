@@ -20,27 +20,30 @@ function TousArticle(props) {
                    {props.dataCat.map(((data)=> {
                         return (
                           <div  key={data.nom} >
-                            <Row style={{marginLeft:'5%', color:'#00886C', textTransform:'uppercase'}}>
+                            <Row style={{color:'#00886C', textTransform:'uppercase'}}>
+                              
                             <h3>{data.nom}</h3> 
+                           
+
                             </Row>
-            
-                          <Row style={{marginLeft:'4%'}}>
+                            
+                          <Row >
                        
                         {props.dataArt.map((data1)=>{
                            return( 
                             <div key={data1.nom}>                    
                             {(data1.nomCategorie===data.nom)?
-                              <Col xs={3}  key={data1.nomCategorie} >
+                              <Col xs={3}  key={data1.nomCategorie} style={{padding:'1em'}}>
                                       
                                     
                                         
                                       
-                        <Card    style={{ width: '15rem' }}>
+                        <Card    style={{ width: '14rem' ,border:'0px'}}>
                   
-                          <Card.Img as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image}   style={{height:'150px'}}/>
-                            <Card.Body>
+                          <Card.Img as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}}/>
+                            <Card.Body className="bg-light">
                               
-                                <Card.Title >{data1.nom}</Card.Title>                
+                                <Card.Title ><center>{data1.nom}</center></Card.Title>                
                             </Card.Body>
                         </Card> 
                         
@@ -51,7 +54,7 @@ function TousArticle(props) {
                   })
                 }
             </Row> 
-            <hr></hr> 
+           
             </div>
             ) }) )}
                 </>

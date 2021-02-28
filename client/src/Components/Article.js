@@ -68,15 +68,15 @@ function Article() {
         <>
      <Container fluid>
                 <Row>
-                <Col  xs={9} id="page-content-wrapper" className="nopadding" > 
-                    <Row>  <Col  xs={12} id="page-content-wrapper">
+                <Col  xs={12} sm={12} md={9} xl={9} id="page-content-wrapper" className="nopadding" > 
+                    <Row>  <Col  xs={12} sm={12} md={12} xl={12} id="page-content-wrapper">
 
 
-                        <Navbar className="bg-light justify-content-between border-bottom border-dark border-1" expand="lg" style={{  boxShadow:'inset -1px 0 0 rgba(0, 0, 0, .1)',borderColor:'blue'}}>
+                        <Navbar className="bg-light justify-content-between" expand="lg" style={{  boxShadow:'inset -1px 0 0 rgba(0, 0, 0, .1)'}}>
                         <Navbarup/>
-                        <div style={{alignContent:'flex-end',float:'left'}}>
-                        <Form inline >  
-                        <FormControl type="text" placeholder="Search"  className="mr-sm-2" onChange={handleSearch}  style={{borderRadius:'0.8em'}}/>
+                        <div >
+                        <Form className="searchForm" >
+                            <FormControl type="text" placeholder="Search" onChange={handleSearch} className="searchBar mr-sm-2" />
                         </Form>
                         </div> 
                         </Navbar>
@@ -92,7 +92,7 @@ function Article() {
                     </Col>
                     </Row>
                      </Col>
-                    <Col  xs={3} id="sidebar-wrapper" className="nopadding" >
+                    <Col   sm={3} md={3} xl={3}  id="sidebar-wrapper" className="nopadding" >
                     <Sidebar />
                     </Col>
                 </Row>

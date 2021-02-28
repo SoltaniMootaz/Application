@@ -10,7 +10,9 @@ ul{
   
 }
 li {
-float: left;
+  display: inline-block;
+  float: none;
+
 padding-left: 15%;
 }
 
@@ -91,4 +93,23 @@ li a:hover {
 }
 Form.Group{
   padding: 30px;
+} 
+.homeBtn{
+  text-align: justify;
+  margin-top: 50%;
+  
+}
+.searchBar{
+  width: 12rem;
+}
+@media (max-width: 576px){
+  .homeBtn{
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .searchForm{
+   justify-content: center;
+   float: inline-start;
+  }
 }
