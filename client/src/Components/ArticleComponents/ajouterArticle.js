@@ -9,7 +9,7 @@ function AjouterCat(props) {
   const url2 = "http://localhost:3001/api/afficherCategorie";
   const categ = [];
   const items = [];
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [vente, setVente] = useState(false);
   const [tracer, setTracer] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -66,7 +66,7 @@ function AjouterCat(props) {
         props.handleClose();
       })
       .catch((err) => {
-        setError(true);
+        setError(err.response.data);
       });
   }
 
@@ -101,7 +101,7 @@ function AjouterCat(props) {
 
   return (
     <>
-      <Modal show={props.handleOpen} onHide={props.handleClose}>
+      <Modal show={props.handleOpen} onHide={()=>{props.handleClose(); setError("")}}>
         <Form>
           <div
             style={{
@@ -117,7 +117,7 @@ function AjouterCat(props) {
               <Modal.Title
                 style={{ color: "red", fontSize: "20px", textAlign: "center" }}
               >
-                Article existe déja
+                <>{error}</>
               </Modal.Title>
             </Modal.Header>
           ) : (
@@ -159,6 +159,7 @@ function AjouterCat(props) {
               <Form.Group as={Col} md="9">
                 <Form.Label>Prix</Form.Label>
                 <Form.Control
+                  required
                   type="number"
                   id="prix"
                   onChange={(e) => handlePrix(e)}
