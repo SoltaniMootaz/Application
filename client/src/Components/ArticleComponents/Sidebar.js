@@ -14,32 +14,29 @@ function Sidebar() {
     isOpen: Boolean(false),
   });
 
-  return (
-    <>
-      <Nav
-        className="col-3 d-none d-md-block sidebar"
+    return (
+        <>
+        <Nav className="col-sm-0 col-xl-0 col-md-3 d-none d-md-block sidebar"
         activeKey="/"
-        style={{ backgroundColor: "#00A600" }}
+        style={{ backgroundColor: "#176cd4" }}
       >
         <div className="sidebar-sticky"></div>
         <div className="s-link">
           <Nav.Item>
             <Nav.Link
-              style={{ color: "white", fontSize: "25px" }}
+              style={{ color: "white", fontSize: "24px" }}
               onClick={() => setState1({ isOpen: true })}
             >
-              <BiPlusCircle style={{ width: "45px", height: "45px" }} /> Ajouter
-              article
+              <BiPlusCircle style={{ width: "2em", height: "2em" }} />   article
             </Nav.Link>
           </Nav.Item>
           <hr />
           <Nav.Item>
             <Nav.Link
-              style={{ color: "white", fontSize: "25px" }}
+              style={{ color: "white", fontSize: "24px" }}
               onClick={() => setState({ isOpen: true })}
             >
-              <BiPlusCircle style={{ width: "45px", height: "45px" }} /> Ajouter
-              catégorie
+              <BiPlusCircle style={{  width: "2em", height: "2em" }} />   catégorie
             </Nav.Link>
           </Nav.Item>
         </div>

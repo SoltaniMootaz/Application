@@ -1,31 +1,7 @@
-
-ul{
-  
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: rgba(5, 142, 233, 0.863);
-  
-  
-}
-li {
-float: left;
-padding-left: 15%;
+:root{
+  font-size: 16px;
 }
 
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-li a:hover {
-  background-color: rgb(87, 167, 241);
-  color: azure;
-}
 .phone{
   width: 100%;
   
@@ -91,4 +67,56 @@ li a:hover {
 }
 Form.Group{
   padding: 30px;
+} 
+.homeBtn{
+  text-align: justify;
+  margin-top: 50%;
+}
+.homeBtn:active{
+  color:#176cd4;
+}
+.homeBtn:hover{
+ color:#176cd4;
+}
+.searchForm{
+ display: flex;
+  
+ }
+ .icon{
+   color: #8a8a8a;
+ }
+ .icon:active{
+   color:#176cd4;
+ }
+ .icon:hover{
+  color:#176cd4;
+}
+
+ @media (max-width: 768px){
+  .homeBtn{
+    display: none;
+  }
+ 
+
+  .navItem{
+    display: block;
+  }
+  .searchForm1{
+  display: none;
+
+  }
+  .searchForm{
+   width: 13.7rem; 
+    }
+
+}
+@media  (min-width: 800px){
+  .navItem {
+    display: none;
+  }
+
+  .searchForm1{
+  display: block;
+  width: 16em;
+  }
 }

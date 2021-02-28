@@ -39,7 +39,7 @@ function AjouterCat(props) {
         <Form>
           <div
             style={{
-              backgroundColor: "#00A600",
+              backgroundColor: "#176cd4",
               width: "100%",
               height: "10px",
               marginTop: "0px",
@@ -78,7 +78,7 @@ function AjouterCat(props) {
           >
             <BsFillPlusCircleFill
               onClick={(props.handleClose, (e) => submit(e))}
-              style={{ width: "50px", height: "50px", color: "#00A600" }}
+              style={{ width: "50px", height: "50px", color: "#176cd4" }}
             />
           </Modal.Footer>
         </Form>

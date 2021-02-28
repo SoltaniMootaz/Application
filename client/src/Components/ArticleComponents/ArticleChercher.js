@@ -1,7 +1,6 @@
-import React from "react";
-import { Row, Card, Col, Image } from "react-bootstrap";
-import def from "./img/def.jpg";
-
+import React from 'react'
+import { Row, Card, Col, Image} from 'react-bootstrap'
+import def from './img/def.jpg'
 function ArticleChercher(props) {
   const article = props.chercherDans.filter(
     (art) =>
@@ -18,31 +17,30 @@ function ArticleChercher(props) {
     } else return false;
   };
 
-  return (
-    <>
-      {article.map((data1) => {
-        return (
-          <div key={data1.nom}>
-            <Row style={{display: 'flex', flexDirection: 'row'}}>
-              <Col xs={3} key={data1.nomCategorie} style={{ marginTop: "5%", marginLeft: "5%" }}>
-                <Card style={{ width: "15rem",flex:1, }} >
-                  <Card.Img
-                    as={Image}
-                    variant="top"
-                    src={isSRC(data1.image) ? src : data1.image}
-                    style={{ height: "150px" }}
-                  />
-                  <Card.Body>
-                    <Card.Title>{data1.nom}</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
+    return (
+        <>
+        <Row>
+            {article.map((data1)=>{
+                           return( 
+                           <div key={data1.nom}>                    
+                           
+                            <Col xs={3}  key={data1.nomCategorie} style={{padding:'1em'}}>               
+                        <Card    style={{ width: '14rem' }}>
+                  
+                        <Card.Img as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}}/>
+                            <Card.Body className="bg-light">
+                              
+                                <Card.Title ><center>{data1.nom}</center></Card.Title>                
+                            </Card.Body>
+                        </Card> 
+                          </Col>
+                          </div>)
+                          }
+                 )         
+            } 
             </Row>
-          </div>
-        );
-      })}
-    </>
-  );
+        </>
+    )
 }
 
 export default ArticleChercher;
