@@ -21,7 +21,7 @@ router.post("/api/ajouterArticle", async (req,res) => {
     try {
         const { nom,prix,unite,categorie } = req.body;
 
-        pool.query("INSERT INTO 'article-menu'(nom,prix,unite,nomCategorie) VALUES ($1,$2,$3,$4)",[nom,prix,unite,categorie], (err) => {
+        pool.query('INSERT INTO "article-menu"(nom,prix,unite,nomCategorie) VALUES ($1,$2,$3,$4)',[nom,prix,unite,categorie], (err) => {
             if(err)
                 res.status(400).json(err);
             else
@@ -51,7 +51,7 @@ router.post("/api/ajouterIngredient",  async (req,res) => {
 router.get("/api/afficherArticles&*?",  async (req,res) => {
     try {
         if(!req.params[0]) {
-            pool.query("SELECT * FROM public.article-menu", (err, result) => {
+            pool.query('SELECT * FROM public."article-menu"', (err, result) => {
                 if(err)
                     res.status(400).send("erreur dans la select des menu");
                 else {
@@ -61,9 +61,9 @@ router.get("/api/afficherArticles&*?",  async (req,res) => {
             });
 
         }else {
-            const sql = "SELECT " + req.params[0] + " FROM 'article-menu'";
+          
 
-            pool.query(sql, (err, rows) => {
+            pool.query('SELECT $1 FROM public."article-menu"',[req.params[0]], (err, rows) => {
                 if(err)
                     res.send(err);
                 else {
@@ -80,7 +80,7 @@ router.get("/api/afficherCategorie",  async (req,res) => {
     //res.send(req.body);
 
     try {
-        pool.query("SELECT * FROM public.categorie", (err, rows) => {
+        pool.query('SELECT * FROM public.categorie', (err, rows) => {
             if(err) {
                 res.status(400).send(err);
             }else {
