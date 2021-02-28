@@ -18,25 +18,25 @@ function Sidebar() {
         <>
         <Nav className="col-sm-0 col-xl-0 col-md-3 d-none d-md-block sidebar"
         activeKey="/"
-        style={{ backgroundColor: "#00A600" }}
+        style={{ backgroundColor: "#176cd4" }}
       >
         <div className="sidebar-sticky"></div>
         <div className="s-link">
           <Nav.Item>
             <Nav.Link
-              style={{ color: "white", fontSize: "22px" }}
+              style={{ color: "white", fontSize: "24px" }}
               onClick={() => setState1({ isOpen: true })}
             >
-              <BiPlusCircle style={{ width: "1.5em", height: "1.5em" }} />   article
+              <BiPlusCircle style={{ width: "2em", height: "2em" }} />   article
             </Nav.Link>
           </Nav.Item>
           <hr />
           <Nav.Item>
             <Nav.Link
-              style={{ color: "white", fontSize: "22px" }}
+              style={{ color: "white", fontSize: "24px" }}
               onClick={() => setState({ isOpen: true })}
             >
-              <BiPlusCircle style={{  width: "1.5em", height: "1.5em" }} />   catégorie
+              <BiPlusCircle style={{  width: "2em", height: "2em" }} />   catégorie
             </Nav.Link>
           </Nav.Item>
         </div>

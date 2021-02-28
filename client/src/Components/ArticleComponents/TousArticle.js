@@ -21,7 +21,7 @@ function TousArticle(props) {
                    {props.dataCat.map(((data)=> {
                         return (
                           <div  key={data.nom} >
-                            <Row style={{color:'#00886C', textTransform:'uppercase',marginTop:'5%',marginLeft:'1rem'}}>
+                            <Row style={{color:'#0d478f', textTransform:'uppercase',marginTop:'5%',marginLeft:'1rem'}}>
                               
                             <h3 >{data.nom}</h3> 
                            
@@ -42,8 +42,7 @@ function TousArticle(props) {
                         <Card    style={{ width: '14rem' ,border:'0px'}}>
                   
                           <Card.Img as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}}/>
-                            <Card.Body className="bg-light">
-                              
+                            <Card.Body className="bg-light">   
                                 <Card.Title ><center>{data1.nom}</center></Card.Title>                
                             </Card.Body>
                         </Card> 

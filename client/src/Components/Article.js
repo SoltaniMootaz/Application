@@ -79,7 +79,7 @@ function Article() {
                 <Row>
                 <Col  xs={12} sm={12} md={9} xl={9} id="page-content-wrapper" className="nopadding" > 
                     <Row>  <Col  xs={12} sm={12} md={12} xl={12} id="page-content-wrapper">
-                    <Navbar className=" justify-content-center border-bottom" expand="lg" style={{  boxShadow:'inset -1px 0 0 rgba(0, 0, 0, .1)',}}>
+                    <Navbar className=" justify-content-center border-bottom " expand="lg" style={{  boxShadow:'inset -1px 0 0 rgba(0, 0, 0, .1)',}}>
                     <Navbarup/>
                     <Nav.Item className="navItem">
                         <Form className="searchForm" inline>
@@ -88,7 +88,7 @@ function Article() {
                             borderLeft: 0,
                             borderTop: 0,
                             borderRight: 0,
-                            borderColor: "#00A600",
+                            borderColor: "#176cd4",
                             borderRadius: "0em",
                         }}/>
                         </Form>
@@ -122,7 +122,7 @@ function Article() {
                             borderLeft: 0,
                             borderTop: 0,
                             borderRight: 0,
-                            borderColor: "#00A600",
+                            borderColor: "#176cd4",
                             borderRadius: "0em",
                         }}/>
                         </Form>

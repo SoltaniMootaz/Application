@@ -73,10 +73,10 @@ Form.Group{
   margin-top: 50%;
 }
 .homeBtn:active{
-  color:#00A600 ;
+  color:#176cd4;
 }
 .homeBtn:hover{
- color:#00A600 ;
+ color:#176cd4;
 }
 .searchForm{
  display: flex;
@@ -86,10 +86,10 @@ Form.Group{
    color: #8a8a8a;
  }
  .icon:active{
-   color:#00A600 ;
+   color:#176cd4;
  }
  .icon:hover{
-  color:#00A600 ;
+  color:#176cd4;
 }
 
  @media (max-width: 768px){
