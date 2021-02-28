@@ -9,7 +9,8 @@ app.use(cors());
 
 //import routes
 const authRoute = require('./routes/auth');
-const articleRoute = require('./routes/articles');
+const menuRoute = require('./routes/menu');
+const caisseRoute = require('./routes/caisse');
 
 //Middlewares
 app.use(express.json());
@@ -20,7 +21,9 @@ app.use(express.urlencoded({
 
 //Route middlewares
 app.use(authRoute);
-app.use(articleRoute);
+app.use(menuRoute);
+app.use(caisseRoute);
+
 
 const port = 3001;
 const adresse = '192.168.1.79';
