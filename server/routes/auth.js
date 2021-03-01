@@ -48,15 +48,9 @@ router.post("/api/login", async (req,res) => {
                             res.status(400).send("Mot de passe incorrecte");
                             console.error(err);
                         }else {
-                            if(result1) {
-                                session.setItem('commerce', result.rows[0].commerce);
-
-                                //create and assign a token 
-                                const token = jwt.sign({id: result.rows[0].id}, process.env.TOKEN_SECRET);
-                                res.header('auth_token', token).status(200).send("success");
-                            }else {
-                                res.status(400).send('Mot de passe incorrecte');
-                            }
+                            //create and assign a token 
+                            const token = jwt.sign({id: result.rows[0].id}, process.env.TOKEN_SECRET);
+                            res.header('auth_token', token).status(200).send("succes");
                         }
                     });
                 }else {
