@@ -60,11 +60,11 @@ router.get("/api/afficherArticles&*?", (req,res) => {
             });
 
         }else {
-            pool.query('SELECT $1 FROM public."articleMenu"',[req.params[0]], (err, rows) => {
+            pool.query('SELECT $1 FROM public."articleMenu"',[req.params[0]], (err, result) => {
                 if(err)
                     res.status(400).send(err);
                 else {
-                    res.status(200).json(rows.rows);
+                    res.status(200).json(result.rows);
                 }
             });
         }
