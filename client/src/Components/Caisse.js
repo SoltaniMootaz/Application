@@ -139,6 +139,7 @@ function Caisse(props) {
   const [dataArt, setDataArt] = useState([]);
   const [dataProd,setDataProd]=useState([]);
   const [isLoading2, setLoading2] = useState(true);
+  const [isLoading1, setLoading1] = useState(true);
   const [tickeTab,setTicketTab] = useState()
   const [isSearching, setIsSearching] = useState(false);
   const [value, setValue] = useState();
@@ -150,15 +151,18 @@ function Caisse(props) {
       .catch((err) => console.log(err));
     setLoading2(false);
   };
+    
   const getProd = () => {
     Axios.get(urlprod)
       .then((res) => setDataProd(res.data))
-      .catch((err) => console.log(err.response.data));
-    
+      .catch((err) => console.log(err));
+    setLoading1(false);
   };
+ 
   useEffect(() => {
-    getArticles();
     getProd();
+    getArticles();
+  
   }, []);
   const handleSearch = (e) => {
     if (e.target.value === "") {
@@ -201,7 +205,7 @@ function Caisse(props) {
     </div>
   );
   const container = window !== undefined ? () => window().document.body : undefined;
-  if (isLoading2) {
+  if (isLoading2&&isLoading1) {
     return (
       <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>
@@ -285,12 +289,10 @@ function Caisse(props) {
           <MenuItem value="menu" onClick={()=>handleType('m')}>Menu</MenuItem>
         </Select>
       </FormControl> <br />
-        {type=='m' ?
+      {isSearching ? (<ArticlesChercher handleTicketClick={ticketCallBack} value={value} chercherDans={dataArt} />) : type==='m' ?
             <AfficheArticle dataArt={dataArt} handleTicketClick={ticketCallBack}></AfficheArticle> 
         :
-            <AfficheStock handleTicketClick={ticketCallBack}/>
-        }
-        {/* {isSearching ? (<ArticlesChercher handleTicketClick={ticketCallBack} value={value} chercherDans={dataArt} />) : ""} */}
+            <AfficheStock handleTicketClick={ticketCallBack} dataProd={dataProd}/>} 
       </main>
     </div>
     )

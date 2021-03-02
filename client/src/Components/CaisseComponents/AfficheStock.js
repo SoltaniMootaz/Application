@@ -35,53 +35,38 @@ function AfficherStock(props) {
         props.handleTicketClick(a,i);
     }
 
-    function handleGetData() {
-        axios.get(url).then(res => {
-            setStock([...stock,res]);
-            console.log(stock);
-        }).catch(err => {
-            if(err.response)
-                console.log(err.response.data);
-        })
-    }
-
-    useEffect(()=> {
-        handleGetData();
-    },[])
-  
+   
     return (
-        <div className={classes.root}>
-               <Grid container spacing={3}>
-      
-               {stock.map((data1,index)=>{
-                   console.log(data1);
-                           return( 
-                            <div key={index} >                    
-                            <Grid item xs={6} sm={3} style={{padding:'1em'}}>
-                        
-                                     <div>
-                                           
+        <div className={classes.root} style={{marginLeft:'3em'}}>
+        <Grid container spacing={3}>
 
-                                     <div className="card"  style={{ width: '14rem' ,border:'0px'}}>
-                                    <img alt="Avatar"  as={Image} variant="top" src={isSRC(data1.data.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}} />
-                                    <div className="container">
-                                        <h4><b><center>{data1.libelle}</center></b></h4> 
-                                       
-                                    </div>
-                                    </div>
+        {props.dataProd.map((data1,index)=>{
+                    return( 
+                     <div key={index} >                    
+                     <Grid item xs={6} sm={3} style={{padding:'1em'}}>
+                 
+                              <div>
+                                    
+
+                              <div className="card"  style={{ width: '14rem' ,border:'0px'}} onClick={()=>handleClick(props.dataProd[index],index)}>
+                             <img alt="Avatar"  as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}} />
+                             <div className="container">
+                                 <h4><b><center>{data1.libelle}</center></b></h4> 
+                                
+                             </div>
+                             </div>
+        
+                             </div> 
+         
+                 
+              </Grid></div>
                
-                                    </div> 
-                
-                        
-                     </Grid></div>
-                      
-                    
-                    )
-                  })
-                }
-                </Grid>
-        </div>
-    )
+             
+             )
+           })
+         }
+         </Grid>
+ </div>
+)
 }
-
 export default AfficherStock
