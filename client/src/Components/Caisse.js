@@ -42,7 +42,7 @@ function Caisse() {
     return (
         <Container fluid>
             <Row>       
-                <Col  md={4} xl={4}  id="sidebar-wrapper" className="nopadding border-right" > 
+                <Col xs={4} md={4} xl={4}  id="sidebar-wrapper" className="nopadding border-right" > 
                 <Ticket></Ticket>
                 </Col>
                 <Col xs={12} sm={12} md={8} xl={8} id="page-content-wrapper" className="nopadding">
