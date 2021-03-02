@@ -88,8 +88,10 @@ function Vente(props) {
         props.handleClose();
       })
       .catch((err) => {
-        //console.log(err.response.data);
-        setError(err.response.data);
+        if(kridi)
+          setError(err.response.data);
+        else
+          props.handleClose();
       })
   }
 
