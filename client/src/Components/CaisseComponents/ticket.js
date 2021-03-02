@@ -10,7 +10,10 @@ function Ticket(props) {
 console.log(props.tickeTab)
     return (
         <>
-        <h4 style={{paddingTop:'2.05em'}}><center>Ticket</center></h4>
+        <div style={{width:'100%  '}}>         
+          <h4 style={{paddingTop:'2.05em'}}><center>Ticket</center></h4>
+        </div>
+
         <hr />
 
         <Table responsive >
