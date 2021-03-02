@@ -111,7 +111,10 @@ function Vente(props) {
         setStyle1(false);
         setStyle2(false);
         setStyle3(false);
-        setStyle4(false);} }>
+        setStyle4(false);} } style={{
+          zIndex: '100001 !important',
+          marginTop:'5em'
+        }}>
         <Form>
           <div
             style={{

@@ -33,7 +33,7 @@ function AfficheArticle(props) {
     }
   
     return (
-        <div className={classes.root}>
+        <div className={classes.root} style={{marginLeft:'3em'}}>
                <Grid container spacing={3}>
       
                {props.dataArt.map((data1,index)=>{
