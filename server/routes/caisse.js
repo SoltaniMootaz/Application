@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const xlsxFile = require('read-excel-file/node');
+const { query } = require('../database/creerDB-postgreSQL');
 const pool = require('../database/creerDB-postgreSQL');
 
 /* router.post("/api/excelToDB",(req,res) => {
@@ -23,8 +24,30 @@ router.get("/api/stock",(req,res) => {
         else if(result.rowCount>0)
             res.status(200).json(result.rows);
         else
-            res.status(400).send("aucun produit dans votre stock");
+            res.status(400).send("aucun produit dans votre stock.");
     })
 });
+
+router.post("/api/AjouterClient",(req,res) => {
+    const { nomPre, tel } = req.body;
+    if(nomPre.length == 0)
+        res.status(400).send("le champ 'nom et prenom' est vide.")
+    else
+    pool.query('INSERT INTO client("nomPre",telephone) VALUES($1,$2) RETURNING *',[nomPre,tel],(err,result) => {
+        if(err) 
+            res.status(400).send(err.toString());
+        else
+            res.status(200).send("succes");
+    })
+})
+
+router.get("/api/afficherClients",(req,res) => {
+    pool.query('SELECT * FROM client',(err,result) => {
+        if(err)
+            res.status(400).send(err.toString());
+        else
+            res.status(200).json(result.rows);
+    })
+})
 
 module.exports = router;

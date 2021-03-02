@@ -23,6 +23,8 @@ function LogIn() {
     })
       .then((res) => {
         window.location.href = "home";
+        //console.log(res.data)
+        //localStorage.setItem('userID', event.target.value);
       })
       .catch((err) => {
         setError({ ...error, data: err.response.data });
