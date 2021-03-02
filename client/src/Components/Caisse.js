@@ -135,6 +135,7 @@ function Caisse(props) {
   const [tickeTab,setTicketTab] = useState()
   const [isSearching, setIsSearching] = useState(false);
   const [value, setValue] = useState();
+  const [index, setIndex] = useState();
   
   const getArticles = () => {
     Axios.get(urlart)
@@ -161,9 +162,9 @@ function Caisse(props) {
       setIsSearching(true);
     }
   };
-  const ticketCallBack=(a)=>{
+  const ticketCallBack=(a,i)=>{
     setTicketTab(a)
-    console.log(tickeTab)
+    setIndex(i)
   }
 ////////////////////////////////////////////////////////////////////////////
 const { window } = props;
@@ -183,7 +184,7 @@ const { window } = props;
         </div>
       <Divider />
       <Divider />
-      <Ticket array = {tickeTab}/>
+      <Ticket array = {tickeTab} index={index}/>
     
     </div>
   );
