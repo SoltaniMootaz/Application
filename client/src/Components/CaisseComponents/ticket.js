@@ -10,8 +10,10 @@ function Ticket(props) {
 
     const [data,setData] = useState([])
     const [index,setIndex] = useState([]);
+    const [quantite,setQuantite] = useState([])
 
       useEffect(() => {
+        setQuantite(quantite =>[...quantite,props.index]);
         if(typeof props.array != "undefined"&&!index.includes(props.index)) {
             setIndex(index =>[...index,props.index]);
             setData(data=>[...data,<tr key={props.index}>
@@ -32,9 +34,6 @@ function Ticket(props) {
 
     return (
         <>
-     
-
-      
 
         <Table responsive >
           <thead>
