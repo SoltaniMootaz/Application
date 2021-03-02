@@ -1,7 +1,20 @@
 import React, {useState, useEffect} from 'react'
 import Vente from './vente'
 import {Button, Nav, Row, Col, Table,Form } from "react-bootstrap";
+import { makeStyles, useTheme,fade } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+  bottomPush: {
+    position: "fixed",
+    bottom: 0,
+    textAlign: "center",
+    paddingBottom: 10,
+    
+},
+Control :{
+  padding: theme.spacing(5),
 
+}
+}));
 
 function Ticket(props) {
     const [state, setState] = useState({
@@ -30,7 +43,9 @@ function Ticket(props) {
             </tr>]);
         }
       },[props.array])
-
+  
+      const classes = useStyles();
+     
 
     return (
         <>
@@ -50,24 +65,17 @@ function Ticket(props) {
         </Table>
 
      
+        <div className={classes.bottomPush} style={{padding:'10px'}}>
+        <Button variant="primary" onClick={() => setState({ isOpen: true })} style={{borderRadius:"10px",width:"8em"}}>Valider</Button> 
 
-        <Row>
-        <Nav className="justify-content-start navbar fixed-bottom navbar-light border-top" style={{left:"4rem"}}>
-          <Col md={2}>
-             
-              <Button variant="primary" onClick={() => setState({ isOpen: true })} style={{borderRadius:"10px",width:"50%"}}>Valider</Button> 
+<Vente
+handleOpen={state.isOpen}
+handleClose={() => setState({ isOpen: false })}
+/>
 
-            <Vente
-            handleOpen={state.isOpen}
-            handleClose={() => setState({ isOpen: false })}
-            />
-          </Col>
-
-          <Col md={2}>
-              <Button variant="danger" style={{borderRadius:"10px",width:"50%"}}>Effacer</Button>
-          </Col>
-          </Nav>
-      </Row>
+  <Button variant="danger" style={{borderRadius:"10px",width:"8em",marginLeft:'2.5em'}}>Effacer</Button>
+</div>
+       
 
       </>
     )
