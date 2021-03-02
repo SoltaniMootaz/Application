@@ -1,7 +1,14 @@
 :root{
   font-size: 16px;
 }
-
+html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden; 
+}
 .phone{
   width: 100%;
   
@@ -106,7 +113,7 @@ Form.Group{
 
   }
   .searchForm{
-   width: 13.7rem; 
+   width: 12rem; 
     }
 
 }
@@ -119,4 +126,17 @@ Form.Group{
   display: block;
   width: 16em;
   }
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 40%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+.container {
+  padding: 2px 16px;
 }
