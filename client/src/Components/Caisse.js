@@ -5,6 +5,9 @@ import AfficheStock from './CaisseComponents/AfficheStock'
 import "./css/Article.css";
 import { AiFillHome } from "react-icons/ai";
 import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
+import RechercheArticle from "./CaisseComponents/rechercheArticle.js";
+import RechercheProd from "./CaisseComponents/RechercheProd.js";
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import Axios from "axios";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -289,7 +292,8 @@ function Caisse(props) {
           <MenuItem value="menu" onClick={()=>handleType('m')}>Menu</MenuItem>
         </Select>
       </FormControl> <br />
-      {isSearching ? (<ArticlesChercher handleTicketClick={ticketCallBack} value={value} chercherDans={dataArt} />) : type==='m' ?
+      {isSearching ? type==='m'? <RechercheArticle handleTicketClick={ticketCallBack} value={value} chercherDans={dataArt} />:
+      <RechercheProd handleTicketClick={ticketCallBack} value={value} chercherDans={dataProd} />: type==='m' ?
             <AfficheArticle dataArt={dataArt} handleTicketClick={ticketCallBack}></AfficheArticle> 
         :
             <AfficheStock handleTicketClick={ticketCallBack} dataProd={dataProd}/>} 
