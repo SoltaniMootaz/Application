@@ -15,9 +15,11 @@ import {
   import Axios from "axios";
 function Caisse() {
   const urlart = "http://localhost:3001/api/afficherArticles&";
+
   const [dataArt, setDataArt] = useState([]);
   const [isLoading2, setLoading2] = useState(true);
-  var tickeTab=new Array();
+  const [tickeTab,setTicketTab] = useState()
+
   const getArticles = () => {
     Axios.get(urlart)
       .then((res) => setDataArt(res.data))
@@ -26,15 +28,15 @@ function Caisse() {
   };
 
   useEffect(() => {
-
     getArticles();
   }, []);
 
-const ticketCallBack=(a)=>{
-tickeTab=a;
-console.log(a)
+  const ticketCallBack=(a)=>{
+    setTicketTab(a)
+    console.log(tickeTab)
+  }
 
-}
+
   if (isLoading2) {
     return (
       <Spinner animation="border" role="status">
@@ -49,7 +51,9 @@ console.log(a)
 
 
                 <Col xs={4} md={4} xl={4}  id="sidebar-wrapper" className="nopadding border-right" > 
-                <Ticket></Ticket>
+                <Ticket
+                  array = {tickeTab}
+                />
 
                 </Col>
                 <Col xs={8} sm={8} md={8} xl={8} id="page-content-wrapper" className="nopadding">

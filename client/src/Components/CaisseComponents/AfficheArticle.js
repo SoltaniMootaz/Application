@@ -1,21 +1,22 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { Row, Card, Col, Image} from 'react-bootstrap'
 import def from './img/def.jpg'
 import PropTypes from 'prop-types';
 
 function AfficheArticle(props) {
-    var array=new Array();
+   // const [array,setArray] = useState([])
 
     var src=def;
     const isSRC=(data)=>{
         if (data == null) return true
         else return false
     };
+
     const handleClick=(a)=>
- 
     {
-        array.push(a)
-        props.handleTicketClick(array);
+        //if(!array.includes(a)) {
+            props.handleTicketClick(a);
+        //}
     }
   
     return (
