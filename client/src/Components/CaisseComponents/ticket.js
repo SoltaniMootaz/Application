@@ -23,7 +23,11 @@ function Ticket(props) {
 
     const [data,setData] = useState([])
     const [index,setIndex] = useState([]);
-    const [quantite,setQuantite] = useState([])
+    const [quantite,setQuantite] = useState([]);
+
+    function countOccurrences(arr,val) {
+      return arr.reduce((n, x) => n + (x === val), 0);
+    }
 
       useEffect(() => {
         setQuantite(quantite =>[...quantite,props.index]);
@@ -37,7 +41,7 @@ function Ticket(props) {
                 <Form.Control
                   type="number"
                   name="quantite"
-                  value="1"
+                  defaultValue="1"
                 />
               </td>
             </tr>]);
