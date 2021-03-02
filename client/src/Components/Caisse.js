@@ -19,6 +19,7 @@ function Caisse() {
   const [dataArt, setDataArt] = useState([]);
   const [isLoading2, setLoading2] = useState(true);
   const [tickeTab,setTicketTab] = useState()
+  const [index,setIndex] = useState();
 
   const getArticles = () => {
     Axios.get(urlart)
@@ -31,9 +32,9 @@ function Caisse() {
     getArticles();
   }, []);
 
-  const ticketCallBack=(a)=>{
-    setTicketTab(a)
-    console.log(tickeTab)
+  const ticketCallBack=(a,i)=>{
+    setTicketTab(a);
+    setIndex(i);
   }
 
 
@@ -53,6 +54,7 @@ function Caisse() {
                 <Col xs={4} md={4} xl={4}  id="sidebar-wrapper" className="nopadding border-right" > 
                 <Ticket
                   array = {tickeTab}
+                  index = {index}
                 />
 
                 </Col>

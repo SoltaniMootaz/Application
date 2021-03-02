@@ -4,7 +4,6 @@ import def from './img/def.jpg'
 import PropTypes from 'prop-types';
 
 function AfficheArticle(props) {
-   // const [array,setArray] = useState([])
 
     var src=def;
     const isSRC=(data)=>{
@@ -12,11 +11,9 @@ function AfficheArticle(props) {
         else return false
     };
 
-    const handleClick=(a)=>
+    const handleClick=(a,i)=>
     {
-        //if(!array.includes(a)) {
-            props.handleTicketClick(a);
-        //}
+        props.handleTicketClick(a,i);
     }
   
     return (
@@ -33,7 +30,7 @@ function AfficheArticle(props) {
                                      <div>
                                            
 
-                                     <div className="card"  style={{ width: '14rem' ,border:'0px'}} onClick={()=>handleClick(props.dataArt[index])}>
+                                     <div className="card"  style={{ width: '14rem' ,border:'0px'}} onClick={()=>handleClick(props.dataArt[index],index)}>
                                     <img alt="Avatar"  as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}} />
                                     <div className="container">
                                         <h4><b><center>{data1.nom}</center></b></h4> 

@@ -9,23 +9,24 @@ function Ticket(props) {
       });
 
     const [data,setData] = useState([])
-    const [tickeTab,setTicketTab] = useState([])
+    const [index,setIndex] = useState([]);
 
       useEffect(() => {
-        if(typeof props.array != "undefined"&&!data.includes(props.array)) {
-            setData(data=>[...data,<tr>
-              <td></td>
+        if(typeof props.array != "undefined"&&!index.includes(props.index)) {
+            setIndex(index =>[...index,props.index]);
+            setData(data=>[...data,<tr key={props.index}>
+              <td>{props.index}</td>
               <td>{props.array.nom}</td>
               <td>{props.array.prix}</td>
               <td>
                 <Form.Control
                   type="number"
                   name="quantite"
+                  value="1"
                 />
               </td>
             </tr>]);
         }
-        console.log(tickeTab);
       },[props.array])
 
 
