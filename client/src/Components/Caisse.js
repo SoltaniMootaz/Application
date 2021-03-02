@@ -17,7 +17,7 @@ function Caisse() {
   const urlart = "http://localhost:3001/api/afficherArticles&";
   const [dataArt, setDataArt] = useState([]);
   const [isLoading2, setLoading2] = useState(true);
-
+  var tickeTab=new Array();
   const getArticles = () => {
     Axios.get(urlart)
       .then((res) => setDataArt(res.data))
@@ -30,7 +30,11 @@ function Caisse() {
     getArticles();
   }, []);
 
+const ticketCallBack=(a)=>{
+tickeTab=a;
+console.log(a)
 
+}
   if (isLoading2) {
     return (
       <Spinner animation="border" role="status">
@@ -42,12 +46,15 @@ function Caisse() {
     return (
         <Container fluid>
             <Row>       
+
+
                 <Col xs={4} md={4} xl={4}  id="sidebar-wrapper" className="nopadding border-right" > 
                 <Ticket></Ticket>
+
                 </Col>
                 <Col xs={8} sm={8} md={8} xl={8} id="page-content-wrapper" className="nopadding">
                     <Row> 
-                    <Col  xs={12} sm={12} md={12} xl={12} id="page-content-wrapper">
+                    <Col  xs={12} sm={12} md={12} xl={12} id="page-content-wrapper" className="nopadding w100">
                         <Navbar className=" justify-content-center border-bottom border-left" expand="lg" style={{  boxShadow:'inset -1px 0 0 rgba(0, 0, 0, .1)',}}>
                         <Navbar.Brand href="#home"><AiFillHome  className="icon" style={{width:'1.7em',height:'1.7em'}}/></Navbar.Brand>
                         <Nav className="mr-auto " >
@@ -95,8 +102,8 @@ function Caisse() {
                         </Navbar>
                      </Col>
                     </Row>
-                    <Row>   
-                      <AfficheArticle dataArt={dataArt}></AfficheArticle>    
+                    <Row style={{marginLeft:'3em'}}>   
+                      <AfficheArticle dataArt={dataArt} handleTicketClick={ticketCallBack}></AfficheArticle>    
                     </Row>
                   </Col> 
                 </Row>
