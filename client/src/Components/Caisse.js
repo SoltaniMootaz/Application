@@ -1,6 +1,7 @@
 import React,{ useState, useEffect } from 'react'
 import Ticket from './CaisseComponents/ticket'
 import AfficheArticle from './CaisseComponents/AfficheArticle'
+import AfficheStock from './CaisseComponents/AfficheStock'
 import "./css/Article.css";
 import { AiFillHome } from "react-icons/ai";
 import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
@@ -19,23 +20,29 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme,fade } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const drawerWidth = 340;
 
 const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
   root: {
     display: 'flex',
 
@@ -167,14 +174,19 @@ function Caisse(props) {
     setIndex(i)
   }
 ////////////////////////////////////////////////////////////////////////////
-const { window } = props;
+  const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [type,setType] = useState('s'); 
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  
+  function handleType(a) {
+    setType(a);
+  }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const drawer = (
     <div>
@@ -260,10 +272,25 @@ const { window } = props;
           </Drawer>
         </Hidden>
       </nav>
+      
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {!isSearching ? ( <AfficheArticle dataArt={dataArt} handleTicketClick={ticketCallBack}></AfficheArticle>    ) :(<ArticlesChercher handleTicketClick={ticketCallBack} value={value} chercherDans={dataArt} />
-       )}
+        <FormControl className={classes.formControl}>
+        <InputLabel id="demo-simple-select-label">Type</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+        >
+          <MenuItem value="stock" onClick={()=>handleType('s')} default>Stock</MenuItem>
+          <MenuItem value="menu" onClick={()=>handleType('m')}>Menu</MenuItem>
+        </Select>
+      </FormControl> <br />
+        {type=='m' ?
+            <AfficheArticle dataArt={dataArt} handleTicketClick={ticketCallBack}></AfficheArticle> 
+        :
+            <AfficheStock handleTicketClick={ticketCallBack}/>
+        }
+        {/* {isSearching ? (<ArticlesChercher handleTicketClick={ticketCallBack} value={value} chercherDans={dataArt} />) : ""} */}
       </main>
     </div>
     )
