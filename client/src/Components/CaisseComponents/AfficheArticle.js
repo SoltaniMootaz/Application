@@ -1,34 +1,49 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { Row, Card, Col, Image} from 'react-bootstrap'
 import def from './img/def.jpg'
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
+  }));
+  
 function AfficheArticle(props) {
-    var array=new Array();
+   // const [array,setArray] = useState([])
 
     var src=def;
+    const classes = useStyles();
     const isSRC=(data)=>{
         if (data == null) return true
         else return false
     };
+
     const handleClick=(a)=>
- 
     {
-        array.push(a)
-        props.handleTicketClick(array);
+        //if(!array.includes(a)) {
+            props.handleTicketClick(a);
+        //}
     }
   
     return (
-        < >
-               
+        <div className={classes.root}>
+               <Grid container spacing={3}>
+      
                {props.dataArt.map((data1,index)=>{
                            return( 
                             <div key={index} >                    
-                            
-                              <Col xs={3}  key={data1.nomCategorie} style={{padding:'1em'}} >
-                                      
-                                    
-                               
+                            <Grid item xs={6} sm={3} style={{padding:'1em'}}>
+                        
                                      <div>
                                            
 
@@ -43,13 +58,14 @@ function AfficheArticle(props) {
                                     </div> 
                 
                         
-                          </Col></div>
+                     </Grid></div>
                       
                     
                     )
                   })
                 }
-        </>
+                </Grid>
+        </div>
     )
 }
 

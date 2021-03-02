@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Vente from './vente'
 import {Button, Nav, Row, Col, Table,Form } from "react-bootstrap";
 
@@ -7,14 +7,33 @@ function Ticket(props) {
     const [state, setState] = useState({
         isOpen: Boolean(false),
       });
-console.log(props.tickeTab)
+
+    const [data,setData] = useState([])
+    const [tickeTab,setTicketTab] = useState([])
+
+      useEffect(() => {
+        if(typeof props.array != "undefined"&&!data.includes(props.array)) {
+            setData(data=>[...data,<tr>
+              <td></td>
+              <td>{props.array.nom}</td>
+              <td>{props.array.prix}</td>
+              <td>
+                <Form.Control
+                  type="number"
+                  name="quantite"
+                />
+              </td>
+            </tr>]);
+        }
+        console.log(tickeTab);
+      },[props.array])
+
+
     return (
         <>
-        <div style={{width:'100%  '}}>         
-          <h4 style={{paddingTop:'2.05em'}}><center>Ticket</center></h4>
-        </div>
+     
 
-        <hr />
+      
 
         <Table responsive >
           <thead>
@@ -26,31 +45,7 @@ console.log(props.tickeTab)
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>
-                <Form.Control
-                  type="number"
-                  name="quantite"
-                  
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <td>2</td>
-              <td>Table cell1</td>
-              <td>Table cell</td>
-              <td>
-                <Form.Control
-                  type="number"
-                  name="quantite"
-
-                />
-              </td>
-            </tr>
+            {data}
           </tbody>
         </Table>
 

@@ -16,16 +16,22 @@ function ArticleChercher(props) {
       return true;
     } else return false;
   };
+  const handleClick=(a)=>
+  {
+      //if(!array.includes(a)) {
+          props.handleTicketClick(a);
+      //}
+  }
 
     return (
         <>
         <Row>
-            {article.map((data1)=>{
+            {article.map((data1,index)=>{
                            return( 
-                           <div key={data1.nom}>                    
+                           <div key={index}>                    
                            
-                            <Col xs={3}  key={data1.nomCategorie} style={{padding:'1em'}}>               
-                        <Card    style={{ width: '14rem' }}>
+                            <Col xs={3}   style={{padding:'1em'}}>               
+                        <Card  style={{ width: '14rem' }} >
                   
                         <Card.Img as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}}/>
                             <Card.Body className="bg-light">

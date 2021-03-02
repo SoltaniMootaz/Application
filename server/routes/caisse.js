@@ -21,6 +21,7 @@ router.get("/api/stock",(req,res) => {
     pool.query("select * from stock",(err,result) => {
         if(err)
             res.status(400).send(err.toString());
+          
         else if(result.rowCount>0)
             res.status(200).json(result.rows);
         else
