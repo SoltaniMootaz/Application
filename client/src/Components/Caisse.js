@@ -1,5 +1,6 @@
 import React,{ useState, useEffect } from 'react'
 import Ticket from './CaisseComponents/ticket'
+import AfficheArticle from './CaisseComponents/AfficheArticle'
 import {
     Container,
     Row,
@@ -37,7 +38,7 @@ function Caisse() {
       </Spinner>
     );
   } else {
-     console.log(dataArt)
+  
     return (
         <Container fluid>
             <Row>       
@@ -93,6 +94,9 @@ function Caisse() {
                             </Nav.Item>                 
                         </Navbar>
                      </Col>
+                    </Row>
+                    <Row>   
+                      <AfficheArticle dataArt={dataArt}></AfficheArticle>    
                     </Row>
                   </Col> 
                 </Row>
