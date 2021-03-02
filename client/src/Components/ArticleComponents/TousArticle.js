@@ -34,18 +34,24 @@ function TousArticle(props) {
                            return( 
                             <div key={data1.nom}>                    
                             {(data1.nomCategorie===data.nom)?
-                              <Col xs={3}  key={data1.nomCategorie} style={{padding:'1em'}}>
+                              
+                              <Col xs={3}  key={data1.nomCategorie} style={{padding:'1em'}} >
                                       
                                     
-                          <br />       
-                                      
-                        <Card    style={{ width: '14rem' ,border:'0px'}}>
-                  
-                          <Card.Img as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}}/>
-                            <Card.Body className="bg-light">   
-                                <Card.Title ><center>{data1.nom}</center></Card.Title>                
-                            </Card.Body>
-                        </Card> 
+                               
+                                     <div>
+                                           
+
+                                     <div className="card"  style={{ width: '14rem' ,border:'0px'}} >
+                                    <img alt="Avatar"  as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}} />
+                                    <div className="container">
+                                        <h4><b><center>{data1.nom}</center></b></h4> 
+                                       
+                                    </div>
+                                    </div>
+               
+                                    </div> 
+                
                         
                           </Col>: ""}</div>
                       
