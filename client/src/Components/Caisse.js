@@ -45,7 +45,7 @@ function Caisse() {
                 <Col xs={4} md={4} xl={4}  id="sidebar-wrapper" className="nopadding border-right" > 
                 <Ticket></Ticket>
                 </Col>
-                <Col xs={12} sm={12} md={8} xl={8} id="page-content-wrapper" className="nopadding">
+                <Col xs={8} sm={8} md={8} xl={8} id="page-content-wrapper" className="nopadding">
                     <Row> 
                     <Col  xs={12} sm={12} md={12} xl={12} id="page-content-wrapper">
                         <Navbar className=" justify-content-center border-bottom border-left" expand="lg" style={{  boxShadow:'inset -1px 0 0 rgba(0, 0, 0, .1)',}}>
