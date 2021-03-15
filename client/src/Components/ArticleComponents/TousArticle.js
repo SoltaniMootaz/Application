@@ -20,7 +20,7 @@ function TousArticle(props) {
                 <>
                    {props.dataCat.map(((data)=> {
                         return (
-                          <div  key={data.nom} >
+                          <div  key={data.id} >
                             <Row style={{color:'#0d478f', textTransform:'uppercase',marginTop:'5%',marginLeft:'1rem'}}>
                               
                             <h3 >{data.nom}</h3> 
@@ -33,7 +33,7 @@ function TousArticle(props) {
                         {props.dataArt.map((data1)=>{
                            return( 
                             <div key={data1.nom}>                    
-                            {(data1.nomCategorie===data.nom)?
+                            {(data1.id_categorie===data.id)?
                               
                               <Col xs={3}  key={data1.nomCategorie} style={{padding:'1em'}} >
                                       

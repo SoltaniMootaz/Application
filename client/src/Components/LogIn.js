@@ -22,9 +22,8 @@ function LogIn() {
       mdp: user.password,
     })
       .then((res) => {
+        localStorage.setItem('userID',res.data);
         window.location.href = "home";
-        //console.log(res.data)
-        //localStorage.setItem('userID', event.target.value);
       })
       .catch((err) => {
         setError({ ...error, data: err.response.data });

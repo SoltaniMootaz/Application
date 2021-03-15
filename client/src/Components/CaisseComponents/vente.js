@@ -81,7 +81,8 @@ function Vente(props) {
     e.preventDefault();
     Axios.post(url1,{
       nomPre: client.nomPre,
-      tel: client.tel
+      tel: client.tel,
+      id_utilisateur: localStorage.getItem('userID')
     })
       .then((res) => {
         console.log(res.data);

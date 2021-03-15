@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
   }));
   
 function AfficheArticle(props) {
-
+    console.log(props.dataArt);
+    
     var src=def;
     const classes = useStyles();
     const isSRC=(data)=>{

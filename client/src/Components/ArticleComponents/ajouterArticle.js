@@ -7,6 +7,7 @@ import Ingredient from "./ingredients";
 function AjouterCat(props) {
   const url = "http://localhost:3001/api/ajouterArticle";
   const url2 = "http://localhost:3001/api/afficherCategorie";
+  const urlstock = "http://localhost:3001/api/stock";
   const categ = [];
   const items = [];
   const [error, setError] = useState("");
@@ -15,13 +16,56 @@ function AjouterCat(props) {
   const [categories, setCategories] = useState([]);
   const [length, setLength] = useState(1);
   const [_submit, setSubmit] = useState(false);
-  const [nomArt, setNomArt] = useState("");
+  const [idArt, setIdArt] = useState("");
   const [Data, setData] = useState({
     nom: "",
     categorie: "",
     prix: "",
     unite: "",
   });
+  const [stock,setStock] = useState([])
+  const [totale,setTotale] = useState([{
+    idArt:null,
+    quantite:null,
+    idIngr:null
+  }]);
+  const [somme,setSomme] = useState(0);
+  const [loaded,setLoaded] = useState(false);
+
+  const Occurrences = (n) => {
+    var occ = 0;
+
+    totale.map(e=> {
+      if(e.idIngr == n) {
+        occ ++;
+      }
+    })
+
+    return occ;
+  }
+
+  const addTotale = (id1,quant,id2) => {
+    if(Occurrences(id2)>=1) {
+      setTotale(totale.filter((e)=>(e.idIngr !== id2)));
+    }
+    
+    if(id1 !== "undefined") {
+      setTotale(totale => [...totale,{idArt:id1,quantite:quant,idIngr:id2}]);
+    }
+  }
+
+  const calculTotale = (s) => {
+    totale.map(e=> {
+      const article = stock.filter(e1=>(e1.id == e.idArt));
+      article.map(row=>{
+        const sm = parseFloat(s) + (parseFloat(row.prix) * parseInt(e.quantite,10));
+        setSomme(sm.toFixed(2));
+        s = sm.toFixed(2);
+      })
+    })
+
+    return s;
+  }
 
   const getCategories = () => {
     Axios.get(url2)
@@ -33,9 +77,24 @@ function AjouterCat(props) {
       });
   };
 
+  const getStock = () => {
+    Axios.get(urlstock)
+      .then((res) => {
+        setStock(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   useEffect(() => {
-    getCategories();
-  }, []);
+    setSomme(calculTotale(0));
+    if(!loaded) {
+      getCategories();
+      getStock();
+      setLoaded(true);
+    }
+  }, [totale]);
 
   categories.map((categorie, i) => {
     categ.push(
@@ -47,22 +106,23 @@ function AjouterCat(props) {
 
   for (var i = 0; i < length; i++) {
     items.push(
-      <Ingredient key={i} id={i} submitForm={_submit} nomArticle={nomArt} />
+      <Ingredient key={i} id={i} submitForm={_submit} idArticle={idArt} stock={stock} totale={addTotale} />
     );
   }
 
   function submit(e) {
     e.preventDefault();
-    setSubmit(true);
     Axios.post(url, {
       nom: Data.nom,
       categorie: Data.categorie,
       prix: Data.prix,
       unite: Data.unite,
+      id_utilisateur: localStorage.getItem('userID')
     })
       .then((res) => {
-        setSubmit(false);
-        window.location.reload(false);
+        console.log(res);
+        setIdArt(res.data.rows[0].id);
+        setSubmit(true);
         props.handleClose();
       })
       .catch((err) => {
@@ -71,7 +131,6 @@ function AjouterCat(props) {
   }
 
   function handleNom(e) {
-    setNomArt(e.target.value);
     setSubmit(false);
     setData({ ...Data, nom: e.target.value });
   }
@@ -196,9 +255,10 @@ function AjouterCat(props) {
                 onChange={() => changeTracer()}
               />
             </Form.Group>
-
             {tracer ? (
               <div>
+                <hr />
+                <p style={{textAlign:"right",color:"green"}}>Somme : {somme} DT</p>
                 {items}
                 <Form.Group>
                   <center>
