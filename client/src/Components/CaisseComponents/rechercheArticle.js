@@ -2,11 +2,11 @@ import React from 'react'
 import { Row, Card, Col, Image} from 'react-bootstrap'
 import def from './img/def.jpg'
 function RechercheArticle(props) {
-  const article = props.chercherDans.filter(
-    (art) =>
-      art.nomCategorie.toLowerCase().indexOf(props.value) > -1 ||
+  
+  const article = props.chercherDans.filter((art) =>
       art.nom.toLowerCase().indexOf(props.value) > -1
   );
+  
   console.log(article);
 
   var src = def;
@@ -16,11 +16,9 @@ function RechercheArticle(props) {
       return true;
     } else return false;
   };
-  const handleClick=(a)=>
-  {
-      //if(!array.includes(a)) {
-          props.handleTicketClick(a);
-      //}
+
+  const handleClick=(a) => {
+    props.handleTicketClick(a);
   }
 
     return (

@@ -20,7 +20,7 @@ import AjouterCat from "./ArticleComponents/ajouterCategorie";
 import AjouterArt from "./ArticleComponents/ajouterArticle";
 function Article() {
   const urlcat = "http://localhost:3001/api/afficherCategorie";
-  const urlart = "http://localhost:3001/api/afficherArticles&";
+  const urlart = "http://localhost:3001/api/afficherArticles";
   var isLoading = true;
 
   const [dataCat, setDataCat] = useState([]);
@@ -34,14 +34,14 @@ function Article() {
     Axios.get(urlcat)
       .then((res) => setDataCat(res.data))
       .catch((err) => console.log(err));
-    setLoading1(false);
+      setLoading1(false);
   };
 
   const getArticles = () => {
     Axios.get(urlart)
       .then((res) => setDataArt(res.data))
       .catch((err) => console.log(err));
-    setLoading2(false);
+      setLoading2(false);
   };
 
   useEffect(() => {
@@ -145,13 +145,13 @@ function Article() {
                             </Nav.Item>                 
                         </Navbar>
                         <AjouterCat
-        handleOpen={state.isOpen}
-        handleClose={() => setState({ isOpen: false })}
-      />
-      <AjouterArt
-        handleOpen={state1.isOpen}
-        handleClose={() => setState1({ isOpen: false })}
-      />
+                          handleOpen={state.isOpen}
+                          handleClose={() => setState({ isOpen: false })}
+                        />
+                        <AjouterArt
+                          handleOpen={state1.isOpen}
+                          handleClose={() => setState1({ isOpen: false })}
+                        />
        
                      {!isSearching ? (
                     <Row style={{marginLeft:'1em'}}>
@@ -165,7 +165,7 @@ function Article() {
                     </Row>
                   ) : (
                     <Row style={{marginLeft:'4em'}}>
-                    <ArticlesChercher value={value} chercherDans={dataArt} />
+                    <ArticlesChercher value={value} articles={dataArt} categories={dataCat} />
                     </Row>
                   )}
         

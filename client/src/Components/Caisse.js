@@ -135,7 +135,7 @@ function Caisse(props) {
 
 
 //////////////////////////////////////////////////////////////////////
-  const urlart = "http://localhost:3001/api/afficherArticles&";
+  const urlart = "http://localhost:3001/api/afficherArticles";
   const urlprod ="http://localhost:3001/api/stock";
 
 
@@ -167,6 +167,7 @@ function Caisse(props) {
     getArticles();
   
   }, []);
+  
   const handleSearch = (e) => {
     if (e.target.value === "") {
       setIsSearching(false);
@@ -231,7 +232,7 @@ function Caisse(props) {
           </IconButton>
             <AiFillHome  className="icon" style={{width:'2em',height:'2em'}}/>
             <Typography className={classes.title} variant="h6" noWrap>
-              Home
+              
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>

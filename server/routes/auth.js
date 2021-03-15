@@ -43,14 +43,13 @@ router.post("/api/login", async (req,res) => {
                 console.error('Error executing query', err.stack);
             }else {
                 if(result.rowCount > 0) {
-                    bcrypt.compare(mdp, result.rows[0].mdp, function(err, result1) {
+                    bcrypt.compare(mdp, result.rows[0].mdp, async function(err, result1) {
                         if(err) {
                             res.status(400).send("Mot de passe incorrecte");
-                            console.error(err);
                         }else {
                             //create and assign a token 
-                            const token = jwt.sign({id: result.rows[0].id}, process.env.TOKEN_SECRET);
-                            res.header('auth_token', token).status(200).send("succes");
+                            const token = await jwt.sign({id: result.rows[0].id}, process.env.TOKEN_SECRET);
+                            res.header('auth_token', token).send(result.rows[0].id.toString());
                         }
                     });
                 }else {

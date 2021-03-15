@@ -10,8 +10,9 @@ import {
 import Home from './Components/Home.js'
 import LogIn from './Components/LogIn.js'
 import SignUp from './Components/SignUp.js'
-import Article from './Components/Article.js'
+import menu from './Components/menu.js'
 import Caisse from './Components/Caisse.js'
+import PrivateRoute from './PrivateRoute'
 
 function App() {
   return (
@@ -36,11 +37,14 @@ function App() {
           <Route exact path="/">
             <Redirect to="/Log-in"></Redirect>
           </Route>
-            <Route exact path="/Home"><Home></Home></Route>
-            <Route exact path="/Article"><Article></Article></Route>
-            <Route exact path="/Log-in"><LogIn></LogIn></Route>  
-            <Route exact path="/Sign-UP"><SignUp></SignUp></Route> 
-            <Route exact path="/Caisse"><Caisse></Caisse></Route> 
+            <Route exact path="/Log-in" component={LogIn}></Route>  
+            <Route exact path="/Sign-UP" component={SignUp}></Route> 
+
+
+            <PrivateRoute exact path="/Home" component={Home}></PrivateRoute>
+            <PrivateRoute exact path="/menu" component={menu}></PrivateRoute> 
+            <PrivateRoute exact path="/Caisse" component={Caisse}></PrivateRoute>
+
         </Switch>
         </Router>
     </div>

@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
 },
 Control :{
   padding: theme.spacing(5),
-
 }
 }));
 
@@ -21,21 +20,22 @@ function Ticket(props) {
         isOpen: Boolean(false),
       });
 
-    const [data,setData] = useState([])
+    const [data,setData] = useState([]);
     const [index,setIndex] = useState([]);
-    const [quantite,setQuantite] = useState([]);
 
-    function countOccurrences(arr,val) {
-      return arr.reduce((n, x) => n + (x === val), 0);
+    function countOccurrences(e) {
+      if(e.target.value)
+        return (e.target.value + 1);
+      else
+        return 1;
     }
 
       useEffect(() => {
-        setQuantite(quantite =>[...quantite,props.index]);
         if(typeof props.array != "undefined"&&!index.includes(props.index)) {
             setIndex(index =>[...index,props.index]);
             setData(data=>[...data,<tr key={props.index}>
               <td>{props.index}</td>
-              <td>{props.array.nom}</td>
+              <td>{props.array.nom ? props.array.nom : props.array.libelle}</td>
               <td>{props.array.prix}</td>
               <td>
                 <Form.Control
