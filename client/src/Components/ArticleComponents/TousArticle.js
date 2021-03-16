@@ -92,8 +92,8 @@ function TousArticle(props) {
                               onClose={handleClose}
                               className={classes.menu}
                                >
-                                <MenuItem  onClick={handleClose}>Edit</MenuItem><Divider />
-                                <MenuItem  onClick={handleClose}>Delete</MenuItem>
+                                <MenuItem  onClick={handleClose} style={{color:'blue'}}>modifier</MenuItem><Divider />
+                                <MenuItem  onClick={handleClose} style={{color:'red'}}>effacer</MenuItem>
                             </Menu>
                               <CardActionArea>
                                 <CardMedia
