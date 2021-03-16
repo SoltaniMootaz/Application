@@ -54,17 +54,16 @@ function AjouterCat(props) {
     }
   }
 
-  const calculTotale = (s) => {
+  const calculTotale = () => {
+    var sm = 0;
     totale.map(e=> {
       const article = stock.filter(e1=>(e1.id == e.idArt));
       article.map(row=>{
-        const sm = parseFloat(s) + (parseFloat(row.prix) * parseInt(e.quantite,10));
-        setSomme(sm.toFixed(2));
-        s = sm.toFixed(2);
+        sm += parseFloat(row.prix) * parseInt(e.quantite,10);
       })
     })
 
-    return s;
+    return sm.toFixed(2);
   }
 
   const getCategories = () => {
@@ -88,7 +87,7 @@ function AjouterCat(props) {
   }
 
   useEffect(() => {
-    setSomme(calculTotale(0));
+    setSomme(calculTotale());
     if(!loaded) {
       getCategories();
       getStock();
@@ -258,7 +257,7 @@ function AjouterCat(props) {
             {tracer ? (
               <div>
                 <hr />
-                <p style={{textAlign:"right",color:"green"}}>Somme : {somme} DT</p>
+                <p style={{textAlign:"right",color:"red"}}>Coût : {somme} DT</p>
                 {items}
                 <Form.Group>
                   <center>

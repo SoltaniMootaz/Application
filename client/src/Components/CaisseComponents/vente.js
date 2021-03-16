@@ -15,6 +15,7 @@ function Vente(props) {
 
   const [direct,setDirect] = useState(false);
   const [kridi,setKridi] = useState(false);
+  const [espece,setEspece] = useState(false);
 
   const [style1,setStyle1] = useState(false);
   const [style2,setStyle2] = useState(false);
@@ -30,38 +31,26 @@ function Vente(props) {
   const [clientData,setClientData] = useState([])
   const clients = [];
 
-
+  const changeEspece = () =>{
+    setEspece(!espece);
+  }
   const changeDirect = () =>{
      setDirect(!direct);
-     setKridi(false);
   }
   const changeKridi = () => {
     setKridi(!kridi);
-    setDirect(false);
   }
 
   const clicked1 = () => { 
     setStyle1(!style1);
-    setStyle2(false);
-    setStyle3(false);
-    setStyle4(false);
   };
   const clicked2 = () => { 
-    setStyle1(false);
     setStyle2(!style2);
-    setStyle3(false);
-    setStyle4(false);
   };
   const clicked3 = () => { 
-    setStyle1(false);
-    setStyle2(false);
     setStyle3(!style3);
-    setStyle4(false);
   };
   const clicked4 = () => { 
-    setStyle1(false);
-    setStyle2(false);
-    setStyle3(false);
     setStyle4(!style4);
   };
 
@@ -139,7 +128,37 @@ function Vente(props) {
             ""
           )}
           <br />
-          <Modal.Body>
+          <p style={{textAlign:"right",color:"green"}}>À payer : {props.somme} DT&nbsp;</p>
+          <Modal.Body style={{'maxHeight': 'calc(100vh - 210px)', 'overflowY': 'auto'}}>
+          <Form.Group>
+            <Form.Check
+              type="switch"
+              id="espece"
+              label="Vente en espèces"
+              checked={espece}
+              onChange={() => changeEspece()}
+            />
+          </Form.Group>
+            <br />
+          {espece ? 
+          <>
+          <InputGroup className="mb-3">
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroup-sizing-default" style={{width:"10rem"}}>Montant</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            required
+            type="text"
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+            onChange={(e)=>handleNomPre(e)}
+          />
+        </InputGroup>
+        <br />
+          </>
+          : ""
+          }
+
           <Form.Group>
               <Form.Check
                 type="switch"
@@ -159,7 +178,9 @@ function Vente(props) {
               <Row>
                 <Col xs={3}>
                 {style1 ?
+                <>
                 <img src={d17} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked1}></img>
+              </>
                 :
                 <img src={d17} width="100%" height="100%" onClick={clicked1}></img>
                 }
@@ -193,6 +214,61 @@ function Vente(props) {
                 <Col xs={3} style={{fontSize:"17px",color:"#0065a1"}} onClick={clicked3}> <center>Sob flous</center> </Col>
                 <Col xs={3} style={{fontSize:"17px",color:"#0065a1"}} onClick={clicked4}> <center>e-dinar</center> </Col>
               </Row>
+              <br/>
+              <Row>
+                <Col xs={3}>
+
+                  {style1 ? <InputGroup className="mb-3">
+                    <FormControl
+                      required
+                      type="number"
+                      aria-label="Default"
+                      placeholder="Montant"
+                      aria-describedby="inputGroup-sizing-default"
+                      onChange={(e)=>handleNomPre(e)}
+                    />
+                  </InputGroup> : ""}
+                </Col>
+                <Col xs={3}>
+
+                  {style2 ? <InputGroup className="mb-3">
+                    <FormControl
+                      required
+                      type="number"
+                      aria-label="Default"
+                      placeholder="Montant"
+                      aria-describedby="inputGroup-sizing-default"
+                      onChange={(e)=>handleNomPre(e)}
+                    />
+                  </InputGroup> : ""}
+                </Col>
+                <Col xs={3}>
+
+                  {style3 ? <InputGroup className="mb-3">
+                    <FormControl
+                      required
+                      type="number"
+                      aria-label="Default"
+                      placeholder="Montant"
+                      aria-describedby="inputGroup-sizing-default"
+                      onChange={(e)=>handleNomPre(e)}
+                    />
+                  </InputGroup> : ""}
+                </Col>
+                <Col xs={3}>
+
+                  {style4 ? <InputGroup className="mb-3">
+                    <FormControl
+                      required
+                      type="number"
+                      aria-label="Default"
+                      placeholder="Montant"
+                      aria-describedby="inputGroup-sizing-default"
+                      onChange={(e)=>handleNomPre(e)}
+                    />
+                  </InputGroup> : ""}
+                </Col>
+              </Row>
               <br />
               <hr />
               </>
@@ -211,22 +287,38 @@ function Vente(props) {
             {kridi ?
             <>
             <br />
-            <center>
               <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
                 <Tab eventKey="home" title="Sélectionner client">
-                  <br />
-                <InputGroup className="mb-3">
-                  <DropdownButton
-                    as={InputGroup.Prepend}
-                    variant="outline-secondary"
-                    title="Client"
-                    id="input-group-dropdown-1"
-                  >
-                    {clients}
+                <br />
+                <Row>
+                  <Col>
+                  <InputGroup className="mb-4">
+                    <DropdownButton
+                      as={InputGroup.Prepend}
+                      variant="outline-secondary"
+                      title="Client"
+                      id="input-group-dropdown-1"
+                    >
+                      {clients}
 
-                  </DropdownButton>
-                  <FormControl aria-describedby="basic-addon1" disabled value={clientSelec} />
-                </InputGroup>
+                    </DropdownButton>
+                    <FormControl aria-describedby="basic-addon1" disabled value={clientSelec} />
+                  </InputGroup>
+                  </Col>
+                  <Col>
+                  <InputGroup className="mb-3">
+                    <InputGroup.Prepend>
+                      <InputGroup.Text id="inputGroup-sizing-default" style={{width:"5rem"}}>Montant</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                      required
+                      type="number"
+                      aria-label="Default"
+                      aria-describedby="inputGroup-sizing-default"
+                    />
+                  </InputGroup>
+                  </Col>
+                </Row>
                 </Tab>
                 <Tab eventKey="profile" title="Ajouter client">
                   <br />
@@ -255,30 +347,42 @@ function Vente(props) {
                         required
                       />
                     </InputGroup>
+
+                    <InputGroup className="mb-3">
+                      <InputGroup.Prepend>
+                        <InputGroup.Text id="inputGroup-sizing-default" style={{width:"10rem"}}>Montant</InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl
+                        required
+                        type="number"
+                        aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default"
+                      />
+                    </InputGroup>
                   </Container>
                 </Tab>
               </Tabs>
-            </center>
             </>
             :
             ""}
-          </Modal.Body>
-          <br />
-          <br />
-          <Modal.Footer
+            <hr />
+            <br />
+            <br />
+            <div
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
-          >
-            <BsFillPlusCircleFill
+            >
+              <BsFillPlusCircleFill
               style={{ width: "50px", height: "50px", color: "#176cd4" }}
               onClick={(e)=>{
                 submit(e);
               }}
             />
-          </Modal.Footer>
+            </div>
+          </Modal.Body>
         </Form>
       </Modal>
     </>
