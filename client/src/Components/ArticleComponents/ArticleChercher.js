@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 });
 
 function ArticleChercher(props) {
-=
+
   
   const article = props.chercherDans.filter(
     (art) =>
@@ -50,7 +50,7 @@ function ArticleChercher(props) {
     setAnchorEl(null);
   };
 
-=
+
 
   const classes = useStyles();
   var src = def;
