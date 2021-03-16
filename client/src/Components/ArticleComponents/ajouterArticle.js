@@ -159,7 +159,8 @@ function AjouterCat(props) {
 
   return (
     <>
-      <Modal show={props.handleOpen} onHide={()=>{props.handleClose(); setError("")}}>
+      <Modal show={props.handleOpen} onHide={()=>{props.handleClose(); setError("")}} style={{   zIndex: '100001 !important',
+          marginTop:'5em'}}>
         <Form>
           <div
             style={{
