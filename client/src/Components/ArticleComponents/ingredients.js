@@ -5,7 +5,6 @@ import Axios from "axios";
 function Ingredient({ id, submitForm, idArticle,stock,totale }) {
   var nom = "nom" + id;
   var quant = "quant" + id;
-  var unite = "unite" + id;
 
   const url = "http://localhost:3001/api/ajouterIngredient";
 
@@ -39,6 +38,7 @@ function Ingredient({ id, submitForm, idArticle,stock,totale }) {
    }
 
   useEffect(() => {
+    console.log(stock);
     loadStock();
     if (submitForm) {
       submit();
