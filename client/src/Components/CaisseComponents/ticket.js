@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Vente from './vente'
 import {Button, Nav, Row, Col, Table,Form } from "react-bootstrap";
 import { makeStyles, useTheme,fade } from '@material-ui/core/styles';
+
 const useStyles = makeStyles((theme) => ({
   bottomPush: {
     position: "fixed",
@@ -12,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
 },
 Control :{
   padding: theme.spacing(5),
-
 }
 }));
 
@@ -21,32 +21,74 @@ function Ticket(props) {
         isOpen: Boolean(false),
       });
 
-    const [data,setData] = useState([])
+    const [data,setData] = useState([]);
     const [index,setIndex] = useState([]);
-    const [quantite,setQuantite] = useState([]);
+    const [somme,setSomme] = useState(0);
+    const [totale,setTotale] = useState([{
+      idIngr:null,
+      quantite:null,
+      prix:null
+    }]);
+    const [changed,setChanged] = useState(false);
 
-    function countOccurrences(arr,val) {
-      return arr.reduce((n, x) => n + (x === val), 0);
-    }
+      const calculTotale = () => {    
+        var sm = 0;
+        setSomme(0);
+        totale.map(e=> {
+          if(e.prix !== null) {
+            sm += parseFloat(e.prix) * parseInt(e.quantite,10);
+          }
+        })
+
+        if(!changed) {
+          sm += parseFloat(props.array.prix);
+        }
+
+        return sm.toFixed(2);
+      }
+
+      const handleQuant = (e) => {
+        const _id = e.target.getAttribute('id');
+        const _prix = e.target.getAttribute('prix');
+
+        setTotale(totale.filter((e1)=>((e1.idIngr !== _id)&&(e1.idIngr !== null))));
+        if(e.target.value !== "") {
+          setTotale(totale => [...totale,{idIngr:_id,quantite:e.target.value,prix:_prix}]);
+          setChanged(true)
+        }
+
+      }
 
       useEffect(() => {
-        setQuantite(quantite =>[...quantite,props.index]);
-        if(typeof props.array != "undefined"&&!index.includes(props.index)) {
-            setIndex(index =>[...index,props.index]);
-            setData(data=>[...data,<tr key={props.index}>
-              <td>{props.index}</td>
-              <td>{props.array.nom}</td>
-              <td>{props.array.prix}</td>
-              <td>
-                <Form.Control
-                  type="number"
-                  name="quantite"
-                  defaultValue="1"
-                />
-              </td>
-            </tr>]);
+        if(changed) {
+          setSomme(calculTotale());         
+          setChanged(false);
         }
-      },[props.array])
+
+        if(typeof props.array != "undefined"&&!index.includes(props.index)) {
+          if(props.array) {
+            setTotale(totale => [...totale,{idIngr:props.array.id,quantite:1,prix:props.array.prix}]);
+            setSomme(calculTotale());
+          }
+
+          setIndex(index =>[...index,props.index]);
+          setData(data=>[...data,<tr key={props.index}>
+            <td>{props.index}</td>
+            <td>{props.array.nom ? props.array.nom : props.array.libelle}</td>
+            <td>{props.array.prix}</td>
+            <td>
+              <Form.Control
+                type="number"
+                name="quantite"
+                defaultValue="1"
+                id={props.array.id}
+                prix={props.array.prix}
+                onChange={(e) => handleQuant(e)}
+              />
+            </td>
+          </tr>]);
+        }
+      },[props.array,totale,somme])
   
       const classes = useStyles();
      
@@ -69,17 +111,22 @@ function Ticket(props) {
         </Table>
 
      
-        <div className={classes.bottomPush} style={{padding:'10px'}}>
-        <Button variant="primary" onClick={() => setState({ isOpen: true })} style={{borderRadius:"10px",width:"8em"}}>Valider</Button> 
+    <div className={classes.bottomPush} style={{padding:'10px'}}>
+      <Row>
+        <Col>
+          <Button variant="primary" onClick={() => setState({ isOpen: true })} style={{borderRadius:"10px",width:"8em"}}>Valider</Button> 
 
-<Vente
-handleOpen={state.isOpen}
-handleClose={() => setState({ isOpen: false })}
-/>
-
-  <Button variant="danger" style={{borderRadius:"10px",width:"8em",marginLeft:'2.5em'}}>Effacer</Button>
-</div>
-       
+          <Vente
+            handleOpen={state.isOpen}
+            handleClose={() => setState({ isOpen: false })}
+            somme={somme}
+          />
+      </Col>
+      <Col style={{top:"0.5em"}}>
+        <p style={{fontSize:"15px",color:"green",display:"inline"}}>Somme: {somme} DT</p>
+      </Col>
+      </Row>
+    </div>
 
       </>
     )

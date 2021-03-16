@@ -7,7 +7,7 @@ const pool = require('../database/creerDB-postgreSQL');
     xlsxFile('C:/Users/houss/Desktop/projet1/application/server/produits.xlsx').then((rows) => {
         for (i in rows){
             if(i>0) {
-                pool.query('INSERT INTO public.produits("code_a_barre",libelle,prix,image) VALUES($1,$2,$3,$4) RETURNING *',[rows[i][2],rows[i][4],rows[i][32],rows[i][22]],(err,result)=>{
+                pool.query('INSERT INTO public.stock("code_a_barre",libelle,prix,image,id_utilisateur) VALUES($1,$2,$3,$4,28) RETURNING *',[rows[i][2],rows[i][4],rows[i][32],rows[i][22]],(err,result)=>{
                     if(err) 
                         console.error(err.toString());
                 })
@@ -30,11 +30,11 @@ router.get("/api/stock",(req,res) => {
 });
 
 router.post("/api/AjouterClient",(req,res) => {
-    const { nomPre, tel } = req.body;
+    const { nomPre, tel, id_utilisateur } = req.body;
     if(nomPre.length == 0)
         res.status(400).send("le champ 'nom et prenom' est vide.")
     else
-    pool.query('INSERT INTO client("nomPre",telephone) VALUES($1,$2) RETURNING *',[nomPre,tel],(err,result) => {
+    pool.query('INSERT INTO client("nomPre",telephone,id_utilisateur) VALUES($1,$2,$3) RETURNING *',[nomPre,tel,id_utilisateur],(err,result) => {
         if(err) 
             res.status(400).send(err.toString());
         else

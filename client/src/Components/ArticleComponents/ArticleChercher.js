@@ -31,6 +31,7 @@ const useStyles = makeStyles({
 });
 
 function ArticleChercher(props) {
+=
   
   const article = props.chercherDans.filter(
     (art) =>
@@ -49,6 +50,7 @@ function ArticleChercher(props) {
     setAnchorEl(null);
   };
 
+=
 
   const classes = useStyles();
   var src = def;
@@ -64,6 +66,7 @@ function ArticleChercher(props) {
         <>
         <Grid container spacing={3}>
             {article.map((data1,index)=>{
+
                            return( 
                             <div key={index} >                    
                           
@@ -115,6 +118,7 @@ function ArticleChercher(props) {
   )
                           }
                  )         
+
             } 
            </Grid>
         </>

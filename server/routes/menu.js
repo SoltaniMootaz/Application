@@ -5,8 +5,9 @@ const db = new sqlite3.Database('./database/mydb.db');
 const verif = require('./verifToken');
 
 router.post("/api/ajouterCateg", (req,res) => {
+    const {categorie, id_utilisateur} = req.body;
     try {
-        pool.query("INSERT INTO categorie(nom) VALUES ($1) RETURNING *",[req.body.categorie], (err) => {
+        pool.query('INSERT INTO categorie(nom, "id_utilisateur") VALUES ($1,$2) RETURNING *',[categorie, id_utilisateur], (err) => {
             if(err)
                 res.status(400).send("erreur");
             else
@@ -19,13 +20,18 @@ router.post("/api/ajouterCateg", (req,res) => {
 
 router.post("/api/ajouterArticle", (req,res) => {
     try {
-        const { nom,prix,unite,categorie } = req.body;
+        const { nom, prix, unite, categorie, id_utilisateur } = req.body;
 
-        pool.query('INSERT INTO public."articleMenu"(nom,prix,unite,"nomCategorie") VALUES ($1,$2,$3,$4) RETURNING *',[nom,prix,unite,categorie], (err) => {
+        pool.query('SELECT id from public.categorie where nom = $1',[categorie], (err,result) => {
             if(err)
                 res.status(400).send(err.toString());
             else
-                res.status(201).send("succes");
+                pool.query('INSERT INTO public."articleMenu"(nom,prix,unite,"id_utilisateur","id_categorie") VALUES ($1,$2,$3,$4,$5) RETURNING *',[nom,prix,unite,id_utilisateur,result.rows[0].id], (err,result) => {
+                    if(err)
+                        res.status(400).send(err.toString());
+                    else
+                        res.status(201).send(result);
+                });
         });
     } catch (error) {
         res.status(400).send(error);
@@ -34,9 +40,9 @@ router.post("/api/ajouterArticle", (req,res) => {
 
 router.post("/api/ajouterIngredient", (req,res) => {
     try {
-        const { nomIngr,quantite,nomArt } = req.body;
+        const { nomIngr,quantite,id_article,id_utilisateur } = req.body;
 
-        pool.query("INSERT INTO public.ingredient(nom,quantite,nomArt) VALUES ($1,$2,$3)",[nomIngr,quantite,nomArt], (err) => {
+        pool.query("INSERT INTO public.ingredient(nom,quantite,id_utilisateur,id_article) VALUES ($1,$2,$3,$4)",[nomIngr,quantite,id_utilisateur,id_article], (err) => {
             if(err)
                 res.status(400).send(err.toString());
             else
@@ -48,26 +54,15 @@ router.post("/api/ajouterIngredient", (req,res) => {
 });
 
 
-router.get("/api/afficherArticles&*?", (req,res) => {
+router.get("/api/afficherArticles", (req,res) => {
     try {
-        if(!req.params[0]) {
-            pool.query('SELECT * FROM public."articleMenu"', (err, result) => {
-                if(err)
-                    res.status(400).json(err);
-                else {
-                    res.status(200).json(result.rows);
-                }
-            });
-
-        }else {
-            pool.query('SELECT $1 FROM public."articleMenu"',[req.params[0]], (err, result) => {
-                if(err)
-                    res.status(400).send(err);
-                else {
-                    res.status(200).json(result.rows);
-                }
-            });
-        }
+        pool.query('SELECT * FROM public."articleMenu"', (err, result) => {
+            if(err)
+                res.status(400).send(err.toString());
+            else {
+                res.status(200).json(result.rows);
+            }
+        });
     } catch (error) {
         console.error(error);
     }

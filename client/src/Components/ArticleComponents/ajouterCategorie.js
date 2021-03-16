@@ -15,6 +15,7 @@ function AjouterCat(props) {
     e.preventDefault();
     Axios.post(url, {
       categorie: Data.categorie,
+      id_utilisateur: localStorage.getItem('userID')
     })
       .then((res) => {
         props.handleClose();

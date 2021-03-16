@@ -116,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
 function Article(props) {
  
   const urlcat = "http://localhost:3001/api/afficherCategorie";
-  const urlart = "http://localhost:3001/api/afficherArticles&";
+  const urlart = "http://localhost:3001/api/afficherArticles";
   var isLoading = true;
 
   const [dataCat, setDataCat] = useState([]);
@@ -130,14 +130,14 @@ function Article(props) {
     Axios.get(urlcat)
       .then((res) => setDataCat(res.data))
       .catch((err) => console.log(err));
-    setLoading1(false);
+      setLoading1(false);
   };
 
   const getArticles = () => {
     Axios.get(urlart)
       .then((res) => setDataArt(res.data))
       .catch((err) => console.log(err));
-    setLoading2(false);
+      setLoading2(false);
   };
 
   useEffect(() => {
