@@ -2,7 +2,39 @@ import React, { useState, useEffect } from "react";
 import { Form, Col } from "react-bootstrap";
 import Axios from "axios";
 
+/////////////////////////////////////////////////////
+
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
+/////////////////////////////////////////////////////
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+
 function Ingredient({ id, submitForm, idArticle,stock,totale }) {
+  const classes = useStyles();
+
   var nom = "nom" + id;
   var quant = "quant" + id;
 
@@ -33,7 +65,7 @@ function Ingredient({ id, submitForm, idArticle,stock,totale }) {
 
   const loadStock = () => {
     stock.map(row=> {
-     setStockData(stockData => [...stockData,<option key={row.id} data-key={row.id} >{row.libelle}</option>])
+     setStockData(stockData => [...stockData,<MenuItem key={row.id} data-key={row.id}>{row.libelle}</MenuItem>])
     });
    }
 
@@ -62,27 +94,26 @@ function Ingredient({ id, submitForm, idArticle,stock,totale }) {
 
   return (
     <>
-      <Form.Row>
-        <Form.Group as={Col} md="8">
-          <Form.Label>Nom de l'ingrédient</Form.Label>
-          <Form.Control as="select" id="nomIngr" key={nom}  onChange={(e) =>{ handleNom(e)}}>
-            <option defaultChecked></option>
+    <Grid container spacing={2}>
+      <Grid item xs={8}>
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Nom de l'ingrédient</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            key={nom}
+            onChange={(e) =>{ handleNom(e)}}
+          >
             {stockData}
-          </Form.Control>
-        </Form.Group>
+          </Select>
+      </FormControl>
+      </Grid>
 
-        <Form.Group as={Col} md="4">
-          <Form.Label>Quantite</Form.Label>
-          <Form.Control
-            type="number"
-            key={quant}
-            id="quantite"
-            defaultValue="1"
-            onChange={(e) => handleQuantite(e)}
-          />
-        </Form.Group>
-
-      </Form.Row>
+      <Grid item xs={8}>
+        <TextField id="standard-basic" key={quant} defaultValue="1" label="Quantité" onChange={(e) => handleQuantite(e)} />
+      </Grid>
+      
+    </Grid>
     </>
   );
 }

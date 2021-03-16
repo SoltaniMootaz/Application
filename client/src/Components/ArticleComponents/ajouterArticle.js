@@ -4,6 +4,91 @@ import { BsFillPlusCircleFill } from "react-icons/bs";
 import Axios from "axios";
 import Ingredient from "./ingredients";
 
+/////////////////////////////////////////////////////////////////////////
+
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
+import {DropzoneArea} from 'material-ui-dropzone'
+
+////////////////////////////////////////////////////////////////////////////
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+const styles = (theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '100ch',
+    },
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
+
+const DialogTitle = withStyles(styles)((props) => {
+  const { children, classes, onClose, ...other } = props;
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
+
+const DialogContent = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiDialogContent);
+
+const DialogActions = withStyles((theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(1),
+  },
+}))(MuiDialogActions);
+
 function AjouterCat(props) {
   const url = "http://localhost:3001/api/ajouterArticle";
   const url2 = "http://localhost:3001/api/afficherCategorie";
@@ -31,6 +116,8 @@ function AjouterCat(props) {
   }]);
   const [somme,setSomme] = useState(0);
   const [loaded,setLoaded] = useState(false);
+
+  const classes = useStyles();
 
   const Occurrences = (n) => {
     var occ = 0;
@@ -97,10 +184,10 @@ function AjouterCat(props) {
 
   categories.map((categorie, i) => {
     categ.push(
-      <option key={i} value={categorie.nom}>
+      <MenuItem key={i} value={categorie.nom}>
         {categorie.nom}
-      </option>
-    );
+      </MenuItem>
+    )
   });
 
   for (var i = 0; i < length; i++) {
@@ -159,102 +246,91 @@ function AjouterCat(props) {
 
   return (
     <>
-      <Modal show={props.handleOpen} onHide={()=>{props.handleClose(); setError("")}} style={{   zIndex: '100001 !important',
-          marginTop:'5em'}}>
-        <Form>
-          <div
-            style={{
-              backgroundColor: "#176cd4",
-              width: "100%",
-              height: "10px",
-              marginTop: "0px",
-            }}
-          ></div>
-          <br />
+      <Dialog onClose={()=>{props.handleClose(); setError("")}} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
+        <DialogTitle id="customized-dialog-title" >
+          Ajouter article
+        </DialogTitle>
+        <DialogContent dividers>
+        <form className={classes.root} noValidate autoComplete="off">
+          <Grid container spacing={2}>
           {error ? (
-            <Modal.Header>
-              <Modal.Title
-                style={{ color: "red", fontSize: "20px", textAlign: "center" }}
-              >
                 <>{error}</>
-              </Modal.Title>
-            </Modal.Header>
           ) : (
             ""
           )}
-          <Modal.Body>
-            <Form.Group>
-              <Form.Label>Nom</Form.Label>
-              <Form.Control
-                type="text"
-                id="nom"
-                onChange={(e) => handleNom(e)}
-                required
-              />
-            </Form.Group>
 
-            <Form.Group>
-              <Form.Label>Catégorie</Form.Label>
-              <Form.Control
-                as="select"
-                id="categorie"
-                onChange={(e) => handleCategorie(e)}
-                required
-              >
-                <option value=""></option>
-                {categ}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Check
-                type="switch"
-                id="custom-switch"
+
+              <TextField id="standard-basic" label="Nom" onChange={(e) => handleNom(e)} />
+
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Catégorie</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  onChange={(e) => handleCategorie(e)}
+                >
+                  {categ}
+                </Select>
+              </FormControl>
+
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={vente}
+                    onChange={changeVente}
+                    name="checkedB"
+                    color="primary"
+                  />
+                }
                 label="Vente par poids"
-                checked={vente}
-                onChange={() => changeVente()}
               />
-            </Form.Group>
-            <Form.Row>
-              <Form.Group as={Col} md="9">
-                <Form.Label>Prix</Form.Label>
-                <Form.Control
-                  required
-                  type="number"
-                  id="prix"
-                  onChange={(e) => handlePrix(e)}
-                  required
-                />
-              </Form.Group>
-              {vente ? (
-                <Form.Group as={Col} md="3">
-                  <Form.Label>Unité</Form.Label>
-                  <Form.Control
-                    as="select"
-                    id="unite"
-                    onChange={(e) => handleUnite(e)}
-                  >
-                    <option value="gramme">Gramme</option>
-                    <option value="KG">KG</option>
-                    <option value="litre">Litre</option>
-                  </Form.Control>
-                </Form.Group>
-              ) : (
-                ""
-              )}
-            </Form.Row>
 
-            <Form.Group>
-              <Form.File id="image" label="Image" />
-            </Form.Group>
-            <Form.Group>
-              <Form.Check
-                type="switch"
-                id="tracer"
+              {vente ? (
+                <>
+                <Grid item xs={8}>
+                  <TextField id="standard-basic" label="Prix" onChange={(e) => handlePrix(e)} />
+                </Grid>
+
+                <Grid item xs={2}>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-label">Unité</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="unite"
+                      onChange={(e) => handleUnite(e)}
+                    >
+                    <MenuItem value="gramme">gramme</MenuItem>
+                    <MenuItem value="KG">KG</MenuItem>
+                    <MenuItem value="litre">litre</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                </>
+              ) : (
+                <Grid item xs={12}>
+                  <TextField id="standard-basic" label="Prix" onChange={(e) => handlePrix(e)} />
+                </Grid>
+              )}
+
+              {/* <DropzoneArea 
+                acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
+                showPreviews={true}
+                maxFileSize={5000000}
+                style={{height:"1px"}}
+              /> */}
+
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={tracer}
+                    onChange={changeTracer}
+                    name="checkedB"
+                    color="primary"
+                  />
+                }
                 label="Tracer dans l'inventaire"
-                checked={tracer}
-                onChange={() => changeTracer()}
               />
-            </Form.Group>
+
             {tracer ? (
               <div>
                 <hr />
@@ -275,25 +351,24 @@ function AjouterCat(props) {
             ) : (
               ""
             )}
-          </Modal.Body>
           <br />
           <br />
-          <Modal.Footer
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+
             <BsFillPlusCircleFill
               onClick={(e) => {
                 submit(e);
               }}
               style={{ width: "50px", height: "50px", color: "#176cd4" }}
             />
-          </Modal.Footer>
-        </Form>
-      </Modal>
+          </Grid> 
+        </form>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={props.handleClose} color="primary">
+            Save changes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
