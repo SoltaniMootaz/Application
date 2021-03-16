@@ -94,23 +94,24 @@ function Ingredient({ id, submitForm, idArticle,stock,totale }) {
 
   return (
     <>
-    <Grid container spacing={2}>
+    <Grid container style={{paddingTop:'1em'}} >
       <Grid item xs={8}>
-        <FormControl className={classes.formControl}>
+        
           <InputLabel id="demo-simple-select-label">Nom de l'ingrédient</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             key={nom}
             onChange={(e) =>{ handleNom(e)}}
+            style={{width:'85%'}}
           >
             {stockData}
           </Select>
-      </FormControl>
+    
       </Grid>
 
-      <Grid item xs={8}>
-        <TextField id="standard-basic" key={quant} defaultValue="1" label="Quantité" onChange={(e) => handleQuantite(e)} />
+      <Grid item xs={3}>
+        <TextField id="standard-basic" key={quant} defaultValue="1" label="Quantité" onChange={(e) => handleQuantite(e)} style={{width:'85%'}} />
       </Grid>
       
     </Grid>

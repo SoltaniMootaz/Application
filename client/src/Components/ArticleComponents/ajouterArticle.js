@@ -25,7 +25,9 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
-import {DropzoneArea} from 'material-ui-dropzone'
+import { Divider } from "@material-ui/core";
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -36,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
       width: '25ch',
     },
   },
+ 
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -49,7 +52,7 @@ const styles = (theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '100ch',
+      width: '25ch',
     },
     margin: 0,
     padding: theme.spacing(2),
@@ -251,28 +254,36 @@ function AjouterCat(props) {
           Ajouter article
         </DialogTitle>
         <DialogContent dividers>
-        <form className={classes.root} noValidate autoComplete="off">
-          <Grid container spacing={2}>
+        <form  noValidate autoComplete="off">
+          <Grid container >
           {error ? (
                 <>{error}</>
           ) : (
             ""
           )}
 
-
-              <TextField id="standard-basic" label="Nom" onChange={(e) => handleNom(e)} />
-
-              <FormControl className={classes.formControl}>
+              <Grid container >
+                <Grid item xs={12}>
+                  <TextField id="standard-basic" label="Nom" onChange={(e) => handleNom(e)} style={{width:'100%'}}/>
+                  </Grid>
+              </Grid>
+              <Grid container >
+                <Grid item xs={12} style={{paddingTop:'3em'}}>
+             
                 <InputLabel id="demo-simple-select-label">Catégorie</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   onChange={(e) => handleCategorie(e)}
+                  style={{width:'100%'}}
                 >
                   {categ}
                 </Select>
-              </FormControl>
-
+              
+              </Grid>
+              </Grid>
+              <Grid container >
+                <Grid item xs={12} style={{paddingTop:'3em'}}>
               <FormControlLabel
                 control={
                   <Switch
@@ -284,31 +295,35 @@ function AjouterCat(props) {
                 }
                 label="Vente par poids"
               />
-
+            </Grid>
+              </Grid>
               {vente ? (
                 <>
+                <Grid container>
                 <Grid item xs={8}>
-                  <TextField id="standard-basic" label="Prix" onChange={(e) => handlePrix(e)} />
+                  <TextField id="standard-basic" label="Prix" onChange={(e) => handlePrix(e)}  style={{width:'95%'}}/>
                 </Grid>
 
                 <Grid item xs={2}>
-                  <FormControl className={classes.formControl}>
+                 
                     <InputLabel id="demo-simple-select-label">Unité</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="unite"
                       onChange={(e) => handleUnite(e)}
+                      style={{width:'100%'}}
                     >
                     <MenuItem value="gramme">gramme</MenuItem>
                     <MenuItem value="KG">KG</MenuItem>
                     <MenuItem value="litre">litre</MenuItem>
                     </Select>
-                  </FormControl>
+               
+                </Grid>
                 </Grid>
                 </>
               ) : (
                 <Grid item xs={12}>
-                  <TextField id="standard-basic" label="Prix" onChange={(e) => handlePrix(e)} />
+                  <TextField id="standard-basic" label="Prix" onChange={(e) => handlePrix(e)} style={{width:'100%'}}/>
                 </Grid>
               )}
 
@@ -318,7 +333,8 @@ function AjouterCat(props) {
                 maxFileSize={5000000}
                 style={{height:"1px"}}
               /> */}
-
+          <Grid container style={{paddingTop:'3em'}}>
+            <Grid Item xs={12}>
               <FormControlLabel
                 control={
                   <Switch
@@ -330,23 +346,36 @@ function AjouterCat(props) {
                 }
                 label="Tracer dans l'inventaire"
               />
-
+              </Grid>
+</Grid>
             {tracer ? (
               <div>
-                <hr />
+                <Grid container>
+                 
                 <p style={{textAlign:"right",color:"red"}}>Coût : {somme} DT</p>
                 {items}
                 <Form.Group>
-                  <center>
-                    <BsFillPlusCircleFill
-                      style={{ width: "12%", height: "12%", marginTop: "15px" }}
+                  
+                    <Grid container style={{paddingTop:'1em'}}>
+                      <Grid item xs={12}>
+                  <Button variant="outlined" color="primary"     onClick={(e) => {
+                        e.preventDefault();
+                        setLength(length + 1);
+                      }} >
+                    Ajouter nouveau article...
+                  </Button>
+                  </Grid>
+                  </Grid>
+                    {/* <BsFillPlusCircleFill
+                      style={{ width: "12%", height: "12%",}}
                       onClick={(e) => {
                         e.preventDefault();
                         setLength(length + 1);
                       }}
-                    />
-                  </center>
+                    /> */}
+                 
                 </Form.Group>
+                </Grid>
               </div>
             ) : (
               ""
@@ -354,19 +383,21 @@ function AjouterCat(props) {
           <br />
           <br />
 
-            <BsFillPlusCircleFill
+            {/* <BsFillPlusCircleFill
               onClick={(e) => {
                 submit(e);
               }}
               style={{ width: "50px", height: "50px", color: "#176cd4" }}
-            />
+            /> */}
           </Grid> 
         </form>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={props.handleClose} color="primary">
-            Save changes
-          </Button>
+        <DialogActions style={{justifyContent:'center'}}>
+        <Fab color="primary" aria-label="add" onClick={(e) => {
+                submit(e);
+              }}>
+        <AddIcon />
+      </Fab>
         </DialogActions>
       </Dialog>
     </>
