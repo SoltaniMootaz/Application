@@ -1,24 +1,120 @@
 import React, { useState, useEffect } from "react";
+/////////////////////////////////////////////////////////////////////////////
 import "./css/Article.css";
-import {
-  Container,
-  Row,
-  Col,
-  Spinner,
-  Navbar,
-  Form,
-  FormControl,
-  Nav
-} from "react-bootstrap";
+import {Spinner} from "react-bootstrap";
+////////////////////////////////////////////////////////////////////////////////////////////////
 import { AiFillHome } from "react-icons/ai";
+import { BiPlusCircle } from "react-icons/bi";
+import { VscSearch } from "react-icons/vsc";
 
-import Sidebar from "./ArticleComponents/Sidebar.js";
+//////////////////////////////////////////////////////////////////////////////////////////////
+import AppBar from '@material-ui/core/AppBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Toolbar from '@material-ui/core/Toolbar';
+import { makeStyles,fade } from '@material-ui/core/styles';
+import SearchIcon from '@material-ui/icons/Search';
+
+
+
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+import TextField from '@material-ui/core/TextField';
+
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 import Axios from "axios";
 import TousArticle from "./ArticleComponents/TousArticle.js";
 import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
 import AjouterCat from "./ArticleComponents/ajouterCategorie";
 import AjouterArt from "./ArticleComponents/ajouterArticle";
-function Article() {
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+const drawerWidth = 340;
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  root: {
+    display: 'flex',
+  },
+  drawer: {
+    [theme.breakpoints.up('md')]: {
+      
+      flexShrink: 0,
+    },
+  },
+  appBar: {
+    [theme.breakpoints.up('md')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginRight: drawerWidth,
+     },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    justifyContent:'flex-end',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+  },
+
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    paddingTop:'5em',
+    paddingRight: drawerWidth,
+    marginLeft:'3.2em',
+    [theme.breakpoints.down('md')]:{
+    paddingRight:0,
+   
+    
+    }
+  },
+  search: {
+    position: 'relative',
+  
+ 
+    justifyContent:'flex-end',
+    
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft:'50%'
+    },
+    [theme.breakpoints.up('lg')]:{
+      paddingLeft:'85%',
+     }
+  },
+  title: {
+    flexGrow: 1,
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+    },  
+  },
+  
+}));
+/////////////////////////////////////////////
+function Article(props) {
+ 
   const urlcat = "http://localhost:3001/api/afficherCategorie";
   const urlart = "http://localhost:3001/api/afficherArticles";
   var isLoading = true;
@@ -58,7 +154,7 @@ function Article() {
       setIsSearching(true);
     }
   };
-  
+/////////////////////////////////////////////////////////////////////////
   const [state, setState] = useState({
     isOpen: Boolean(false),
   });
@@ -66,8 +162,88 @@ function Article() {
   const [state1, setState1] = useState({
     isOpen: Boolean(false),
   });
+ 
+////////////////////////////////////////////////////////////////////////////
 
 
+
+const { window } = props;
+const classes = useStyles();
+
+const [mobileOpen, setMobileOpen] = React.useState(false);
+
+
+const handleDrawerToggle = () => {
+  setMobileOpen(!mobileOpen);
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const drawer = (
+  <div>
+    <div className={classes.toolbar} />
+    
+    <Divider />
+    <List>
+          
+          <ListItem button  onClick={() =>{ 
+            setState({isOpen:false})
+            setState1({ isOpen: true })}}>
+            <ListItemIcon><BiPlusCircle style={{ width: "2em", height: "2em" }} /> </ListItemIcon>
+            <ListItemText primary={'ajouter article'} />
+          </ListItem>
+     
+      </List>
+    <Divider />
+    <List>
+         
+         <ListItem button  onClick={() =>{ 
+           setState1({isOpen:false})
+           setState({ isOpen: true })
+           }}>
+           <ListItemIcon><BiPlusCircle style={{  width: "2em", height: "2em" }} /></ListItemIcon>
+           <ListItemText primary={'ajouter catégorie'} />
+         </ListItem>
+
+     </List>
+    <Divider />
+  
+  </div>
+);
+const drawer1 = (
+  <div>
+    <div className={classes.toolbar} />
+    
+    <Divider />
+    <List>
+          
+          <ListItem button  onClick={() =>{ 
+            setState({isOpen:false})
+            setState1({ isOpen: true })
+            setMobileOpen(false)   }
+            }>
+            <ListItemIcon><BiPlusCircle style={{ width: "2em", height: "2em" }} /> </ListItemIcon>
+            <ListItemText primary={'ajouter article'} />
+          </ListItem>
+     
+      </List>
+    <Divider />
+    <List>
+         
+         <ListItem button  onClick={() =>{ 
+           setState1({isOpen:false})
+           setState({ isOpen: true })
+           setMobileOpen(false)}}>
+           <ListItemIcon><BiPlusCircle style={{  width: "2em", height: "2em" }} /></ListItemIcon>
+           <ListItemText primary={'ajouter catégorie'} />
+         </ListItem>
+
+     </List>
+    <Divider />
+  
+  </div>
+);
+const container = window !== undefined ? () => window().document.body : undefined;
   if (isLoading1 && isLoading2) {
     return (
       <Spinner animation="border" role="status">
@@ -78,105 +254,124 @@ function Article() {
     isLoading = false;
 
     return (
-      <>
-        <Container fluid>
-   
-          <Col xs={12} sm={12} md={8} xl={8} id="page-content-wrapper" className="nopadding">
-                    <Row> 
-                   
-                        <Navbar  className=" justify-content-center border-bottom border-left w-100" expand="lg" style={{  boxShadow:'inset -1px 0 0 rgba(0, 0, 0, .1)',}}>
-                        <Navbar.Brand href="#home"><AiFillHome  className="icon" style={{width:'1.7em',height:'1.7em'}}/></Navbar.Brand>
-                        <Nav className="mr-auto " >
-                        <Nav.Link href=""  ><p className="homeBtn" >Home</p></Nav.Link>
-                        </Nav>
-                        <Nav.Item className="navItem">
-                       
-                    <div style={{ alignContent: "flex-end", float: "left" }}>
-                      <Form inline>
-                        <FormControl
-                          type="text"
-                          placeholder="Search"
-                          className="searchForm"
-                          onChange={handleSearch}
-                          style={{
-                            marginRight:'0%', 
-                            
-                            borderLeft: 0,
-                            borderTop: 0,
-                            borderRight: 0,
-                            borderColor: "#176cd4",
-                            borderRadius: "0em"}}
-                        />
-                      </Form>
-                    </div>
-                        </Nav.Item>                               
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto">
-                        <Nav.Item className="navItem">
-                        <Nav.Link
-                        onClick={() => setState1({ isOpen: true })}
-                        style={{ textAlign:'center' }} >
-                            Ajouter article
-                        </Nav.Link >
-                        </Nav.Item>
-                        <Nav.Item className="navItem">
-                        <Nav.Link
-                         onClick={() => setState({ isOpen: true })}
-                        style={{textAlign:'center'  }}>
-                            Ajouter catégorie
-                        </Nav.Link>
-                        </Nav.Item>
-                        </Nav>
-                        </Navbar.Collapse>    
-                        <Nav.Item>
-                        <Form className="searchForm1" inline>
-                        <FormControl type="text" 
-                        onChange={handleSearch} 
-                        placeholder="Search" 
-                        className="searchBar1" style={{
-                                marginRight:'3em', 
-                                borderLeft: 0,
-                                borderTop: 0,
-                                borderRight: 0,
-                                borderColor: "#176cd4",
-                                borderRadius: "0em"}}/>
-                            </Form>
-                            </Nav.Item>                 
-                        </Navbar>
-                        <AjouterCat
-                          handleOpen={state.isOpen}
-                          handleClose={() => setState({ isOpen: false })}
-                        />
-                        <AjouterArt
-                          handleOpen={state1.isOpen}
-                          handleClose={() => setState1({ isOpen: false })}
-                        />
+      <div className={classes.root}>
+      
+      <CssBaseline />
+      <AppBar position="fixed" className={classes.appBar}   color='info'>
+        <Toolbar>
+            <AiFillHome  className="icon" style={{width:'3em',height:'3em'}}/>
+        
+          {/* <div className={classes.search}  style={{}}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+        
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+               inputProps={{ 'aria-label': 'search' }}
+               onChange={handleSearch} 
+              style={{
+             }}
+              />
+          </div>  */}
+          <TextField
        
-                     {!isSearching ? (
-                    <Row style={{marginLeft:'1em'}}>
-                    <Col style={{ marginTop: "5%", marginLeft: "5%" }}>
+        id="input-with-icon-textfield"
+        placeholder="Recherche"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <VscSearch />
+            </InputAdornment>
+          ),
+        }}
+        className={classes.search}
+
+        onChange={handleSearch} 
+       
+      />
+            <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="end"
+           
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+            style= {{flex:'1'}}
+          >
+            <MenuIcon />
+          </IconButton> 
+        </Toolbar>
+      </AppBar>
+
+
+      <nav className={classes.drawer} aria-label="menu-article">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden mdUp implementation="css">
+          <Drawer
+            container={container}
+            variant="temporary"
+            anchor="right"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer1}
+          </Drawer>
+        </Hidden>
+        <Hidden mdDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            anchor="right"
+            variant="permanent"
+            open={mobileOpen}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </nav>
+    
+            <main className={classes.content}>
+       
+              {!isSearching ? (
+                  
                     <TousArticle
                       dataCat={dataCat}
                       dataArt={dataArt}
                       isLoading={isLoading}
-                    ></TousArticle>
-                    </Col>
-                    </Row>
+                   />
+           
+          
                   ) : (
-                    <Row style={{marginLeft:'4em'}}>
-                    <ArticlesChercher value={value} articles={dataArt} categories={dataCat} />
-                    </Row>
+           
+                    <ArticlesChercher 
+                    value={value} 
+                    chercherDans={dataArt} 
+                    />
+     
                   )}
-        
-                    </Row>
-                 </Col>
-              <Col xs={0} sm={0} md={4} xl={4} id="sidebar-wrapper" className="nopadding">
-              <Sidebar />
-              </Col>
-
-        </Container>
-      </>
+     
+            </main>
+            <AjouterCat
+        handleOpen={state.isOpen}
+        handleClose={() => setState({ isOpen: false })}
+      />
+      <AjouterArt
+        handleOpen={state1.isOpen}
+        handleClose={() => setState1({ isOpen: false })}
+      />
+      </div>
     );
   }
 }
