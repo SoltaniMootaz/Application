@@ -64,15 +64,15 @@ function LogIn() {
         window.location.href = "home";
       })
       .catch((err) => {
-        setError({ ...error, data: err.response.data });
+        setError({data: err.response.data});
       });
   };
 
   const handleEmailChange = (e) => {
-    setUser({ ...user, email: e.target.value });
+    setUser(email: e.target.value);
   };
   const handlePasswordChange = (e) => {
-    setUser({ ...user, password: e.target.value });
+    setUser(password: e.target.value);
   };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ;
