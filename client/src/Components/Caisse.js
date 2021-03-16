@@ -204,6 +204,7 @@ function Caisse(props) {
       <Divider />
       <Divider />
       <Ticket array = {tickeTab} index={index}/>
+      <Divider />
     
     </div>
   );
@@ -230,7 +231,7 @@ function Caisse(props) {
             <MenuIcon />
           </IconButton>
             <AiFillHome  className="icon" style={{width:'2em',height:'2em'}}/>
-            <Typography className={classes.title} variant="h6" noWrap>
+            <Typography className={classes.title} variant="h6" noWrap style={{paddingTop:'.4em'}}>
               Home
           </Typography>
           <div className={classes.search}>
