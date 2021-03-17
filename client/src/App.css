@@ -101,9 +101,14 @@ Form.Group{
 }
 
 .icon{
-  color: white;
+  color: #8a8a8a;
 }
-
+.icon:active{
+  color:#00A0B1;
+}
+.icon:hover{
+ color:#00A0B1;
+}
  @media (max-width: 768px){
   .homeBtn{
     display: none;

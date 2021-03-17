@@ -38,8 +38,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { VscSearch } from "react-icons/vsc";
-import { createMuiTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const drawerWidth = 340;
@@ -63,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBar: {
-    backgroundColor:'#00A0B1',
+    
    
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
@@ -114,11 +113,6 @@ const useStyles = makeStyles((theme) => ({
 /////////////////////////////////////////////////////////////////////////
 
 function Caisse(props) {
-  const theme1 = createMuiTheme({
-    palette: {
-      type: "dark"
-    }
-  });
   
 
 //////////////////////////////////////////////////////////////////////
@@ -222,7 +216,7 @@ function Caisse(props) {
   <AiFillHome  className="icon" style={{width:'1.5em',height:'1.5em'}} />
 </IconButton>
          
-   <ThemeProvider theme={theme1}>
+   
 <TextField
        color="primary"
        id="input-with-icon-textfield"
@@ -239,7 +233,7 @@ function Caisse(props) {
        onChange={handleSearch} 
       
      />
-     </ThemeProvider>
+     
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
