@@ -63,12 +63,12 @@ function TousArticle(props) {
                           
                             <h2 style={{fontWeight:'bold'}}>{data.nom}</h2> 
                          
-                         <Grid container spacing={3}>
+                         <Grid container spacing={2}>
                         {props.dataArt.map((data1)=>{
                            return( 
                              <>
                              <div key={data1.nom} >                    
-                            {(data1.nomCategorie===data.nom)?
+                            {(data1.id_categorie===data.id)?
                             <div style={{padding:"1em"}}>
                             <Card className={classes.root} key={data1.nomCategorie}>
                               <CardHeader

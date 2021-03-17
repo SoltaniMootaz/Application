@@ -65,12 +65,11 @@ function Ingredient({ id, submitForm, idArticle,stock,totale }) {
 
   const loadStock = () => {
     stock.map(row=> {
-     setStockData(stockData => [...stockData,<MenuItem key={row.id} data-key={row.id}>{row.libelle}</MenuItem>])
+     setStockData(stockData => [...stockData,<MenuItem key={row.id} data-key={row.id} onClick={(e)=>handleNom(e)} value={row.libelle} defaultValue="">{row.libelle}</MenuItem>])
     });
    }
 
   useEffect(() => {
-    console.log(stock);
     loadStock();
     if (submitForm) {
       submit();
@@ -79,9 +78,8 @@ function Ingredient({ id, submitForm, idArticle,stock,totale }) {
 
   function handleNom(e) {
     setData({ ...Data, nomIngr: e.target.value });
-    const selectedIndex = e.target.options.selectedIndex;
-    totale(e.target.options[selectedIndex].getAttribute('data-key'),_quant,id);
-    setArtId(e.target.options[selectedIndex].getAttribute('data-key'));
+    totale(e.target.getAttribute('data-key'),_quant,id);
+    setArtId(e.target.getAttribute('data-key'));
   }
 
   function handleQuantite(e) {
@@ -101,8 +99,6 @@ function Ingredient({ id, submitForm, idArticle,stock,totale }) {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            key={nom}
-            onChange={(e) =>{ handleNom(e)}}
             style={{width:'85%'}}
           >
             {stockData}

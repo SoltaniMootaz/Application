@@ -135,7 +135,10 @@ function Article(props) {
 
   const getArticles = () => {
     Axios.get(urlart)
-      .then((res) => setDataArt(res.data))
+      .then((res) => {
+        console.log(res)
+        setDataArt(res.data);
+      })
       .catch((err) => console.log(err));
       setLoading2(false);
   };
