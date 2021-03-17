@@ -18,6 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles,fade } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 
 
@@ -262,7 +263,9 @@ const container = window !== undefined ? () => window().document.body : undefine
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}   color='info'>
         <Toolbar>
-            <AiFillHome  className="icon" style={{width:'3em',height:'3em'}}/>
+        <IconButton  aria-label="add an alarm" component={Link} to='/Home'>
+  <AiFillHome  className="icon" style={{width:'1.5em',height:'1.5em'}} />
+</IconButton>
         
           {/* <div className={classes.search}  style={{}}>
             <div className={classes.searchIcon}>
