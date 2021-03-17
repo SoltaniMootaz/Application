@@ -33,7 +33,7 @@ padding: {
     margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
-    marginTop: '20%',
+    marginTop: '70px',
     [theme.breakpoints.down('sm')]: {
       maxWidth: '75%',
     }
