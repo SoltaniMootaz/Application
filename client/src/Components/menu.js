@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
     minWidth: 120,
   },
+  icon:{color:'white'},
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
@@ -76,6 +77,8 @@ const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
+    backgroundColor:'#00A600',
+    color:'white',
     width: drawerWidth,
   },
 
@@ -184,17 +187,18 @@ const handleDrawerToggle = () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const drawer = (
-  <div>
+  <div >
     <div className={classes.toolbar} />
-    
-    <Divider />
-    <List>
+    <div style={{backgroundColor:'white'}}>
+    </div>
+   
+    <List >
           
           <ListItem button  onClick={() =>{ 
             setState({isOpen:false})
             setState1({ isOpen: true })}}>
-            <ListItemIcon><BiPlusCircle style={{ width: "2em", height: "2em" }} /> </ListItemIcon>
-            <ListItemText primary={'ajouter article'} />
+             <BiPlusCircle style={{  width: "2em", height: "2em",color:"white"}} />
+            <ListItemText style={{paddingLeft:'2em'}} primary={'ajouter article'} />
           </ListItem>
      
       </List>
@@ -205,8 +209,8 @@ const drawer = (
            setState1({isOpen:false})
            setState({ isOpen: true })
            }}>
-           <ListItemIcon><BiPlusCircle style={{  width: "2em", height: "2em" }} /></ListItemIcon>
-           <ListItemText primary={'ajouter catégorie'} />
+           <BiPlusCircle style={{  width: "2em", height: "2em",color:"white"}} />
+           <ListItemText style={{paddingLeft:'2em'}}primary={'ajouter catégorie'} />
          </ListItem>
 
      </List>
@@ -217,8 +221,9 @@ const drawer = (
 const drawer1 = (
   <div>
     <div className={classes.toolbar} />
+    <div style={{backgroundColor:'white'}}>
+    </div>
     
-    <Divider />
     <List>
           
           <ListItem button  onClick={() =>{ 
@@ -226,19 +231,20 @@ const drawer1 = (
             setState1({ isOpen: true })
             setMobileOpen(false)   }
             }>
-            <ListItemIcon><BiPlusCircle style={{ width: "2em", height: "2em" }} /> </ListItemIcon>
-            <ListItemText primary={'ajouter article'} />
+            <BiPlusCircle style={{  width: "2em", height: "2em",color:"white"}} />
+            <ListItemText style={{paddingLeft:'2em'}} primary={'ajouter article'} />
           </ListItem>
      
       </List>
     <Divider />
     <List>
          
-         <ListItem button  onClick={() =>{ 
+         <ListItem  button  onClick={() =>{ 
            setState1({isOpen:false})
            setState({ isOpen: true })
-           setMobileOpen(false)}}>
-           <ListItemIcon><BiPlusCircle style={{  width: "2em", height: "2em" }} /></ListItemIcon>
+           setMobileOpen(false)}}
+           >
+           <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
            <ListItemText primary={'ajouter catégorie'} />
          </ListItem>
 
@@ -264,7 +270,7 @@ const container = window !== undefined ? () => window().document.body : undefine
       <AppBar position="fixed" className={classes.appBar}   color='info'>
         <Toolbar>
         <IconButton  aria-label="add an alarm" component={Link} to='/Home'>
-  <AiFillHome  className="icon" style={{width:'1.5em',height:'1.5em'}} />
+  <AiFillHome  className="icon1" style={{width:'1.5em',height:'1.5em'}} />
 </IconButton>
         
           {/* <div className={classes.search}  style={{}}>

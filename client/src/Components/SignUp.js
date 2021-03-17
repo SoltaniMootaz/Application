@@ -40,7 +40,7 @@ padding: {
     margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
-    marginTop: '50px',
+    marginTop: '75px',
     [theme.breakpoints.down('sm')]: {
       maxWidth: '75%',
     }
@@ -241,7 +241,7 @@ function SignUp() {
                    
                     <Grid item style={{paddingTop:'.5em'}}>
                     <center>
-                         Vous avez déjà un compte? <Link to="/Log-in" style={{color:'#0275d8'}}>Connexion</Link>
+                         Vous avez déjà un compte? <Link to="/Log-In" style={{color:'#0275d8'}}>Connexion</Link>
                     </center>
                     </Grid>
                 </Grid>

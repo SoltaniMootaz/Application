@@ -27,14 +27,9 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import clsx from 'clsx';
-import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
 
 
 ////////////////////////////////////////////////////////////////////////////
@@ -55,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   noLabel: {
     marginTop: theme.spacing(3),
   },
+  multilineColor:{
+    color:'black'
+  }
 }));
 
 const styles = (theme) => ({
@@ -230,10 +228,14 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
-                    InputLabelProps={{
-                      shrink: true,
-                      width:"100%"
+                    defaultValue={props.somme}
+                    InputProps={{
+                      className: classes.multilineColor
                     }}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    style={{}}
                     variant="outlined"
                   />
                   </center>
@@ -306,6 +308,9 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    InputProps={{
+                      className: classes.multilineColor
+                    }}
                     InputLabelProps={{
                       shrink: true
                     }}
@@ -323,6 +328,9 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    InputProps={{
+                      className: classes.multilineColor
+                    }}
                     InputLabelProps={{
                       shrink: true
                     }}
@@ -338,6 +346,9 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    InputProps={{
+                      className: classes.multilineColor
+                    }}
                     InputLabelProps={{
                       shrink: true
                     }}
@@ -353,6 +364,9 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    InputProps={{
+                      className: classes.multilineColor
+                    }}
                     InputLabelProps={{
                       shrink: true
                     }}
@@ -399,6 +413,9 @@ function Vente(props) {
                                 id="standard-basic"
                                 label="Nom et prénom"
                                 type="text"
+                                InputProps={{
+                                  className: classes.multilineColor
+                                }}
                                 onChange={(e)=>handleNomPre(e)}
                               />
                             </Grid>
@@ -408,6 +425,9 @@ function Vente(props) {
                                 id="standard-basic"
                                 label="Télèphone"
                                 type="text"
+                                InputProps={{
+                                  className: classes.multilineColor
+                                }}
                                 onChange={(e)=>handleTel(e)}
                               />
                             </Grid>
@@ -417,6 +437,9 @@ function Vente(props) {
                                 id="standard-basic"
                                 label="Montant"
                                 type="number"
+                                InputProps={{
+                                  className: classes.multilineColor
+                                }}
                               />
                             </Grid>
                           </Grid>
@@ -439,9 +462,11 @@ function Vente(props) {
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          defaultValue=""
                           required
                           style={{width:'100%'}}
+                          InputProps={{
+                            className: classes.multilineColor
+                          }}
                         >
                           {clients}
                         </Select>
@@ -452,6 +477,9 @@ function Vente(props) {
                           id="standard-basic"
                           label="Montant"
                           type="number"
+                          InputProps={{
+                            className: classes.multilineColor
+                          }}
                         />
                       </Grid>
                     </Grid>
@@ -471,298 +499,7 @@ function Vente(props) {
       </Fab>
         </DialogActions>
       </Dialog>
-
-      
-      {/* ///////////////////////////// */}
-
-
-      <Modal onHide={()=> {
-        props.handleClose();
-        setStyle1(false);
-        setStyle2(false);
-        setStyle3(false);
-        setStyle4(false);} } style={{
-          zIndex: '100001 !important',
-          marginTop:'5em'
-        }}>
-        <Form>
-          <div
-            style={{
-              backgroundColor: "#176cd4",
-              width: "100%",
-              height: "10px",
-              marginTop: "0px",
-            }}
-          ></div>
-          {error ? (
-            <Modal.Header>
-              <Modal.Title
-                style={{ color: "red", fontSize: "20px", textAlign: "center" }}
-              >
-                <>{error}</>
-              </Modal.Title>
-            </Modal.Header>
-          ) : (
-            ""
-          )}
-          <br />
-          <p style={{textAlign:"right",color:"green"}}>À payer : {props.somme} DT&nbsp;</p>
-          <Modal.Body style={{'maxHeight': 'calc(100vh - 210px)', 'overflowY': 'auto'}}>
-          <Form.Group>
-            <Form.Check
-              type="switch"
-              id="espece"
-              label="Vente en espèces"
-              checked={espece}
-              onChange={() => changeEspece()}
-            />
-          </Form.Group>
-            <br />
-          {espece ? 
-          <>
-          <InputGroup className="mb-3">
-          <InputGroup.Prepend>
-            <InputGroup.Text id="inputGroup-sizing-default" style={{width:"10rem"}}>Montant</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl
-            required
-            type="text"
-            aria-label="Default"
-            aria-describedby="inputGroup-sizing-default"
-            onChange={(e)=>handleNomPre(e)}
-          />
-        </InputGroup>
-        <br />
-          </>
-          : ""
-          }
-
-          <Form.Group>
-              <Form.Check
-                type="switch"
-                id="direct"
-                label="Vente direct"
-                checked={direct}
-                onChange={() => changeDirect()}
-              />
-            </Form.Group>
-
-            {direct ? 
-              <>
-              <hr />
-              <Row>
-                <Form.Group style={{paddingLeft:"1rem",color:"#0065a1"}}> Moyen de vente : </Form.Group>
-              </Row>
-              <Row>
-                <Col xs={3}>
-                {style1 ?
-                <>
-                <img src={d17} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked1}></img>
-              </>
-                :
-                <img src={d17} width="100%" height="100%" onClick={clicked1}></img>
-                }
-                </Col>
-                <Col xs={3}>
-                {style2 ?
-                <img src={mobiflouss} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked2}></img>
-                :
-                <img src={mobiflouss} width="100%" height="100%" onClick={clicked2}></img>
-                }
-                </Col>
-                <Col xs={3}>
-                {style3 ?
-                <img src={sobflous} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked3}></img>
-                :
-                <img src={sobflous} width="100%" height="100%" onClick={clicked3}></img>
-                }
-                </Col>
-                <Col xs={3}>
-                {style4 ?
-                <img src={edinar} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked4}></img>
-                :
-                <img src={edinar} width="100%" height="100%" onClick={clicked4}></img>
-                }
-                </Col>
-              </Row>
-              <br />
-              <Row>
-                <Col xs={3} style={{fontSize:"17px",color:"#0065a1"}} onClick={clicked1}> <center>D17</center> </Col>
-                <Col xs={3} style={{fontSize:"17px",color:"#0065a1"}} onClick={clicked2}> <center>Mobiflouss</center> </Col>
-                <Col xs={3} style={{fontSize:"17px",color:"#0065a1"}} onClick={clicked3}> <center>Sob flous</center> </Col>
-                <Col xs={3} style={{fontSize:"17px",color:"#0065a1"}} onClick={clicked4}> <center>e-dinar</center> </Col>
-              </Row>
-              <br/>
-              <Row>
-                <Col xs={3}>
-
-                  {style1 ? <InputGroup className="mb-3">
-                    <FormControl
-                      required
-                      type="number"
-                      aria-label="Default"
-                      placeholder="Montant"
-                      aria-describedby="inputGroup-sizing-default"
-                      onChange={(e)=>handleNomPre(e)}
-                    />
-                  </InputGroup> : ""}
-                </Col>
-                <Col xs={3}>
-
-                  {style2 ? <InputGroup className="mb-3">
-                    <FormControl
-                      required
-                      type="number"
-                      aria-label="Default"
-                      placeholder="Montant"
-                      aria-describedby="inputGroup-sizing-default"
-                      onChange={(e)=>handleNomPre(e)}
-                    />
-                  </InputGroup> : ""}
-                </Col>
-                <Col xs={3}>
-
-                  {style3 ? <InputGroup className="mb-3">
-                    <FormControl
-                      required
-                      type="number"
-                      aria-label="Default"
-                      placeholder="Montant"
-                      aria-describedby="inputGroup-sizing-default"
-                      onChange={(e)=>handleNomPre(e)}
-                    />
-                  </InputGroup> : ""}
-                </Col>
-                <Col xs={3}>
-
-                  {style4 ? <InputGroup className="mb-3">
-                    <FormControl
-                      required
-                      type="number"
-                      aria-label="Default"
-                      placeholder="Montant"
-                      aria-describedby="inputGroup-sizing-default"
-                      onChange={(e)=>handleNomPre(e)}
-                    />
-                  </InputGroup> : ""}
-                </Col>
-              </Row>
-              <br />
-              <hr />
-              </>
-            : <br />}
- 
-            <Form.Group>
-              <Form.Check
-                type="switch"
-                id="kridi"
-                label="Vente en kridi"
-                checked={kridi}
-                onChange={() => changeKridi()}
-              />
-            </Form.Group>
-
-            {kridi ?
-            <>
-            <br />
-              <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-                <Tab eventKey="home" title="Sélectionner client">
-                <br />
-                <Row>
-                  <Col>
-                  <InputGroup className="mb-4">
-                    <DropdownButton
-                      as={InputGroup.Prepend}
-                      variant="outline-secondary"
-                      title="Client"
-                      id="input-group-dropdown-1"
-                    >
-                      {clients}
-
-                    </DropdownButton>
-                    <FormControl aria-describedby="basic-addon1" disabled value={clientSelec} />
-                  </InputGroup>
-                  </Col>
-                  <Col>
-                  <InputGroup className="mb-3">
-                    <InputGroup.Prepend>
-                      <InputGroup.Text id="inputGroup-sizing-default" style={{width:"5rem"}}>Montant</InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <FormControl
-                      required
-                      type="number"
-                      aria-label="Default"
-                      aria-describedby="inputGroup-sizing-default"
-                    />
-                  </InputGroup>
-                  </Col>
-                </Row>
-                </Tab>
-                <Tab eventKey="profile" title="Ajouter client">
-                  <br />
-                  <Container>
-                    <InputGroup className="mb-3">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text id="inputGroup-sizing-default" style={{width:"10rem"}}>Nom et prénom</InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <FormControl
-                        required
-                        type="text"
-                        aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default"
-                        onChange={(e)=>handleNomPre(e)}
-                      />
-                    </InputGroup>
-
-                    <InputGroup className="mb-3">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text id="inputGroup-sizing-default" style={{width:"10rem"}}>Téléphone</InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <FormControl
-                        aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default"
-                        onChange={(e)=>handleTel(e)}
-                        required
-                      />
-                    </InputGroup>
-
-                    <InputGroup className="mb-3">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text id="inputGroup-sizing-default" style={{width:"10rem"}}>Montant</InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <FormControl
-                        required
-                        type="number"
-                        aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default"
-                      />
-                    </InputGroup>
-                  </Container>
-                </Tab>
-              </Tabs>
-            </>
-            :
-            ""}
-            <hr />
-            <br />
-            <br />
-            <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            >
-              <BsFillPlusCircleFill
-              style={{ width: "50px", height: "50px", color: "#176cd4" }}
-              onClick={(e)=>{
-                submit(e);
-              }}
-            />
-            </div>
-          </Modal.Body>
-        </Form>
-      </Modal>
+    
     </>
   );
 }
