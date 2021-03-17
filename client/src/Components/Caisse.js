@@ -7,7 +7,7 @@ import { AiFillHome } from "react-icons/ai";
 import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
 import RechercheArticle from "./CaisseComponents/rechercheArticle.js";
 import RechercheProd from "./CaisseComponents/RechercheProd.js";
-
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import Axios from "axios";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,9 +198,9 @@ function Caisse(props) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
-      <div style={{width:'100%  '}}>         
-          <h4 style={{paddingTop:'2.05em'}}><center>Ticket</center></h4>
+     
+      <div style={{width:'100% '}}>         
+          <h1><center>Ticket</center></h1>
         </div>
       <Divider />
       <Divider />
@@ -231,10 +231,11 @@ function Caisse(props) {
           >
             <MenuIcon />
           </IconButton>
-            <AiFillHome  className="icon" style={{width:'2em',height:'2em'}}/>
-            <Typography className={classes.title} variant="h6" noWrap style={{paddingTop:'.4em'}}>
-              Home
-          </Typography>
+          <IconButton  aria-label="add an alarm" component={Link} to='/Home'>
+  <AiFillHome  className="icon" style={{width:'1.5em',height:'1.5em'}} />
+</IconButton>
+         
+   
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
