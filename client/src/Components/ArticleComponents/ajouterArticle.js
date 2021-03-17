@@ -18,14 +18,10 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
-import { Divider } from "@material-ui/core";
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -215,6 +211,7 @@ function AjouterCat(props) {
         props.handleClose();
       })
       .catch((err) => {
+        console.log(err.response.data)
         setError(err.response.data);
       });
   }
@@ -249,7 +246,7 @@ function AjouterCat(props) {
 
   return (
     <>
-      <Dialog onClose={()=>{props.handleClose(); setError("")}} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
+      <Dialog fullWidth={true} onClose={()=>{props.handleClose(); setError("")}} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
         <DialogTitle id="customized-dialog-title" >
           Ajouter article
         </DialogTitle>
@@ -257,14 +254,14 @@ function AjouterCat(props) {
         <form  noValidate autoComplete="off">
           <Grid container >
           {error ? (
-                <>{error}</>
+                <><p style={{color:'red',textAlign:'center'}}>{error}</p></>
           ) : (
             ""
           )}
 
               <Grid container >
                 <Grid item xs={12}>
-                  <TextField id="standard-basic" label="Nom" onChange={(e) => handleNom(e)} style={{width:'100%'}}/>
+                  <TextField id="standard-basic" label="Nom" required onChange={(e) => handleNom(e)} style={{width:'100%'}}/>
                   </Grid>
               </Grid>
               <Grid container >
@@ -274,6 +271,8 @@ function AjouterCat(props) {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
+                  defaultValue=""
+                  required
                   onChange={(e) => handleCategorie(e)}
                   style={{width:'100%'}}
                 >
@@ -300,16 +299,16 @@ function AjouterCat(props) {
               {vente ? (
                 <>
                 <Grid container>
-                <Grid item xs={8}>
-                  <TextField id="standard-basic" label="Prix" onChange={(e) => handlePrix(e)}  style={{width:'95%'}}/>
+                <Grid item xs={9}>
+                  <TextField id="standard-basic" required label="Prix" onChange={(e) => handlePrix(e)}  style={{width:'95%'}}/>
                 </Grid>
 
-                <Grid item xs={2}>
+                <Grid item xs={3}>
                  
                     <InputLabel id="demo-simple-select-label">Unité</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
-                      id="unite"
+                      id="unite"a
                       onChange={(e) => handleUnite(e)}
                       style={{width:'100%'}}
                     >
@@ -347,7 +346,7 @@ function AjouterCat(props) {
                 label="Tracer dans l'inventaire"
               />
               </Grid>
-</Grid>
+            </Grid>
             {tracer ? (
               <div>
                 <Grid container>

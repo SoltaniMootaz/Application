@@ -64,15 +64,15 @@ function LogIn() {
         window.location.href = "home";
       })
       .catch((err) => {
-        setError({ ...error, data: err.response.data });
+        setError({...error, data: err.response.data});
       });
   };
 
   const handleEmailChange = (e) => {
-    setUser({ ...user, email: e.target.value });
+    setUser({...user, email: e.target.value});
   };
   const handlePasswordChange = (e) => {
-    setUser({ ...user, password: e.target.value });
+    setUser({...user, password: e.target.value });
   };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ;
@@ -81,6 +81,7 @@ function LogIn() {
     <div className={classes.root}>
 
     <Paper className={classes.padding} style={{width:'33,33%',justifyContent:'center'}}>
+      {error ? (<center>{error.data}</center>) : ""}
     <form onSubmit={handleSubmit}>
                 <div className={classes.margin}>
                     <Grid container spacing={8} alignItems="flex-end">

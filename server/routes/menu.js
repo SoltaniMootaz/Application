@@ -25,13 +25,15 @@ router.post("/api/ajouterArticle", (req,res) => {
         pool.query('SELECT id from public.categorie where nom = $1',[categorie], (err,result) => {
             if(err)
                 res.status(400).send(err.toString());
-            else
+            else if (result.rowCount > 0)
                 pool.query('INSERT INTO public."articleMenu"(nom,prix,unite,"id_utilisateur","id_categorie") VALUES ($1,$2,$3,$4,$5) RETURNING *',[nom,prix,unite,id_utilisateur,result.rows[0].id], (err,result) => {
                     if(err)
                         res.status(400).send(err.toString());
                     else
                         res.status(201).send(result);
                 });
+            else
+                res.status(400).send("erreur");
         });
     } catch (error) {
         res.status(400).send(error);

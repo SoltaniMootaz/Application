@@ -53,9 +53,7 @@ function SignUp() {
   const [succes, setSucces] = useState({
     data: "",
   });
-  const [error, setError] = useState({
-    data: "",
-  });
+  const [error, setError] = useState("");
   const [value, setValue] = useState();
   const [country, setCountry] = useState();
 
@@ -81,12 +79,13 @@ function SignUp() {
       commerce: user.commerce,
     })
       .then((res) => {
-        setSucces({ ...succes, data: res.data });
-        setError({ ...error, data: "" });
+        setSucces({data: res.data });
+        setError({data: ""});
       })
       .catch((err) => {
-        setSucces({ ...succes, data: "" });
-        setError({ ...error, data: err.response.data });
+        console.log(err.response.data);
+        setSucces({data: "" });
+        setError({data: err.response.data});
       });
   };
 
@@ -139,35 +138,47 @@ function SignUp() {
     setUser({ ...user, commerce: e.target.value });
   };
 
+  const handleCountryChange = (e) => {
+    setCountry(e);
+    setUser({ ...user, Country: e });
+  };
+
+  const handleTelephoneChange = (e) => {
+    setValue(e);
+    setUser({ ...user, phoneNumber: e.target.value });
+  };
+
   return (
     
   <div className={classes.root}>
 
-<Paper className={classes.padding} style={{width:'33,33%',justifyContent:'center'}}>
-<form onSubmit={handleSubmit}>
+    <Paper className={classes.padding} style={{width:'33,33%',justifyContent:'center'}}>
+      {error ? (<center>{error.data}</center>) : ""}
+      {succes ? (<center>{succes.data}</center>) : ""}
+    <form onSubmit={handleSubmit}>
             <div className={classes.margin}>
                 <Grid container spacing={8} alignItems="flex-end">
                     
                     <Grid item md={true} sm={true} xs={true}>
-                        <TextField id="email" label="E-mail" type="email" fullWidth autoFocus required  onChange={handleEmailChange} />
+                        <TextField id="email" label="E-mail" type="email" fullWidth autoFocus required  onChange={(e)=>handleEmailChange(e)} />
                     </Grid>
                 </Grid>
                 <Grid container spacing={8} alignItems="flex-end">
                     
                     <Grid item md={true} sm={true} xs={true}>
-                        <TextField id="nom" label="Nom" type="text" fullWidth autoFocus required  onChange={handleNameChange} />
+                        <TextField id="nom" label="Nom" type="text" fullWidth autoFocus required  onChange={(e)=>handleNameChange(e)} />
                     </Grid>
                 </Grid>
                 <Grid container spacing={8} alignItems="flex-end">
                     
                     <Grid item md={true} sm={true} xs={true}>
-                        <TextField id="prénom" label="Prénom" type="text" fullWidth autoFocus required  onChange={handleLastNameChange} />
+                        <TextField id="prénom" label="Prénom" type="text" fullWidth autoFocus required  onChange={(e)=>handleLastNameChange(e)} />
                     </Grid>
                 </Grid>
                 <Grid container spacing={8} alignItems="flex-end">
                  
                     <Grid item md={true} sm={true} xs={true}>
-                        <TextField id="password" label="Mot de passe" type="password" fullWidth required  onChange={handlePasswordChange} />
+                        <TextField id="password" label="Mot de passe" type="password" fullWidth required  onChange={(e)=>handlePasswordChange(e)} />
                     </Grid>
                 </Grid>
                 <Grid container spacing={8} alignItems="flex-end">
@@ -181,7 +192,7 @@ function SignUp() {
                         name: 'commerce',
                         id: 'commerce',
                       }}
-                      onChange={handleCommerceChange}
+                      onChange={(e)=>handleCommerceChange(e)}
                       style={{width:'100%'}}
                     >
                   <option value="attar">Attar</option>
@@ -197,24 +208,18 @@ function SignUp() {
                     
                     <Grid item md={true} sm={true} xs={true}>
                     <CountrySelect
-                  required
-                  className="country"
-                  labels={en}
-                  value={country}
-                  onChange={(country) => {
-                    setCountry(country);
-                    setUser({ ...user, Country: country });
-                  }}
-                />
+                      required
+                      className="country"
+                      labels={en}
+                      value={country}
+                      onChange={(e) => handleCountryChange(e)}
+                    />
                     </Grid>
                 </Grid>
                
                 
                 <Grid container justify="center" style={{ marginTop: '20px' }}>
-                <TextField id="numtlphone" label="numéro de télephone" type="" fullWidth required   onChange={(value) => {
-                    setValue(value);
-                    setUser({ ...user, phoneNumber: value });
-                  }} pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"/>
+                <TextField id="numtlphone" label="numéro de télephone" type="" fullWidth required   onChange={(e) => {handleTelephoneChange(e)}} pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"/>
                 {/* <Input
                   required
                   placeholder="numéro de télephone"

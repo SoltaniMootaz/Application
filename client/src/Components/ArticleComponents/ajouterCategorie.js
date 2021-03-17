@@ -3,6 +3,63 @@ import { Modal, Form } from "react-bootstrap";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import Axios from "axios";
 
+////////////////////////////////////////////////////////
+
+import { withStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+
+////////////////////////////////////////////////////////
+
+const styles = (theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
+
+const DialogTitle = withStyles(styles)((props) => {
+  const { children, classes, onClose, ...other } = props;
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
+
+const DialogContent = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiDialogContent);
+
+const DialogActions = withStyles((theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(1),
+  },
+}))(MuiDialogActions);
+
 function AjouterCat(props) {
   const url = "http://localhost:3001/api/ajouterCateg";
   const [error, setError] = useState(false);
@@ -29,62 +86,30 @@ function AjouterCat(props) {
   }
 
   function handle(e) {
-    const newData = { ...Data };
-    newData[e.target.id] = e.target.value;
-    setData(newData);
+    setData({...Data,categorie:e.target.value});
   }
 
   return (
     <>
-      <Modal show={props.handleOpen} onHide={props.handleClose} style={{   zIndex: '100001 !important',
-          marginTop:'5em'}}>
-        <Form>
-          <div
-            style={{
-              backgroundColor: "#176cd4",
-              width: "100%",
-              height: "10px",
-              marginTop: "0px",
-            }}
-          ></div>
-          <br />
-          {error ? (
-            <Modal.Header>
-              <Modal.Title
-                style={{ color: "red", fontSize: "20px", textAlign: "center" }}
-              >
-                Catégorie existe déja
-              </Modal.Title>
-            </Modal.Header>
-          ) : (
-            ""
-          )}
-          <Modal.Body>
-            <Form.Label>Catégorie</Form.Label>
-            <Form.Control
-              type="text"
-              id="categorie"
-              placeholder="jus,café.."
-              onChange={(e) => handle(e)}
-              value={Data.categorie}
-            />
-          </Modal.Body>
-          <br />
-          <br />
-          <Modal.Footer
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <BsFillPlusCircleFill
-              onClick={(props.handleClose, (e) => submit(e))}
-              style={{ width: "50px", height: "50px", color: "#176cd4" }}
-            />
-          </Modal.Footer>
-        </Form>
-      </Modal>
+    <Dialog fullWidth={true} onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
+        <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
+          Ajouter catégorie
+        </DialogTitle>
+        <DialogContent dividers>
+          <Grid container >
+            <Grid container >
+              <Grid item xs={12}>
+                <TextField id="standard-basic" label="Catégorie : jus, café..." required onChange={(e) => handle(e)} style={{width:'100%'}}/>
+              </Grid>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions style={{justifyContent:'center'}}>
+          <Fab color="primary" aria-label="add" onClick={(e) => submit(e)}>
+          <AddIcon />
+          </Fab>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

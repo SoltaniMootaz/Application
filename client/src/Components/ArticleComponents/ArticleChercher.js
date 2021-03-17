@@ -32,10 +32,9 @@ const useStyles = makeStyles({
 
 function ArticleChercher(props) {
 
-  
+  console.log(props.value)
   const article = props.chercherDans.filter(
     (art) =>
-      art.nomCategorie.toLowerCase().indexOf(props.value) > -1 ||
       art.nom.toLowerCase().indexOf(props.value) > -1
   );
   console.log(article);
@@ -71,7 +70,7 @@ function ArticleChercher(props) {
                             <div key={index} >                    
                           
                             <div style={{padding:"1em"}}>
-                            <Card className={classes.root} key={data1.nomCategorie}>
+                            <Card className={classes.root} key={data1.ategorie}>
                               <CardHeader
                                
                                 action={
