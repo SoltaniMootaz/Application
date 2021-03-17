@@ -89,15 +89,19 @@ Form.Group{
  display: flex;
   
  }
- .icon{
+ .icon1{
    color: #8a8a8a;
  }
  
- .icon:active{
-   color:#176cd4;
+ .icon1:active{
+   color:#00A600;
  }
- .icon:hover{
-  color:#176cd4;
+ .icon1:hover{
+  color:#00A600;
+}
+
+.icon{
+  color: white;
 }
 
  @media (max-width: 768px){
