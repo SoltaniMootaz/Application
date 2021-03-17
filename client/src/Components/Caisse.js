@@ -8,6 +8,7 @@ import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
 import RechercheArticle from "./CaisseComponents/rechercheArticle.js";
 import RechercheProd from "./CaisseComponents/RechercheProd.js";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import Axios from "axios";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +27,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme,fade } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -34,6 +35,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import { VscSearch } from "react-icons/vsc";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const drawerWidth = 340;
@@ -57,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBar: {
+    backgroundColor:'#00A0B1',
+   
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -81,44 +89,18 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
+    color:'white',
+ 
+    justifyContent:'flex-end',
+    
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
+      paddingLeft:'50%'
     },
+    [theme.breakpoints.up('lg')]:{
+      paddingLeft:'85%',
+     }
   },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
+
   title: {
     flexGrow: 1,
     display: 'none',
@@ -132,7 +114,12 @@ const useStyles = makeStyles((theme) => ({
 /////////////////////////////////////////////////////////////////////////
 
 function Caisse(props) {
-
+  const theme1 = createMuiTheme({
+    palette: {
+      type: "dark"
+    }
+  });
+  
 
 //////////////////////////////////////////////////////////////////////
   const urlart = "http://localhost:3001/api/afficherArticles";
@@ -235,20 +222,24 @@ function Caisse(props) {
   <AiFillHome  className="icon" style={{width:'1.5em',height:'1.5em'}} />
 </IconButton>
          
-   
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-               inputProps={{ 'aria-label': 'search' }}
-               onChange={handleSearch}   />
-          </div>
+   <ThemeProvider theme={theme1}>
+<TextField
+       color="primary"
+       id="input-with-icon-textfield"
+       placeholder="Recherche"
+       InputProps={{
+         endAdornment: (
+           <InputAdornment position="end">
+             <VscSearch />
+           </InputAdornment>
+         ),
+       }}
+       className={classes.search}
+
+       onChange={handleSearch} 
+      
+     />
+     </ThemeProvider>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
