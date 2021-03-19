@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-/////////////////////////////////////////////////////////////////////////////
 import "./css/Article.css";
 import {Spinner} from "react-bootstrap";
-////////////////////////////////////////////////////////////////////////////////////////////////
 import { AiFillHome } from "react-icons/ai";
 import { BiPlusCircle } from "react-icons/bi";
 import { VscSearch } from "react-icons/vsc";
-
-//////////////////////////////////////////////////////////////////////////////////////////////
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -16,23 +12,14 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
-import { makeStyles,fade } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-
-
+import { makeStyles} from '@material-ui/core/styles';
+import { Link } from "react-router-dom";
 import InputAdornment from '@material-ui/core/InputAdornment';
-
 import TextField from '@material-ui/core/TextField';
-
-
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 import Axios from "axios";
 import TousArticle from "./ArticleComponents/TousArticle.js";
 import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
@@ -62,12 +49,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBar: {
+    backgroundColor:"white",
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginRight: drawerWidth,
      },
   },
   menuButton: {
+    color:'black',
+    width:'2em',
+    height:'2em',
     marginRight: theme.spacing(2),
     justifyContent:'flex-end',
     [theme.breakpoints.up('md')]: {
@@ -100,8 +91,11 @@ const useStyles = makeStyles((theme) => ({
  
     justifyContent:'flex-end',
     
-    [theme.breakpoints.up('sm')]: {
-      paddingLeft:'50%'
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft:'25%'
+    },
+     [theme.breakpoints.down('xs')]: {
+      paddingLeft:'10%'
     },
     [theme.breakpoints.up('lg')]:{
       paddingLeft:'85%',
@@ -267,29 +261,12 @@ const container = window !== undefined ? () => window().document.body : undefine
       <div className={classes.root}>
       
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}   color='info'>
+      <AppBar position="fixed" className={classes.appBar} >
         <Toolbar>
         <IconButton  aria-label="add an alarm" component={Link} to='/Home'>
   <AiFillHome  className="icon1" style={{width:'1.5em',height:'1.5em'}} />
 </IconButton>
         
-          {/* <div className={classes.search}  style={{}}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-        
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-               inputProps={{ 'aria-label': 'search' }}
-               onChange={handleSearch} 
-              style={{
-             }}
-              />
-          </div>  */}
           <TextField
        
         id="input-with-icon-textfield"

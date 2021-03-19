@@ -102,31 +102,11 @@ function RechercheArticle(props) {
                               />
                              
                             </CardActionArea>
-                            {/* <CardActions>
-                              <Button size="small" color="primary">
-                                Share
-                              </Button>
-                              <Button size="small" color="primary">
-                                Learn More
-                              </Button>
-                            </CardActions> */}
+                      
                           </Card>
                          
                           </div></div>
-                           { /* 
-                           <div key={index}>                    
-                           
-                            <Col xs={3}   style={{padding:'1em'}}>               
-                        <Card  style={{ width: '14rem' }} >
-                  
-                        <Card.Img as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}}/>
-                            <Card.Body className="bg-light">
-                              
-                                <Card.Title ><center>{data1.nom}</center></Card.Title>                
-                            </Card.Body>
-                        </Card> 
-                          </Col>
-                          </div> */}
+                          
                           </>
                           )
                           }

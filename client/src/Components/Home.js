@@ -14,11 +14,11 @@ import {Paper,Grid} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     margin: {
-      margin: theme.spacing.unit * 2,
+      margin: theme.spacing(2),
   },
 
   padding: {
-      padding: theme.spacing.unit, 
+      padding: theme.spacing(1), 
       maxWidth: '40%',
       maxHeight:'50em',
       margin: '0 auto',

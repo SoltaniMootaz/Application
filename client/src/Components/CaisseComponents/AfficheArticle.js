@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react'
 
 import def from './img/def.jpg'
-import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   media: {
     width:'100%',
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '70%', // 16:9
   },
   menu: {
     shadows: ["none"]
@@ -95,37 +95,12 @@ function AfficheArticle(props) {
                               />
                              
                             </CardActionArea>
-                            {/* <CardActions>
-                              <Button size="small" color="primary">
-                                Share
-                              </Button>
-                              <Button size="small" color="primary">
-                                Learn More
-                              </Button>
-                            </CardActions> */}
+                            
                           </Card>
                          
                           </div></div>
 
-                        {/*     <div key={index} >                    
-                            <Grid item xs={6} sm={3} style={{padding:'1em'}}>
-                        
-                                     <div>
-                                           
-
-                                     <div className="card"  style={{ width: '14rem' ,border:'0px'}} onClick={()=>handleClick(props.dataArt[index],index)}>
-                                    <img alt="Avatar"  as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}} />
-                                    <div className="container">
-                                        <h4><b><center>{data1.nom}</center></b></h4> 
-                                       
-                                    </div>
-                                    </div>
-               
-                                    </div> 
-                
-                        
-                     </Grid></div>
-                           */}
+                      
                     </>
                     )
                   })

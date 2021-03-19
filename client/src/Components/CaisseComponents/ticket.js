@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Vente from './vente'
 
-import { makeStyles, withStyles,useTheme,fade } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -126,21 +126,7 @@ function Ticket(props) {
                 onChange={(e) => handleQuant(e)}
                 style={{maxWidth:40}}
               /></StyledTableCell>
-                 {/*  <tr key={props.index}>
-            <td>{props.index}</td>
-            <td>{props.array.nom ? props.array.nom : props.array.libelle}</td>
-            <td>{props.array.prix}</td>
-            <td>
-              <Form.Control
-                type="number"
-                name="quantite"
-                defaultValue="1"
-                id={props.array.id}
-                prix={props.array.prix}
-                onChange={(e) => handleQuant(e)}
-              />
-            </td>
-          </tr> */}
+               
           </StyledTableRow>
       ]);
         }
@@ -172,20 +158,6 @@ function Ticket(props) {
      
     <div className={classes.bottomPush} style={{padding:'10px'}}>
     <p style={{fontSize:"15px",color:"green",display:"inline"}}>Somme: {somme} DT</p>
-      {/* <Row>
-        <Col>
-          <Button variant="primary" onClick={() => setState({ isOpen: true })} style={{borderRadius:"10px",width:"8em"}}>Valider</Button> 
-
-          <Vente
-            handleOpen={state.isOpen}
-            handleClose={() => setState({ isOpen: false })}
-            somme={somme}
-          />
-      </Col>
-      <Col style={{top:"0.5em"}}>
-        <p style={{fontSize:"15px",color:"green",display:"inline"}}>Somme: {somme} DT</p>
-      </Col>
-      </Row> */}
     </div>
     <BottomNavigation
       value={val}
