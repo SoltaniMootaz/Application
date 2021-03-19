@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 
 import "../App.css";
 import Axios from "axios";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Link } from "react-router-dom";
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import {Paper,TextField,InputAdornment,InputLabel,FormControl,Grid,FormControlLabel,Button} from '@material-ui/core';
+import {Paper,TextField,Grid,Button} from '@material-ui/core';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 const useStyles = makeStyles((theme) => ({
@@ -53,6 +51,10 @@ function LogIn() {
     data: "",
   });
 
+  useEffect(()=> {
+    localStorage.setItem("userID", "");
+  },[])
+
   const handleSubmit = (event) => {
     event.preventDefault();
     Axios.post(url, {
@@ -74,12 +76,12 @@ function LogIn() {
   const handlePasswordChange = (e) => {
     setUser({...user, password: e.target.value });
   };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-;
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
   return (
     <div className={classes.root}>
-
     <Paper className={classes.padding} style={{width:'33,33%',justifyContent:'center'}}>
       {error ? (<center>{error.data}</center>) : ""}
     <form onSubmit={handleSubmit}>

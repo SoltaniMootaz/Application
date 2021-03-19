@@ -208,7 +208,7 @@ function AjouterCat(props) {
       id_utilisateur: localStorage.getItem('userID')
     })
       .then((res) => {
-        console.log(res);
+        window.location.reload();
         setIdArt(res.data.rows[0].id);
         setSubmit(true);
         props.handleClose();
