@@ -1,15 +1,9 @@
 import React, { useState } from "react";
-
 import "../App.css";
 import Axios from "axios";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-import clsx from 'clsx';
+import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import {Paper,TextField,InputAdornment,InputLabel,FormControl,Grid,FormControlLabel,Button} from '@material-ui/core';
-
+import {Paper,TextField,Grid,Button} from '@material-ui/core';
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -43,12 +37,10 @@ function LogIn() {
   const classes=useStyles();
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const url = "http://localhost:3001/api/login";
-
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-
   const [error, setError] = useState({
     data: "",
   });
@@ -75,7 +67,7 @@ function LogIn() {
     setUser({...user, password: e.target.value });
   };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-;
+
 
   return (
     <div className={classes.root}>
@@ -110,94 +102,6 @@ function LogIn() {
                 </div>
                 </form>
             </Paper>
-      {/* <Container fluid style={{ height: "100%" }}>
-        <Row>
-          <Col></Col>
-          <Col
-            xs={10}
-            md={6}
-            lg={5}
-            style={{ marginTop: "5%", height: "100%" }}
-          >
-            <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="formEmail">
-                <Form.Label style={{ color: "#0394fc" }}>
-                  Adresse email
-                </Form.Label>
-                <Form.Control
-                  required
-                  type="email"
-                  placeholder="Entrer votre email"
-                  style={{
-                    borderLeft: 0,
-                    borderTop: 0,
-                    borderRight: 0,
-                    borderColor: "#69c0ff",
-                    borderRadius: "0em",
-                  }}
-                  onChange={handleEmailChange}
-                />
-              </Form.Group>
-              <Form.Group
-                controlId="formPassword"
-                style={{ marginTop: "40px" }}
-              >
-                <Form.Label style={{ color: "#0394fc" }}>
-                  Mot de passe
-                </Form.Label>
-                <Form.Control
-                  required
-                  type="password"
-                  placeholder="Entrer votre mot de passe"
-                  style={{
-                    borderLeft: 0,
-                    borderTop: 0,
-                    borderRight: 0,
-                    borderColor: "#69c0ff",
-                    borderRadius: "0em",
-                  }}
-                  onChange={handlePasswordChange}
-                />
-              </Form.Group>
-
-              {error.data.length > 0 ? (
-                <center>
-                  <Alert variant="danger">
-                    <center>{error.data}</center>
-                  </Alert>
-                </center>
-              ) : (
-                ""
-              )}
-
-              <center>
-                <Button
-                  style={{
-                    marginTop: "40px",
-                    alignContent: "center",
-                    width: "90%",
-                    height: "50px",
-                    borderRadius: "0.5em",
-                    alignItems: "center",
-                    fontSize: "20px",
-                    justifySelf: "center",
-                  }}
-                  variant="primary"
-                  type="submit"
-                >
-                  Connexion
-                </Button>
-              </center>
-            </Form>
-            <hr></hr>
-            <center>
-              Vous n'avez pas de compte?{" "}
-              <Link to="/Sign-UP">Créer un compte</Link>
-            </center>
-          </Col>
-          <Col></Col>
-        </Row>
-      </Container> */}
     </div>
   );
 }

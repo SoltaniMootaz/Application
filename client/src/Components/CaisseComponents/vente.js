@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Row, Col,InputGroup, FormControl, Tabs, Tab, Container, Dropdown, DropdownButton } from "react-bootstrap";
+import { Modal, Form, Row, Col,InputGroup, FormControl, Tabs, Tab, Container, DropdownButton } from "react-bootstrap";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import Axios from "axios";
 import d17 from './img/D17.png'
 import mobiflouss from './img/mobiflouss.jpg'
 import sobflous from './img/sobflous.png'
 import edinar from './img/edinar.png'
-
-/////////////////////////////////////////////////////////////////////////
-
-import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
+import { withStyles, makeStyles} from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -27,14 +24,9 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import clsx from 'clsx';
-import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
 
 
 ////////////////////////////////////////////////////////////////////////////

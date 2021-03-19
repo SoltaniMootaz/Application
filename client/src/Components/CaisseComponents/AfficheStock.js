@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   media: {
     width:'100%',
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '70%', // 16:9
   },
   menu: {
     shadows: ["none"]
@@ -117,30 +117,11 @@ function AfficherStock(props) {
                               />
                              
                             </CardActionArea>
-                            {/* <CardActions>
-                              <Button size="small" color="primary">
-                                Share
-                              </Button>
-                              <Button size="small" color="primary">
-                                Learn More
-                              </Button>
-                            </CardActions> */}
+                            
                           </Card>
                          
                           </div>
-                              {/* <div>
-                                    
-
-                              <div className="card"  style={{ width: '14rem' ,border:'0px'}} onClick={()=>handleClick(props.dataProd[index],index)}>
-                             <img alt="Avatar"  as={Image} variant="top" src={isSRC(data1.image) ? src: data1.image} className='border-bottom border-dark'  style={{height:'150px'}} />
-                             <div className="container">
-                                 <h4><b><center>{data1.libelle}</center></b></h4> 
-                                
-                             </div>
-                             </div>
-        
-                             </div> 
-          */}
+                             
                  </div>
          
                

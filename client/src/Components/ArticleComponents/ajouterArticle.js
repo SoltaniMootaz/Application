@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Col } from "react-bootstrap";
-import { BsFillPlusCircleFill } from "react-icons/bs";
 import Axios from "axios";
 import Ingredient from "./ingredients";
-
-/////////////////////////////////////////////////////////////////////////
-
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -325,13 +320,6 @@ function AjouterCat(props) {
                   <TextField id="standard-basic" label="Prix" onChange={(e) => handlePrix(e)} style={{width:'100%'}}/>
                 </Grid>
               )}
-
-              {/* <DropzoneArea 
-                acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
-                showPreviews={true}
-                maxFileSize={5000000}
-                style={{height:"1px"}}
-              /> */}
           <Grid container style={{paddingTop:'3em'}}>
             <Grid Item xs={12}>
               <FormControlLabel
@@ -353,7 +341,7 @@ function AjouterCat(props) {
                  
                 <p style={{textAlign:"right",color:"red"}}>Coût : {somme} DT</p>
                 {items}
-                <Form.Group>
+               
                   
                     <Grid container style={{paddingTop:'1em'}}>
                       <Grid item xs={12}>
@@ -365,15 +353,9 @@ function AjouterCat(props) {
                   </Button>
                   </Grid>
                   </Grid>
-                    {/* <BsFillPlusCircleFill
-                      style={{ width: "12%", height: "12%",}}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setLength(length + 1);
-                      }}
-                    /> */}
+                   
                  
-                </Form.Group>
+          
                 </Grid>
               </div>
             ) : (
@@ -381,14 +363,7 @@ function AjouterCat(props) {
             )}
           <br />
           <br />
-
-            {/* <BsFillPlusCircleFill
-              onClick={(e) => {
-                submit(e);
-              }}
-              style={{ width: "50px", height: "50px", color: "#176cd4" }}
-            /> */}
-          </Grid> 
+           </Grid> 
         </form>
         </DialogContent>
         <DialogActions style={{justifyContent:'center'}}>
