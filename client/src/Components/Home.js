@@ -73,7 +73,7 @@ function Home() {
            <HomeButtons buttonName='Options' icon={<AiOutlineSetting />} link='#' Bcolor='#199900'/> 
            </Grid>
            <Grid item sm={4} xs={12}>
-           <HomeButtons buttonName='Logout' icon={<RiLogoutBoxRLine />} link='#' Bcolor='#0A5BC4'/> 
+           <HomeButtons buttonName='Logout' icon={<RiLogoutBoxRLine />} link='/Log-In' Bcolor='#0A5BC4'/> 
            </Grid>
            </Grid>
            </Grid>

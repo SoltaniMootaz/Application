@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  multilineColor:{
+    color:'black'
+  }
 }));
 
 const styles = (theme) => ({
@@ -200,7 +203,7 @@ function AjouterCat(props) {
       id_utilisateur: localStorage.getItem('userID')
     })
       .then((res) => {
-        console.log(res);
+        window.location.reload();
         setIdArt(res.data.rows[0].id);
         setSubmit(true);
         props.handleClose();
@@ -256,7 +259,17 @@ function AjouterCat(props) {
 
               <Grid container >
                 <Grid item xs={12}>
-                  <TextField id="standard-basic" label="Nom" required onChange={(e) => handleNom(e)} style={{width:'100%'}}/>
+                  <TextField
+                    id="standard-basic"
+                    label="Nom"
+                    required
+                    onChange={(e) => handleNom(e)}
+                    style={{width:'100%'}}
+                    color="primary"
+                    InputProps={{
+                      className: classes.multilineColor
+                    }}
+                    />
                   </Grid>
               </Grid>
               <Grid container >
@@ -267,9 +280,15 @@ function AjouterCat(props) {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   defaultValue=""
+                  color="primary"
                   required
                   onChange={(e) => handleCategorie(e)}
                   style={{width:'100%'}}
+                  InputProps={{
+                    className: classes.multilineColor
+                  }}InputProps={{
+                    className: classes.multilineColor
+                  }}
                 >
                   {categ}
                 </Select>
@@ -295,7 +314,16 @@ function AjouterCat(props) {
                 <>
                 <Grid container>
                 <Grid item xs={9}>
-                  <TextField id="standard-basic" required label="Prix" onChange={(e) => handlePrix(e)}  style={{width:'95%'}}/>
+                  <TextField 
+                    id="standard-basic"
+                    required
+                    label="Prix"
+                    onChange={(e) => handlePrix(e)}
+                    style={{width:'95%'}}
+                    InputProps={{
+                      className: classes.multilineColor
+                    }}
+                    />
                 </Grid>
 
                 <Grid item xs={3}>

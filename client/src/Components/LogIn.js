@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+
 import "../App.css";
 import Axios from "axios";
+import { BrowserRouter as Link } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import {Paper,TextField,Grid,Button} from '@material-ui/core';
+
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import {Paper,TextField,Grid,Button} from '@material-ui/core';
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -45,6 +52,10 @@ function LogIn() {
     data: "",
   });
 
+  useEffect(()=> {
+    localStorage.setItem("userID", "");
+  },[])
+
   const handleSubmit = (event) => {
     event.preventDefault();
     Axios.post(url, {
@@ -66,12 +77,13 @@ function LogIn() {
   const handlePasswordChange = (e) => {
     setUser({...user, password: e.target.value });
   };
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
   return (
     <div className={classes.root}>
-
     <Paper className={classes.padding} style={{width:'33,33%',justifyContent:'center'}}>
       {error ? (<center>{error.data}</center>) : ""}
     <form onSubmit={handleSubmit}>

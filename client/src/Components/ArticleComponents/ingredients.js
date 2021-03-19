@@ -101,7 +101,7 @@ function Ingredient({ id, submitForm, idArticle,stock,totale }) {
       </Grid>
 
       <Grid item xs={3}>
-        <TextField id="standard-basic" key={quant} defaultValue="1" label="Quantité" onChange={(e) => handleQuantite(e)} style={{width:'85%'}} />
+        <TextField id="standard-basic" type="number" key={quant} defaultValue="1" label="Quantité" onChange={(e) => handleQuantite(e)} style={{width:'85%'}} />
       </Grid>
       
     </Grid>
