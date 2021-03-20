@@ -4,20 +4,15 @@ import AfficheArticle from './CaisseComponents/AfficheArticle'
 import AfficheStock from './CaisseComponents/AfficheStock'
 import "./css/Article.css";
 import { AiFillHome } from "react-icons/ai";
-import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
 import RechercheArticle from "./CaisseComponents/rechercheArticle.js";
 import RechercheProd from "./CaisseComponents/RechercheProd.js";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+import {  Link } from "react-router-dom";
 import Axios from "axios";
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import {
 
   Spinner,
  
 } from "react-bootstrap";
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -26,13 +21,9 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
