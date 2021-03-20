@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import Vente from './vente'
+import {useSelector, useDispatch} from 'react-redux';
 
-import { makeStyles, withStyles,useTheme,fade } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -54,104 +55,55 @@ Control :{
 },
 }));
 
-function Ticket(props) {
+
+function Ticket() {
+  const classes = useStyles();
+
   const [val, setVal] = React.useState(0);
     const [state, setState] = useState({
         isOpen: Boolean(false),
       });
 
-    const [data,setData] = useState([]);
-    const [index,setIndex] = useState([]);
+    const [data,setData] = useState();
     const [somme,setSomme] = useState(0);
-    const [totale,setTotale] = useState([{
-      idIngr:null,
-      quantite:null,
-      prix:null
-    }]);
-    const [changed,setChanged] = useState(false);
 
-      const calculTotale = () => {    
-        var sm = 0;
-        setSomme(0);
-        totale.map(e=> {
-          if(e.prix !== null) {
-            sm += parseFloat(e.prix) * parseInt(e.quantite,10);
-          }
-        })
+    const loadTicket = useSelector((state) => state.loadTicket);
 
-        if(!changed) {
-          sm += parseFloat(props.array.prix);
-        }
-
-        return sm.toFixed(2);
-      }
-
-      const handleQuant = (e) => {
-        const _id = e.target.getAttribute('id');
-        const _prix = e.target.getAttribute('prix');
-
-        setTotale(totale.filter((e1)=>((e1.idIngr !== _id)&&(e1.idIngr !== null))));
-        if(e.target.value !== "") {
-          setTotale(totale => [...totale,{idIngr:_id,quantite:e.target.value,prix:_prix}]);
-          setChanged(true)
-        }
-
-      }
-
-      useEffect(() => {
-        if(changed) {
-          setSomme(calculTotale());         
-          setChanged(false);
-        }
-
-        if(typeof props.array != "undefined"&&!index.includes(props.index)) {
-          if(props.array) {
-            setTotale(totale => [...totale,{idIngr:props.array.id,quantite:1,prix:props.array.prix}]);
-            setSomme(calculTotale());
-          }
-
-          setIndex(index =>[...index,props.index]);
-          setData(data=>[...data,
-            <StyledTableRow key={props.index}>
-          
-            <StyledTableCell align="right">{props.index}</StyledTableCell>
-            <StyledTableCell align="right">{props.array.nom ? props.array.nom : props.array.libelle}</StyledTableCell>
-            <StyledTableCell align="right">{props.array.prix}</StyledTableCell>
-            <StyledTableCell align="right"> <input
-                type="number"
-                name="quantite"
-                defaultValue="1"
-                id={props.array.id}
-                prix={props.array.prix}
-                onChange={(e) => handleQuant(e)}
-                style={{maxWidth:40}}
-              /></StyledTableCell>
-                 {/*  <tr key={props.index}>
-            <td>{props.index}</td>
-            <td>{props.array.nom ? props.array.nom : props.array.libelle}</td>
-            <td>{props.array.prix}</td>
-            <td>
-              <Form.Control
-                type="number"
-                name="quantite"
-                defaultValue="1"
-                id={props.array.id}
-                prix={props.array.prix}
-                onChange={(e) => handleQuant(e)}
-              />
-            </td>
-          </tr> */}
-          </StyledTableRow>
-      ]);
-        }
-      },[props.array,totale,somme])
-  
-      const classes = useStyles();
+    useEffect(()=>{
+        setData(
+          loadTicket.data.map((value, index)=>{
+            if(value.libelle) {
+              return (<StyledTableRow key={index}>
+                <StyledTableCell align="right">{index}</StyledTableCell>
+                <StyledTableCell align="right">{value.libelle}</StyledTableCell>
+                <StyledTableCell align="right">{value.prix}</StyledTableCell>
+                <StyledTableCell align="right"> <input
+                    type="number"
+                    name="quantite"
+                    value={loadTicket.quantite[index]}
+                    id={value.id}
+                    prix={value.prix}
+                    onChange={(e) => handleQuant(e)} 
+                    style={{maxWidth:40}}
+                  /></StyledTableCell>
+                </StyledTableRow>
+              )}
+          })
+        );
+    },[loadTicket])
      
+    const display = () => {
+      console.log(loadTicket)
+    }
+
+    const handleQuant = (e) => {
+      
+    }
 
     return (
         <>
 <TableContainer component={Paper}>
+<center><p style={{fontSize:"20px",color:"green",display:"inline"}}>Somme: {somme} DT</p></center>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -171,21 +123,6 @@ function Ticket(props) {
 
      
     <div className={classes.bottomPush} style={{padding:'10px'}}>
-    <p style={{fontSize:"15px",color:"green",display:"inline"}}>Somme: {somme} DT</p>
-      {/* <Row>
-        <Col>
-          <Button variant="primary" onClick={() => setState({ isOpen: true })} style={{borderRadius:"10px",width:"8em"}}>Valider</Button> 
-
-          <Vente
-            handleOpen={state.isOpen}
-            handleClose={() => setState({ isOpen: false })}
-            somme={somme}
-          />
-      </Col>
-      <Col style={{top:"0.5em"}}>
-        <p style={{fontSize:"15px",color:"green",display:"inline"}}>Somme: {somme} DT</p>
-      </Col>
-      </Row> */}
     </div>
     <BottomNavigation
       value={val}

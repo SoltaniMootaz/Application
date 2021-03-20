@@ -117,11 +117,9 @@ function Caisse(props) {
 
 //////////////////////////////////////////////////////////////////////
   const urlart = "http://localhost:3001/api/afficherArticles";
-  const urlprod ="http://localhost:3001/api/stock";
 
 
   const [dataArt, setDataArt] = useState([]);
-  const [dataProd,setDataProd]=useState([]);
   const [isLoading2, setLoading2] = useState(true);
   const [isLoading1, setLoading1] = useState(true);
   const [tickeTab,setTicketTab] = useState()
@@ -136,15 +134,8 @@ function Caisse(props) {
     setLoading2(false);
   };
     
-  const getProd = () => {
-    Axios.get(urlprod)
-      .then((res) => setDataProd(res.data))
-      .catch((err) => console.log(err));
-    setLoading1(false);
-  };
  
   useEffect(() => {
-    getProd();
     getArticles();
   
   }, []);
@@ -281,10 +272,10 @@ function Caisse(props) {
         </Select>
       </FormControl> <br />
       {isSearching ? type==='m'? <RechercheArticle handleTicketClick={ticketCallBack} value={value} chercherDans={dataArt} />:
-      <RechercheProd handleTicketClick={ticketCallBack} value={value} chercherDans={dataProd} />: type==='m' ?
+      <RechercheProd handleTicketClick={ticketCallBack} value={value} />: type==='m' ?
             <AfficheArticle dataArt={dataArt} handleTicketClick={ticketCallBack}></AfficheArticle> 
         :
-            <AfficheStock handleTicketClick={ticketCallBack} dataProd={dataProd}/>} 
+            <AfficheStock handleTicketClick={ticketCallBack}/>} 
       </main>
     </div>
     )
