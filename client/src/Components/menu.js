@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     paddingTop:'5em',
     paddingRight: drawerWidth,
-    marginLeft:'3.2em',
+    
     [theme.breakpoints.down('md')]:{
     paddingRight:0,
    
