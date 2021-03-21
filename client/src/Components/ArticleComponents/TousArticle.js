@@ -45,9 +45,6 @@ function TousArticle(props) {
   
 
 
-  const handleDelete = (event) => {
-    console.log("Deleted :" +event.target.key);
-  };
 
  
 
@@ -63,7 +60,7 @@ function TousArticle(props) {
        if(!props.isLoading){
                return (
                 <>
-                   {props.dataCat.map(((data,index)=> {
+                   {props.dataCat.data.map(((data,index)=> {
                         return (
                           <Paper className={classes.Paper} >
                           <div  key={data.nom} style={{width:'100%'}}>
@@ -79,7 +76,7 @@ function TousArticle(props) {
                          
                          <AccordionDetails >
                          <Grid container spacing={2} > 
-                        {props.dataArt.map((data1)=>{
+                        {props.dataArt.data.map((data1)=>{
                            return( 
                              <>
                             
