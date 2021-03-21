@@ -70,6 +70,26 @@ router.get("/api/afficherArticles", (req,res) => {
     }
 });
 
+router.delete('/api/deletearticle/:id', function (req, res) {
+
+   let  id=Number(req.params.id);
+ 
+try{
+   pool.query('DELETE FROM public."articleMenu" WHERE id=$1', [id], (error, result) =>{
+        if (error) {
+            console.log(typeof id);
+            res.status(400).send(error.toString());
+        }else {
+            
+            res.status(200).send("deleted");
+        }
+      });
+} catch (error){
+    console.error(error);
+}
+});
+
+
 router.get("/api/afficherCategorie", (req,res) => {
     try {
         pool.query('SELECT * FROM public.categorie', (err, result) => {
