@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import "../App.css";
 import Axios from "axios";
-import { BrowserRouter as Link } from "react-router-dom";
+import {Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import {Paper,TextField,Grid,Button} from '@material-ui/core';
 

@@ -12,13 +12,14 @@ const LoadStock = () => {
 
         Axios.get(url)
             .then(res => {
-                return dispatch( {
+                
+            return   dispatch( {
                     type: GET_DATA_SUCCESS,
                     payload: res.data
                 });
             })
             .catch(err => {
-                return dispatch( {
+              return   dispatch( {
                     type: GET_DATA_ERROR,
                     payload: err.response.data
                 });

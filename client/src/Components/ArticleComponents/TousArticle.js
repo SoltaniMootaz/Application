@@ -10,12 +10,19 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Grid} from '@material-ui/core';
-import { Divider, Menu , MenuItem } from '@material-ui/core';
+import { Divider, Menu , MenuItem, Paper } from '@material-ui/core';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { MdDelete } from "react-icons/md";
 
-const useStyles = makeStyles({
+import axios from 'axios';
+const useStyles = makeStyles((theme)=>({
   root: {
     width: '16rem',
-    
+    margin: theme.spacing(1)
   },
   media: {
     width:'100%',
@@ -25,23 +32,28 @@ const useStyles = makeStyles({
   menu: {
    
   },
-});
+  Paper:{
+    width:'97%',
+    marginTop:'1em'
+  },
+  typo:{
+    paddingLeft:'1em'
+  },
+}));
 
 function TousArticle(props) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+
+  const handleDelete = (event) => {
+    console.log("Deleted :" +event.target.key);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+ 
 
   const classes = useStyles();
   var src=def;
+ 
   const isSRC=(data)=>{
       if (data == null) {
       return true;
@@ -51,47 +63,47 @@ function TousArticle(props) {
        if(!props.isLoading){
                return (
                 <>
-                   {props.dataCat.map(((data)=> {
+                   {props.dataCat.map(((data,index)=> {
                         return (
-                          
+                          <Paper className={classes.Paper} >
                           <div  key={data.nom} style={{width:'100%'}}>
-                          
-                            <h2 style={{fontWeight:'bold'}}>{data.nom}</h2> 
+                            <Accordion square defaultExpanded={index===0}>
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon />}
+                             
+                            >
+                        <Typography variant="h4" className={classes.typo}>{data.nom}</Typography>
+                            </AccordionSummary>
+                                                
                          
-                         <Grid container spacing={2}>
+                         
+                         <AccordionDetails >
+                         <Grid container spacing={2} > 
                         {props.dataArt.map((data1)=>{
                            return( 
                              <>
-                             <div key={data1.nom} >                    
+                            
+                             <div key={data1.id_categorie} style={{marginLeft:'0em',paddingTop:'1em'}}>                    
                             {(data1.id_categorie===data.id)?
-                            <div style={{padding:"1em"}}>
+                            <Grid item>
                             <Card className={classes.root} key={data1.nomCategorie}>
                               <CardHeader
                                
                                 action={
-                                  <IconButton aria-label="settings"
-                                  aria-controls={open ? data.id : undefined}
-                                  
-                                  aria-haspopup="true"
-                                  onClick={handleClick}>
-                                    <MoreVertIcon />
+                                  <IconButton aria-label="delete">
+                                    <MdDelete  onClick={(e)=>{
+                                      window.location.reload(false);
+                                  axios.delete("http://localhost:3001/api/deletearticle/"+data1.id).then((res)=>console.log(res)).catch((err)=>{console.log(err.response.data);})
+                                 // window.location.reload(false);
+                                }
+                                  } />
                                   </IconButton>
                                 }
                                 title={data1.nom}
                                 subheader={data1.prix}
                               />
                               
-                              <Menu
-                              id={data.id}
-                              anchorEl={anchorEl}
-                              keepMounted
-                              open={open}
-                              onClose={handleClose}
-                              className={classes.menu}
-                               >
-                                <MenuItem  onClick={handleClose} style={{color:'blue'}}>modifier</MenuItem><Divider />
-                                <MenuItem  onClick={handleClose} style={{color:'red'}}>effacer</MenuItem>
-                            </Menu>
+                             
                               <CardActionArea>
                                 <CardMedia
                                   className={classes.media}
@@ -102,13 +114,18 @@ function TousArticle(props) {
                               </CardActionArea>
                              </Card>
                            
-                            </div>: ""}</div>
+                            </Grid>: ""}</div>
+   
     </>
                     
                     )
                   })
-                }</Grid>
+                } </Grid>
+                </AccordionDetails>
+               
+                </Accordion>
             </div>
+            </Paper>
            ) }) )}
   
                 </>
