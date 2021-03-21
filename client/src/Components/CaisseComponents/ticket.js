@@ -21,7 +21,7 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: "",
     color: theme.palette.common.black,
-    width: 340,
+    width: 400,
   },
   body: {
     fontSize: 14,
@@ -42,13 +42,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     paddingBottom: 10,
   },
-  table: { maxWidth: 340 },
+  table: { maxWidth: 400 },
   Control: {
     padding: theme.spacing(5),
   },
   root: {
     position: "sticky",
-    width: 340,
+    width: 400,
     bottom: 0,
     textAlign: "center",
     paddingBottom: 10,

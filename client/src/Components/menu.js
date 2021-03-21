@@ -26,6 +26,8 @@ import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
 import AjouterCat from "./ArticleComponents/ajouterCategorie";
 import AjouterArt from "./ArticleComponents/ajouterArticle";
 
+import { useSelector, useDispatch } from "react-redux";
+import { LoadMenu, loadCat } from "../actions";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 const drawerWidth = 340;
 
@@ -112,7 +114,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 /////////////////////////////////////////////
 function Article(props) {
- 
+  
+
+  const dispatch = useDispatch();
+  const LoadCat = useSelector((state) => state.loadCat);
+  const LoadArt = useSelector((state) => state.LoadMenu);
+
+
   const urlcat = "http://localhost:3001/api/afficherCategorie";
   const urlart = "http://localhost:3001/api/afficherArticles";
   var isLoading = true;

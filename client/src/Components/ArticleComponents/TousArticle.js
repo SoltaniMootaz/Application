@@ -45,9 +45,6 @@ function TousArticle(props) {
   
 
 
-  const handleDelete = (event) => {
-    console.log("Deleted :" +event.target.key);
-  };
 
  
 

@@ -23,16 +23,7 @@ const useStyles = makeStyles({
     width: "100%",
     height: 0,
     paddingTop: "56.25%", // 16:9
-  },
-  menu: {
-    shadows: ["none"],
-  },
-  cardHeaderRoot: {
-    overflow: "hidden",
-  },
-  cardHeaderContent: {
-    overflow: "hidden",
-  },
+    },
 });
 
 function AfficherStock() {
