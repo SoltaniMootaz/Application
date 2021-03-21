@@ -46,10 +46,10 @@ function RechercheProd(props) {
 
 
 
-  const article = props.chercherDans.filter(
-    (art) =>
+  const article = props.chercherDans.filter((art) =>
       art.libelle.toLowerCase().indexOf(props.value) > -1  );
-  console.log(article);
+
+      
   const classes = useStyles();
   var src = def;
 

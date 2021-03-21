@@ -75,7 +75,7 @@ router.delete('/api/deletearticle/:id', function (req, res) {
    let  id=Number(req.params.id);
  
 try{
-   pool.query('DELETE FROM public."articleMenu" WHERE id=$1', [id], (error, result) =>{
+   pool.query('DELETE FROM public."articleMenu" WHERE id=$1 RETURNING *', [id], (error, result) =>{
         if (error) {
             console.log(typeof id);
             res.status(400).send(error.toString());

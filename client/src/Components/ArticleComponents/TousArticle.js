@@ -92,7 +92,8 @@ function TousArticle(props) {
                                 action={
                                   <IconButton aria-label="delete">
                                     <MdDelete  onClick={(e)=>{
-                                  axios.delete("http://localhost:3001/api/deletearticle/id="+data1.id).then((res)=>console.log(res)).catch((err)=>{console.log(err.response.data);})
+                                      window.location.reload(false);
+                                  axios.delete("http://localhost:3001/api/deletearticle/"+data1.id).then((res)=>console.log(res)).catch((err)=>{console.log(err.response.data);})
                                  // window.location.reload(false);
                                 }
                                   } />
