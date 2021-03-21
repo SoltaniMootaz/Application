@@ -128,7 +128,6 @@ function Caisse(props) {
  
   useEffect(() => {
     getArticles();
-  
   }, []);
   
   const handleSearch = (e) => {

@@ -1,7 +1,7 @@
 import Axios from 'axios'
-import { GET_DATA_ERROR,GET_DATA_REQUEST,GET_DATA_SUCCESS } from './actions'
+import { ADD_DATA,REMOVE_DATA,GET_DATA_ERROR,GET_DATA_REQUEST,GET_DATA_SUCCESS } from './actions'
 
-const url = "http://localhost:3001/api/stock";
+const url = "http://localhost:3001/api/stock/" + localStorage.getItem("userID");
 
 const LoadStock = () => {
     return (dispatch) => {
@@ -27,16 +27,23 @@ const LoadStock = () => {
     }
 }
 
-const LoadTicket = (data) => (dispatch) => {
+const LoadTicket = (data, todo) => (dispatch) => {
     dispatch({
         type: GET_DATA_REQUEST,
         payload: "wait..."
     })
 
-    return dispatch( {
-        type: GET_DATA_SUCCESS,
-        payload: data
-    });
+    if (todo == "remove") {
+        return dispatch( {
+            type: REMOVE_DATA,
+            payload: data
+        });
+    }else {
+        return dispatch( {
+            type: ADD_DATA,
+            payload: data
+        });
+    }
 }
 
 export {LoadStock, LoadTicket};
