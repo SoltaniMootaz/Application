@@ -32,7 +32,7 @@ import { VscSearch } from "react-icons/vsc";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const drawerWidth = 340;
+const drawerWidth = 400;
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -128,7 +128,6 @@ function Caisse(props) {
  
   useEffect(() => {
     getArticles();
-  
   }, []);
   
   const handleSearch = (e) => {

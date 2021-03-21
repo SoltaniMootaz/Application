@@ -23,16 +23,7 @@ const useStyles = makeStyles({
     width: "100%",
     height: 0,
     paddingTop: "56.25%", // 16:9
-  },
-  menu: {
-    shadows: ["none"],
-  },
-  cardHeaderRoot: {
-    overflow: "hidden",
-  },
-  cardHeaderContent: {
-    overflow: "hidden",
-  },
+    },
 });
 
 function AfficherStock() {
@@ -59,12 +50,24 @@ function AfficherStock() {
     else return false;
   };
 
+  useEffect(() => {
+    dispatch(LoadStock());
+  }, [dispatch]);
+
+  useEffect(()=> {
+    afficheStock();
+  },[loadStock.data])
+
+  const handleClick = (a) => {
+    dispatch(LoadTicket(a));
+  };
+
   const afficheStock = () => {
     if (loadStock.data.length > 0)
       setStock(
         loadStock.data.map((data1, index) => {
           return (
-            <div key={index}>
+            <div key={index} onClick={() => handleClick(data1)}>
               <div style={{ padding: "1em" }}>
                 <Card
                   className={classes.root}
@@ -91,6 +94,7 @@ function AfficherStock() {
                         gutterBottom
                         variant="h6"
                         component="h4"
+                        
                       >
                         {data1.libelle}
                       </Typography>
@@ -117,7 +121,7 @@ function AfficherStock() {
                     <CardMedia
                       className={classes.media}
                       image={isSRC(data1.image) ? src : data1.image}
-                      onClick={() => handleClick(data1)}
+                      
                     />
                   </CardActionArea>
                 </Card>
@@ -127,18 +131,6 @@ function AfficherStock() {
         })
     );
   }
-
-  useEffect(() => {
-    dispatch(LoadStock());
-  }, [dispatch]);
-
-  useEffect(()=> {
-    afficheStock();
-  },[loadStock.data])
-
-  const handleClick = (a) => {
-    dispatch(LoadTicket(a));
-  };
 
   return (
     <>
