@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { ADD_DATA,REMOVE_DATA,GET_DATA_ERROR,GET_DATA_REQUEST,GET_DATA_SUCCESS } from './actions'
+import { REMOVE_ALL_DATA,ADD_DATA,REMOVE_DATA,GET_DATA_ERROR,GET_DATA_REQUEST,GET_DATA_SUCCESS } from './actions'
 
 const url = "http://localhost:3001/api/stock/" + localStorage.getItem("userID");
 
@@ -33,10 +33,21 @@ const LoadTicket = (data, todo) => (dispatch) => {
         payload: "wait..."
     })
 
-    if (todo == "remove") {
+    if (todo == "ajouter menu") {
+        const menu = {id: data.id, libelle: data.nom, prix_ttc: data.prix}
+        return dispatch( {
+            type: ADD_DATA,
+            payload: menu,
+        });
+    }else if (todo == "remove") {
         return dispatch( {
             type: REMOVE_DATA,
-            payload: data
+            payload: data,
+        });
+    }else if (todo == "remove_all") {
+        return dispatch( {
+            type: REMOVE_ALL_DATA,
+            payload: data,
         });
     }else {
         return dispatch( {
