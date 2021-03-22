@@ -29,7 +29,8 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { VscSearch } from "react-icons/vsc";
-
+import { useSelector, useDispatch } from "react-redux";
+import { LoadTicket, LoadStock } from "../actions";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const drawerWidth = 400;
@@ -108,7 +109,8 @@ function Caisse(props) {
 
 //////////////////////////////////////////////////////////////////////
   const urlart = "http://localhost:3001/api/afficherArticles";
-
+  const dispatch = useDispatch();
+  const loadStock = useSelector((state) => state.loadStock);
 
   const [dataArt, setDataArt] = useState([]);
   const [isLoading2, setLoading2] = useState(true);
@@ -124,7 +126,10 @@ function Caisse(props) {
       .catch((err) => console.log(err));
     setLoading2(false);
   };
-    
+  useEffect(() => {
+    dispatch(LoadStock());
+  }, [dispatch]);
+ 
  
   useEffect(() => {
     getArticles();
@@ -171,6 +176,7 @@ function Caisse(props) {
     
     </div>
   );
+  console.log(loadStock.data);
   const container = window !== undefined ? () => window().document.body : undefined;
   if (isLoading2&&isLoading1) {
     return (
