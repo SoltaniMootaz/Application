@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Vente from "./vente";
 import { useSelector, useDispatch } from "react-redux";
-import { LoadTicket } from '../../actions'
+import { LoadTicket } from "../../actions";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -14,8 +14,9 @@ import Paper from "@material-ui/core/Paper";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { AiOutlineAppstoreAdd, AiOutlineDelete } from "react-icons/ai";
-import { GrAdd } from "react-icons/gr"
-import { IoMdRemove } from "react-icons/io"
+import { GrAdd } from "react-icons/gr";
+import { IoMdRemove } from "react-icons/io";
+import { RiDeleteBin2Fill } from "react-icons/ri";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -69,44 +70,63 @@ function Ticket() {
 
   const loadTicket = useSelector((state) => state.loadTicket);
 
-  const calculTotale = () => {    
+  const calculTotale = () => {
     var sm = 0;
     setSomme(0);
 
-    loadTicket.data.map((e,index)=> {
-      if(e.prix_ttc) {
-        sm += parseFloat(e.prix_ttc) * parseInt(loadTicket.quantite[index],10);
+    loadTicket.data.map((e, index) => {
+      if (e.prix_ttc) {
+        sm += parseFloat(e.prix_ttc) * parseInt(loadTicket.quantite[index], 10);
       }
-    })
+    });
 
     return sm.toFixed(2);
-  }
+  };
 
   useEffect(() => {
     setSomme(calculTotale());
     setData(
-      loadTicket.data.slice(0).reverse().map((value, index) => {
-        if (value.libelle) {
-          return (
-            <StyledTableRow key={index}>
-              <StyledTableCell align="right">{value.libelle}</StyledTableCell>
-              <StyledTableCell align="right">{value.prix_ttc}</StyledTableCell>
-              <StyledTableCell align="right">
-              <IoMdRemove onClick={()=>dispatch(LoadTicket(value, "remove"))} /> &nbsp;
-                <input
-                  type="number"
-                  name="quantite"
-                  value={loadTicket.quantite.slice(0).reverse()[index]}
-                  id={value.id}
-                  prix={value.prix_ttc}
-                  style={{ maxWidth: 30 }}
-                />
-                &nbsp;<GrAdd onClick={()=>dispatch(LoadTicket(value))} />
-              </StyledTableCell>
-            </StyledTableRow>
-          );
-        }
-      })
+      loadTicket.data
+        .slice(0)
+        .reverse()
+        .map((value, index) => {
+          if (value.libelle) {
+            return (
+              <>
+                <StyledTableRow key={index}>
+                  <StyledTableCell align="right">
+                    {value.libelle}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {value.prix_ttc}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <IoMdRemove
+                      onClick={() => dispatch(LoadTicket(value, "remove"))}
+                    />{" "}
+                    &nbsp;
+                    <input
+                      type="text"
+                      name="quantite"
+                      value={loadTicket.quantite.slice(0).reverse()[index]}
+                      id={value.id}
+                      prix={value.prix_ttc}
+                      style={{ maxWidth: 30 }}
+                    />
+                    &nbsp;
+                    <GrAdd onClick={() => dispatch(LoadTicket(value))} />
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <RiDeleteBin2Fill
+                      style={{ width: "1.5em", height: "1.5em" }}
+                      onClick={() => dispatch(LoadTicket(value, "remove_all"))}
+                    />
+                  </StyledTableCell>
+                </StyledTableRow>
+              </>
+            );
+          }
+        })
     );
   }, [loadTicket]);
 

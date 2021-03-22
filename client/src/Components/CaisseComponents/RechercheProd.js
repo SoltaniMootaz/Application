@@ -1,39 +1,48 @@
-import React from 'react'
+import React from "react";
+import { useDispatch } from "react-redux";
+import { LoadTicket } from "../../actions";
 
-import def from './img/def.jpg';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
+import def from "./img/def.jpg";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
 
-import CardMedia from '@material-ui/core/CardMedia';
+import CardMedia from "@material-ui/core/CardMedia";
 
-import CardHeader from '@material-ui/core/CardHeader';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { Grid} from '@material-ui/core';
-import { Divider, Menu , MenuItem,makeStyles,Typography } from '@material-ui/core';
+import CardHeader from "@material-ui/core/CardHeader";
+import IconButton from "@material-ui/core/IconButton";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { Grid } from "@material-ui/core";
+import {
+  Divider,
+  Menu,
+  MenuItem,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 const useStyles = makeStyles({
   root: {
-    width: '16rem',
-    
+    width: "16rem",
   },
   media: {
-    width:'100%',
+    width: "100%",
     height: 0,
-    paddingTop: '70%', // 16:9
+    paddingTop: "70%", // 16:9
   },
   menu: {
-    shadows: ["none"]
+    shadows: ["none"],
   },
   cardHeaderRoot: {
-    overflow: "hidden"
+    overflow: "hidden",
   },
   cardHeaderContent: {
-    overflow: "hidden"
-  }
+    overflow: "hidden",
+  },
 });
+
 function RechercheProd(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const dispatch = useDispatch();
 
   const handleClick1 = (event) => {
     setAnchorEl(event.currentTarget);
@@ -43,92 +52,88 @@ function RechercheProd(props) {
     setAnchorEl(null);
   };
 
-
-
-
-  const article = props.chercherDans.filter((art) =>
-      art.libelle.toLowerCase().indexOf(props.value) > -1  );
-
-      
   const classes = useStyles();
   var src = def;
 
   const isSRC = (data) => {
-    if ((data == null)||(data==="")) {
-      return true;
-    } else return false;
+    if (data == "NULL") return true;
+    else return false;
   };
-  const handleClick=(a)=>
-  {
-      //if(!array.includes(a)) {
-          props.handleTicketClick(a);
-      //}
-  }
 
-    return (
-        <>   
-        <Grid container >
-                    {article.map((data1,index)=>{
-                           return( 
-                            <div key={index} >                    
-                            
-                            <div style={{padding:"1em"}}>
-                          <Card className={classes.root} key={data1.nomCategorie} style={{Height:'25em'}}>
-                            <CardHeader
-                             classes={{
-                              root: classes.cardHeaderRoot,
-                              content: classes.cardHeaderContent
-                            }}
-                             
-                              action={
-                                <IconButton aria-label="settings"
-                                aria-controls="long-menu"
-                                aria-haspopup="true"
-                                onClick={handleClick1}>
-                                  <MoreVertIcon />
-                                </IconButton>
-                              }
-                              title={
-                                <Typography noWrap gutterBottom variant="h6" component="h4">
-                                  {data1.libelle}
-                                </Typography>
-                                }
-                              subheader={data1.prix}
-                            />
-                            <Menu
-                            id="long-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={open}
-                            onClose={handleClose}
-                            className={classes.menu}
-                             >
-                              <MenuItem  onClick={handleClose} style={{color:'blue'}}>modifier</MenuItem><Divider />
-                              <MenuItem  onClick={handleClose} style={{color:'red'}}>effacer</MenuItem>
-                          </Menu>
-                            <CardActionArea>
-                              <CardMedia
-                                className={classes.media}
-                                image={isSRC(data1.image) ? src: data1.image}
-                                onClick={()=>handleClick(article[index],index)}
-                              />
-                             
-                            </CardActionArea>
-                           
-                          </Card>
-                         
-                          </div>
-                                    
-                        
-                </div>
-                      )
-                          }
-                 )         
-            } 
-            </Grid>
-      
-        </>
-    )
+  const handleClick = (a) => {
+    dispatch(LoadTicket(a));
+  };
+
+  return (
+    <>
+      <Grid container>
+        {props.value.map((data1, index) => {
+          return (
+            <div key={index}>
+              <div style={{ padding: "1em" }}>
+                <Card
+                  className={classes.root}
+                  key={data1.nomCategorie}
+                  style={{ Height: "25em" }}
+                >
+                  <CardHeader
+                    classes={{
+                      root: classes.cardHeaderRoot,
+                      content: classes.cardHeaderContent,
+                    }}
+                    action={
+                      <IconButton
+                        aria-label="settings"
+                        aria-controls="long-menu"
+                        aria-haspopup="true"
+                        onClick={handleClick1}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    title={
+                      <Typography
+                        noWrap
+                        gutterBottom
+                        variant="h6"
+                        component="h4"
+                      >
+                        {data1.libelle}
+                      </Typography>
+                    }
+                    subheader={data1.prix_ttc}
+                  />
+                  <Menu
+                    id="long-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={open}
+                    onClose={handleClose}
+                    className={classes.menu}
+                  >
+                    <MenuItem onClick={handleClose} style={{ color: "blue" }}>
+                      modifier
+                    </MenuItem>
+                    <Divider />
+                    <MenuItem onClick={handleClose} style={{ color: "red" }}>
+                      effacer
+                    </MenuItem>
+                  </Menu>
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={isSRC(data1.image) ? src : data1.image}
+                      onClick={() => handleClick(props.value[index], index)}
+                    />
+                  </CardActionArea>
+                </Card>
+              </div>
+            </div>
+          );
+        })}
+      </Grid>
+    </>
+  );
 }
 
 export default RechercheProd;
