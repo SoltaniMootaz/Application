@@ -11,9 +11,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import IconButton  from "@material-ui/core/IconButton";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import { AiOutlineAppstoreAdd, AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineAppstoreAdd, AiOutlineDelete, AiOutlineFieldTime } from "react-icons/ai";
 import { GrAdd } from "react-icons/gr";
 import { IoMdRemove } from "react-icons/io";
 import { RiDeleteBin2Fill } from "react-icons/ri";
@@ -68,6 +69,7 @@ function Ticket() {
   const [data, setData] = useState();
   const [somme, setSomme] = useState(0);
 
+  //redux load data
   const loadTicket = useSelector((state) => state.loadTicket);
 
   const calculTotale = () => {
@@ -90,37 +92,43 @@ function Ticket() {
         .slice(0)
         .reverse()
         .map((value, index) => {
-          if (value.libelle) {
+          if (value) {
             return (
               <>
                 <StyledTableRow key={index}>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="left">
                     {value.libelle}
                   </StyledTableCell>
+
                   <StyledTableCell align="right">
                     {value.prix_ttc}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <IoMdRemove
-                      onClick={() => dispatch(LoadTicket(value, "remove"))}
-                    />{" "}
-                    &nbsp;
-                    <input
-                      type="text"
-                      name="quantite"
-                      value={loadTicket.quantite.slice(0).reverse()[index]}
-                      id={value.id}
-                      prix={value.prix_ttc}
-                      style={{ maxWidth: 30 }}
-                    />
-                    &nbsp;
-                    <GrAdd onClick={() => dispatch(LoadTicket(value))} />
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <RiDeleteBin2Fill
-                      style={{ width: "1.5em", height: "1.5em" }}
-                      onClick={() => dispatch(LoadTicket(value, "remove_all"))}
-                    />
+
+                    <StyledTableCell align="right" style={{maxWidth:0.1,paddingRight:0}}>
+                      <IconButton onClick={() => dispatch(LoadTicket(value, "remove"))}>
+                        <IoMdRemove style={{ width: "0.5em", height: "0.5em", color:"black" }} />
+                      </IconButton>
+                    </StyledTableCell>
+
+                    <StyledTableCell align="right" style={{paddingRight:0,paddingLeft:0}}>
+                      <input
+                        type="number"
+                        name="quantite"
+                        value={loadTicket.quantite.slice(0).reverse()[index]}
+                        style={{ maxWidth: "5em" }}
+                      />
+                    </StyledTableCell>
+
+                    <StyledTableCell align="left" style={{maxWidth:0.1,paddingLeft:0}}>
+                      <IconButton onClick={() => dispatch(LoadTicket(value))}>
+                        <GrAdd style={{ width: "0.5em", height: "0.5em", color:"black" }} />
+                      </IconButton>
+                    </StyledTableCell>
+
+                  <StyledTableCell align="right" style={{paddingLeft:-2}}>
+                    <IconButton onClick={() => dispatch(LoadTicket(value, "remove_all"))}>
+                      <RiDeleteBin2Fill style={{color:"black"}} />
+                    </IconButton>
                   </StyledTableCell>
                 </StyledTableRow>
               </>
@@ -141,9 +149,10 @@ function Ticket() {
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell align="right">Nom du produit</StyledTableCell>
+              <StyledTableCell align="left">Nom du produit</StyledTableCell>
               <StyledTableCell align="right">Prix</StyledTableCell>
-              <StyledTableCell align="center">Quantité</StyledTableCell>
+              <StyledTableCell style={{maxWidth:"1px"}} align="right"></StyledTableCell>
+              <StyledTableCell align="center" style={{maxWidth:"1px"}}>Quantité</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>{data}</TableBody>
@@ -160,7 +169,12 @@ function Ticket() {
         className={classes.root}
       >
         <BottomNavigationAction
-          label="Valider"
+            label="En attente"
+            style={{ color: "#ffb300" }}
+            icon={<AiOutlineFieldTime />}
+          />
+        <BottomNavigationAction
+          label="Payer"
           style={{ color: "blue" }}
           icon={<AiOutlineAppstoreAdd />}
           onClick={() => setState({ isOpen: true })}
@@ -169,6 +183,7 @@ function Ticket() {
           label="Effacer"
           style={{ color: "red" }}
           icon={<AiOutlineDelete />}
+          onClick={()=>dispatch(LoadTicket({}, "remove_all_data"))}
         />
       </BottomNavigation>
       <Vente

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { LoadTicket } from "../actions";
 
 import Ticket from "./CaisseComponents/ticket";
 import AfficheArticle from "./CaisseComponents/AfficheArticle";
@@ -27,6 +28,8 @@ import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { VscSearch } from "react-icons/vsc";
+import BarcodeReader from 'react-barcode-reader'
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,14 +101,12 @@ const useStyles = makeStyles((theme) => ({
 function Caisse(props) {
   const urlart = "http://localhost:3001/api/afficherArticles";
   const loadStock = useSelector((state) => state.loadStock);
+  const dispatch = useDispatch();
 
   const [dataArt, setDataArt] = useState([]);
   const [isLoading2, setLoading2] = useState(true);
-  const [isLoading1, setLoading1] = useState(true);
-  const [tickeTab, setTicketTab] = useState();
   const [isSearching, setIsSearching] = useState(false);
   const [value, setValue] = useState();
-  const [index, setIndex] = useState();
   const [searchValue, setSearchValue] = useState();
 
   const getArticles = () => {
@@ -119,6 +120,10 @@ function Caisse(props) {
     getArticles();
   }, []);
 
+  const handleScan = async (data) => {
+    dispatch(LoadTicket(data, "barcode"))
+  }
+
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
 
@@ -127,13 +132,9 @@ function Caisse(props) {
       setValue(e.target.value);
     } else {
       setValue(
-        loadStock.data.filter(
-          (art) =>
-            art.libelle.toLowerCase().indexOf(e.target.value.toLowerCase()) >
-              -1 ||
-            art.code_a_barre
-              .toLowerCase()
-              .indexOf(e.target.value.toLowerCase()) > -1
+        loadStock.data.filter((art) =>
+            art.libelle.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1 ||
+            art.code_a_barre.indexOf(e.target.value.toUpperCase()) > -1
         )
       );
       setIsSearching(true);
@@ -164,20 +165,24 @@ function Caisse(props) {
       </div>
       <Divider />
       <Divider />
-      <Ticket array={tickeTab} index={index} />
+      <Ticket />
       <Divider />
     </div>
   );
   const container =
     window !== undefined ? () => window().document.body : undefined;
-  if (isLoading2 && isLoading1) {
+  if (isLoading2) {
     return (
       <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>
       </Spinner>
     );
   } else {
-    return (
+    return (<>
+      <BarcodeReader
+        onError={(err)=>handleScan(err)}
+        onScan={(data)=>handleScan(data)}
+      />
       <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar} color="info">
@@ -277,7 +282,7 @@ function Caisse(props) {
           )}
         </main>
       </div>
-    );
+    </>);
   }
 }
 
