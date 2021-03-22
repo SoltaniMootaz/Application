@@ -1,4 +1,6 @@
 import React,{useState, useEffect} from 'react'
+import { useDispatch } from 'react-redux'
+import { LoadTicket } from '../../actions'
 
 import def from './img/def.jpg'
 
@@ -31,6 +33,8 @@ function AfficheArticle(props) {
    
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const dispatch = useDispatch();
+
 
   const handleClick1 = (event) => {
     setAnchorEl(event.currentTarget);
@@ -48,9 +52,9 @@ function AfficheArticle(props) {
         else return false
     };
 
-    const handleClick=(a,i)=>
+    const handleClick=(a)=>
     {
-        props.handleTicketClick(a,i);
+      dispatch(LoadTicket(a,"ajouter menu"));
     }
   
     return (
@@ -59,7 +63,7 @@ function AfficheArticle(props) {
       
                {props.dataArt.map((data1,index)=>{
                            return( <>
-                              <div key={index}>                    
+                              <div key={index} onClick={()=>handleClick(data1)}>                    
                           
                           <div style={{padding:"1em"}}>
                           <Card className={classes.root} key={data1.nomCategorie}>
@@ -91,7 +95,6 @@ function AfficheArticle(props) {
                               <CardMedia
                                 className={classes.media}
                                 image={isSRC(data1.image) ? src: data1.image}
-                                onClick={()=>handleClick(props.dataArt[index],index)}
                               />
                              
                             </CardActionArea>

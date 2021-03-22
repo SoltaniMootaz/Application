@@ -1,11 +1,23 @@
-import { ADD_DATA,GET_DATA_SUCCESS, REMOVE_DATA } from '../actions/actions'
+import { REMOVE_ALL_TICKET,REMOVE_ALL_DATA, ADD_DATA, REMOVE_DATA } from '../actions/actions'
 
 const initialState = {data: [], quantite: []}
 var tmpState = {data: [], quantite: [], tmp: []}
 
 const loadTicket = (state = initialState,action = {}) => {
-    //console.log(action.payload)
     switch (action.type) {
+        case REMOVE_ALL_TICKET:
+            return initialState
+        case REMOVE_ALL_DATA:
+            state.data.forEach((val,index) => {
+                if(val == action.payload) {
+                    state.data.splice(index,1);
+                    state.quantite.splice(index,1);
+                }
+                tmpState = {...tmpState, index : "tmp"}
+                tmpState.data = state.data;
+                tmpState.quantite = state.quantite;  
+            })
+            return tmpState
         case REMOVE_DATA:
             state.data.forEach((val,index) => {
                 if(val == action.payload) {
@@ -22,11 +34,11 @@ const loadTicket = (state = initialState,action = {}) => {
             })
             return tmpState
         case ADD_DATA: 
-            if(!state.data.includes(action.payload))
+            if(!JSON.stringify(state.data).includes(JSON.stringify(action.payload)))
                 return { ...state, data : [...state.data, action.payload], quantite : [...state.quantite, 1]}
-            else
+            else {
                 state.data.map((val,index)=>{
-                    if(val.id == action.payload.id) {
+                    if(JSON.stringify(val) === JSON.stringify(action.payload)) {
                         state.quantite[index] += 1;
                         tmpState = {...tmpState, index : "tmp"}
                         tmpState.data = state.data;
@@ -34,6 +46,7 @@ const loadTicket = (state = initialState,action = {}) => {
                     }
                 })
                 return tmpState;
+            }
         default: return state;
     }
 }
