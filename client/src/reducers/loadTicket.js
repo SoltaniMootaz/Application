@@ -1,10 +1,12 @@
-import { REMOVE_ALL_DATA, ADD_DATA, REMOVE_DATA } from '../actions/actions'
+import { REMOVE_ALL_TICKET,REMOVE_ALL_DATA, ADD_DATA, REMOVE_DATA } from '../actions/actions'
 
 const initialState = {data: [], quantite: []}
 var tmpState = {data: [], quantite: [], tmp: []}
 
 const loadTicket = (state = initialState,action = {}) => {
     switch (action.type) {
+        case REMOVE_ALL_TICKET:
+            return initialState
         case REMOVE_ALL_DATA:
             state.data.forEach((val,index) => {
                 if(val == action.payload) {
@@ -34,7 +36,7 @@ const loadTicket = (state = initialState,action = {}) => {
         case ADD_DATA: 
             if(!JSON.stringify(state.data).includes(JSON.stringify(action.payload)))
                 return { ...state, data : [...state.data, action.payload], quantite : [...state.quantite, 1]}
-            else
+            else {
                 state.data.map((val,index)=>{
                     if(JSON.stringify(val) === JSON.stringify(action.payload)) {
                         state.quantite[index] += 1;
@@ -44,6 +46,7 @@ const loadTicket = (state = initialState,action = {}) => {
                     }
                 })
                 return tmpState;
+            }
         default: return state;
     }
 }
