@@ -89,6 +89,7 @@ function styling(i){
     const submit = (e) => {  
       localStorage.setItem('tableIndex',e.target.value)
       
+      
     }
 
      useEffect(() => {
@@ -96,7 +97,7 @@ function styling(i){
         for(var i=1;i<=localStorage.getItem('nbTables');i++){
          item.push(
              <Grid item xs={4} style={{paddingTop:'1em'}}> 
-            <Button size="large" startIcon={<GiTable style={{color:'white'}}/>} value={i} onClick={(e)=>submit(e)} 
+            <Button  size="large" startIcon={<GiTable style={{color:'white'}}/>} value={i} onClick={(e)=>submit(e)} 
                     className={classes.root} variant="contained"  style={styling(i)}>
 
             Table n°{i}

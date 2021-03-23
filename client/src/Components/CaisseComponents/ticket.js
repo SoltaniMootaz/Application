@@ -76,8 +76,9 @@ function Ticket() {
 
   const pending = () => {
     const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : localStorage.getItem('tableIndex')}
-    localStorage.setItem('ticket' + ticket.table , JSON.stringify(ticket));
+    localStorage.setItem('ticket' + localStorage.getItem('tableIndex') , JSON.stringify(ticket));
     dispatch(LoadTicket({}, "remove_all_data"))
+    console.log(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')))
   }
   
   const calculTotale = () => {
@@ -96,14 +97,16 @@ function Ticket() {
   };
 
   useEffect(() => {
-    if(!localStorage.getItem('tableIndex')) localStorage.setItem('tableIndex',1)
-    const ticket = localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))
-    if(ticket) {
+    dispatch(LoadTicket({}, "remove_all_data"))
+    const ticket = JSON.parse(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')))
+    console.log(ticket)
+    console.log(localStorage.getItem('tableIndex'))
+    if(ticket && ticket.data) {
       ticket.data.map((value,index) => {
         dispatch(LoadTicket(value,"quantity change",ticket.quantite[index]));
       })
     }
-  },[])
+  },[localStorage.getItem('tableIndex')])
 
   useEffect(() => {
     setSomme(calculTotale());
@@ -191,6 +194,9 @@ function Ticket() {
             Somme: {somme} DT
           </p>
         </center>
+          <p style={{ fontSize: "15px", color: "black", display: "inline", textAlign:"right" }}>
+            Table: {localStorage.getItem('tableIndex')} 
+          </p>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
