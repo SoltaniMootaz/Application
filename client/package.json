@@ -14,7 +14,7 @@
     "mime": "^1.6.0",
     "mime-types": "^2.1.29",
     "react": "^17.0.1",
-    "react-barcode-reader": "0.0.2",
+    "react-barcode-reader": "^0.0.2",
     "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",

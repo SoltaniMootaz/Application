@@ -25,9 +25,7 @@ import TousArticle from "./ArticleComponents/TousArticle.js";
 import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
 import AjouterCat from "./ArticleComponents/ajouterCategorie";
 import AjouterArt from "./ArticleComponents/ajouterArticle";
-
-import { useSelector, useDispatch } from "react-redux";
-import { LoadMenu, loadCat } from "../actions";
+import ModifierTab from "./ArticleComponents/tables"
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 const drawerWidth = 340;
 
@@ -114,13 +112,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 /////////////////////////////////////////////
 function Article(props) {
-  
-
-  const dispatch = useDispatch();
-  const LoadCat = useSelector((state) => state.loadCat);
-  const LoadArt = useSelector((state) => state.LoadMenu);
-
-
   const urlcat = "http://localhost:3001/api/afficherCategorie";
   const urlart = "http://localhost:3001/api/afficherArticles";
   var isLoading = true;
@@ -171,6 +162,10 @@ function Article(props) {
   const [state1, setState1] = useState({
     isOpen: Boolean(false),
   });
+
+  const [state2, setState2] = useState({
+    isOpen: Boolean(false),
+  });
  
 ////////////////////////////////////////////////////////////////////////////
 
@@ -187,7 +182,7 @@ const handleDrawerToggle = () => {
 };
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 const drawer = (
   <div >
     <div className={classes.toolbar} />
@@ -198,9 +193,10 @@ const drawer = (
           
           <ListItem button  onClick={() =>{ 
             setState({isOpen:false})
+            setState2({isOpen:false})
             setState1({ isOpen: true })}}>
              <BiPlusCircle style={{  width: "2em", height: "2em",color:"white"}} />
-            <ListItemText style={{paddingLeft:'2em'}} primary={'ajouter article'} />
+            <ListItemText style={{paddingLeft:'2em'}} primary={'Ajouter article'} />
           </ListItem>
      
       </List>
@@ -209,15 +205,29 @@ const drawer = (
          
          <ListItem button  onClick={() =>{ 
            setState1({isOpen:false})
+           setState2({isOpen:false})
            setState({ isOpen: true })
            }}>
            <BiPlusCircle style={{  width: "2em", height: "2em",color:"white"}} />
-           <ListItemText style={{paddingLeft:'2em'}}primary={'ajouter catégorie'} />
+           <ListItemText style={{paddingLeft:'2em'}}primary={'Ajouter catégorie'} />
          </ListItem>
 
      </List>
     <Divider />
-  
+    <List>
+         
+         <ListItem  button  onClick={() =>{ 
+           setState({isOpen:false})
+           setState1({ isOpen:false })
+           setState2({isOpen:true})
+           setMobileOpen(false)}}
+           >
+           <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
+           <ListItemText primary={'Modifier tables'} />
+         </ListItem>
+
+     </List>
+     <Divider />
   </div>
 );
 const drawer1 = (
@@ -234,7 +244,7 @@ const drawer1 = (
             setMobileOpen(false)   }
             }>
             <BiPlusCircle style={{  width: "2em", height: "2em",color:"white"}} />
-            <ListItemText style={{paddingLeft:'2em'}} primary={'ajouter article'} />
+            <ListItemText style={{paddingLeft:'2em'}} primary={'Ajouter article'} />
           </ListItem>
      
       </List>
@@ -247,12 +257,24 @@ const drawer1 = (
            setMobileOpen(false)}}
            >
            <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
-           <ListItemText primary={'ajouter catégorie'} />
+           <ListItemText primary={'Modifier tables'} />
          </ListItem>
 
      </List>
     <Divider />
-  
+    <List>
+         
+         <ListItem  button  onClick={() =>{ 
+           setState1({isOpen:false})
+           setState({ isOpen: true })
+           setMobileOpen(false)}}
+           >
+           <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
+           <ListItemText primary={'Ajouter catégorie'} />
+         </ListItem>
+
+     </List>
+     <Divider />
   </div>
 );
 const container = window !== undefined ? () => window().document.body : undefined;
@@ -361,13 +383,17 @@ const container = window !== undefined ? () => window().document.body : undefine
      
             </main>
             <AjouterCat
-        handleOpen={state.isOpen}
-        handleClose={() => setState({ isOpen: false })}
-      />
-      <AjouterArt
-        handleOpen={state1.isOpen}
-        handleClose={() => setState1({ isOpen: false })}
-      />
+              handleOpen={state.isOpen}
+              handleClose={() => setState({ isOpen: false })}
+            />
+            <AjouterArt
+              handleOpen={state1.isOpen}
+              handleClose={() => setState1({ isOpen: false })}
+            />
+            <ModifierTab
+              handleOpen={state2.isOpen}
+              handleClose={() => setState2({ isOpen: false })}
+            />
       </div>
     );
   }

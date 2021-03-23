@@ -13,8 +13,10 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import { Spinner } from "react-bootstrap";
 import AppBar from "@material-ui/core/AppBar";
+import Badge from "@material-ui/core/Badge";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
@@ -28,6 +30,7 @@ import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { VscSearch } from "react-icons/vsc";
+import { SiAirtable } from "react-icons/si";
 import BarcodeReader from 'react-barcode-reader'
 
 
@@ -74,19 +77,36 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   search: {
-    position: "relative",
-    color: "white",
+    position: 'relative',
+  
+ 
 
-    justifyContent: "flex-end",
-
-    [theme.breakpoints.up("sm")]: {
-      paddingLeft: "50%",
+    
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft:'25%'
     },
-    [theme.breakpoints.up("lg")]: {
-      paddingLeft: "85%",
+     [theme.breakpoints.down('xs')]: {
+      paddingLeft:'10%'
     },
+    [theme.breakpoints.up('lg')]:{
+      paddingLeft:'30%',
+     }
   },
-
+  icon:{
+    width: "1.5em", height: "1.5em"
+  },
+  Badge:{
+    position: 'relative',
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft:'25%'
+    },
+     [theme.breakpoints.down('xs')]: {
+      paddingLeft:'10%'
+    },
+    [theme.breakpoints.up('lg')]:{
+      paddingLeft:'50%',
+     }
+  },
   title: {
     flexGrow: 1,
     display: "none",
@@ -100,13 +120,14 @@ const useStyles = makeStyles((theme) => ({
 
 function Caisse(props) {
   const urlart = "http://localhost:3001/api/afficherArticles";
+  const urlcat = "http://localhost:3001/api/afficherCategorie";
   const loadStock = useSelector((state) => state.loadStock);
   const dispatch = useDispatch();
 
   const [dataArt, setDataArt] = useState([]);
+  const [dataCat, setDataCat] = useState([]);
   const [isLoading2, setLoading2] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
-  const [value, setValue] = useState();
   const [searchValue, setSearchValue] = useState();
 
   const getArticles = () => {
@@ -114,32 +135,24 @@ function Caisse(props) {
       .then((res) => setDataArt(res.data))
       .catch((err) => console.log(err));
     setLoading2(false);
+  }; const getCategories= () => {
+    Axios.get(urlcat)
+      .then((res) => setDataCat(res.data))
+      .catch((err) => console.log(err));
+    setLoading2(false);
   };
-
-  useEffect(() => {
-    getArticles();
-  }, []);
 
   const handleScan = async (data) => {
     dispatch(LoadTicket(data, "barcode"))
   }
 
   const handleSearch = (e) => {
+    setCat();
     setSearchValue(e.target.value);
-
-    if (e.target.value === "") {
-      setIsSearching(false);
-      setValue(e.target.value);
-    } else {
-      console.log(e.target.value.toUpperCase())
-      setValue(
-        loadStock.data.filter((art) =>
-            art.libelle.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1 ||
-            art.code_a_barre.indexOf(e.target.value.toUpperCase()) > -1
-        )
-      );
+    if (e.target.value !== "")
       setIsSearching(true);
-    }
+    else 
+      setIsSearching(false);
   };
 
   ////////////////////////////////////////////////////////////////////////////
@@ -148,6 +161,8 @@ function Caisse(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [type, setType] = useState("s");
+  const [cat, setCat] = useState();
+  const [scat,setScat]=useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -156,6 +171,23 @@ function Caisse(props) {
   function handleType(a) {
     setType(a);
   }
+  function handleFilterCat(value,test){
+    setSearchValue();
+    setCat(value);
+    setScat(test)
+  }
+
+  const G=loadStock.data.map(item=>{return item.gamme_code})
+  const Gammes = G.filter((gamme,index)=>{return G.indexOf(gamme)===index});
+
+  useEffect(() => {
+    getArticles();
+    getCategories();
+  }, []);
+
+  const filterPrice=(<>
+  
+  </>);
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const drawer = (
     <div>
@@ -218,6 +250,11 @@ function Caisse(props) {
               className={classes.search}
               onChange={handleSearch}
             />
+            <div className={classes.Badge}>
+            <Badge color="secondary" overlap="circle" badgeContent=" " variant="dot">
+              <SiAirtable className={classes.icon} />
+            </Badge>
+            </div>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer} aria-label="mailbox folders">
@@ -254,7 +291,9 @@ function Caisse(props) {
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <FormControl className={classes.formControl}>
+          <Grid container>
+            <Grid item>          
+            <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label">Type</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select">
               <MenuItem value="stock" onClick={() => handleType("s")} default>
@@ -264,19 +303,43 @@ function Caisse(props) {
                 Menu
               </MenuItem>
             </Select>
-          </FormControl>{" "}
+          </FormControl>
+          </Grid>
+          <Grid item>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select">
+                  <MenuItem value="" onClick={() => handleFilterCat("",false)} default>
+                    Tous Categorie
+                  </MenuItem>
+                  {Gammes.map((data)=>{
+                    return (
+                  <MenuItem value={data} onClick={(e) => handleFilterCat(data,true)} default>
+                    {data}
+                  </MenuItem>
+                    )
+                  })
+                }
+                </Select>
+              </FormControl>
+            </Grid>
+          <Grid item>
+{filterPrice}
+          </Grid>
+{" "}
+          </Grid>
           <br />
-          {isSearching ? (
+          {isSearching || scat ? (
             type === "m" ? (
               <RechercheArticle
-                chercherDans={dataArt} value={searchValue}
+                chercherDans={dataArt} value={searchValue} 
               />
             ) : (
-              <RechercheProd value={value} />
+              <RechercheProd value={searchValue} cat={cat} />
             )
           ) : type === "m" ? (
             <AfficheArticle
-              dataArt={dataArt}
+              dataArt={dataArt} dataCat={dataCat}
             ></AfficheArticle>
           ) : (
             <AfficheStock />
