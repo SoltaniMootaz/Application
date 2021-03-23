@@ -217,7 +217,19 @@ const drawer = (
 
      </List>
     <Divider />
-  
+    <List>
+         
+         <ListItem  button  onClick={() =>{ 
+           setState1({isOpen:false})
+           setState({ isOpen: true })
+           setMobileOpen(false)}}
+           >
+           <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
+           <ListItemText primary={'configuration'} />
+         </ListItem>
+
+     </List>
+     <Divider />
   </div>
 );
 const drawer1 = (
@@ -247,12 +259,24 @@ const drawer1 = (
            setMobileOpen(false)}}
            >
            <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
-           <ListItemText primary={'ajouter catégorie'} />
+           <ListItemText primary={'configuration'} />
          </ListItem>
 
      </List>
     <Divider />
-  
+    <List>
+         
+         <ListItem  button  onClick={() =>{ 
+           setState1({isOpen:false})
+           setState({ isOpen: true })
+           setMobileOpen(false)}}
+           >
+           <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
+           <ListItemText primary={'ajouter catégorie'} />
+         </ListItem>
+
+     </List>
+     <Divider />
   </div>
 );
 const container = window !== undefined ? () => window().document.body : undefined;
