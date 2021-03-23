@@ -68,6 +68,7 @@ function Ticket() {
 
   const [data, setData] = useState();
   const [somme, setSomme] = useState(0);
+  const [focus, setFocus] = useState(0);
 
   //redux load data
   const loadTicket = useSelector((state) => state.loadTicket);
@@ -76,7 +77,6 @@ function Ticket() {
     const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : 1}
     localStorage.setItem('ticket' + ticket.table , JSON.stringify(ticket));
     dispatch(LoadTicket({}, "remove_all_data"))
-    console.log(JSON.parse(localStorage.getItem('ticket1')));
   }
   
   const calculTotale = () => {
@@ -84,8 +84,10 @@ function Ticket() {
     setSomme(0);
 
     loadTicket.data.map((e, index) => {
-      if (e.prix_ttc) {
-        sm += parseFloat(e.prix_ttc) * parseInt(loadTicket.quantite[index], 10);
+      if(e) {
+        if (e.prix_ttc) {
+          sm += parseFloat(e.prix_ttc) * parseInt(loadTicket.quantite[index], 10);
+        }
       }
     });
 
@@ -94,6 +96,7 @@ function Ticket() {
 
   useEffect(() => {
     setSomme(calculTotale());
+    setFocus("")
     setData(
       loadTicket.data
         .slice(0)
@@ -118,12 +121,36 @@ function Ticket() {
                     </StyledTableCell>
 
                     <StyledTableCell align="right" style={{paddingLeft:0, paddingRight:0}}>
-                      <input
+                      {index === focus ? 
+                        <input
+                          type="text"
+                          name="quantite"
+                          key={loadTicket.quantite.slice(0).reverse()[index]}
+                          defaultValue={loadTicket.quantite.slice(0).reverse()[index]}
+                          autoFocus
+                          onChange={(e)=> {
+                            setFocus(index);
+                            if (e.target.value > 0 && e.target.value !== "") {
+                              dispatch(LoadTicket(value, "quantity change", e.target.value))
+                            }
+                          }}
+                          style={{ maxWidth: "3em" }}
+                        />
+                      : 
+                        <input
                         type="text"
                         name="quantite"
-                        value={loadTicket.quantite.slice(0).reverse()[index]}
-                        style={{ maxWidth: "2em" }}
-                      />
+                        key={loadTicket.quantite.slice(0).reverse()[index]}
+                        defaultValue={loadTicket.quantite.slice(0).reverse()[index]}
+                        onChange={(e)=> {
+                          setFocus(index);
+                          if (e.target.value > 0 && e.target.value !== "") {
+                            dispatch(LoadTicket(value, "quantity change", e.target.value))
+                          }
+                        }}
+                        style={{ maxWidth: "3em" }}
+                      /> }
+                      
                     </StyledTableCell>
 
                     <StyledTableCell align="right" style={{paddingLeft:0}}>

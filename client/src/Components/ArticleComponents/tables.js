@@ -7,7 +7,10 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 ////////////////////////////////////////////////////////
 
@@ -51,29 +54,37 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-function Table(props) {
+function ModifierArt(props) {
 
-    const submit = (e) => {
-        e.preventDefault();
-    }
+  function submit(e) {
+    e.preventDefault();
+    localStorage.setItem('nbTables', e.target.value)
+    props.handleClose();
+  }
 
   return (
     <>
     <Dialog fullWidth={true} onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
         <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
-          Tables
+          Modifier tables
         </DialogTitle>
         <DialogContent dividers>
-          
+          <Grid container >
+            <Grid container >
+              <Grid item xs={12}>
+                <TextField id="standard-basic" label="Nombre de tables" required style={{width:'100%'}}/>
+              </Grid>
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions style={{justifyContent:'center'}}>
-            <Button variant="contained" color="primary">
-                Valider
-            </Button>
+          <Fab color="primary" aria-label="add" onClick={(e) => submit(e)}>
+          <AddIcon />
+          </Fab>
         </DialogActions>
       </Dialog>
     </>
   );
 }
 
-export default Table;
+export default ModifierArt;
