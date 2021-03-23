@@ -128,7 +128,6 @@ function Caisse(props) {
   const [dataCat, setDataCat] = useState([]);
   const [isLoading2, setLoading2] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
-  const [value, setValue] = useState();
   const [searchValue, setSearchValue] = useState();
 
   const getArticles = () => {
@@ -142,33 +141,18 @@ function Caisse(props) {
       .catch((err) => console.log(err));
     setLoading2(false);
   };
-  useEffect(() => {
-    getArticles();
-    getCategories();
-  }, []);
 
   const handleScan = async (data) => {
     dispatch(LoadTicket(data, "barcode"))
   }
 
   const handleSearch = (e) => {
+    setCat();
     setSearchValue(e.target.value);
-
-    if (e.target.value === "") {
-      setIsSearching(false);
-      setValue(e.target.value);
-    } else {
-      let val=e.target.value.toLowerCase();
-      var res=[];
-      for(var i=0;i<loadStock.data.length;i++){
-        if(loadStock.data[i])
-        if((loadStock.data[i].libelle.toLowerCase().indexOf(val)>-1)||(loadStock.data[i].code_a_barre.indexOf(e.target.value.toUpperCase()) > -1))
-        res[i]=loadStock.data[i];
-      }
-   
-      setValue( res );
+    if (e.target.value !== "")
       setIsSearching(true);
-    }
+    else 
+      setIsSearching(false);
   };
 
   ////////////////////////////////////////////////////////////////////////////
@@ -180,7 +164,6 @@ function Caisse(props) {
   const [cat, setCat] = useState();
   const [scat,setScat]=useState(false);
 
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -189,34 +172,19 @@ function Caisse(props) {
     setType(a);
   }
   function handleFilterCat(value,test){
-      setCat(
-        loadStock.data.filter((art) =>
-      art.gamme_code.toLowerCase()===value.toLowerCase()
-  ))
-  
-     setScat(test)
+    setSearchValue();
+    setCat(value);
+    setScat(test)
   }
-  useEffect(() => {
- console.log(cat); }, [cat])
+
   const G=loadStock.data.map(item=>{return item.gamme_code})
-  const Gammes=G.filter((gamme,index)=>{return G.indexOf(gamme)===index})
-  const filterCat=(<>
-  <FormControl className={classes.formControl}>
-    <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
-    <Select labelId="demo-simple-select-label" id="demo-simple-select">
-    <MenuItem value="" onClick={() => handleFilterCat("",false)} default>
-        Tous Categorie
-      </MenuItem>
-      {Gammes.map((data,index)=>{
-        return(
-      <MenuItem value={data} onClick={(e) => handleFilterCat(data,true)} default>
-        {data}
-      </MenuItem>
-        )
-      })
-    }
-    </Select>
-  </FormControl></>);
+  const Gammes = G.filter((gamme,index)=>{return G.indexOf(gamme)===index});
+
+  useEffect(() => {
+    getArticles();
+    getCategories();
+  }, []);
+
   const filterPrice=(<>
   
   </>);
@@ -338,8 +306,23 @@ function Caisse(props) {
           </FormControl>
           </Grid>
           <Grid item>
-{filterCat}
-          </Grid>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select">
+                  <MenuItem value="" onClick={() => handleFilterCat("",false)} default>
+                    Tous Categorie
+                  </MenuItem>
+                  {Gammes.map((data)=>{
+                    return (
+                  <MenuItem value={data} onClick={(e) => handleFilterCat(data,true)} default>
+                    {data}
+                  </MenuItem>
+                    )
+                  })
+                }
+                </Select>
+              </FormControl>
+            </Grid>
           <Grid item>
 {filterPrice}
           </Grid>
@@ -352,7 +335,7 @@ function Caisse(props) {
                 chercherDans={dataArt} value={searchValue} 
               />
             ) : (
-              <RechercheProd value={value} cat={cat} scat={scat} />
+              <RechercheProd value={searchValue} cat={cat} />
             )
           ) : type === "m" ? (
             <AfficheArticle

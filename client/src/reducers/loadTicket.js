@@ -39,7 +39,11 @@ const loadTicket = (state = initialState,action = {}) => {
             else {
                 state.data.map((val,index)=>{
                     if(JSON.stringify(val) === JSON.stringify(action.payload)) {
-                        state.quantite[index] += 1;
+                        if(action.quantity)
+                            state.quantite[index] = parseInt(action.quantity,10);
+                        else
+                            state.quantite[index] += 1;
+
                         tmpState = {...tmpState, index : "tmp"}
                         tmpState.data = state.data;
                         tmpState.quantite = state.quantite;
