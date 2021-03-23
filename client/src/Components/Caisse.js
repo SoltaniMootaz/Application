@@ -131,6 +131,7 @@ function Caisse(props) {
       setIsSearching(false);
       setValue(e.target.value);
     } else {
+      console.log(e.target.value.toUpperCase())
       setValue(
         loadStock.data.filter((art) =>
             art.libelle.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1 ||

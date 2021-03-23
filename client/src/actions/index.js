@@ -27,7 +27,7 @@ const LoadStock = () => {
     }
 }
 
-const LoadTicket = (data, todo) => (dispatch) => {
+const LoadTicket = (data, todo, value) => (dispatch) => {
     dispatch({
         type: GET_DATA_REQUEST,
         payload: "wait..."
@@ -60,6 +60,13 @@ const LoadTicket = (data, todo) => (dispatch) => {
                 return dispatch( {
                     type: REMOVE_ALL_TICKET,
                 });
+            case "quantity change" :
+                console.log(value);
+                return dispatch( {
+                    type: ADD_DATA,
+                    payload: data,
+                    quantity: value
+                }); 
             default :
                 return dispatch( {
                     type: ADD_DATA,
