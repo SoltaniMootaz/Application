@@ -133,7 +133,6 @@ function Article(props) {
   const getArticles = () => {
     Axios.get(urlart)
       .then((res) => {
-        console.log(res)
         setDataArt(res.data);
       })
       .catch((err) => console.log(err));
@@ -240,7 +239,8 @@ const drawer1 = (
           
           <ListItem button  onClick={() =>{ 
             setState({isOpen:false})
-            setState1({ isOpen: true })
+            setState1({ isOpen:true })
+            setState2({isOpen:false})
             setMobileOpen(false)   }
             }>
             <BiPlusCircle style={{  width: "2em", height: "2em",color:"white"}} />
@@ -253,24 +253,26 @@ const drawer1 = (
          
          <ListItem  button  onClick={() =>{ 
            setState1({isOpen:false})
-           setState({ isOpen: true })
-           setMobileOpen(false)}}
-           >
-           <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
-           <ListItemText primary={'Modifier tables'} />
-         </ListItem>
-
-     </List>
-    <Divider />
-    <List>
-         
-         <ListItem  button  onClick={() =>{ 
-           setState1({isOpen:false})
-           setState({ isOpen: true })
+           setState({ isOpen:true })
+           setState2({isOpen:false})
            setMobileOpen(false)}}
            >
            <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
            <ListItemText primary={'Ajouter catégorie'} />
+         </ListItem>
+
+          </List>
+          <Divider />
+          <List>
+         
+         <ListItem  button  onClick={() =>{ 
+           setState1({isOpen:false})
+           setState({ isOpen:false })
+           setState2({isOpen:true})
+           setMobileOpen(false)}}
+           >
+           <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
+           <ListItemText primary={'Modifier tables'} />
          </ListItem>
 
      </List>

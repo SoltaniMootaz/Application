@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -55,10 +55,11 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 function ModifierArt(props) {
+  const [nbTable, setNbTable] = useState();
 
   function submit(e) {
     e.preventDefault();
-    localStorage.setItem('nbTables', e.target.value)
+    localStorage.setItem('nbTables', nbTable)
     props.handleClose();
   }
 
@@ -72,7 +73,7 @@ function ModifierArt(props) {
           <Grid container >
             <Grid container >
               <Grid item xs={12}>
-                <TextField id="standard-basic" label="Nombre de tables" required style={{width:'100%'}}/>
+                <TextField id="standard-basic" label="Nombre de tables" onChange={(e)=>setNbTable(e.target.value)} required style={{width:'100%'}}/>
               </Grid>
             </Grid>
           </Grid>

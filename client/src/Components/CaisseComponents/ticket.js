@@ -19,6 +19,7 @@ import { GrAdd } from "react-icons/gr";
 import { IoMdRemove } from "react-icons/io";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: "",
@@ -74,7 +75,7 @@ function Ticket() {
   const loadTicket = useSelector((state) => state.loadTicket);
 
   const pending = () => {
-    const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : 1}
+    const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : localStorage.getItem('tableIndex')}
     localStorage.setItem('ticket' + ticket.table , JSON.stringify(ticket));
     dispatch(LoadTicket({}, "remove_all_data"))
   }
@@ -93,6 +94,15 @@ function Ticket() {
 
     return sm.toFixed(2);
   };
+
+  useEffect(() => {
+    const ticket = localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))
+    if(ticket) {
+      ticket.data.map((value,index) => {
+        dispatch(LoadTicket(value,"quantity change",ticket.quantite[index]));
+      })
+    }
+  },[])
 
   useEffect(() => {
     setSomme(calculTotale());
