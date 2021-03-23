@@ -35,7 +35,11 @@ const loadTicket = (state = initialState,action = {}) => {
             return tmpState
         case ADD_DATA: 
             if(!JSON.stringify(state.data).includes(JSON.stringify(action.payload)))
-                return { ...state, data : [...state.data, action.payload], quantite : [...state.quantite, 1]}
+                if(action.quantity) {
+                    return { ...state, data : [...state.data, action.payload], quantite : [...state.quantite, action.quantity]}
+                }else {
+                    return { ...state, data : [...state.data, action.payload], quantite : [...state.quantite, 1]}
+                }
             else {
                 state.data.map((val,index)=>{
                     if(JSON.stringify(val) === JSON.stringify(action.payload)) {
