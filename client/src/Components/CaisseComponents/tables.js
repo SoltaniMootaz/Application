@@ -73,7 +73,7 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 function Table(props) {
-
+  
 function styling(i){
  if(localStorage.getItem('ticket'+i)){
      return{
@@ -85,23 +85,23 @@ function styling(i){
 }
 }
     const [Tables, setTables] = useState();
-    
+
     const submit = (e) => {  
-      localStorage.setItem('tableIndex',e.target.value)
+      props.handleClose();
+      localStorage.setItem('tableIndex',e)
     }
 
      useEffect(() => {
         var item=[]
         for(var i=1;i<=localStorage.getItem('nbTables');i++){
-         item.push(
+          const index = i;
+          item.push(
              <Grid item xs={4} style={{paddingTop:'1em'}}> 
-            <Button size="large" startIcon={<GiTable style={{color:'white'}}/>} value={i} onClick={(e)=>submit(e)} 
-                    className={classes.root} variant="contained"  style={styling(i)}>
-
-            Table n°{i}
-            </Button>
+              <Button size="large" startIcon={<GiTable style={{color:'white'}}/>} value={i} onClick={()=>submit(index)} 
+                    className={classes.root} variant="contained"  style={styling(i)}>Table n°{i}
+              </Button>
             </Grid>
-            )
+          )
         }
       
         setTables(item)

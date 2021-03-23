@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Row, Col,InputGroup, FormControl, Tabs, Tab, Container, DropdownButton } from "react-bootstrap";
-import { BsFillPlusCircleFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { LoadTicket } from "../../actions"
+
 import Axios from "axios";
 import d17 from './img/D17.png'
 import mobiflouss from './img/mobiflouss.jpg'
@@ -93,6 +94,7 @@ const DialogActions = withStyles((theme) => ({
 
 function Vente(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const url1 = "http://localhost:3001/api/ajouterClient";
   const url2 = "http://localhost:3001/api/afficherClients";
@@ -150,6 +152,12 @@ function Vente(props) {
 
   function handleClientSelec(e) {
     setClientSelec(e);
+  }
+
+  const handleClick = () => {
+    props.handleClose();
+    localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
+    dispatch(LoadTicket({}, "remove_all_data"))
   }
 
   function submit(e) {
@@ -490,7 +498,7 @@ function Vente(props) {
           </Grid>
         </DialogContent>
         <DialogActions style={{justifyContent:'center'}}>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={handleClick}>
             Valider
           </Button>
         </DialogActions>
