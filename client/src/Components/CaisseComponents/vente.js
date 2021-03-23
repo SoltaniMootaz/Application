@@ -157,6 +157,7 @@ function Vente(props) {
   const handleClick = () => {
     props.handleClose();
     localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
+    localStorage.setItem('change',!localStorage.getItem('change'))
     dispatch(LoadTicket({}, "remove_all_data"))
   }
 

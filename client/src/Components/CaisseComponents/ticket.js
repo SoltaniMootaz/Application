@@ -77,8 +77,8 @@ function Ticket() {
   const pending = () => {
     const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : localStorage.getItem('tableIndex')}
     localStorage.setItem('ticket' + localStorage.getItem('tableIndex') , JSON.stringify(ticket));
+    localStorage.setItem('change',!localStorage.getItem('change'))
     dispatch(LoadTicket({}, "remove_all_data"))
-    console.log(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')))
   }
   
   const calculTotale = () => {
@@ -99,8 +99,6 @@ function Ticket() {
   useEffect(() => {
     dispatch(LoadTicket({}, "remove_all_data"))
     const ticket = JSON.parse(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')))
-    console.log(ticket)
-    console.log(localStorage.getItem('tableIndex'))
     if(ticket && ticket.data) {
       ticket.data.map((value,index) => {
         dispatch(LoadTicket(value,"quantity change",ticket.quantite[index]));
@@ -188,15 +186,17 @@ function Ticket() {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <center>
-          <p style={{ fontSize: "20px", color: "green", display: "inline" }}>
+    <center>
+          <p style={{ fontSize: "20px", color: "#4caf50", display: "inline" }}>
             Somme: {somme} DT
           </p>
         </center>
-          <p style={{ fontSize: "15px", color: "black", display: "inline", textAlign:"right" }}>
+        <center>
+          <p style={{ fontSize: "15px", color: "#3f51b5", display: "inline",  }}>
             Table: {localStorage.getItem('tableIndex')} 
-          </p>
+          </p></center>
+          <br></br>
+      <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
