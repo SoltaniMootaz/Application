@@ -96,6 +96,7 @@ function Ticket() {
   };
 
   useEffect(() => {
+    if(!localStorage.getItem('tableIndex')) localStorage.setItem('tableIndex',1)
     const ticket = localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))
     if(ticket) {
       ticket.data.map((value,index) => {

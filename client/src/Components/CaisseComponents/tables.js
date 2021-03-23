@@ -88,6 +88,7 @@ function styling(i){
     
     const submit = (e) => {  
       localStorage.setItem('tableIndex',e.target.value)
+      
     }
 
      useEffect(() => {
