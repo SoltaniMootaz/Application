@@ -8,7 +8,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Grid} from '@material-ui/core';
-import { Divider, Menu , MenuItem } from '@material-ui/core';
+import { Divider, Menu , MenuItem ,Paper} from '@material-ui/core';
 const useStyles = makeStyles({
   root: {
     width: '16rem',
@@ -21,6 +21,12 @@ const useStyles = makeStyles({
   },
   menu: {
     shadows: ["none"]
+  }, Paper:{
+    width:'97%',
+    marginTop:'3em'
+  },
+  typo:{
+    paddingLeft:'1em'
   },
 });
 
@@ -57,6 +63,8 @@ function ArticleChercher(props) {
 
     return (
         <>
+        <Paper className={classes.Paper} >
+          <div style={{marginLeft:'2em'}}>
         <Grid container spacing={3}>
             {article.map((data1,index)=>{
 
@@ -107,6 +115,8 @@ function ArticleChercher(props) {
 
             } 
            </Grid>
+           </div>
+            </Paper>
         </>
     )
 }

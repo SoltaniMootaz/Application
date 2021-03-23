@@ -74,7 +74,7 @@ function AfficherStock() {
 
   const afficheStock = () => {
     const G=loadStock.data.map(item=>{return item.gamme_code})
-    const Gammes=G.filter((gamme,index)=>{return G.indexOf(gamme)==index})
+    const Gammes=G.filter((gamme,index)=>{return G.indexOf(gamme)===index})
     console.log(Gammes);
     if (loadStock.data.length > 0)
       setStock(
@@ -94,7 +94,8 @@ function AfficherStock() {
            
            
            <AccordionDetails >
-           <Grid container spacing={2} > 
+           <Grid container spacing={2} style={{marginLeft:'1em'}}> 
+
           { loadStock.data.map((data1, index) => {
           return (
             <>

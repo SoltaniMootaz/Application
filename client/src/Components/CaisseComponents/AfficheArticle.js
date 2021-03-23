@@ -12,8 +12,13 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { Grid} from '@material-ui/core';
+import { Grid, Paper} from '@material-ui/core';
 import { Divider, Menu , MenuItem } from '@material-ui/core';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const useStyles = makeStyles({
   root: {
     width: '16rem',
@@ -26,6 +31,12 @@ const useStyles = makeStyles({
   },
   menu: {
     shadows: ["none"]
+  }, Paper:{
+    width:'97%',
+    marginTop:'1em'
+  },
+  typo:{
+    paddingLeft:'1em'
   },
 });
   
@@ -56,13 +67,28 @@ function AfficheArticle(props) {
     {
       dispatch(LoadTicket(a,"ajouter menu"));
     }
+    console.log(props.dataCat);
   
-    return (
-
-               <Grid container spacing={3}>
-      
-               {props.dataArt.map((data1,index)=>{
+    return ( <>
+      {props.dataCat.map(((data,index)=> {
+           return (
+             <Paper className={classes.Paper} >
+             <div  key={data.nom} style={{width:'100%'}}>
+               <Accordion square defaultExpanded={index===0}>
+               <AccordionSummary
+                 expandIcon={<ExpandMoreIcon />}
+                
+               >
+           <Typography variant="h4" className={classes.typo}>{data.nom}</Typography>
+               </AccordionSummary>
+                                   
+            
+            
+            <AccordionDetails >
+            <Grid container spacing={2} > 
+           {props.dataArt.map((data1)=>{
                            return( <>
+                            {(data1.id_categorie===data.id)?
                               <div key={index} onClick={()=>handleClick(data1)}>                    
                           
                           <div style={{padding:"1em"}}>
@@ -102,14 +128,21 @@ function AfficheArticle(props) {
                           </Card>
                          
                           </div></div>
-
+: ""}
                       
-                    </>
+                          </>
+                    
                     )
                   })
-                }
-                </Grid>
-
+                } </Grid>
+                </AccordionDetails>
+               
+                </Accordion>
+            </div>
+            </Paper>
+           ) }) )}
+  
+                </>
     )
 }
 
