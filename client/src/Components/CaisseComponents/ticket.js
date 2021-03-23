@@ -188,15 +188,18 @@ function Ticket() {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <center>
-          <p style={{ fontSize: "20px", color: "green", display: "inline" }}>
+    <center>
+          <p style={{ fontSize: "20px", color: "#4caf50", display: "inline" }}>
             Somme: {somme} DT
           </p>
         </center>
-          <p style={{ fontSize: "15px", color: "black", display: "inline", textAlign:"right" }}>
+        <center>
+          <p style={{ fontSize: "15px", color: "#3f51b5", display: "inline",  }}>
             Table: {localStorage.getItem('tableIndex')} 
-          </p>
+          </p></center>
+          <br></br>
+      <TableContainer component={Paper}>
+        
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
