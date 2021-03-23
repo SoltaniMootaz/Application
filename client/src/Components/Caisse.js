@@ -12,6 +12,9 @@ import RechercheProd from "./CaisseComponents/RechercheProd.js";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { Spinner } from "react-bootstrap";
+import Table from "../Components/CaisseComponents/tables"
+
+////////////////////////////////////////////////////////////
 import AppBar from "@material-ui/core/AppBar";
 import Badge from "@material-ui/core/Badge";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -163,6 +166,9 @@ function Caisse(props) {
   const [type, setType] = useState("s");
   const [cat, setCat] = useState();
   const [scat,setScat]=useState(false);
+  const [modal, setModal] = useState({
+    isOpen: Boolean(false),
+  });
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -251,9 +257,20 @@ function Caisse(props) {
               onChange={handleSearch}
             />
             <div className={classes.Badge}>
-            <Badge color="secondary" overlap="circle" badgeContent=" " variant="dot">
+            <IconButton>
+              <Badge color="secondary" overlap="circle" badgeContent="1" variant="dot" onClick={()=>setModal({isOpen: true})}>
+                  <SiAirtable className={classes.icon} />
+              </Badge>
+            </IconButton>
+            {/* <Badge color="secondary" overlap="circle" badgeContent=" " variant="dot" onClick={()=>setModal({isOpen: true})}>
               <SiAirtable className={classes.icon} />
-            </Badge>
+            </Badge> */}
+
+            <Table
+              handleOpen={modal.isOpen}
+              handleClose={() => setModal({ isOpen: false })}
+            />
+
             </div>
           </Toolbar>
         </AppBar>
