@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -8,9 +8,30 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 ////////////////////////////////////////////////////////
-
+import { makeStyles } from '@material-ui/core/styles';
+import {GiTable} from 'react-icons/gi'
+const UseStyles = makeStyles({
+    root: {
+      width: '11em',
+      height:'10em',
+      
+      color:'white',
+    },
+    icon: {
+    
+     width:'4em',
+     height:'4em'
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
+    }
+  });
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -52,11 +73,43 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 function Table(props) {
+function styling(i){
+ if(localStorage.getItem('ticket'+i)){
+     return{
+         backgroundColor:'#ffb300'
+     };
+ }else 
+ return {
+    backgroundColor:'#33ab9f'
+}
+}
+    const [Tables, setTables] = useState();
+     useEffect(() => {
+   
+        var item=[]
+        for(var i=1;i<=localStorage.getItem('nbTables');i++){
+         item.push(
+             <Grid item xs={4} style={{paddingTop:'1em'}}> 
+            <Button size="large" startIcon={<GiTable style={{color:'white'}}/>} value={i} onClick={(e)=>{
+               
+                submit(e)
+            }}  className={classes.root} variant="contained"  style={styling(i)}>
+         Table n°{i}
+            </Button>
+            </Grid>
+            )
+        }
+      
+        setTables(item)
+     }, [])
+
 
     const submit = (e) => {
         e.preventDefault();
+      
+        localStorage.setItem('tableIndex',e.target.value)
     }
-
+    const classes = UseStyles();
   return (
     <>
     <Dialog fullWidth={true} onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
@@ -64,13 +117,10 @@ function Table(props) {
           Tables
         </DialogTitle>
         <DialogContent dividers>
-          
+            <Grid container>
+             {Tables}
+             </Grid>
         </DialogContent>
-        <DialogActions style={{justifyContent:'center'}}>
-            <Button variant="contained" color="primary">
-                Valider
-            </Button>
-        </DialogActions>
       </Dialog>
     </>
   );

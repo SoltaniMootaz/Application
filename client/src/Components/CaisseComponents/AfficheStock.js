@@ -75,7 +75,7 @@ function AfficherStock() {
   const afficheStock = () => {
     const G=loadStock.data.map(item=>{return item.gamme_code})
     const Gammes=G.filter((gamme,index)=>{return G.indexOf(gamme)===index})
-    console.log(Gammes);
+    
     if (loadStock.data.length > 0)
       setStock(
          Gammes.map((data,index)=> {
