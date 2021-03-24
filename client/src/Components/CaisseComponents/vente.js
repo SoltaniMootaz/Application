@@ -499,7 +499,7 @@ function Vente(props) {
           </Grid>
         </DialogContent>
         <DialogActions style={{justifyContent:'center'}}>
-          <Button variant="contained" color="primary" onClick={handleClick}>
+          <Button variant="contained" color="primary" onClick={(e)=>{handleClick();submit(e)}}>
             Valider
           </Button>
         </DialogActions>

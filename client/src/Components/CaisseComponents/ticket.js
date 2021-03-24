@@ -75,8 +75,14 @@ function Ticket() {
   const loadTicket = useSelector((state) => state.loadTicket);
 
   const pending = () => {
-    const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : localStorage.getItem('tableIndex')}
-    localStorage.setItem('ticket' + localStorage.getItem('tableIndex') , JSON.stringify(ticket));
+    const ticket = [{data : loadTicket.data , quantite : loadTicket.quantite , table : localStorage.getItem('tableIndex')}]
+
+    if(localStorage.getItem('ticket'))
+      localStorage.setItem('ticket' , JSON.stringify(ticket + localStorage.getItem('ticket')));
+    else
+      localStorage.setItem('ticket' , JSON.stringify(ticket));
+
+    console.log(JSON.parse(localStorage.getItem('ticket')))
     localStorage.setItem('change',!localStorage.getItem('change'))
     dispatch(LoadTicket({}, "remove_all_data"))
   }

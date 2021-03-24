@@ -92,6 +92,8 @@ function styling(i){
     }
 
      useEffect(() => {
+       console.log("here")
+       
         var item=[]
         for(var i=1;i<=localStorage.getItem('nbTables');i++){
           const index = i;
