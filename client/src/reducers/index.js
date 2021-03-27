@@ -1,14 +1,12 @@
+import { combineReducers } from 'redux'
 import loadStock from './loadStock'
 import loadTicket from './loadTicket'
-import loadMenu from './loadMenu'
-import loadCat from './loadCat'
-import { combineReducers } from 'redux'
+import loadIngredients from './ingredient'
 
 const allReducers = combineReducers({
     loadStock,
     loadTicket,
-    loadMenu,
-    loadCat
+    loadIngredients
 })
 
 export default allReducers;

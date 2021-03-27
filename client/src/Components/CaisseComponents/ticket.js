@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Vente from "./vente";
 import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket } from "../../actions";
+import Cuisine from './tickets/cuisine'
 
+/////////////////////////////////////////////////////////////////
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -18,7 +20,7 @@ import { AiOutlineAppstoreAdd, AiOutlineDelete, AiOutlineFieldTime } from "react
 import { GrAdd } from "react-icons/gr";
 import { IoMdRemove } from "react-icons/io";
 import { RiDeleteBin2Fill } from "react-icons/ri";
-
+/////////////////////////////////////////////////////////////////////
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -70,14 +72,53 @@ function Ticket() {
   const [data, setData] = useState();
   const [somme, setSomme] = useState(0);
   const [focus, setFocus] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   //redux load data
   const loadTicket = useSelector((state) => state.loadTicket);
 
+  const handleMessage = (event) => {
+    if (event.data.action === 'receipt-loaded') {
+      setIsLoading(false);
+    }
+  };
+
+  const printIframe = (id) => {
+    const iframe = document.frames
+      ? document.frames[id]
+      : document.getElementById(id);
+    const iframeWindow = iframe.contentWindow || iframe;
+
+    iframe.focus();
+    iframeWindow.print();
+
+    return false;
+  };
+
+  const Effacer = () => {
+    localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
+    if(localStorage.getItem('tableIndex') == 1)
+      localStorage.setItem('tableIndex',2);
+    else
+      localStorage.setItem('tableIndex',1);
+    dispatch(LoadTicket({}, "remove_all_data"))
+  }
+
   const pending = () => {
     const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : localStorage.getItem('tableIndex')}
     localStorage.setItem('ticket' + localStorage.getItem('tableIndex') , JSON.stringify(ticket));
-    localStorage.setItem('change',!localStorage.getItem('change'))
+    for(var i=1;i<=localStorage.getItem('nbTables');i++) {
+      if(!localStorage.getItem('ticket' + i)) {
+        localStorage.setItem('tableIndex',i);
+        break;
+      }else if(i == localStorage.getItem('nbTables') && i!== localStorage.getItem('tableIndex')) {
+        localStorage.setItem('tableIndex',i);
+        break;
+      }else {
+        localStorage.setItem('tableIndex',1);
+        break;
+      }
+    }
     dispatch(LoadTicket({}, "remove_all_data"))
   }
   
@@ -93,8 +134,16 @@ function Ticket() {
       }
     });
 
-    return sm.toFixed(2);
+    return sm.toFixed(3);
   };
+
+  useEffect(()=> {
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  },[])
 
   useEffect(() => {
     dispatch(LoadTicket({}, "remove_all_data"))
@@ -219,11 +268,17 @@ function Ticket() {
         showLabels
         className={classes.root}
       >
+        <iframe
+          id="ticketCuisine"
+          src="/cuisine"
+          style={{ display: 'none' }}
+          title="Receipt"
+        />
         <BottomNavigationAction
             label="En attente"
             style={{ color: "#ffb300" }}
             icon={<AiOutlineFieldTime />}
-            onClick={pending}
+            onClick={()=>{pending();printIframe('ticketCuisine')}}
           />
         <BottomNavigationAction
           label="Payer"
@@ -235,7 +290,7 @@ function Ticket() {
           label="Effacer"
           style={{ color: "red" }}
           icon={<AiOutlineDelete />}
-          onClick={()=>dispatch(LoadTicket({}, "remove_all_data"))}
+          onClick={Effacer}
         />
       </BottomNavigation>
       <Vente
