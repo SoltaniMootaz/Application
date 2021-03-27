@@ -25,17 +25,17 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles, useTheme,fade } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
+import {TextField , InputBase} from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { VscSearch } from "react-icons/vsc";
 import { SiAirtable } from "react-icons/si";
 import BarcodeReader from 'react-barcode-reader'
-
+import SearchIcon from '@material-ui/icons/Search';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBar: {
+    flexGrow:1,
     [theme.breakpoints.up("md")]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -80,35 +81,56 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   search: {
+   
     position: 'relative',
-  
- 
-
+    marginLeft:'85%',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
     
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft:'25%'
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
     },
-     [theme.breakpoints.down('xs')]: {
-      paddingLeft:'10%'
+   
+   
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
     },
-    [theme.breakpoints.up('lg')]:{
-      paddingLeft:'30%',
-     }
   },
   icon:{
-    width: "1.5em", height: "1.5em"
+    
+    width: "1.2em", height: "1.2em",
+    color:'white'
   },
   Badge:{
     position: 'relative',
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft:'25%'
-    },
-     [theme.breakpoints.down('xs')]: {
-      paddingLeft:'10%'
-    },
-    [theme.breakpoints.up('lg')]:{
-      paddingLeft:'50%',
-     }
+    
   },
   title: {
     flexGrow: 1,
@@ -210,13 +232,7 @@ function Caisse(props) {
   );
   const container =
     window !== undefined ? () => window().document.body : undefined;
-  if (isLoading2) {
-    return (
-      <Spinner animation="border" role="status">
-        <span className="sr-only">Loading...</span>
-      </Spinner>
-    );
-  } else {
+  
     return (<>
       <BarcodeReader
         onError={(err)=>handleScan(err)}
@@ -224,8 +240,11 @@ function Caisse(props) {
       />
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar position="fixed" className={classes.appBar} color="info">
-          <Toolbar>
+        <AppBar position="fixed" className={classes.appBar} color="primary" style={{backgroundColor:'#00bcd4'}}>
+          
+          <Toolbar style={{justifyContent:'space-between'}}>
+                    
+                 <div>            
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -238,24 +257,25 @@ function Caisse(props) {
             <IconButton aria-label="add an alarm" component={Link} to="/Home">
               <AiFillHome
                 className="icon"
-                style={{ width: "1.5em", height: "1.5em" }}
+                style={{ width: "1.2em", height: "1.2em" }}
               />
             </IconButton>
-
-            <TextField
-              color="primary"
-              id="input-with-icon-textfield"
-              placeholder="Recherche"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <VscSearch />
-                  </InputAdornment>
-                ),
+            </div>  
+            <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
               }}
-              className={classes.search}
+              inputProps={{ 'aria-label': 'search' }}
               onChange={handleSearch}
             />
+          </div>
+            
             <div className={classes.Badge}>
             <IconButton>
               <Badge color="secondary" overlap="circle" badgeContent="1" variant="dot" onClick={()=>setModal({isOpen: true})}>
@@ -272,6 +292,7 @@ function Caisse(props) {
             />
 
             </div>
+            
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer} aria-label="mailbox folders">
@@ -364,7 +385,7 @@ function Caisse(props) {
         </main>
       </div>
     </>);
-  }
+
 }
 
 export default Caisse;

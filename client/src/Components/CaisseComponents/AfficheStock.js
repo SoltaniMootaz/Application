@@ -22,6 +22,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const useStyles = makeStyles({
   root: {
     width: "16rem",
+    position:'relative'
   },
   media: {
     width: "100%",
@@ -107,23 +108,31 @@ function AfficherStock() {
                   className={classes.root}
                   style={{ Height: "25em" }}
                 >
-                  <CardHeader
-                    classes={{
-                      root: classes.cardHeaderRoot,
-                      content: classes.cardHeaderContent,
-                    }}
-                    action={
-                      <IconButton
-                        aria-label="settings"
-                        aria-controls="long-menu"
-                        aria-haspopup="true"
-                        onClick={handleClick1}
-                      >
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    title={
-                      <Typography
+                 
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={isSRC(data1.image) ? src : data1.image}
+                      
+                    />
+                    <div style={{position: 'absolute',
+                                top: '0px',
+                                right: '0px',
+                                height:'3em',
+                                borderRadius:'2em 0em 0em 2em',
+                                width:'10em',
+                                color: 'white',
+                                backgroundColor: '#00bcd4'
+                                }}><Typography
+                                noWrap
+                                gutterBottom
+                                variant="h6"
+                                component="h6"
+                                style={{color:'white',marginLeft:'15%',paddingTop:'.15em'}}
+                              >
+                                {data1.prix_ttc.toFixed(3)}DT
+                              </Typography></div>
+                    <Typography
                         noWrap
                         gutterBottom
                         variant="h6"
@@ -132,31 +141,7 @@ function AfficherStock() {
                       >
                         {data1.libelle}
                       </Typography>
-                    }
-                    subheader={data1.prix}
-                  />
-                  <Menu
-                    id="long-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={open}
-                    onClose={handleClose}
-                    className={classes.menu}
-                  >
-                    <MenuItem onClick={handleClose} style={{ color: "blue" }}>
-                      modifier
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem onClick={handleClose} style={{ color: "red" }}>
-                      effacer
-                    </MenuItem>
-                  </Menu>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image={isSRC(data1.image) ? src : data1.image}
                       
-                    />
                   </CardActionArea>
                 </Card>
               </div>

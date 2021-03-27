@@ -9,6 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Grid} from '@material-ui/core';
 import { Divider, Menu , MenuItem ,Paper} from '@material-ui/core';
+import { MdDelete } from "react-icons/md";
+import axios from 'axios'
 const useStyles = makeStyles({
   root: {
     width: '16rem',
@@ -76,27 +78,19 @@ function ArticleChercher(props) {
                               <CardHeader
                                
                                 action={
-                                  <IconButton aria-label="settings"
-                                  aria-controls="long-menu"
-                                  aria-haspopup="true"
-                                  onClick={handleClick1}>
-                                    <MoreVertIcon />
-                                  </IconButton>
+                                  <IconButton aria-label="delete">
+                                  <MdDelete  onClick={(e)=>{
+                                    window.location.reload(false);
+                                axios.delete("http://localhost:3001/api/deletearticle/"+data1.id).then((res)=>console.log(res)).catch((err)=>{console.log(err.response.data);})
+                               // window.location.reload(false);
+                              }
+                                } />
+                                </IconButton>
                                 }
                                 title={data1.nom}
                                 subheader={data1.prix}
                               />
-                              <Menu
-                              id="long-menu"
-                              anchorEl={anchorEl}
-                              keepMounted
-                              open={open}
-                              onClose={handleClose}
-                              className={classes.menu}
-                               >
-                                <MenuItem  onClick={handleClose} style={{color:'blue'}}>modifier</MenuItem><Divider />
-                                <MenuItem  onClick={handleClose} style={{color:'red'}}>effacer</MenuItem>
-                            </Menu>
+                            
                               <CardActionArea>
                                 <CardMedia
                                   className={classes.media}
