@@ -44,7 +44,7 @@ router.post("/api/login", async (req,res) => {
             }else {
                 if(result.rowCount > 0) {
                     bcrypt.compare(mdp, result.rows[0].mdp, async function(err, result1) {
-                        if(err) {
+                        if(err || !result1) {
                             res.status(400).send("Mot de passe incorrecte");
                         }else {
                             //create and assign a token 

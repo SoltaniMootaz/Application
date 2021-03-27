@@ -105,7 +105,7 @@ function styling(i){
         }
       
         setTables(item)
-     }, [localStorage.getItem('change')])
+     }, [localStorage.getItem('change'), localStorage.getItem('tableIndex')])
 
     const classes = UseStyles();
   return (

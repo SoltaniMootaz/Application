@@ -36,15 +36,19 @@ router.post("/api/ajouterArticle", (req,res) => {
                 res.status(400).send("erreur");
         });
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).send("erreur");
     }
 });
 
 router.post("/api/ajouterIngredient", (req,res) => {
     try {
-        const { nomIngr,quantite,id_article,id_utilisateur } = req.body;
+        const { idIngr,quantite,id_article,id_utilisateur } = req.body;
+        console.log(idIngr)
+        console.log(quantite)
+        console.log(id_article)
+        console.log(id_utilisateur)
 
-        pool.query("INSERT INTO public.ingredient(nom,quantite,id_utilisateur,id_article) VALUES ($1,$2,$3,$4)",[nomIngr,quantite,id_utilisateur,id_article], (err) => {
+        pool.query("INSERT INTO public.ingredient(quantite,id_utilisateur,id_article,id_produit) VALUES ($1,$2,$3,$4)",[quantite,id_utilisateur,id_article,idIngr], (err) => {
             if(err)
                 res.status(400).send(err.toString());
             else
