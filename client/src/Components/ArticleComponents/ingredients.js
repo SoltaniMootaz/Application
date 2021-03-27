@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import { useSelector, useDispatch } from 'react-redux'
+import { LoadStock } from '../../actions'
+import LoadIngredients from '../../actions/menu'
+
+////////////////////////////////////////////////////
+
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -9,79 +15,47 @@ import Select from '@material-ui/core/Select';
 
 /////////////////////////////////////////////////////
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
-
-
-function Ingredient({ id, submitForm, idArticle,stock,totale }) {
-  const classes = useStyles();
-
-  var nom = "nom" + id;
-  var quant = "quant" + id;
-
-  const url = "http://localhost:3001/api/ajouterIngredient";
+function Ingredient({ id }) {
+  const dispatch = useDispatch();
+  const loadStock = useSelector(state=>state.loadStock)
 
   const [stockData,setStockData] = useState([]);
-  const [Data, setData] = useState({
-    nomIngr: "",
-    quantite: "",
-  });
-  const [artId,setArtId] = useState();
-  const [_quant,setQuant] = useState(1);
+  const [Data, setData] = useState();
 
-  function submit() {
-    Axios.post(url, {
-      nomIngr: Data.nomIngr,
-      quantite: Data.quantite,
-      id_article: idArticle,
-      id_utilisateur: localStorage.getItem('userID')
-    })
-      .then(()=> {
-        window.location.reload(false);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  }
-
-  const loadStock = () => {
-    stock.map(row=> {
-     setStockData(stockData => [...stockData,<MenuItem key={row.id} data-key={row.id} onClick={(e)=>handleNom(e)} value={row.libelle} defaultValue="">{row.libelle}</MenuItem>])
+  const getStock = () => {
+    loadStock.data.map(row=> {
+      if(row)
+        setStockData(stockData => [...stockData,<MenuItem key={id} data-key={row.id} prix={row.prix_ttc} onClick={(e)=>handleNom(e)} value={row.libelle} defaultValue="">{row.libelle}</MenuItem>])
     });
    }
 
-  useEffect(() => {
-    loadStock();
-    if (submitForm) {
-      submit();
+   useEffect(()=> {
+    if (loadStock.data.length == 0) {
+      dispatch(LoadStock())
     }
-  },[submitForm]);
+   },[])
+
+  useEffect(() => {
+      getStock();
+  },[loadStock.data]);
 
   function handleNom(e) {
-    setData({ ...Data, nomIngr: e.target.value });
-    totale(e.target.getAttribute('data-key'),_quant,id);
-    setArtId(e.target.getAttribute('data-key'));
+    if(Data) {
+      setData({nomIngr: e.target.value, quantite: Data.quantite, prix: e.target.getAttribute('prix'), idIngr: e.target.getAttribute('data-key')}); 
+      dispatch(LoadIngredients({idIngr: e.target.getAttribute('data-key'), key: id, quantite: Data.quantite, prix: e.target.getAttribute('prix')}))
+    }else {
+      setData({nomIngr: e.target.value, quantite: 1, prix: e.target.getAttribute('prix'), idIngr: e.target.getAttribute('data-key')}); 
+      dispatch(LoadIngredients({idIngr: e.target.getAttribute('data-key'), key: id, quantite: 1, prix: e.target.getAttribute('prix')}))
+    }
   }
 
   function handleQuantite(e) {
-    setData({ ...Data, quantite: e.target.value });
-    if(e.target.value !== "") {
-      totale(artId,e.target.value,id);
-      setQuant(e.target.value);
-    }
+    setData({nomIngr: Data.nomIngr ,quantite: e.target.value, prix: Data.prix, idIngr: Data.idIngr});
+
+    if(e.target.value !== "")
+      dispatch(LoadIngredients({idIngr: Data.idIngr, key: id, quantite: e.target.value, prix: Data.prix}))
+    else 
+      dispatch(LoadIngredients({idIngr: Data.idIngr, key: id, quantite: 0, prix: Data.prix}))
   }
 
   return (
@@ -101,7 +75,7 @@ function Ingredient({ id, submitForm, idArticle,stock,totale }) {
       </Grid>
 
       <Grid item xs={3}>
-        <TextField id="standard-basic" type="number" key={quant} defaultValue="1" label="Quantité" onChange={(e) => handleQuantite(e)} style={{width:'85%'}} />
+        <TextField id="standard-basic" type="number" defaultValue="1" label="Quantité" onChange={(e) => handleQuantite(e)} style={{width:'85%'}} />
       </Grid>
       
     </Grid>

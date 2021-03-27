@@ -157,27 +157,51 @@ function Vente(props) {
   const handleClick = () => {
     props.handleClose();
     localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
-    localStorage.setItem('change',!localStorage.getItem('change'))
+    const tableIndex = localStorage.getItem('tableIndex');
+    
+    for(var i=1;i<=localStorage.getItem('nbTables');i++) {
+      if(!localStorage.getItem('ticket' + i)) {
+        localStorage.setItem('tableIndex',i);
+        break;
+      }else if(i == localStorage.getItem('nbTables') && i!== localStorage.getItem('tableIndex')) {
+        localStorage.setItem('tableIndex',i);
+        break;
+      }else {
+        localStorage.setItem('tableIndex',1);
+        break;
+      }
+    }
+
     dispatch(LoadTicket({}, "remove_all_data"))
   }
 
   function submit(e) {
-    e.preventDefault();
-    Axios.post(url1,{
-      nomPre: client.nomPre,
-      tel: client.tel,
-      id_utilisateur: localStorage.getItem('userID')
-    })
-      .then((res) => {
-        console.log(res.data);
-        props.handleClose();
+    if (direct || kridi || espece) {
+      e.preventDefault();
+      Axios.post(url1,{
+        nomPre: client.nomPre,
+        tel: client.tel,
+        id_utilisateur: localStorage.getItem('userID')
       })
-      .catch((err) => {
-        if(kridi)
-          setError(err.response.data);
-        else
+        .then((res) => {
+          console.log(res.data);
+          handleClick()
           props.handleClose();
-      })
+        })
+        .catch((err) => {
+          if(kridi)
+            setError(err.response.data);
+          else if(direct && !style1 && !style2 && !style3 && !style4)
+            setError("veuillez sélectionner un moyen de paiement direct")
+          else {
+            setError();
+            props.handleClose();
+            handleClick()
+          }
+        })
+    }else {
+      setError("veuillez sélectionner un moyen de paiement")
+    }
   }
 
   useEffect(()=> {
@@ -499,7 +523,7 @@ function Vente(props) {
           </Grid>
         </DialogContent>
         <DialogActions style={{justifyContent:'center'}}>
-          <Button variant="contained" color="primary" onClick={(e)=>{handleClick();submit(e)}}>
+          <Button variant="contained" color="primary" onClick={(e)=>submit(e)}>
             Valider
           </Button>
         </DialogActions>

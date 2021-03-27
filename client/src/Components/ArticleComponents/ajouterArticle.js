@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Ingredient from "./ingredients";
+
+///////////////////////////////////////////////////////////////////////
+
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -19,6 +22,7 @@ import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import { useSelector } from "react-redux";
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -89,65 +93,38 @@ const DialogActions = withStyles((theme) => ({
 function AjouterCat(props) {
   const url = "http://localhost:3001/api/ajouterArticle";
   const url2 = "http://localhost:3001/api/afficherCategorie";
-  const urlstock = "http://localhost:3001/api/stock";
+  const url3 = "http://localhost:3001/api/ajouterIngredient";
+
+  const loadIngredients = useSelector(state=>state.loadIngredients)
+
   const categ = [];
-  const items = [];
+  const [length, setLength] = useState(0)
+  const [items, setItems] = useState([])
   const [error, setError] = useState("");
   const [vente, setVente] = useState(false);
   const [tracer, setTracer] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [length, setLength] = useState(1);
-  const [_submit, setSubmit] = useState(false);
-  const [idArt, setIdArt] = useState("");
   const [Data, setData] = useState({
     nom: "",
     categorie: "",
     prix: "",
     unite: "",
   });
-  const [stock,setStock] = useState([])
-  const [totale,setTotale] = useState([{
-    idArt:null,
-    quantite:null,
-    idIngr:null
-  }]);
   const [somme,setSomme] = useState(0);
   const [loaded,setLoaded] = useState(false);
 
   const classes = useStyles();
 
-  const Occurrences = (n) => {
-    var occ = 0;
-
-    totale.map(e=> {
-      if(e.idIngr == n) {
-        occ ++;
-      }
-    })
-
-    return occ;
-  }
-
-  const addTotale = (id1,quant,id2) => {
-    if(Occurrences(id2)>=1) {
-      setTotale(totale.filter((e)=>(e.idIngr !== id2)));
-    }
-    
-    if(id1 !== "undefined") {
-      setTotale(totale => [...totale,{idArt:id1,quantite:quant,idIngr:id2}]);
-    }
-  }
 
   const calculTotale = () => {
     var sm = 0;
-    totale.map(e=> {
-      const article = stock.filter(e1=>(e1.id == e.idArt));
-      article.map(row=>{
-        sm += parseFloat(row.prix) * parseInt(e.quantite,10);
-      })
+    console.log(loadIngredients.data)
+    loadIngredients.data.map(e=> {
+      if(e)
+        sm += parseFloat(e.prix) * parseInt(e.quantite,10);
     })
 
-    return sm.toFixed(2);
+    return sm.toFixed(3);
   }
 
   const getCategories = () => {
@@ -160,24 +137,18 @@ function AjouterCat(props) {
       });
   };
 
-  const getStock = () => {
-    Axios.get(urlstock)
-      .then((res) => {
-        setStock(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleIngredient = () => {
+    setItems(items=>[...items,<Ingredient id={length} />])
+    setLength(length + 1);
   }
 
   useEffect(() => {
     setSomme(calculTotale());
     if(!loaded) {
       getCategories();
-      getStock();
       setLoaded(true);
     }
-  }, [totale]);
+  }, [loadIngredients]);
 
   categories.map((categorie, i) => {
     categ.push(
@@ -186,12 +157,6 @@ function AjouterCat(props) {
       </MenuItem>
     )
   });
-
-  for (var i = 0; i < length; i++) {
-    items.push(
-      <Ingredient key={i} id={i} submitForm={_submit} idArticle={idArt} stock={stock} totale={addTotale} />
-    );
-  }
 
   function submit(e) {
     e.preventDefault();
@@ -203,10 +168,23 @@ function AjouterCat(props) {
       id_utilisateur: localStorage.getItem('userID')
     })
       .then((res) => {
-        window.location.reload();
-        setIdArt(res.data.rows[0].id);
-        setSubmit(true);
-        props.handleClose();
+        loadIngredients.data.map(element=> {
+          if(element)
+          Axios.post(url3, {
+            idIngr: element.idIngr,
+            quantite: element.quantite,
+            id_article: res.data.rows[0].id,
+            id_utilisateur: localStorage.getItem('userID')
+          })
+          .catch((err) => {
+            console.log(err.response.data)
+            setError(err.response.data);
+          });
+        })
+        if(!error) {
+          props.handleClose();
+          window.location.reload(false);
+        }
       })
       .catch((err) => {
         console.log(err.response.data)
@@ -215,22 +193,18 @@ function AjouterCat(props) {
   }
 
   function handleNom(e) {
-    setSubmit(false);
     setData({ ...Data, nom: e.target.value });
   }
 
   function handleCategorie(e) {
-    setSubmit(false);
     setData({ ...Data, categorie: e.target.value });
   }
 
   function handlePrix(e) {
-    setSubmit(false);
     setData({ ...Data, prix: e.target.value });
   }
 
   function handleUnite(e) {
-    setSubmit(false);
     setData({ ...Data, unite: e.target.value });
   }
 
@@ -318,6 +292,7 @@ function AjouterCat(props) {
                     id="standard-basic"
                     required
                     label="Prix"
+                    onBlur={(e)=>e.target.value = parseFloat(e.target.value).toFixed(3)}
                     onChange={(e) => handlePrix(e)}
                     style={{width:'95%'}}
                     InputProps={{
@@ -345,7 +320,7 @@ function AjouterCat(props) {
                 </>
               ) : (
                 <Grid item xs={12}>
-                  <TextField id="standard-basic" label="Prix" onChange={(e) => handlePrix(e)} style={{width:'100%'}}/>
+                  <TextField id="standard-basic" required label="Prix" onBlur={(e)=>e.target.value = parseFloat(e.target.value).toFixed(3)} onChange={(e) => handlePrix(e)} style={{width:'100%'}}/>
                 </Grid>
               )}
           <Grid container style={{paddingTop:'3em'}}>
@@ -375,7 +350,7 @@ function AjouterCat(props) {
                       <Grid item xs={12}>
                   <Button variant="outlined" color="primary"     onClick={(e) => {
                         e.preventDefault();
-                        setLength(length + 1);
+                        handleIngredient()
                       }} >
                     Ajouter nouveau article...
                   </Button>

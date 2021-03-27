@@ -92,8 +92,6 @@ function styling(i){
     }
 
      useEffect(() => {
-       console.log("here")
-       
         var item=[]
         for(var i=1;i<=localStorage.getItem('nbTables');i++){
           const index = i;
@@ -107,7 +105,7 @@ function styling(i){
         }
       
         setTables(item)
-     }, [localStorage.getItem('change')])
+     }, [localStorage.getItem('change'), localStorage.getItem('tableIndex')])
 
     const classes = UseStyles();
   return (

@@ -1,36 +1,48 @@
-
-import React, {useEffect, useState} from 'react'
-import {useSelector, useDispatch} from 'react-redux';
-import {Load} from './actions'
-import tableButton from './Components/CaisseComponents/tableButton'
+import React, { useState, useEffect } from 'react';
 
 function Test() {
-    const dispatch = useDispatch();
-    const loadStock = useSelector((state) => state.loadStock);
-   const [Data, setData] = useState([])
-    useEffect(()=>{ 
-        dispatch(Load())
-    },[dispatch])
-function handler(){
-dispatch(Load);
-console.log(loadStock);
-}
-const n=10 ;
-const tables=()=>{
-    for(var i=0;i<n;i++){
-        return(
-            <>
-            <tableButton index={i}></tableButton>
-            </>
-        )
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleMessage = (event) => {
+    if (event.data.action === 'receipt-loaded') {
+      setIsLoading(false);
     }
-}
-    return (
-        <>
-        <p>loadstock :</p>
-        <button onClick={()=>console.log(loadStock)}>+</button>
-        </>
-    )
+  };
+
+  const printIframe = (id) => {
+    const iframe = document.frames
+      ? document.frames[id]
+      : document.getElementById(id);
+    const iframeWindow = iframe.contentWindow || iframe;
+
+    iframe.focus();
+    iframeWindow.print();
+
+    return false;
+  };
+
+  useEffect(() => {
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
+  return (
+    <>
+        <text>sdgfgsdgsdf</text>
+      <iframe
+        id="receipt"
+        src="/menu"
+        style={{ display: 'none' }}
+        title="Receipt"
+      />
+      <button onClick={() => printIframe('receipt')}>
+        {isLoading ? 'Loading...' : 'Print Receipt'}
+      </button>
+    </>
+  );
 }
 
 export default Test;

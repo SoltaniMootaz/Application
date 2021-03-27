@@ -76,4 +76,8 @@ const LoadTicket = (data, todo, value) => (dispatch) => {
     }
 }
 
+const cuisineTicket = () => {
+    
+}
+
 export {LoadStock, LoadTicket};
