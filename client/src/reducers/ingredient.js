@@ -17,7 +17,6 @@ const loadIngredients = (state = initialState,action = {}) => {
                     }
             }
 
-            console.log({ ...state, data : [...state.data, action.payload]})
             return({ ...state, data : [...state.data, action.payload]})
         case GET_DATA_ERROR: 
             return {...state,

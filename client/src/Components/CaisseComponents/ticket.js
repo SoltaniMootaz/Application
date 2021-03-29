@@ -3,6 +3,7 @@ import Vente from "./vente";
 import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket } from "../../actions";
 import Cuisine from './tickets/cuisine'
+import axios from 'axios'
 
 /////////////////////////////////////////////////////////////////
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -63,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
 function Ticket() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const url = "http://localhost:3001/api/ticket";
 
   const [val, setVal] = React.useState(0);
   const [state, setState] = useState({
@@ -83,7 +85,7 @@ function Ticket() {
     }
   };
 
-  const printIframe = (id) => {
+/*   const printIframe = (id) => {
     const iframe = document.frames
       ? document.frames[id]
       : document.getElementById(id);
@@ -93,33 +95,49 @@ function Ticket() {
     iframeWindow.print();
 
     return false;
-  };
+  }; */
 
   const Effacer = () => {
-    localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
-    if(localStorage.getItem('tableIndex') == 1)
-      localStorage.setItem('tableIndex',2);
-    else
-      localStorage.setItem('tableIndex',1);
-    dispatch(LoadTicket({}, "remove_all_data"))
+    if(localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))) {
+      const tmp = JSON.parse(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')));
+      var current = new Date();
+
+      axios.post(url, {
+        data: tmp.data,
+        quantite: tmp.quantite,
+        table: tmp.table,
+        somme: somme,
+        date: current.toLocaleString(),
+        operation: "effacé",
+        id_utilisateur: localStorage.getItem('userID')
+      }).then(()=> {
+        localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
+
+        if(localStorage.getItem('tableIndex') == 1 && localStorage.getItem('nbTables') > 1)
+          localStorage.setItem('tableIndex',2)
+        else
+          localStorage.setItem('tableIndex',1)
+
+        dispatch(LoadTicket({}, "remove_all_data"))
+      })
+    }else {
+      dispatch(LoadTicket({}, "remove_all_data"))
+    }
   }
 
   const pending = () => {
-    const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : localStorage.getItem('tableIndex')}
-    localStorage.setItem('ticket' + localStorage.getItem('tableIndex') , JSON.stringify(ticket));
-    for(var i=1;i<=localStorage.getItem('nbTables');i++) {
-      if(!localStorage.getItem('ticket' + i)) {
-        localStorage.setItem('tableIndex',i);
-        break;
-      }else if(i == localStorage.getItem('nbTables') && i!== localStorage.getItem('tableIndex')) {
-        localStorage.setItem('tableIndex',i);
-        break;
-      }else {
-        localStorage.setItem('tableIndex',1);
-        break;
-      }
+    if(loadTicket.data.length > 0) {
+      const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : localStorage.getItem('tableIndex')}
+      localStorage.setItem('ticket' + localStorage.getItem('tableIndex') , JSON.stringify(ticket));
+
+      if(localStorage.getItem('tableIndex') == 1 && localStorage.getItem('nbTables') > 1)
+        localStorage.setItem('tableIndex',2)
+      else
+        localStorage.setItem('tableIndex',1)
+
+      //printIframe('ticketCuisine')
+      dispatch(LoadTicket({}, "remove_all_data"))
     }
-    dispatch(LoadTicket({}, "remove_all_data"))
   }
   
   const calculTotale = () => {
@@ -278,7 +296,7 @@ function Ticket() {
             label="En attente"
             style={{ color: "#ffb300" }}
             icon={<AiOutlineFieldTime />}
-            onClick={()=>{pending();printIframe('ticketCuisine')}}
+            onClick={()=>pending()}
           />
         <BottomNavigationAction
           label="Payer"

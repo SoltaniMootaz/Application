@@ -7,52 +7,38 @@ import def from "./img/def.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-
 import CardMedia from "@material-ui/core/CardMedia";
-
-import CardHeader from "@material-ui/core/CardHeader";
-import IconButton from "@material-ui/core/IconButton";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Grid } from "@material-ui/core";
-import { Divider, Menu, MenuItem, Typography,Paper } from "@material-ui/core";
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Typography } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+
 const useStyles = makeStyles({
   root: {
     width: "16rem",
-    position:'relative'
+    position: "relative",
   },
   media: {
     width: "100%",
     height: 0,
     paddingTop: "56.25%", // 16:9
-    },Paper:{
-      width:'97%',
-      marginTop:'1em'
-    },
-    typo:{
-      paddingLeft:'1em'
-    },
+  },
+  Paper: {
+    width: "97%",
+    marginTop: "1em",
+  },
+  typo: {
+    paddingLeft: "1em",
+  },
 });
 
-function AfficherStock() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [stock, setStock] = useState();
+function AfficherStock(props) {
+  const [stock, setStock] = useState([]);
+  const [stockSpec, setStockSpec] = useState([]);
+  const [selected, setSelected] = useState();
+  const [gammes, setGammes] = useState([])
 
   const dispatch = useDispatch();
   const loadStock = useSelector((state) => state.loadStock);
-
-  const open = Boolean(anchorEl);
-
-  const handleClick1 = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   var src = def;
   const classes = useStyles();
@@ -61,115 +47,214 @@ function AfficherStock() {
     else return false;
   };
 
+  
+  const handleSelected = (data) => {
+    if(data !== "") {
+      setSelected(data)
+    }else {
+      setSelected();
+    } 
+  }
+
   useEffect(() => {
-    dispatch(LoadStock());
-  }, [dispatch]);
+    if(loadStock.data.length == 0)
+      dispatch(LoadStock());
+  }, []);
+
+  const getGammes = () => {
+    const gammes = [];
+
+      for(let i in loadStock.data) {
+        if (gammes.indexOf(loadStock.data[i].gamme_code) === -1) {
+          gammes.push(loadStock.data[i].gamme_code);
+        }
+      }
+
+    setGammes(gammes)
+  }
+
+  const getStock = () => {
+    if(props.search) {
+      const tmp = [];
+
+      for(let i in loadStock.data) {
+        if (loadStock.data[i].libelle.indexOf(props.search) > -1) {
+          tmp.push(loadStock.data[i]);
+        }
+      }
+
+      setStock(tmp);
+    }else {
+      setStock(loadStock.data);
+    }
+  }
+
+  useEffect(() => {
+    if(loadStock.data.length > 0) {  
+      getGammes();
+      getStock();
+    }
+    
+  }, [loadStock,props.search]);
 
   useEffect(()=> {
-    afficheStock();
-  },[loadStock.data])
-
-  const handleClick = (a) => {
-    dispatch(LoadTicket(a));
-  };
-
-  const afficheStock = () => {
-    const G=loadStock.data.map(item=>{return item.gamme_code})
-    const Gammes=G.filter((gamme,index)=>{return G.indexOf(gamme)===index})
-    
-    if (loadStock.data.length > 0)
-      setStock(
-         Gammes.map((data,index)=> {
-          return (
-            <>
-            <Paper className={classes.Paper} >
-            <div  key={data} style={{width:'100%'}}>
-              <Accordion square defaultExpanded={index===0}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-               
-              >
-          <Typography variant="h4" className={classes.typo}>{data}</Typography>
-              </AccordionSummary>
-                                  
-           
-           
-           <AccordionDetails >
-           <Grid container spacing={2} style={{marginLeft:'1em'}}> 
-
-          { loadStock.data.map((data1, index) => {
-          return (
-            <>
-            {(data1.gamme_code===data)?
-            <Grid item>
-            <div key={index} onClick={() => handleClick(data1)}>
-              <div style={{ padding: "1em" }}>
-                <Card
-                  className={classes.root}
-                  style={{ Height: "25em" }}
-                >
-                 
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image={isSRC(data1.image) ? src : data1.image}
-                      
-                    />
-                    <div style={{position: 'absolute',
-                                top: '0px',
-                                right: '0px',
-                                height:'3em',
-                                borderRadius:'2em 0em 0em 2em',
-                                width:'10em',
-                                color: 'white',
-                                backgroundColor: '#00bcd4'
-                                }}><Typography
-                                noWrap
-                                gutterBottom
-                                variant="h6"
-                                component="h6"
-                                style={{color:'white',marginLeft:'15%',paddingTop:'.15em'}}
-                              >
-                                {data1.prix_ttc.toFixed(3)}DT
-                              </Typography></div>
-                    <Typography
-                        noWrap
-                        gutterBottom
-                        variant="h6"
-                        component="h4"
-                        
-                      >
-                        {data1.libelle}
-                      </Typography>
-                      
-                  </CardActionArea>
-                </Card>
-              </div>
-            </div>
-            </Grid>:""}</>
-          )
-        })
-      }
-       </Grid>
-      </AccordionDetails>
-     
-      </Accordion>
-  </div>
-  </Paper>
-      </>
-  )
-        }
-    ))
-  }
+    if(selected) {
+      setStockSpec(loadStock.data.filter(element=>element.gamme_code === selected))
+    }else {
+      setStockSpec();
+    }
+  },[selected])
 
   return (
     <>
+      <p onClick={()=>console.log(stock)}>click</p>
+      <Grid container>
+        {gammes.map((data,index) => {
+          return (
+            <>
+              <Grid item xs={3} key={index}>
+                {selected == data ? (
+                  <Button
+                    key={index}
+                    variant="contained"
+                    style={{ width: "100%", backgroundColor: "#00bcd4" }}
+                    onClick={() => handleSelected("")}
+                  >
+                    <p>{data}</p>
+                  </Button>
+                ) : (
+                  <Button
+                    key={index}
+                    variant="contained"
+                    style={{ width: "100%" }}
+                    onClick={() => handleSelected(data)}
+                  >
+                    <p>{data}</p>
+                  </Button>
+                )}
+              </Grid>
+            </>
+          );
+        })}
+      </Grid>
+
+      <br />
+      <hr />
       <Grid container spacing={3}>
-        {stock}
+        {stockSpec ?
+          stockSpec.map((data1, index) => {
+            return (
+              <>
+                <Grid item xs={3}>
+                  <div key={index} onClick={() => dispatch(LoadTicket(data1))}>
+                    <div style={{ padding: "5%" }}>
+                      <Card className={classes.root} style={{ width: "100%" }}>
+                        <CardActionArea>
+                          <CardMedia
+                            className={classes.media}
+                            image={isSRC(data1.image) ? src : data1.image}
+                          />
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: "0px",
+                              right: "0px",
+                              height: "20%",
+                              borderRadius: "2em 0em 0em 2em",
+                              width: "50%",
+                              color: "white",
+                              backgroundColor: "#00bcd4",
+                            }}
+                          >
+                            <Typography
+                              noWrap
+                              gutterBottom
+                              variant="h6"
+                              component="h6"
+                              style={{
+                                color: "white",
+                                marginLeft: "15%",
+                                paddingTop: "5%",
+                                fontSize:"140%"
+                              }}
+                            >
+                              {data1.prix_ttc.toFixed(3)}DT
+                            </Typography>
+                          </div>
+                          <Typography
+                            noWrap
+                            gutterBottom
+                            variant="h6"
+                            component="h4"
+                          >
+                            {data1.libelle}
+                          </Typography>
+                        </CardActionArea>
+                      </Card>
+                    </div>
+                  </div>
+                </Grid>
+              </>
+            );
+          })
+        : stock.map((data1, index) => {
+          return (
+            <>
+              <Grid item xs={3}>
+                <div key={index} onClick={() => dispatch(LoadTicket(data1))}>
+                  <div style={{ padding: "5%" }}>
+                    <Card className={classes.root} style={{ width: "100%" }}>
+                      <CardActionArea>
+                        <CardMedia
+                          className={classes.media}
+                          image={isSRC(data1.image) ? src : data1.image}
+                        />
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "0px",
+                            right: "0px",
+                            height: "20%",
+                            borderRadius: "2em 0em 0em 2em",
+                            width: "50%",
+                            color: "white",
+                            backgroundColor: "#00bcd4",
+                          }}
+                        >
+                          <Typography
+                            noWrap
+                            gutterBottom
+                            variant="h6"
+                            component="h6"
+                            style={{
+                              color: "white",
+                              marginLeft: "15%",
+                              paddingTop: "5%",
+                              fontSize:"140%"
+                            }}
+                          >
+                            {data1.prix_ttc.toFixed(3)}DT
+                          </Typography>
+                        </div>
+                        <Typography
+                          noWrap
+                          gutterBottom
+                          variant="h6"
+                          component="h4"
+                        >
+                          {data1.libelle}
+                        </Typography>
+                      </CardActionArea>
+                    </Card>
+                  </div>
+                </div>
+              </Grid>
+            </>
+          );
+        })}
       </Grid>
     </>
   );
-
 }
 
 export default AfficherStock;
