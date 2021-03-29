@@ -61,7 +61,6 @@ const LoadTicket = (data, todo, value) => (dispatch) => {
                     type: REMOVE_ALL_TICKET,
                 });
             case "quantity change" :
-                console.log(value);
                 return dispatch( {
                     type: ADD_DATA,
                     payload: data,

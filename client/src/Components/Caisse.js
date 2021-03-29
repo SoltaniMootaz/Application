@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { LoadTicket } from "../actions";
 
 import Ticket from "./CaisseComponents/ticket";
@@ -7,11 +7,8 @@ import AfficheArticle from "./CaisseComponents/AfficheArticle";
 import AfficheStock from "./CaisseComponents/AfficheStock";
 import "./css/Article.css";
 import { AiFillHome } from "react-icons/ai";
-import RechercheArticle from "./CaisseComponents/rechercheArticle.js";
 import RechercheProd from "./CaisseComponents/RechercheProd.js";
 import { Link } from "react-router-dom";
-import Axios from "axios";
-import { Spinner } from "react-bootstrap";
 import Table from "../Components/CaisseComponents/tables"
 
 ////////////////////////////////////////////////////////////
@@ -158,28 +155,10 @@ const useStyles = makeStyles((theme) => ({
 /////////////////////////////////////////////////////////////////////////
 
 function Caisse(props) {
-  const urlart = "http://localhost:3001/api/afficherArticles";
-  const urlcat = "http://localhost:3001/api/afficherCategorie";
-  const loadStock = useSelector((state) => state.loadStock);
   const dispatch = useDispatch();
 
-  const [dataArt, setDataArt] = useState([]);
-  const [dataCat, setDataCat] = useState([]);
-  const [isLoading2, setLoading2] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
   const [searchValue, setSearchValue] = useState();
-
-  const getArticles = () => {
-    Axios.get(urlart)
-      .then((res) => setDataArt(res.data))
-      .catch((err) => console.log(err));
-    setLoading2(false);
-  }; const getCategories= () => {
-    Axios.get(urlcat)
-      .then((res) => setDataCat(res.data))
-      .catch((err) => console.log(err));
-    setLoading2(false);
-  };
 
   const handleScan = async (data) => {
     dispatch(LoadTicket(data, "barcode"))
@@ -195,6 +174,7 @@ function Caisse(props) {
   };
 
   ////////////////////////////////////////////////////////////////////////////
+
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -213,23 +193,7 @@ function Caisse(props) {
   function handleType(a) {
     setType(a);
   }
-  function handleFilterCat(value,test){
-    setSearchValue();
-    setCat(value);
-    setScat(test)
-  }
 
-  const G=loadStock.data.map(item=>{return item.gamme_code})
-  const Gammes = G.filter((gamme,index)=>{return G.indexOf(gamme)===index});
-
-  useEffect(() => {
-    getArticles();
-    getCategories();
-  }, []);
-
-  const filterPrice=(<>
-  
-  </>);
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const drawer = (
     <div>
@@ -296,9 +260,6 @@ function Caisse(props) {
                   <SiAirtable className={classes.icon} />
               </Badge>
             </IconButton>
-            {/* <Badge color="secondary" overlap="circle" badgeContent=" " variant="dot" onClick={()=>setModal({isOpen: true})}>
-              <SiAirtable className={classes.icon} />
-            </Badge> */}
 
             <Table
               handleOpen={modal.isOpen}
@@ -345,57 +306,29 @@ function Caisse(props) {
           <div className={classes.toolbar} />
           <Grid container>
             <Grid item>          
-            <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Type</InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select">
-              <MenuItem value="stock" onClick={() => handleType("s")} default>
-                Stock
-              </MenuItem>
-              <MenuItem value="menu" onClick={() => handleType("m")}>
-                Menu
-              </MenuItem>
-            </Select>
-          </FormControl>
-          </Grid>
-          <Grid item>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Type</InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select">
-                  <MenuItem value="" onClick={() => handleFilterCat("",false)} default>
-                    Tous Categorie
+                  <MenuItem value="stock" onClick={() => handleType("s")} default>
+                    Stock
                   </MenuItem>
-                  {Gammes.map((data)=>{
-                    return (
-                  <MenuItem value={data} onClick={(e) => handleFilterCat(data,true)} default>
-                    {data}
+                  <MenuItem value="menu" onClick={() => handleType("m")}>
+                    Menu
                   </MenuItem>
-                    )
-                  })
-                }
                 </Select>
               </FormControl>
             </Grid>
           <Grid item>
-{filterPrice}
-          </Grid>
-{" "}
+            </Grid>
+            {" "}
           </Grid>
           <br />
-          {isSearching || scat ? (
-            type === "m" ? (
-              <RechercheArticle
-                chercherDans={dataArt} value={searchValue} 
-              />
-            ) : (
-              <RechercheProd value={searchValue} cat={cat} />
-            )
-          ) : type === "m" ? (
-            <AfficheArticle
-              dataArt={dataArt} dataCat={dataCat}
-            ></AfficheArticle>
-          ) : (
-            <AfficheStock />
-          )}
+
+          {type === "m" ?
+            <AfficheArticle search={searchValue} />
+           : <AfficheStock search={searchValue} /> }
+
+
         </main>
       </div>
     </>);

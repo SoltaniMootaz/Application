@@ -43,10 +43,6 @@ router.post("/api/ajouterArticle", (req,res) => {
 router.post("/api/ajouterIngredient", (req,res) => {
     try {
         const { idIngr,quantite,id_article,id_utilisateur } = req.body;
-        console.log(idIngr)
-        console.log(quantite)
-        console.log(id_article)
-        console.log(id_utilisateur)
 
         pool.query("INSERT INTO public.ingredient(quantite,id_utilisateur,id_article,id_produit) VALUES ($1,$2,$3,$4)",[quantite,id_utilisateur,id_article,idIngr], (err) => {
             if(err)
