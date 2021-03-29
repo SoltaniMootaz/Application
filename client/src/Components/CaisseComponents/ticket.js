@@ -20,6 +20,7 @@ import { AiOutlineAppstoreAdd, AiOutlineDelete, AiOutlineFieldTime } from "react
 import { GrAdd } from "react-icons/gr";
 import { IoMdRemove } from "react-icons/io";
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import {AiOutlineCloseCircle} from "react-icons/ai"
 /////////////////////////////////////////////////////////////////////
 
 const StyledTableCell = withStyles((theme) => ({
@@ -38,6 +39,7 @@ const StyledTableRow = withStyles((theme) => ({
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
     },
+    width:'100%'
   },
 }))(TableRow);
 const useStyles = makeStyles((theme) => ({
@@ -47,13 +49,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     paddingBottom: 10,
   },
-  table: { maxWidth: 400 },
+  table: { width:'100%' },
   Control: {
     padding: theme.spacing(5),
   },
   root: {
     position: "sticky",
-    width: 400,
+    width: '99%',
     bottom: 0,
     textAlign: "center",
     paddingBottom: 10,
@@ -166,22 +168,21 @@ function Ticket() {
           if (value) {
             return (
               <>
-                <StyledTableRow key={index}>
-                  <StyledTableCell align="left">
+                <TableRow key={index}  >
+                  <TableCell style={{border:'0'}}  align="left" colSpan={4}>
                     {value.libelle}
-                  </StyledTableCell>
-
-                  <StyledTableCell align="right">
+                  </TableCell>
+                  </TableRow>
+                  <StyledTableRow key={index}>
+                  <StyledTableCell align="left">
                     {value.prix_ttc}
                   </StyledTableCell>
 
-                    <StyledTableCell align="right" style={{paddingRight:0}}>
+                    <StyledTableCell align="left" style={{paddingRight:0}}>
                       <IconButton onClick={() => dispatch(LoadTicket(value, "remove"))}>
                         <IoMdRemove style={{ width: "0.5em", height: "0.5em", color:"black" }} />
                       </IconButton>
-                    </StyledTableCell>
-
-                    <StyledTableCell align="right" style={{paddingLeft:0, paddingRight:0}}>
+                    
                       {index === focus ? 
                         <input
                           type="text"
@@ -212,9 +213,7 @@ function Ticket() {
                         style={{ maxWidth: "3em" }}
                       /> }
                       
-                    </StyledTableCell>
-
-                    <StyledTableCell align="right" style={{paddingLeft:0}}>
+                  
                       <IconButton onClick={() => dispatch(LoadTicket(value))}>
                         <GrAdd style={{ width: "0.5em", height: "0.5em", color:"black" }} />
                       </IconButton>
@@ -222,7 +221,7 @@ function Ticket() {
 
                   <StyledTableCell align="right" style={{paddingLeft:0}}>
                     <IconButton onClick={() => dispatch(LoadTicket(value, "remove_all"))}>
-                      <RiDeleteBin2Fill style={{color:"black", width:"0.7em"}} />
+                      <AiOutlineCloseCircle style={{color:"grey", width:"0.9em"}} />
                     </IconButton>
                   </StyledTableCell>
                 </StyledTableRow>
@@ -236,30 +235,32 @@ function Ticket() {
   return (
     <>
     <center>
-          <p style={{ fontSize: "20px", color: "#4caf50", display: "inline" }}>
+      <br></br>
+          <p style={{ fontSize: "20px", color: "#00695f", display: "inline" }}>
             Somme: {somme} DT
           </p>
         </center>
         <center>
-          <p style={{ fontSize: "15px", color: "#3f51b5", display: "inline",  }}>
+          <p style={{ fontSize: "15px", color: "#008394", display: "inline",  }}>
             Table: {localStorage.getItem('tableIndex')} 
           </p></center>
           <br></br>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
-          <TableHead>
+          <TableHead style={{width:'100%'}}>
             <TableRow>
-              <StyledTableCell align="left">Nom du produit</StyledTableCell>
-              <StyledTableCell align="right">Prix</StyledTableCell>
-              <StyledTableCell align="right"></StyledTableCell>
-              <StyledTableCell align="center" style={{maxWidth:"1px",paddingLeft:1}}>Quantité</StyledTableCell>
+              {/* <StyledTableCell align="left">Nom du produit</StyledTableCell> */}
+              <StyledTableCell align="left">Prix</StyledTableCell>
+              
+              <StyledTableCell align="right" style={{maxWidth:"1px",paddingLeft:1}}>Quantité</StyledTableCell>
+              <StyledTableCell align="right">{" "}</StyledTableCell> 
             </TableRow>
           </TableHead>
           <TableBody>{data}</TableBody>
         </Table>
       </TableContainer>
 
-      <div className={classes.bottomPush} style={{ padding: "10px" }}></div>
+  
       <BottomNavigation
         value={val}
         onChange={(event, newValue) => {
@@ -282,7 +283,7 @@ function Ticket() {
           />
         <BottomNavigationAction
           label="Payer"
-          style={{ color: "blue" }}
+          style={{ color: "#00bcd4" }}
           icon={<AiOutlineAppstoreAdd />}
           onClick={() => setState({ isOpen: true })}
         />
@@ -293,6 +294,7 @@ function Ticket() {
           onClick={Effacer}
         />
       </BottomNavigation>
+ 
       <Vente
         handleOpen={state.isOpen}
         handleClose={() => setState({ isOpen: false })}
