@@ -27,7 +27,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-
+import { Divider,ButtonGroup,ToggleButton } from "@material-ui/core";
+import {IoMdCash} from "react-icons/io"
+import {FaMoneyCheckAlt} from "react-icons/fa"
+import {GrCreditCard} from "react-icons/gr"
+import {AiOutlineCreditCard} from "react-icons/ai"
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -63,6 +67,7 @@ const styles = (theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+ 
 });
 
 const DialogTitle = withStyles(styles)((props) => {
@@ -103,7 +108,7 @@ function Vente(props) {
 
   const [direct,setDirect] = useState(false);
   const [kridi,setKridi] = useState(false);
-  const [espece,setEspece] = useState(false);
+  const [espece,setEspece] = useState(true);
 
   const [style1,setStyle1] = useState(false);
   const [style2,setStyle2] = useState(false);
@@ -215,6 +220,12 @@ function Vente(props) {
     clients.push(<MenuItem {...clientSelec==row.nomPre ? "active" : ""} key={i} value={row.nomPre} onClick={()=>handleClientSelec(row.nomPre)}>{row.nomPre}</MenuItem>)
   })
 
+  function styling(){
+   if(direct || kridi || espece){
+    return{ width:'11em',
+            backgroundColor:'#e0f2f1'}}
+    else  return ("")
+  }
   return (
     <>
     <Dialog fullWidth={true} onClose={()=> {
@@ -225,7 +236,7 @@ function Vente(props) {
       setStyle4(false);
     }} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
 
-        <DialogTitle id="customized-dialog-title" onClose={props.handleClose} style={{color:"green"}}>
+        <DialogTitle id="customized-dialog-title" onClose={props.handleClose} style={{color:"#00695f"}}>
           À payer : {props.somme} DT
           {error ? 
             <p style={{ color: "red", fontSize: "20px", textAlign: "center" }}>{error}</p>
@@ -234,23 +245,39 @@ function Vente(props) {
         </DialogTitle>
         <DialogContent dividers>
           <Grid container >
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={espece}
-                      onChange={() => changeEspece()}
-                      name="checkedB"
-                      color="primary"
-                    />
-                  }
-                  label="Vente en espèces"
-                />
-              </Grid>
+            <Grid container spacing={0} style={{marginLeft:'2em'}}>
+            <Grid item xs={12}>
+              <center>
+            <ButtonGroup variant="contained" color="default" aria-label="contained primary button group">
+              <Button onClick={() => changeEspece()} startIcon={<IoMdCash />} style={{width:'11em'}}>espece</Button>
+          
+              <Button startIcon={<FaMoneyCheckAlt />}style={{width:'11em'}}>cheque</Button>
+            
+              <Button   onClick={() => changeDirect()} startIcon={<GrCreditCard />}style={{width:'11em'}}>card</Button>
+             
+             
+              </ButtonGroup>
+              </center>
+            </Grid>
+            
+            </Grid>
+           
+            
+            <br></br>
+       
               
-              <Grid item xs={12}>
+            <Grid item xs={12}>
                 {espece ? <>
-                  <br />
+                  <br/>
+                  
+              
+                 
+               
+              
+                 
+                  
+                  <Typography subtitle1 align='center'>Payement en espece:</Typography>
+                  <br/>
                   <center>
                   <TextField
                     required
@@ -268,61 +295,59 @@ function Vente(props) {
                     variant="outlined"
                   />
                   </center>
+               
+                  
+                  
+                  <Divider  absolute/>
+                  <br></br>
+                  <hr></hr>
                   </>
+                  
                 : ""}
-              </Grid>
-
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={direct}
-                      onChange={() => changeDirect()}
-                      name="checkedB"
-                      color="primary"
-                    />
-                  }
-                  label="Vente direct"
-                />
-              </Grid>
-
+                 </Grid>
               {direct ?
               <>
+             <br/>
+                  <br/><br/>
+                  <br/>
               <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography subtitle1 align='center'>Payement direct:</Typography>
+              </Grid>
                 <Grid item xs={3}>
                   {style1 ?
                   <>
-                  <img src={d17} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked1}></img>
+                  <img alt='img1' src={d17 }width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked1}></img>
                 </>
                   :
-                  <img src={d17} width="100%" height="100%" onClick={clicked1}></img>
+                  <img  alt='img1' src={d17} width="100%" height="100%" onClick={clicked1}></img>
                   }
                 </Grid>
                 <Grid item xs={3}>
                   {style2 ?
                   <>
-                  <img src={mobiflouss} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked2}></img>
+                  <img  alt='img2' src={mobiflouss} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked2}></img>
                 </>
                   :
-                  <img src={mobiflouss} width="100%" height="100%" onClick={clicked2}></img>
+                  <img alt='img2'  src={mobiflouss} width="100%" height="100%" onClick={clicked2}></img>
                   }
                 </Grid>
                 <Grid item xs={3}>
                   {style3 ?
                   <>
-                  <img src={sobflous} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked3}></img>
+                  <img alt='img3'  src={sobflous} width="100%" height="100%"style={{border: '2px solid #021a40'}} onClick={clicked3}></img>
                 </>
                   :
-                  <img src={sobflous} width="100%" height="100%" onClick={clicked3}></img>
+                  <img  alt='img3' src={sobflous} width="100%" height="100%" onClick={clicked3}></img>
                   }
                 </Grid>
                 <Grid item xs={3}>
                   {style4 ?
                   <>
-                  <img src={edinar} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked4}></img>
+                  <img alt='img3'  src={edinar} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked4}></img>
                 </>
                   :
-                  <img src={edinar} width="100%" height="100%" onClick={clicked4}></img>
+                  <img alt='img3'  src={edinar} width="100%" height="100%" onClick={clicked4}></img>
                   }
                 </Grid>
               </Grid>
@@ -384,6 +409,7 @@ function Vente(props) {
                     variant="outlined"
                   />
                   : "" }
+                 
                 </Grid>
 
                 <Grid item xs={3}>
@@ -404,27 +430,27 @@ function Vente(props) {
                   : "" }
                 </Grid>
               </Grid>
+              <Divider absolute />
+              <br></br>
+              <hr></hr>
               </>
               : "" }
 
+<br></br>
+                 
+                  <br/>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={kridi}
-                      onChange={() => changeKridi()}
-                      name="checkedB"
-                      color="primary"
-                    />
-                  }
-                  label="Vente en kridi"
-                />
+                <center>
+          <Button variant='contained' color='default' onClick={()=>changeKridi()} startIcon={<AiOutlineCreditCard />} style={{width:'20em'}}>Kredit</Button>
+          </center>
               </Grid>
-
               {kridi ? 
-              (
+              (<>
+              
                 <div className={classes.root}>
-                  <Accordion>
+                  <br></br>
+                
+                  <Accordion className={classes.accordion}>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1a-content"
@@ -476,7 +502,7 @@ function Vente(props) {
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
-                  <Accordion>
+                  <Accordion className={classes.accordion}>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel2a-content"
@@ -515,15 +541,17 @@ function Vente(props) {
 
                     </AccordionDetails>
                   </Accordion>
-
+                  
                 </div>
+                <Divider />
+                </>
               )
               : "" }
 
           </Grid>
         </DialogContent>
-        <DialogActions style={{justifyContent:'center'}}>
-          <Button variant="contained" color="primary" onClick={(e)=>submit(e)}>
+        <DialogActions style={{justifyContent:'center',height:'5em'}}>
+          <Button variant="contained" color="primary" style={{backgroundColor:'#00bcd4'}} onClick={(e)=>submit(e)}>
             Valider
           </Button>
         </DialogActions>

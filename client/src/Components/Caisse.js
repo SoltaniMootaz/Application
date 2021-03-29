@@ -54,12 +54,20 @@ const useStyles = makeStyles((theme) => ({
       width: drawerWidth,
       flexShrink: 0,
     },
+    [theme.breakpoints.down("md")]: {
+      width: 300,
+      flexShrink: 0,
+    },
   },
   appBar: {
     flexGrow:1,
     [theme.breakpoints.up("md")]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
+    },
+    [theme.breakpoints.down("md")]: {
+      width: `calc(100% - 300px)`,
+      marginLeft: 300,
     },
   },
   menuButton: {
@@ -71,7 +79,13 @@ const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth,
+    [theme.breakpoints.up("md")]: {
+      width: drawerWidth,
+      
+    },
+    [theme.breakpoints.down("md")]: {
+      width:300
+    },
   },
   content: {
     flexGrow: 1,
@@ -209,7 +223,7 @@ function Caisse(props) {
           <Toolbar style={{justifyContent:'space-between'}}>
                     
                  <div>            
-            <IconButton
+            {/* <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
@@ -217,7 +231,7 @@ function Caisse(props) {
               className={classes.menuButton}
             >
               <MenuIcon />
-            </IconButton>
+            </IconButton> */}
             <IconButton aria-label="add an alarm" component={Link} to="/Home">
               <AiFillHome
                 className="icon"
@@ -258,7 +272,7 @@ function Caisse(props) {
         </AppBar>
         <nav className={classes.drawer} aria-label="mailbox folders">
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden mdUp implementation="css">
+          {/* <Hidden mdUp implementation="css">
             <Drawer
               container={container}
               variant="temporary"
@@ -274,8 +288,8 @@ function Caisse(props) {
             >
               {drawer}
             </Drawer>
-          </Hidden>
-          <Hidden mdDown implementation="css">
+          </Hidden> */}
+          <Hidden  implementation="css">
             <Drawer
               classes={{
                 paper: classes.drawerPaper,
