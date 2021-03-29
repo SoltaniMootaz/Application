@@ -1,6 +1,6 @@
 import React from 'react'
 import HomeButtons from './HomeComponents/HomeButtons'
-import {BiCart} from 'react-icons/bi';
+import {FaCashRegister} from 'react-icons/fa';
 import {BiMenu} from 'react-icons/bi';
 import {IoIosJournal} from 'react-icons/io';
 import {BiStats} from 'react-icons/bi';
@@ -45,7 +45,7 @@ function Home() {
             <Grid container>
                 <Grid container spacing={4}>
                 <Grid item sm={4} xs={12}>
-           <HomeButtons buttonName='Caisse' icon={<BiCart />} link='/caisse' Bcolor='#00A0B1'/> 
+           <HomeButtons buttonName='Caisse' icon={<FaCashRegister />} link='/caisse' Bcolor='#00bcd4'/> 
            </Grid>
            <Grid item sm={4} xs={12} >
            <HomeButtons buttonName='menu' icon={<BiMenu />} link='/menu'  Bcolor='#00A600'/>
