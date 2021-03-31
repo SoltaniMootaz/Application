@@ -82,28 +82,52 @@ router.get("/api/afficherClients",(req,res) => {
 
 router.post("/api/ticket",(req,res) => {
     const { data, quantite, table, somme, date, operation, id_utilisateur } = req.body;
+    const { espece, cheque, kridi, edinar, sobflous, mobiflouss, d17 } = req.body
     
-    pool.query('INSERT INTO public.ticket(somme,"id_utilisateur","table") VALUES($1,$2,$3) RETURNING *',[parseFloat(somme),id_utilisateur,parseInt(table,10)],(err, res1) => {
-        if(err) {
-            res.status(400).send(err.toString())
-        }else {
-            data.map((value,index) => {
-                pool.query('INSERT INTO public."produitsTicket" VALUES($1,$2,$3) RETURNING *',[value.id,res1.rows[0].id,quantite[index]],(err,res2) => {
+    if(operation === "effacé")
+        pool.query('INSERT INTO public.ticket(somme,"id_utilisateur","table") VALUES($1,$2,$3) RETURNING *',[parseFloat(somme),id_utilisateur,parseInt(table,10)],(err, res1) => {
+            if(err) {
+                res.status(400).send(err.toString())
+            }else {
+                data.map((value,index) => {
+                    pool.query('INSERT INTO public."produitsTicket" VALUES($1,$2,$3) RETURNING *',[value.id,res1.rows[0].id,quantite[index]],(err,res2) => {
+                        if(err) {
+                            res.status(400).send(err.toString())
+                        }
+                    })
+                })
+
+                pool.query('INSERT INTO public."mouvement"(date, operation, id_ticket) VALUES($1,$2,$3) RETURNING *',[date, operation, res1.rows[0].id],(err,res3) => {
                     if(err) {
                         res.status(400).send(err.toString())
                     }
                 })
-            })
 
-            pool.query('INSERT INTO public."mouvement"(date, operation, id_ticket) VALUES($1,$2,$3) RETURNING *',[date, operation, res1.rows[0].id],(err,res3) => {
-                if(err) {
-                    res.status(400).send(err.toString())
-                }
-            })
+                res.status(200).send("Succes")
+            }
+        })
+    else
+        pool.query('INSERT INTO public.ticket(somme,"id_utilisateur","table",espece,cheque,kridi,d17,mobiflouss,sobflous,edinar) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *',[parseFloat(somme),id_utilisateur,parseInt(table,10),parseFloat(espece), cheque, kridi, d17, mobiflouss, sobflous, edinar],(err, res1) => {
+            if(err) {
+                res.status(400).send(err.toString())
+            }else {
+                data.map((value,index) => {
+                    pool.query('INSERT INTO public."produitsTicket" VALUES($1,$2,$3) RETURNING *',[value.id,res1.rows[0].id,quantite[index]],(err,res2) => {
+                        if(err) {
+                            res.status(400).send(err.toString())
+                        }
+                    })
+                })
 
-            res.status(200).send("Succes")
-        }
-    })
+                pool.query('INSERT INTO public."mouvement"(date, operation, id_ticket) VALUES($1,$2,$3) RETURNING *',[date, operation, res1.rows[0].id],(err,res3) => {
+                    if(err) {
+                        res.status(400).send(err.toString())
+                    }
+                })
+
+                res.status(200).send("Succes")
+            }
+        })
 })
 
 module.exports = router;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LoadTicket } from "../../actions"
 
 import Axios from "axios";
@@ -16,8 +16,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Accordion from '@material-ui/core/Accordion';
@@ -31,7 +29,7 @@ import { Divider,ButtonGroup,ToggleButton } from "@material-ui/core";
 import {IoMdCash} from "react-icons/io"
 import {FaMoneyCheckAlt} from "react-icons/fa"
 import {GrCreditCard} from "react-icons/gr"
-import {AiOutlineCreditCard} from "react-icons/ai"
+import {IoIosPaper} from "react-icons/io"
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -100,15 +98,42 @@ const DialogActions = withStyles((theme) => ({
 function Vente(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const loadTicket = useSelector(state=>state.loadTicket)
 
   const url1 = "http://localhost:3001/api/ajouterClient";
   const url2 = "http://localhost:3001/api/afficherClients";
+  const url3 = "http://localhost:3001/api/ticket";
 
   const [error,setError] = useState("");
+  const [montant, setMontant] = useState();
+  const [rendu, setRendu] = useState(0);
+  const [totale, setTotale] = useState([[{
+    methode: "espece",
+    montant: 0
+  }],[{
+    methode: "cheque",
+    montant: 0
+  }],[{
+    methode: "kridi",
+    montant: 0
+  }],[{
+    methode: "d17",
+    montant: 0
+  }],[{
+    methode: "mobiflouss",
+    montant: 0
+  }],[{
+    methode: "sobflous",
+    montant: 0
+  }],[{
+    methode: "edinar",
+    montant: 0
+  }]])
 
   const [direct,setDirect] = useState(false);
   const [kridi,setKridi] = useState(false);
   const [espece,setEspece] = useState(true);
+  const [cheque,setCheque] = useState(false);
 
   const [style1,setStyle1] = useState(false);
   const [style2,setStyle2] = useState(false);
@@ -122,10 +147,85 @@ function Vente(props) {
 
   const [clientSelec,setClientSelec] = useState("");
   const [clientData,setClientData] = useState([])
+  const [expanded, setExpanded] = useState(false);
   const clients = [];
+
+  const handleMontant = (montant,methode) => {
+    var tmp = totale;
+
+    if(methode == "espece") {
+      if (montant === "")
+          tmp[0].montant = 0;
+        else
+          tmp[0].montant = montant;
+    }else if(methode == "cheque") {
+      if (montant === "")
+          tmp[1].montant = 0;
+        else
+          tmp[1].montant = montant;
+    }else if(methode == "kridi") {
+      if (montant === "")
+          tmp[2].montant = 0;
+        else
+          tmp[2].montant = montant;
+    }else if(methode == "d17") {
+      if (montant === "")
+          tmp[3].montant = 0;
+        else
+          tmp[3].montant = montant;
+    }else if(methode == "mobiflouss") {
+      if (montant === "")
+          tmp[4].montant = 0;
+        else
+          tmp[4].montant = montant;
+    }else if(methode == "sobflous") {
+      if (montant === "")
+          tmp[5].montant = 0;
+        else
+          tmp[5].montant = montant;
+    }else if(methode == "edinar") {
+      if (montant === "")
+          tmp[6].montant = 0;
+        else
+          tmp[6].montant = montant;
+    }
+
+    setTotale(tmp)
+    calculSomme(tmp)
+  }
+
+  const calculSomme = (tot) => {
+    var somme1 = 0;
+
+    tot.map(val=>{
+      if(val.montant)
+        somme1 += parseFloat(val.montant);
+    })
+
+
+    if((props.somme - somme1) < 0) {
+      setMontant(0);
+      setRendu(Math.abs((props.somme - somme1).toFixed(3)));
+    }else {
+      setMontant((props.somme - somme1).toFixed(3))
+      setRendu(0);
+    }
+  }
+
+  useEffect(()=> {
+    Axios.get(url2)
+    .then((res) => {
+      setClientData(res.data)
+    })
+    setMontant(props.somme)
+    setRendu(0)
+  },[props.somme])
 
   const changeEspece = () =>{
     setEspece(!espece);
+  }
+  const changeCheque = () =>{
+    setCheque(!cheque);
   }
   const changeDirect = () =>{
      setDirect(!direct);
@@ -159,11 +259,70 @@ function Vente(props) {
     setClientSelec(e);
   }
 
+  const handleAccChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
+  const handleTicket = () => {
+    var current = new Date();
+
+    if(localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))) {
+      const tmp = JSON.parse(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')));  
+
+      Axios.post(url3, {
+        data: tmp.data,
+        quantite: tmp.quantite,
+        table: tmp.table,
+        somme: props.somme,
+        date: current.toLocaleString(),
+        operation: "vente",
+        espece: totale[0].montant,
+        cheque: totale[1].montant,
+        kridi: totale[2].montant,
+        d17: totale[3].montant,
+        mobiflouss: totale[4].montant,
+        sobflous: totale[5].montant,
+        edinar: totale[6].montant,
+        id_utilisateur: localStorage.getItem('userID')
+      })
+      .then(()=> {
+        handleClick()
+      })
+      .catch((err)=>{
+        setError(err.response.data)
+      })
+    }else {
+      const tmp = loadTicket;
+
+      Axios.post(url3, {
+        data: tmp.data,
+        quantite: tmp.quantite,
+        table: localStorage.getItem('tableIndex'),
+        somme: props.somme,
+        date: current.toLocaleString(),
+        operation: "vente",
+        espece: totale[0].montant,
+        cheque: totale[1].montant,
+        kridi: totale[2].montant,
+        d17: totale[3].montant,
+        mobiflouss: totale[4].montant,
+        sobflous: totale[5].montant,
+        edinar: totale[6].montant,
+        id_utilisateur: localStorage.getItem('userID')
+      })
+      .then(()=> {
+        handleClick()
+      })
+      .catch((err)=>{
+        setError(err.response.data)
+      })
+    }
+  }
+
   const handleClick = () => {
-    props.handleClose();
     localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
-    const tableIndex = localStorage.getItem('tableIndex');
-    
+    props.handleClose();
+
     for(var i=1;i<=localStorage.getItem('nbTables');i++) {
       if(!localStorage.getItem('ticket' + i)) {
         localStorage.setItem('tableIndex',i);
@@ -181,40 +340,27 @@ function Vente(props) {
   }
 
   function submit(e) {
-    if (direct || kridi || espece) {
-      e.preventDefault();
-      Axios.post(url1,{
-        nomPre: client.nomPre,
-        tel: client.tel,
-        id_utilisateur: localStorage.getItem('userID')
-      })
-        .then((res) => {
-          console.log(res.data);
-          handleClick()
-          props.handleClose();
+    if(montant == 0) {
+      if (kridi) {
+        e.preventDefault();
+        Axios.post(url1,{
+          nomPre: client.nomPre,
+          tel: client.tel,
+          id_utilisateur: localStorage.getItem('userID')
         })
         .catch((err) => {
-          if(kridi)
-            setError(err.response.data);
-          else if(direct && !style1 && !style2 && !style3 && !style4)
-            setError("veuillez sélectionner un moyen de paiement direct")
-          else {
-            setError();
-            props.handleClose();
-            handleClick()
-          }
+          setError(err.response.data);
         })
-    }else {
-      setError("veuillez sélectionner un moyen de paiement")
-    }
-  }
+      }
 
-  useEffect(()=> {
-    Axios.get(url2)
-    .then((res) => {
-      setClientData(res.data)
-    })
-  })
+      if(kridi || espece || direct || cheque) {
+        handleTicket()
+      }else {
+        setError("veuillez sélectionner un moyen de paiement")
+      }
+    }else 
+      setError("veuillez payer le reste du montant")
+  }
 
   clientData.map((row, i) => {
     clients.push(<MenuItem {...clientSelec==row.nomPre ? "active" : ""} key={i} value={row.nomPre} onClick={()=>handleClientSelec(row.nomPre)}>{row.nomPre}</MenuItem>)
@@ -222,26 +368,36 @@ function Vente(props) {
 
   function styling(){
    if(direct || kridi || espece){
-    return{ width:'11em',
-            backgroundColor:'#e0f2f1'}}
+    return{ width:'11em',backgroundColor:'#e0f2f1'}}
     else  return ("")
   }
   return (
     <>
     <Dialog fullWidth={true} onClose={()=> {
       props.handleClose();
+      setRendu(0);
+      setMontant(0);
+      setTotale(totale.filter(val=>val === ""));
       setStyle1(false);
       setStyle2(false);
       setStyle3(false);
       setStyle4(false);
     }} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
 
-        <DialogTitle id="customized-dialog-title" onClose={props.handleClose} style={{color:"#00695f"}}>
-          À payer : {props.somme} DT
+        <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
+          <Grid container>
+            <Grid item xs={4}>
+              <p style={{display:"inline",color:"#00695f"}}>À payer : {montant} DT</p>
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={6}>
+              <p style={{display:"inline",color:"#b51c07"}}>Rendu monnaie : {rendu} DT</p>
+            </Grid>
           {error ? 
             <p style={{ color: "red", fontSize: "20px", textAlign: "center" }}>{error}</p>
           : ""
           }
+          </Grid>
         </DialogTitle>
         <DialogContent dividers>
           <Grid container >
@@ -249,14 +405,23 @@ function Vente(props) {
             <Grid item xs={12}>
               <center>
             <ButtonGroup variant="contained" color="default" aria-label="contained primary button group">
-              <Button onClick={() => changeEspece()} startIcon={<IoMdCash />} style={{width:'11em'}}>espece</Button>
-          
-              <Button startIcon={<FaMoneyCheckAlt />}style={{width:'11em'}}>cheque</Button>
+              {espece ?
+                <Button onClick={() => changeEspece()} style={{backgroundColor:"#00bcd4"}} startIcon={<IoMdCash />} >espece</Button>
+              : <Button onClick={() => changeEspece()} startIcon={<IoMdCash />} >espece</Button> }
+
+              {cheque ?
+                <Button onClick={() => changeCheque()} style={{backgroundColor:"#00bcd4"}} startIcon={<FaMoneyCheckAlt />}>cheque</Button>
+              : <Button onClick={() => changeCheque()} startIcon={<FaMoneyCheckAlt />}>cheque</Button> }
             
-              <Button   onClick={() => changeDirect()} startIcon={<GrCreditCard />}style={{width:'11em'}}>card</Button>
+              {direct ?
+                <Button onClick={() => changeDirect()} style={{backgroundColor:"#00bcd4"}} startIcon={<GrCreditCard />}>en ligne</Button>
+              : <Button onClick={() => changeDirect()} startIcon={<GrCreditCard />}>en ligne</Button> }
              
-             
-              </ButtonGroup>
+              {kridi ?
+                <Button onClick={() => changeKridi()} style={{backgroundColor:"#00bcd4"}} startIcon={<IoIosPaper />}>Kridi</Button>
+              : <Button onClick={() => changeKridi()} startIcon={<IoIosPaper />}>Kridi</Button> }
+
+            </ButtonGroup>
               </center>
             </Grid>
             
@@ -268,14 +433,7 @@ function Vente(props) {
               
             <Grid item xs={12}>
                 {espece ? <>
-                  <br/>
-                  
-              
-                 
-               
-              
-                 
-                  
+                  <br/>          
                   <Typography subtitle1 align='center'>Payement en espece:</Typography>
                   <br/>
                   <center>
@@ -284,7 +442,7 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
-                    defaultValue={props.somme}
+                    onChange={(e)=>handleMontant(e.target.value,"espece")}
                     InputProps={{
                       className: classes.multilineColor
                     }}
@@ -295,16 +453,42 @@ function Vente(props) {
                     variant="outlined"
                   />
                   </center>
-               
-                  
-                  
-                  <Divider  absolute/>
                   <br></br>
-                  <hr></hr>
                   </>
                   
                 : ""}
-                 </Grid>
+                {cheque&&espece ? <hr /> : ""}
+            </Grid>
+
+            <Grid item xs={12}>
+                {cheque ? <>
+                  <br/>          
+                  <Typography subtitle1 align='center'>Payement avec cheque:</Typography>
+                  <br/>
+                  <center>
+                  <TextField
+                    required
+                    id="outlined-number"
+                    label="Montant"
+                    type="number"
+                    onChange={(e)=>handleMontant(e.target.value,"cheque")}
+                    InputProps={{
+                      className: classes.multilineColor
+                    }}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    style={{}}
+                    variant="outlined"
+                  />
+                  </center>
+                  <br></br>
+                  </>
+                  
+                : ""}
+                {cheque&&direct ? <hr /> : ""}
+            </Grid>
+
               {direct ?
               <>
              <br/>
@@ -312,7 +496,7 @@ function Vente(props) {
                   <br/>
               <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography subtitle1 align='center'>Payement direct:</Typography>
+                <Typography subtitle1 align='center'>Payement en ligne:</Typography>
               </Grid>
                 <Grid item xs={3}>
                   {style1 ?
@@ -362,6 +546,7 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    onChange={(e)=>handleMontant(e.target.value,"d17")}
                     InputProps={{
                       className: classes.multilineColor
                     }}
@@ -382,6 +567,7 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    onChange={(e)=>handleMontant(e.target.value,"mobiflouss")}
                     InputProps={{
                       className: classes.multilineColor
                     }}
@@ -400,6 +586,7 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    onChange={(e)=>handleMontant(e.target.value,"sobflous")}
                     InputProps={{
                       className: classes.multilineColor
                     }}
@@ -419,6 +606,7 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    onChange={(e)=>handleMontant(e.target.value,"edinar")}
                     InputProps={{
                       className: classes.multilineColor
                     }}
@@ -430,27 +618,17 @@ function Vente(props) {
                   : "" }
                 </Grid>
               </Grid>
-              <Divider absolute />
-              <br></br>
-              <hr></hr>
+              
               </>
               : "" }
 
-<br></br>
-                 
-                  <br/>
-              <Grid item xs={12}>
-                <center>
-          <Button variant='contained' color='default' onClick={()=>changeKridi()} startIcon={<AiOutlineCreditCard />} style={{width:'20em'}}>Kredit</Button>
-          </center>
-              </Grid>
               {kridi ? 
               (<>
-              
                 <div className={classes.root}>
-                  <br></br>
-                
-                  <Accordion className={classes.accordion}>
+                  {direct&&kridi ? <hr /> : ""}
+                  <Typography subtitle1 align='center'>Payement en kridi:</Typography>
+                  <br />
+                  <Accordion className={classes.accordion} expanded={expanded === 'panel1'} onChange={handleAccChange('panel1')}>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1a-content"
@@ -492,6 +670,7 @@ function Vente(props) {
                                 id="standard-basic"
                                 label="Montant"
                                 type="number"
+                                onChange={(e)=>handleMontant(e.target.value,"kridi")}
                                 InputProps={{
                                   className: classes.multilineColor
                                 }}
@@ -532,6 +711,7 @@ function Vente(props) {
                           id="standard-basic"
                           label="Montant"
                           type="number"
+                          onChange={(e)=>handleMontant(e.target.value,"kridi")}
                           InputProps={{
                             className: classes.multilineColor
                           }}
