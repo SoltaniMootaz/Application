@@ -70,7 +70,7 @@ function AfficherStock(props) {
         }
       }
 
-    setGammes(gammes)
+    
   }
 
   const getStock = () => {
