@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { LoadTicket } from "../../actions"
+import { useDispatch, useSelector } from "react-redux";
+import { LoadTicket, VenteTicket } from "../../actions"
+import TicketVente from './tickets/ticketVente'
 
 import Axios from "axios";
 import d17 from './img/D17.png'
 import mobiflouss from './img/mobiflouss.jpg'
 import sobflous from './img/sobflous.png'
 import edinar from './img/edinar.png'
+
+//////////////////////////////////////////////////////////
 import { withStyles, makeStyles} from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -16,8 +19,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Accordion from '@material-ui/core/Accordion';
@@ -27,11 +28,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { Divider,ButtonGroup,ToggleButton } from "@material-ui/core";
+import { Divider,ButtonGroup } from "@material-ui/core";
 import {IoMdCash} from "react-icons/io"
 import {FaMoneyCheckAlt} from "react-icons/fa"
 import {GrCreditCard} from "react-icons/gr"
-import {AiOutlineCreditCard} from "react-icons/ai"
+import {IoIosPaper} from "react-icons/io"
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -100,15 +101,16 @@ const DialogActions = withStyles((theme) => ({
 function Vente(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const loadTicket = useSelector(state=>state.loadTicket)
 
   const url1 = "http://localhost:3001/api/ajouterClient";
   const url2 = "http://localhost:3001/api/afficherClients";
-
-  const [error,setError] = useState("");
+  const url3 = "http://localhost:3001/api/ticket";
 
   const [direct,setDirect] = useState(false);
   const [kridi,setKridi] = useState(false);
   const [espece,setEspece] = useState(true);
+  const [cheque,setCheque] = useState(false);
 
   const [style1,setStyle1] = useState(false);
   const [style2,setStyle2] = useState(false);
@@ -122,30 +124,105 @@ function Vente(props) {
 
   const [clientSelec,setClientSelec] = useState("");
   const [clientData,setClientData] = useState([])
+  const [expanded, setExpanded] = useState(false);
+  const [print, setPrint] = useState(false)
   const clients = [];
 
-  const changeEspece = () =>{
-    setEspece(!espece);
-  }
-  const changeDirect = () =>{
-     setDirect(!direct);
-  }
-  const changeKridi = () => {
-    setKridi(!kridi);
+  const [error,setError] = useState("");
+  const [montant, setMontant] = useState();
+  const [rendu, setRendu] = useState(0);
+  const [totale, setTotale] = useState([[{
+    methode: "espece",
+    montant: 0
+  }],[{
+    methode: "cheque",
+    montant: 0
+  }],[{
+    methode: "kridi",
+    montant: 0
+  }],[{
+    methode: "d17",
+    montant: 0
+  }],[{
+    methode: "mobiflouss",
+    montant: 0
+  }],[{
+    methode: "sobflous",
+    montant: 0
+  }],[{
+    methode: "edinar",
+    montant: 0
+  }]])
+
+  const handleMontant = (montant,methode) => {
+    var tmp = totale;
+
+    if(methode == "espece") {
+      if (montant === "")
+          tmp[0][0].montant = 0;
+        else
+          tmp[0][0].montant = montant;
+    }else if(methode == "cheque") {
+      if (montant === "")
+          tmp[1][0].montant = 0;
+        else
+          tmp[1][0].montant = montant;
+    }else if(methode == "kridi") {
+      if (montant === "")
+          tmp[2][0].montant = 0;
+        else
+          tmp[2][0].montant = montant;
+    }else if(methode == "d17") {
+      if (montant === "")
+          tmp[3][0].montant = 0;
+        else
+          tmp[3][0].montant = montant;
+    }else if(methode == "mobiflouss") {
+      if (montant === "")
+          tmp[4][0].montant = 0;
+        else
+          tmp[4][0].montant = montant;
+    }else if(methode == "sobflous") {
+      if (montant === "")
+          tmp[5][0].montant = 0;
+        else
+          tmp[5][0].montant = montant;
+    }else if(methode == "edinar") {
+      if (montant === "")
+          tmp[6][0].montant = 0;
+        else
+          tmp[6][0].montant = montant;
+    }
+
+    setTotale(tmp)
+    calculSomme(tmp)
   }
 
-  const clicked1 = () => { 
-    setStyle1(!style1);
-  };
-  const clicked2 = () => { 
-    setStyle2(!style2);
-  };
-  const clicked3 = () => { 
-    setStyle3(!style3);
-  };
-  const clicked4 = () => { 
-    setStyle4(!style4);
-  };
+  const calculSomme = (tot) => {
+    var somme1 = 0;
+
+    tot.map(val=>{
+      if(val[0].montant)
+        somme1 += parseFloat(val[0].montant);
+    })
+
+    if((props.somme - somme1) < 0) {
+      setMontant(0);
+      setRendu(Math.abs((props.somme - somme1).toFixed(3)));
+    }else {
+      setMontant((props.somme - somme1).toFixed(3))
+      setRendu(0);
+    }
+  }
+
+  useEffect(()=> {
+    Axios.get(url2)
+    .then((res) => {
+      setClientData(res.data)
+    })
+    setMontant(props.somme)
+    setRendu(0)
+  },[props.somme,print])
 
   function handleNomPre(e) {
     setClient({...client,nomPre: e.target.value});
@@ -159,89 +236,126 @@ function Vente(props) {
     setClientSelec(e);
   }
 
-  const handleClick = () => {
-    props.handleClose();
-    localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
-    const tableIndex = localStorage.getItem('tableIndex');
-    
-    for(var i=1;i<=localStorage.getItem('nbTables');i++) {
-      if(!localStorage.getItem('ticket' + i)) {
-        localStorage.setItem('tableIndex',i);
-        break;
-      }else if(i == localStorage.getItem('nbTables') && i!== localStorage.getItem('tableIndex')) {
-        localStorage.setItem('tableIndex',i);
-        break;
-      }else {
-        localStorage.setItem('tableIndex',1);
-        break;
-      }
-    }
+  const handleAccChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
-    dispatch(LoadTicket({}, "remove_all_data"))
+  const handleTicket = () => {
+    var current = new Date();
+
+    if(localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))) {
+      const tmp = JSON.parse(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')));  
+
+      Axios.post(url3, {
+        data: tmp.data,
+        quantite: tmp.quantite,
+        table: tmp.table,
+        somme: props.somme,
+        date: current.toLocaleString(),
+        operation: "vente",
+        methodes: totale,
+        id_utilisateur: localStorage.getItem('userID')
+      })
+      .then(()=> {
+        dispatch(VenteTicket(totale))
+        handleClick()
+      })
+      .catch((err)=>{
+        setError(err.response.data)
+      })
+    }else {
+      const tmp = loadTicket;
+
+      Axios.post(url3, {
+        data: tmp.data,
+        quantite: tmp.quantite,
+        table: localStorage.getItem('tableIndex'),
+        somme: props.somme,
+        date: current.toLocaleString(),
+        operation: "vente",
+        methodes: totale,
+        id_utilisateur: localStorage.getItem('userID')
+      })
+      .then((res)=> {
+        localStorage.setItem('numTicket',res.data)
+        dispatch(VenteTicket(totale))
+        handleClick()
+      })
+      .catch((err)=>{
+        setError(err)
+      })
+    }
+  }
+
+  const close = () => {
+    setStyle1(false);setStyle2(false);setStyle3(false);setStyle4(false);
+    setCheque(false);setDirect(false);setEspece(true);setKridi(false);
+    setRendu(0);
+    setMontant(props.somme);
+    setError();
+    setExpanded(false)
+    var tmp = totale;
+    tmp.map(val=>{
+      val[0].montant = 0;
+    })
+    
+    setTotale(tmp);
+    props.handleClose();
+  }
+
+  const handleClick = () => {
+    if(props.somme > 0) {
+      setPrint(true);
+      close();
+    }else
+      setError("montant doit être supérieur à 0")
   }
 
   function submit(e) {
-    if (direct || kridi || espece) {
-      e.preventDefault();
-      Axios.post(url1,{
-        nomPre: client.nomPre,
-        tel: client.tel,
-        id_utilisateur: localStorage.getItem('userID')
-      })
-        .then((res) => {
-          console.log(res.data);
-          handleClick()
-          props.handleClose();
+    if(montant == 0) {
+      if (kridi) {
+        e.preventDefault();
+        Axios.post(url1,{
+          nomPre: client.nomPre,
+          tel: client.tel,
+          id_utilisateur: localStorage.getItem('userID')
         })
         .catch((err) => {
-          if(kridi)
-            setError(err.response.data);
-          else if(direct && !style1 && !style2 && !style3 && !style4)
-            setError("veuillez sélectionner un moyen de paiement direct")
-          else {
-            setError();
-            props.handleClose();
-            handleClick()
-          }
+          setError(err.response.data);
         })
-    }else {
-      setError("veuillez sélectionner un moyen de paiement")
-    }
-  }
+      }
 
-  useEffect(()=> {
-    Axios.get(url2)
-    .then((res) => {
-      setClientData(res.data)
-    })
-  })
+      if(kridi || espece || direct || cheque) {
+        handleTicket()
+      }else {
+        setError("veuillez sélectionner un moyen de paiement")
+      }
+    }else 
+      setError("veuillez payer le reste du montant")
+  }
 
   clientData.map((row, i) => {
     clients.push(<MenuItem {...clientSelec==row.nomPre ? "active" : ""} key={i} value={row.nomPre} onClick={()=>handleClientSelec(row.nomPre)}>{row.nomPre}</MenuItem>)
   })
 
-  function styling(){
-   if(direct || kridi || espece){
-    return{ width:'11em',
-            backgroundColor:'#e0f2f1'}}
-    else  return ("")
-  }
   return (
     <>
-    <Dialog fullWidth={true} onClose={()=> {
-      props.handleClose();
-      setStyle1(false);
-      setStyle2(false);
-      setStyle3(false);
-      setStyle4(false);
-    }} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
+    <Dialog fullWidth={true} onClose={close} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
 
-        <DialogTitle id="customized-dialog-title" onClose={props.handleClose} style={{color:"#00695f"}}>
-          À payer : {props.somme} DT
+        <DialogTitle id="customized-dialog-title" onClose={close}>
+          <Grid container>
+            <Grid item xs={4}>
+              <p style={{display:"inline",color:"#00695f"}}>À payer : {montant} DT</p>
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={6}>
+              <p style={{display:"inline",color:"#b51c07"}}>Rendu monnaie : -{rendu} DT</p>
+            </Grid>
           {error ? 
             <p style={{ color: "red", fontSize: "20px", textAlign: "center" }}>{error}</p>
           : ""
           }
+          </Grid>
         </DialogTitle>
         <DialogContent dividers>
           <Grid container >
@@ -249,14 +363,23 @@ function Vente(props) {
             <Grid item xs={12}>
               <center>
             <ButtonGroup variant="contained" color="default" aria-label="contained primary button group">
-              <Button onClick={() => changeEspece()} startIcon={<IoMdCash />} style={{width:'11em'}}>espece</Button>
-          
-              <Button startIcon={<FaMoneyCheckAlt />}style={{width:'11em'}}>cheque</Button>
+              {espece ?
+                <Button onClick={() => setEspece(!espece)} style={{backgroundColor:"#00bcd4"}} startIcon={<IoMdCash />} >espece</Button>
+              : <Button onClick={() => setEspece(!espece)} startIcon={<IoMdCash />} >espece</Button> }
+
+              {cheque ?
+                <Button onClick={() => setCheque(!cheque)} style={{backgroundColor:"#00bcd4"}} startIcon={<FaMoneyCheckAlt />}>cheque</Button>
+              : <Button onClick={() => setCheque(!cheque)} startIcon={<FaMoneyCheckAlt />}>cheque</Button> }
             
-              <Button   onClick={() => changeDirect()} startIcon={<GrCreditCard />}style={{width:'11em'}}>card</Button>
+              {direct ?
+                <Button onClick={() => setDirect(!direct)} style={{backgroundColor:"#00bcd4"}} startIcon={<GrCreditCard />}>en ligne</Button>
+              : <Button onClick={() => setDirect(!direct)} startIcon={<GrCreditCard />}>en ligne</Button> }
              
-             
-              </ButtonGroup>
+              {kridi ?
+                <Button onClick={() => setKridi(!kridi)} style={{backgroundColor:"#00bcd4"}} startIcon={<IoIosPaper />}>Kridi</Button>
+              : <Button onClick={() => setKridi(!kridi)} startIcon={<IoIosPaper />}>Kridi</Button> }
+
+            </ButtonGroup>
               </center>
             </Grid>
             
@@ -268,14 +391,7 @@ function Vente(props) {
               
             <Grid item xs={12}>
                 {espece ? <>
-                  <br/>
-                  
-              
-                 
-               
-              
-                 
-                  
+                  <br/>          
                   <Typography subtitle1 align='center'>Payement en espece:</Typography>
                   <br/>
                   <center>
@@ -283,8 +399,37 @@ function Vente(props) {
                     required
                     id="outlined-number"
                     label="Montant"
+                    variant="outlined"
                     type="number"
-                    defaultValue={props.somme}
+                    autoFocus
+                    onChange={(e)=>handleMontant(e.target.value,"espece")}
+                    InputProps={{
+                      className: classes.multilineColor
+                    }}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                  </center>
+                  <br></br>
+                  </>
+                  
+                : ""}
+                {cheque&&espece ? <hr /> : ""}
+            </Grid>
+
+            <Grid item xs={12}>
+                {cheque ? <>
+                  <br/>          
+                  <Typography subtitle1 align='center'>Payement avec cheque:</Typography>
+                  <br/>
+                  <center>
+                  <TextField
+                    required
+                    id="outlined-number"
+                    label="Montant"
+                    type="number"
+                    onChange={(e)=>handleMontant(e.target.value,"cheque")}
                     InputProps={{
                       className: classes.multilineColor
                     }}
@@ -295,16 +440,13 @@ function Vente(props) {
                     variant="outlined"
                   />
                   </center>
-               
-                  
-                  
-                  <Divider  absolute/>
                   <br></br>
-                  <hr></hr>
                   </>
                   
                 : ""}
-                 </Grid>
+                {cheque&&direct ? <hr /> : ""}
+            </Grid>
+
               {direct ?
               <>
              <br/>
@@ -312,42 +454,42 @@ function Vente(props) {
                   <br/>
               <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography subtitle1 align='center'>Payement direct:</Typography>
+                <Typography subtitle1 align='center'>Payement en ligne:</Typography>
               </Grid>
                 <Grid item xs={3}>
                   {style1 ?
                   <>
-                  <img alt='img1' src={d17 }width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked1}></img>
+                  <img alt='img1' src={d17 }width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={()=>setStyle1(!style1)}></img>
                 </>
                   :
-                  <img  alt='img1' src={d17} width="100%" height="100%" onClick={clicked1}></img>
+                  <img  alt='img1' src={d17} width="100%" height="100%" onClick={()=>setStyle1(!style1)}></img>
                   }
                 </Grid>
                 <Grid item xs={3}>
                   {style2 ?
                   <>
-                  <img  alt='img2' src={mobiflouss} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked2}></img>
+                  <img  alt='img2' src={mobiflouss} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={()=>setStyle2(!style2)}></img>
                 </>
                   :
-                  <img alt='img2'  src={mobiflouss} width="100%" height="100%" onClick={clicked2}></img>
+                  <img alt='img2'  src={mobiflouss} width="100%" height="100%" onClick={()=>setStyle2(!style2)}></img>
                   }
                 </Grid>
                 <Grid item xs={3}>
                   {style3 ?
                   <>
-                  <img alt='img3'  src={sobflous} width="100%" height="100%"style={{border: '2px solid #021a40'}} onClick={clicked3}></img>
+                  <img alt='img3'  src={sobflous} width="100%" height="100%"style={{border: '2px solid #021a40'}} onClick={()=>setStyle3(!style3)}></img>
                 </>
                   :
-                  <img  alt='img3' src={sobflous} width="100%" height="100%" onClick={clicked3}></img>
+                  <img  alt='img3' src={sobflous} width="100%" height="100%" onClick={()=>setStyle3(!style3)}></img>
                   }
                 </Grid>
                 <Grid item xs={3}>
                   {style4 ?
                   <>
-                  <img alt='img3'  src={edinar} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={clicked4}></img>
+                  <img alt='img3'  src={edinar} width="100%" height="100%" style={{border: '2px solid #021a40'}} onClick={()=>setStyle4(!style4)}></img>
                 </>
                   :
-                  <img alt='img3'  src={edinar} width="100%" height="100%" onClick={clicked4}></img>
+                  <img alt='img3'  src={edinar} width="100%" height="100%" onClick={()=>setStyle4(!style4)}></img>
                   }
                 </Grid>
               </Grid>
@@ -362,6 +504,7 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    onChange={(e)=>handleMontant(e.target.value,"d17")}
                     InputProps={{
                       className: classes.multilineColor
                     }}
@@ -382,6 +525,7 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    onChange={(e)=>handleMontant(e.target.value,"mobiflouss")}
                     InputProps={{
                       className: classes.multilineColor
                     }}
@@ -400,6 +544,7 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    onChange={(e)=>handleMontant(e.target.value,"sobflous")}
                     InputProps={{
                       className: classes.multilineColor
                     }}
@@ -419,6 +564,7 @@ function Vente(props) {
                     id="outlined-number"
                     label="Montant"
                     type="number"
+                    onChange={(e)=>handleMontant(e.target.value,"edinar")}
                     InputProps={{
                       className: classes.multilineColor
                     }}
@@ -430,117 +576,108 @@ function Vente(props) {
                   : "" }
                 </Grid>
               </Grid>
-              <Divider absolute />
-              <br></br>
-              <hr></hr>
+              
               </>
               : "" }
 
-<br></br>
-                 
-                  <br/>
-              <Grid item xs={12}>
-                <center>
-          <Button variant='contained' color='default' onClick={()=>changeKridi()} startIcon={<AiOutlineCreditCard />} style={{width:'20em'}}>Kredit</Button>
-          </center>
-              </Grid>
               {kridi ? 
               (<>
-              
                 <div className={classes.root}>
-                  <br></br>
-                
-                  <Accordion className={classes.accordion}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                    >
-                      <Typography className={classes.heading}>Ajouter client</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography>
-                        <center>
-                          <Grid container spacing={3}>
-                            <Grid item xs={12}>
-                              <TextField
-                                required
-                                id="standard-basic"
-                                label="Nom et prénom"
-                                type="text"
-                                InputProps={{
-                                  className: classes.multilineColor
-                                }}
-                                onChange={(e)=>handleNomPre(e)}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextField
-                                required
-                                id="standard-basic"
-                                label="Télèphone"
-                                type="text"
-                                InputProps={{
-                                  className: classes.multilineColor
-                                }}
-                                onChange={(e)=>handleTel(e)}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextField
-                                required
-                                id="standard-basic"
-                                label="Montant"
-                                type="number"
-                                InputProps={{
-                                  className: classes.multilineColor
-                                }}
-                              />
-                            </Grid>
-                          </Grid>
-                        </center>
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion className={classes.accordion}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography className={classes.heading}>Sélectionner client</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                    <Grid container spacing={3}>
-                      <Grid item xs={6}>
-                        <InputLabel id="demo-simple-select-label">Clients</InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          required
-                          style={{width:'100%'}}
-                          InputProps={{
-                            className: classes.multilineColor
-                          }}
-                        >
-                          {clients}
-                        </Select>
+                  {direct&&kridi ? <hr /> : ""}
+                  <Typography subtitle1 align='center'>Payement en kridi:</Typography>
+                  <br />
+                  <Accordion expanded={expanded === 'panel1'} onChange={handleAccChange('panel1')}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <Typography className={classes.heading}>Payement en kridi:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    <center>
+                      <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            id="standard-basic"
+                            label="Nom et prénom"
+                            type="text"
+                            InputProps={{
+                              className: classes.multilineColor
+                            }}
+                            onChange={(e)=>handleNomPre(e)}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            id="standard-basic"
+                            label="Télèphone"
+                            type="text"
+                            InputProps={{
+                              className: classes.multilineColor
+                            }}
+                            onChange={(e)=>handleTel(e)}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            id="standard-basic"
+                            label="Montant"
+                            type="number"
+                            onChange={(e)=>handleMontant(e.target.value,"kridi")}
+                            InputProps={{
+                              className: classes.multilineColor
+                            }}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item xs={6}>
-                        <TextField
-                          required
-                          id="standard-basic"
-                          label="Montant"
-                          type="number"
-                          InputProps={{
-                            className: classes.multilineColor
-                          }}
-                        />
-                      </Grid>
+                    </center>
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion expanded={expanded === 'panel2'} style={{width:"100%"}} onChange={handleAccChange('panel2')}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel2bh-content"
+                  id="panel2bh-header"
+                >
+                  <Typography className={classes.heading}>Sélectionner client</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                      <InputLabel id="demo-simple-select-label">Clients</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        required
+                        style={{width:'100%'}}
+                        InputProps={{
+                          className: classes.multilineColor
+                        }}
+                      >
+                        {clients}
+                      </Select>
                     </Grid>
-
-                    </AccordionDetails>
-                  </Accordion>
+                    <Grid item xs={6}>
+                      <TextField
+                        required
+                        id="standard-basic"
+                        label="Montant"
+                        type="number"
+                        onChange={(e)=>handleMontant(e.target.value,"kridi")}
+                        InputProps={{
+                          className: classes.multilineColor
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
                   
                 </div>
                 <Divider />
@@ -556,6 +693,7 @@ function Vente(props) {
           </Button>
         </DialogActions>
       </Dialog>
+      <div style={{display:"none"}}><TicketVente print={print} setPrint={setPrint} /></div>
     
     </>
   );

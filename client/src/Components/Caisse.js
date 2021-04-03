@@ -7,7 +7,6 @@ import AfficheArticle from "./CaisseComponents/AfficheArticle";
 import AfficheStock from "./CaisseComponents/AfficheStock";
 import "./css/Article.css";
 import { AiFillHome } from "react-icons/ai";
-import RechercheProd from "./CaisseComponents/RechercheProd.js";
 import { Link } from "react-router-dom";
 import Table from "../Components/CaisseComponents/tables"
 
@@ -20,16 +19,13 @@ import Grid from "@material-ui/core/Grid";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles, useTheme,fade } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import {TextField , InputBase} from "@material-ui/core";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { VscSearch } from "react-icons/vsc";
+import {InputBase} from "@material-ui/core";
 import { SiAirtable } from "react-icons/si";
 import BarcodeReader from 'react-barcode-reader'
 import SearchIcon from '@material-ui/icons/Search';

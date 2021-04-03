@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Vente from "./vente";
 import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket } from "../../actions";
@@ -20,8 +20,9 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { AiOutlineAppstoreAdd, AiOutlineDelete, AiOutlineFieldTime } from "react-icons/ai";
 import { GrAdd } from "react-icons/gr";
 import { IoMdRemove } from "react-icons/io";
-import { RiDeleteBin2Fill } from "react-icons/ri";
 import {AiOutlineCloseCircle} from "react-icons/ai"
+import Typography from '@material-ui/core/Typography';import TextField from '@material-ui/core/TextField';
+
 /////////////////////////////////////////////////////////////////////
 
 const StyledTableCell = withStyles((theme) => ({
@@ -65,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Ticket() {
   const classes = useStyles();
+  const componentRef = useRef();
   const dispatch = useDispatch();
   const url = "http://localhost:3001/api/ticket";
 
@@ -76,28 +78,10 @@ function Ticket() {
   const [data, setData] = useState();
   const [somme, setSomme] = useState(0);
   const [focus, setFocus] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [print, setPrint] = useState(false)
 
   //redux load data
   const loadTicket = useSelector((state) => state.loadTicket);
-
-  const handleMessage = (event) => {
-    if (event.data.action === 'receipt-loaded') {
-      setIsLoading(false);
-    }
-  };
-
-/*   const printIframe = (id) => {
-    const iframe = document.frames
-      ? document.frames[id]
-      : document.getElementById(id);
-    const iframeWindow = iframe.contentWindow || iframe;
-
-    iframe.focus();
-    iframeWindow.print();
-
-    return false;
-  }; */
 
   const Effacer = () => {
     if(localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))) {
@@ -112,15 +96,12 @@ function Ticket() {
         date: current.toLocaleString(),
         operation: "effacé",
         id_utilisateur: localStorage.getItem('userID')
-      }).then(()=> {
+      }).then((res)=> {
         localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
-
-        if(localStorage.getItem('tableIndex') == 1 && localStorage.getItem('nbTables') > 1)
-          localStorage.setItem('tableIndex',2)
-        else
-          localStorage.setItem('tableIndex',1)
-
         dispatch(LoadTicket({}, "remove_all_data"))
+      })
+      .catch(err=>{
+        console.log(err.response.data)
       })
     }else {
       dispatch(LoadTicket({}, "remove_all_data"))
@@ -129,16 +110,9 @@ function Ticket() {
 
   const pending = () => {
     if(loadTicket.data.length > 0) {
+      setPrint(true)
       const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : localStorage.getItem('tableIndex')}
-      localStorage.setItem('ticket' + localStorage.getItem('tableIndex') , JSON.stringify(ticket));
-
-      if(localStorage.getItem('tableIndex') == 1 && localStorage.getItem('nbTables') > 1)
-        localStorage.setItem('tableIndex',2)
-      else
-        localStorage.setItem('tableIndex',1)
-
-      //printIframe('ticketCuisine')
-      dispatch(LoadTicket({}, "remove_all_data"))
+      localStorage.setItem('ticket' + localStorage.getItem('tableIndex') , JSON.stringify(ticket)) 
     }
   }
   
@@ -156,14 +130,6 @@ function Ticket() {
 
     return sm.toFixed(3);
   };
-
-  useEffect(()=> {
-    window.addEventListener('message', handleMessage);
-
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
-  },[])
 
   useEffect(() => {
     dispatch(LoadTicket({}, "remove_all_data"))
@@ -188,17 +154,27 @@ function Ticket() {
               <>
                 <TableRow key={index}  >
                   <TableCell style={{border:'0'}}  align="left" colSpan={4}>
-                    {value.libelle}
+                    <center>
+                      <Typography variant="subtitle1" gutterBottom>
+                        {value.libelle}
+                      </Typography>
+                    </center>
+                    
                   </TableCell>
+                  <IconButton onClick={() => dispatch(LoadTicket(value, "remove_all"))}>
+                      <AiOutlineCloseCircle style={{color:"red", width:"0.9em",alignSelf:"right"}} />
+                    </IconButton>
                   </TableRow>
                   <StyledTableRow key={index}>
                   <StyledTableCell align="left">
-                    {value.prix_ttc}
+                    <Typography variant="subtitle1" gutterBottom>
+                      {value.prix_ttc.toFixed(3)}
+                    </Typography>
                   </StyledTableCell>
 
-                    <StyledTableCell align="left" style={{paddingRight:0}}>
+                    <StyledTableCell align="right" style={{paddingRight:0}}>
                       <IconButton onClick={() => dispatch(LoadTicket(value, "remove"))}>
-                        <IoMdRemove style={{ width: "0.5em", height: "0.5em", color:"black" }} />
+                        <IoMdRemove style={{ width: "0.5em", height: "0.5em", color:"black"}} />
                       </IconButton>
                     
                       {index === focus ? 
@@ -214,7 +190,7 @@ function Ticket() {
                               dispatch(LoadTicket(value, "quantity change", e.target.value))
                             }
                           }}
-                          style={{ maxWidth: "3em" }}
+                          style={{ maxWidth: "3em",alignContent:"right" }}
                         />
                       : 
                         <input
@@ -228,7 +204,7 @@ function Ticket() {
                             dispatch(LoadTicket(value, "quantity change", e.target.value))
                           }
                         }}
-                        style={{ maxWidth: "3em" }}
+                        style={{ maxWidth: "3em",alignContent:"right" }}
                       /> }
                       
                   
@@ -237,11 +213,11 @@ function Ticket() {
                       </IconButton>
                     </StyledTableCell>
 
-                  <StyledTableCell align="right" style={{paddingLeft:0}}>
-                    <IconButton onClick={() => dispatch(LoadTicket(value, "remove_all"))}>
-                      <AiOutlineCloseCircle style={{color:"grey", width:"0.9em"}} />
-                    </IconButton>
-                  </StyledTableCell>
+                    <StyledTableCell align="center" style={{paddingRight:0}}>
+                      <Typography variant="subtitle1" gutterBottom>
+                        {(value.prix_ttc * loadTicket.quantite.slice(0).reverse()[index]).toFixed(3)}
+                      </Typography>
+                    </StyledTableCell>
                 </StyledTableRow>
               </>
             );
@@ -270,8 +246,9 @@ function Ticket() {
               {/* <StyledTableCell align="left">Nom du produit</StyledTableCell> */}
               <StyledTableCell align="left">Prix</StyledTableCell>
               
-              <StyledTableCell align="right" style={{maxWidth:"1px",paddingLeft:1}}>Quantité</StyledTableCell>
-              <StyledTableCell align="right">{" "}</StyledTableCell> 
+              <StyledTableCell align="center" style={{width:"50em"}}>Quantité</StyledTableCell>
+              <StyledTableCell align="right">Totale</StyledTableCell> 
+
             </TableRow>
           </TableHead>
           <TableBody>{data}</TableBody>
@@ -287,18 +264,13 @@ function Ticket() {
         showLabels
         className={classes.root}
       >
-        <iframe
-          id="ticketCuisine"
-          src="/cuisine"
-          style={{ display: 'none' }}
-          title="Receipt"
-        />
+        
         <BottomNavigationAction
-            label="En attente"
-            style={{ color: "#ffb300" }}
-            icon={<AiOutlineFieldTime />}
-            onClick={()=>pending()}
-          />
+          label="En attente"
+          style={{ color: "#ffb300" }}
+          icon={<AiOutlineFieldTime />}
+          onClick={pending}
+        />
         <BottomNavigationAction
           label="Payer"
           style={{ color: "#00bcd4" }}
@@ -318,6 +290,7 @@ function Ticket() {
         handleClose={() => setState({ isOpen: false })}
         somme={somme}
       />
+      <div style={{display:"none"}}><Cuisine print={print} setPrint={setPrint} /></div>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { REMOVE_ALL_TICKET,REMOVE_ALL_DATA, ADD_DATA1, REMOVE_DATA, GET_DATA_SUCCESS } from '../actions/actions'
+import { REMOVE_ALL_TICKET,REMOVE_ALL_DATA, ADD_DATA, REMOVE_DATA } from '../actions/actions'
 
 const initialState = {data: [], quantite: []}
 var tmpState = {data: [], quantite: [], tmp: []}
@@ -33,7 +33,7 @@ const loadTicket = (state = initialState,action = {}) => {
                 }
             })
             return tmpState
-        case ADD_DATA1: 
+        case ADD_DATA: 
             if(!JSON.stringify(state.data).includes(JSON.stringify(action.payload)))
                 if(action.quantity) {
                     return { ...state, data : [...state.data, action.payload], quantite : [...state.quantite, action.quantity]}
@@ -59,13 +59,4 @@ const loadTicket = (state = initialState,action = {}) => {
     }
 }
 
-const venteTicket = (state = {data: ""},action = {}) => {
-    if(action.type == GET_DATA_SUCCESS) {
-        let rndm = Math.random().toString(36).substring(7);
-        return {data : action.payload,rndm};
-    }else {
-        return state;
-    }
-}
-
-export {loadTicket, venteTicket};
+export default loadTicket;

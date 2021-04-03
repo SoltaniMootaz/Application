@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { LoadTicket, LoadStock } from "../../actions";
+import { LoadTicket, LoadStock, LoadStockByCategorie } from "../../actions";
 
 import def from "./img/def.jpg";
 
@@ -33,12 +33,12 @@ const useStyles = makeStyles({
 
 function AfficherStock(props) {
   const [stock, setStock] = useState([]);
-  const [stockSpec, setStockSpec] = useState([]);
   const [selected, setSelected] = useState();
   const [gammes, setGammes] = useState([])
 
   const dispatch = useDispatch();
   const loadStock = useSelector((state) => state.loadStock);
+  const loadStockByCategorie = useSelector((state) => state.loadStockByCategorie);
 
   var src = def;
   const classes = useStyles();
@@ -51,7 +51,9 @@ function AfficherStock(props) {
   const handleSelected = (data) => {
     if(data !== "") {
       setSelected(data)
+      dispatch(LoadStockByCategorie(data))
     }else {
+      dispatch(LoadStock());
       setSelected();
     } 
   }
@@ -64,50 +66,45 @@ function AfficherStock(props) {
   const getGammes = () => {
     const gammes = [];
 
-      for(let i in loadStock.data) {
-        if (gammes.indexOf(loadStock.data[i].gamme_code) === -1) {
-          gammes.push(loadStock.data[i].gamme_code);
-        }
+    for(let i in loadStock.data) {
+      if (gammes.indexOf(loadStock.data[i].gamme_code) === -1) {
+        gammes.push(loadStock.data[i].gamme_code);
       }
+    }
 
     
-  }
-
-  const getStock = () => {
-    if(props.search) {
-      const tmp = [];
-
-      for(let i in loadStock.data) {
-        if (loadStock.data[i].libelle.indexOf(props.search) > -1) {
-          tmp.push(loadStock.data[i]);
-        }
-      }
-
-      setStock(tmp);
-    }else {
-      setStock(loadStock.data);
-    }
   }
 
   useEffect(() => {
-    if(loadStock.data.length > 0) {  
+    if(loadStock.data.length > 0 && (stock.length == 0 || gammes.length == 0)) {  
       getGammes();
-      getStock();
+      setStock(loadStock.data);
     }
-    
-  }, [loadStock,props.search]);
+  }, [loadStock]);
 
   useEffect(()=> {
-    if(selected) {
-      setStockSpec(loadStock.data.filter(element=>element.gamme_code === selected))
-    }else {
-      setStockSpec();
+    if(props.search) {
+      if(selected)
+        dispatch(LoadStockByCategorie(selected,props.search))
+      else
+        dispatch(LoadStockByCategorie(null,props.search))
+    }else{
+      if(selected)
+        setStock(loadStockByCategorie.data)
+      else
+        setStock(loadStock.data);
     }
-  },[selected])
+  },[props.search])
+
+  useEffect(()=> {
+    if(props.search || selected)
+      setStock(loadStockByCategorie.data)
+    else 
+      setStock(loadStock.data);
+  },[selected,loadStockByCategorie])
 
   return (
     <>
-      <p onClick={()=>console.log(stock)}>click</p>
       <Grid container>
         {gammes.map((data,index) => {
           return (
@@ -141,63 +138,7 @@ function AfficherStock(props) {
       <br />
       <hr />
       <Grid container spacing={3}>
-        {stockSpec ?
-          stockSpec.map((data1, index) => {
-            return (
-              <>
-                <Grid item xs={3}>
-                  <div key={index} onClick={() => dispatch(LoadTicket(data1))}>
-                    <div style={{ padding: "5%" }}>
-                      <Card className={classes.root} style={{ width: "100%" }}>
-                        <CardActionArea>
-                          <CardMedia
-                            className={classes.media}
-                            image={isSRC(data1.image) ? src : data1.image}
-                          />
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "0px",
-                              right: "0px",
-                              height: "20%",
-                              borderRadius: "2em 0em 0em 2em",
-                              width: "50%",
-                              color: "white",
-                              backgroundColor: "#00bcd4",
-                            }}
-                          >
-                            <Typography
-                              noWrap
-                              gutterBottom
-                              variant="h6"
-                              component="h6"
-                              style={{
-                                color: "white",
-                                marginLeft: "15%",
-                                paddingTop: "5%",
-                                fontSize:"140%"
-                              }}
-                            >
-                              {data1.prix_ttc.toFixed(3)}DT
-                            </Typography>
-                          </div>
-                          <Typography
-                            noWrap
-                            gutterBottom
-                            variant="h6"
-                            component="h4"
-                          >
-                            {data1.libelle}
-                          </Typography>
-                        </CardActionArea>
-                      </Card>
-                    </div>
-                  </div>
-                </Grid>
-              </>
-            );
-          })
-        : stock.map((data1, index) => {
+        {stock.map((data1, index) => {
           return (
             <>
               <Grid item xs={3}>
