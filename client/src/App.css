@@ -90,7 +90,7 @@ Form.Group{
   
  }
  .icon1{
-   color: #8a8a8a;
+   color: #999797;
  }
  
  .icon1:active{
@@ -99,16 +99,19 @@ Form.Group{
  .icon1:hover{
   color:#00A600;
 }
-
+.icon2{
+  color:#999797 ;
+}
 .icon{
   color:white;
 }
-/* .icon:active{
-  color:#00A0B1;
+ .icon2:active{
+  color:#BF1E4B;
 }
-.icon:hover{
- color:#00A0B1;
-} */
+
+.icon2:hover{
+ color:#BF1E4B;
+} 
  @media (max-width: 768px){
   .homeBtn{
     display: none;

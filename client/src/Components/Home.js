@@ -51,7 +51,7 @@ function Home() {
            <HomeButtons buttonName='menu' icon={<BiMenu />} link='/menu'  Bcolor='#00A600'/>
            </Grid>
            <Grid item sm={4} xs={12} > 
-           <HomeButtons buttonName='Journal' icon={<IoIosJournal />} link='#' Bcolor='#BF1E4B'/> 
+           <HomeButtons buttonName='Journal' icon={<IoIosJournal />} link='/Journal' Bcolor='#BF1E4B'/> 
            </Grid>
            </Grid>
            <Grid container style={{paddingTop:'1em'}} spacing={4}>
@@ -62,7 +62,7 @@ function Home() {
            <HomeButtons buttonName='Stock' icon={<FaWarehouse />} link='#' Bcolor='#2E8DEF'/> 
            </Grid>
            <Grid item sm={4} xs={12}>
-           <HomeButtons buttonName='Kridi' icon={<AiFillBook />} link='#' Bcolor='#DC572E'/> 
+           <HomeButtons buttonName='Kridi' icon={<AiFillBook />} link='/Kridi' Bcolor='#DC572E'/> 
            </Grid>
            </Grid>
            <Grid container style={{paddingTop:'1em'}} spacing={4}>
@@ -70,7 +70,7 @@ function Home() {
            <HomeButtons buttonName='Support' icon={<BiSupport />} link='#' Bcolor='#BF1E4B'/> 
            </Grid>
            <Grid item sm={4} xs={12} >
-           <HomeButtons buttonName='Options' icon={<AiOutlineSetting />} link='#' Bcolor='#199900'/> 
+           <HomeButtons buttonName='Options' icon={<AiOutlineSetting />} link='/options' Bcolor='#199900'/> 
            </Grid>
            <Grid item sm={4} xs={12}>
            <HomeButtons buttonName='Logout' icon={<RiLogoutBoxRLine />} link='/Log-In' Bcolor='#0A5BC4'/> 
