@@ -1,4 +1,6 @@
 import React,{useState,useEffect} from "react";
+import { useSelector } from 'react-redux';
+
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -85,6 +87,7 @@ function styling(i){
 }
 }
     const [Tables, setTables] = useState();
+    const loadTicket = useSelector(state=>state.loadTicket)
 
     const submit = (e) => {  
       props.handleClose();
@@ -92,7 +95,8 @@ function styling(i){
     }
 
      useEffect(() => {
-        var item=[]
+        var item=[];
+        
         for(var i=1;i<=localStorage.getItem('nbTables');i++){
           const index = i;
           item.push(
@@ -105,7 +109,7 @@ function styling(i){
         }
       
         setTables(item)
-     }, [localStorage.getItem('change'), localStorage.getItem('tableIndex')])
+     }, [localStorage.getItem('change'), localStorage.getItem('tableIndex'), loadTicket])
 
     const classes = UseStyles();
   return (
