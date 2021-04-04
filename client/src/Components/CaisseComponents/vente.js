@@ -254,14 +254,15 @@ function Vente(props) {
         date: current.toLocaleString(),
         operation: "vente",
         methodes: totale,
-        id_utilisateur: localStorage.getItem('userID')
+        id_utilisateur: localStorage.getItem('userID'),
+        id_client: idClient
       })
       .then(()=> {
         dispatch(VenteTicket(totale))
         handleClick()
       })
       .catch((err)=>{
-        setError(err.response.data)
+        setError(err)
       })
     }else {
       const tmp = loadTicket;
@@ -274,7 +275,8 @@ function Vente(props) {
         date: current.toLocaleString(),
         operation: "vente",
         methodes: totale,
-        id_utilisateur: localStorage.getItem('userID')
+        id_utilisateur: localStorage.getItem('userID'),
+        id_client: idClient
       })
       .then((res)=> {
         localStorage.setItem('numTicket',res.data)
@@ -310,7 +312,7 @@ function Vente(props) {
     }else
       setError("montant doit être supérieur à 0")
   }
-
+const [idClient, setIdClient] = useState()
   function submit(e) {
     if(montant == 0) {
       if (kridi) {
@@ -319,7 +321,7 @@ function Vente(props) {
           nomPre: client.nomPre,
           tel: client.tel,
           id_utilisateur: localStorage.getItem('userID')
-        })
+        }).then(res=>setIdClient(res))
         .catch((err) => {
           setError(err.response.data);
         })
