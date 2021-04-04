@@ -35,8 +35,8 @@ const useStyles = makeStyles({
 });
   
 function AfficheArticle(props) {
-  const urlcat = "http://localhost:3001/api/afficherCategorie";
-  const urlart = "http://localhost:3001/api/afficherArticles";
+  const urlcat = "http://localhost:3001/api/afficherCategorie/" + localStorage.getItem('userID');
+  const urlart = "http://localhost:3001/api/afficherArticles/" + localStorage.getItem('userID');
 
   const [dataCat, setDataCat] = useState([]);
   const [dataArt, setDataArt] = useState([]);

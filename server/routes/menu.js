@@ -56,17 +56,20 @@ router.post("/api/ajouterIngredient", (req,res) => {
 });
 
 
-router.get("/api/afficherArticles", (req,res) => {
+router.get("/api/afficherArticles/:id", (req,res) => {
+    const id = Number(req.params.id);
+
     try {
-        pool.query('SELECT * FROM public."articleMenu"', (err, result) => {
+        pool.query('SELECT * FROM public."articleMenu" WHERE "id_utilisateur" = $1',[id], (err, result) => {
             if(err)
                 res.status(400).send(err.toString());
             else {
+                console.log(result.rows)
                 res.status(200).json(result.rows);
             }
         });
     } catch (error) {
-        console.error(error);
+        console.error(error.toString());
     }
 });
 
@@ -90,11 +93,13 @@ try{
 });
 
 
-router.get("/api/afficherCategorie", (req,res) => {
+router.get("/api/afficherCategorie/:id", (req,res) => {
+    const id = Number(req.params.id);
+    
     try {
-        pool.query('SELECT * FROM public.categorie', (err, result) => {
+        pool.query('SELECT * FROM public.categorie WHERE "id_utilisateur" = $1',[id], (err, result) => {
             if(err) {
-                res.status(400).send(err);
+                res.status(400).send(err.toString());
             }else {
                 res.status(200).json(result.rows);
             }

@@ -8,9 +8,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Grid} from '@material-ui/core';
-import { Divider, Menu , MenuItem, Paper } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -88,16 +87,15 @@ function TousArticle(props) {
                                
                                 action={
                                   <IconButton aria-label="delete">
-                                    <MdDelete  onClick={(e)=>{
-                                      window.location.reload(false);
-                                      axios.delete("http://localhost:3001/api/deletearticle/"+data1.id).then((res)=>console.log(res)).catch((err)=>{console.log(err.response.data);})
-                                 // window.location.reload(false);
-                                }
-                                  } />
+                                    <MdDelete onClick={()=>{
+                                      axios.delete("http://localhost:3001/api/deletearticle/"+data1.id)
+                                        .then(()=>window.location.reload(false))
+                                      }}
+                                    />
                                   </IconButton>
                                 }
                                 title={data1.nom}
-                                subheader={data1.prix + ' DT'}
+                                subheader={data1.prix.toFixed(3) + ' DT'}
                               />
                               
                              

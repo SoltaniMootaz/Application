@@ -78,24 +78,7 @@ router.get("/api/afficherClients",(req,res) => {
     })
 })
 
-const max = (id) => {
-    pool.query('SELECT MAX(numero) as numero FROM public.ticket WHERE id_utilisateur = $1',[id],(err,res)=>{
-        if(err) {
-            console.log(err.toString())
-            return err.toString()
-        }else{
-            return res.rows[0].numero;
-        }
-
-        if(res.rows[0].numero !== null) {
-            
-        }else{
-            return 0;
-        }
-    })
-}
-
-router.post("/api/ticket",async (req,res) => {
+router.post("/api/ticket",(req,res) => {
     const { data, quantite, table, somme, date, operation, id_utilisateur, methodes } = req.body;
 
     pool.query('SELECT MAX(numero) as numero FROM public.ticket WHERE id_utilisateur = $1',[id_utilisateur],(err,res0)=>{
