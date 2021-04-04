@@ -22,7 +22,7 @@ router.post("/api/ajouterArticle", (req,res) => {
     try {
         const { nom, prix, unite, categorie, id_utilisateur } = req.body;
 
-        pool.query('SELECT id from public.categorie where nom = $1',[categorie], (err,result) => {
+        pool.query('SELECT id from public.categorie where nom = $1 and "id_utilisateur" = $2',[categorie,id_utilisateur], (err,result) => {
             if(err)
                 res.status(400).send(err.toString());
             else if (result.rowCount > 0)
@@ -64,7 +64,6 @@ router.get("/api/afficherArticles/:id", (req,res) => {
             if(err)
                 res.status(400).send(err.toString());
             else {
-                console.log(result.rows)
                 res.status(200).json(result.rows);
             }
         });
@@ -80,10 +79,8 @@ router.delete('/api/deletearticle/:id', function (req, res) {
 try{
    pool.query('DELETE FROM public."articleMenu" WHERE id=$1 RETURNING *', [id], (error, result) =>{
         if (error) {
-            console.log(typeof id);
             res.status(400).send(error.toString());
-        }else {
-            
+        }else {   
             res.status(200).send("deleted");
         }
       });

@@ -72,7 +72,7 @@ function AfficherStock(props) {
       }
     }
 
-    setGammes(gammes)
+    
   }
 
   useEffect(() => {

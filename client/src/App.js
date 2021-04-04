@@ -15,6 +15,9 @@ import Caisse from './Components/Caisse.js'
 import PrivateRoute from './PrivateRoute'
 import Test from './test'
 import Cuisine from './Components/CaisseComponents/tickets/cuisine'
+import journal from './Components/journal';
+import Kredi from './Components/Kredi';
+import Options from './Components/options';
 
 function App() {
   return (
@@ -33,6 +36,9 @@ function App() {
             <PrivateRoute exact path="/Home" component={Home}></PrivateRoute>
             <PrivateRoute exact path="/menu" component={menu}></PrivateRoute> 
             <PrivateRoute exact path="/Caisse" component={Caisse}></PrivateRoute>
+            <PrivateRoute exact path="/Journal" component={journal}></PrivateRoute>
+            <PrivateRoute exact path="/Kridi" component={Kredi}></PrivateRoute>
+            <PrivateRoute exact path="/options" component={Options}></PrivateRoute>
 
         </Switch>
         </Router>

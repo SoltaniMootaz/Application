@@ -64,8 +64,9 @@ router.post("/api/AjouterClient",(req,res) => {
     pool.query('INSERT INTO client("nomPre",telephone,id_utilisateur) VALUES($1,$2,$3) RETURNING *',[nomPre,tel,id_utilisateur],(err,result) => {
         if(err) 
             res.status(400).send(err.toString());
-        else
-            res.status(200).send("succes");
+        else{
+            res.status(200).send((result.rows[0].id).toString());
+        }
     })
 })
 
@@ -79,7 +80,7 @@ router.get("/api/afficherClients",(req,res) => {
 })
 
 router.post("/api/ticket",(req,res) => {
-    const { data, quantite, table, somme, date, operation, id_utilisateur, methodes } = req.body;
+    const { data, quantite, table, somme, date, operation, id_utilisateur, methodes, id_client } = req.body;
 
     pool.query('SELECT MAX(numero) as numero FROM public.ticket WHERE id_utilisateur = $1',[id_utilisateur],(err,res0)=>{
         if(err) {
@@ -111,7 +112,7 @@ router.post("/api/ticket",(req,res) => {
                     if(methodes)
                         methodes.map(value=>{
                             if(value[0].montant>0)
-                                pool.query('INSERT INTO public."methodeVente"(nom, montant, id_ticket) VALUES($1,$2,$3) RETURNING *',[value[0].methode, value[0].montant, res1.rows[0].id],(err,res3) => {
+                                pool.query('INSERT INTO public."methodeVente"(nom, montant, id_ticket, id_client) VALUES($1,$2,$3,$4) RETURNING *',[value[0].methode, value[0].montant, res1.rows[0].id, id_client],(err,res3) => {
                                     if(err) {
                                         res.status(400).send(err.toString())
                                     }

@@ -122,10 +122,10 @@ function Vente(props) {
     tel: ""
   })
 
-  const [clientSelec,setClientSelec] = useState("");
   const [clientData,setClientData] = useState([])
   const [expanded, setExpanded] = useState(false);
   const [print, setPrint] = useState(false)
+  const [idClient, setIdClient] = useState()
   const clients = [];
 
   const [error,setError] = useState("");
@@ -233,7 +233,7 @@ function Vente(props) {
   }
 
   function handleClientSelec(e) {
-    setClientSelec(e);
+    setIdClient(e);
   }
 
   const handleAccChange = (panel) => (event, isExpanded) => {
@@ -254,14 +254,15 @@ function Vente(props) {
         date: current.toLocaleString(),
         operation: "vente",
         methodes: totale,
-        id_utilisateur: localStorage.getItem('userID')
+        id_utilisateur: localStorage.getItem('userID'),
+        id_client: idClient
       })
       .then(()=> {
         dispatch(VenteTicket(totale))
         handleClick()
       })
       .catch((err)=>{
-        setError(err.response.data)
+        setError(err)
       })
     }else {
       const tmp = loadTicket;
@@ -274,7 +275,8 @@ function Vente(props) {
         date: current.toLocaleString(),
         operation: "vente",
         methodes: totale,
-        id_utilisateur: localStorage.getItem('userID')
+        id_utilisateur: localStorage.getItem('userID'),
+        id_client: idClient
       })
       .then((res)=> {
         localStorage.setItem('numTicket',res.data)
@@ -319,10 +321,8 @@ function Vente(props) {
           nomPre: client.nomPre,
           tel: client.tel,
           id_utilisateur: localStorage.getItem('userID')
-        })
-        .catch((err) => {
-          setError(err.response.data);
-        })
+        }).then(res=>setIdClient(res))
+        .catch(err=>setError(err))
       }
 
       if(kridi || espece || direct || cheque) {
@@ -335,7 +335,7 @@ function Vente(props) {
   }
 
   clientData.map((row, i) => {
-    clients.push(<MenuItem {...clientSelec==row.nomPre ? "active" : ""} key={i} value={row.nomPre} onClick={()=>handleClientSelec(row.nomPre)}>{row.nomPre}</MenuItem>)
+    clients.push(<MenuItem key={i} value={row.nomPre} onClick={()=>handleClientSelec(row.id)}>{row.nomPre}</MenuItem>)
   })
 
   return (

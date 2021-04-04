@@ -152,7 +152,7 @@ function AjouterCat(props) {
 
   categories.map((categorie, i) => {
     categ.push(
-      <MenuItem key={categorie.id} a-key={categorie.id} value={categorie.nom}>
+      <MenuItem key={categorie.id} value={categorie.nom}>
         {categorie.nom}
       </MenuItem>
     )
@@ -197,7 +197,6 @@ function AjouterCat(props) {
   }
 
   function handleCategorie(e) {
-    console.log(e.target.attributes.getNamedItem('a-key'))
     setData({ ...Data, categorie: e.target.value });
   }
 

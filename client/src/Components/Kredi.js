@@ -23,6 +23,7 @@ import {FiUserCheck} from 'react-icons/fi'
 import{FaUserPlus} from 'react-icons/fa'
 import LogKridi from './KridiComponents/LogKridi'
 import InfoClient from './KridiComponents/InfoClient'
+import AddClient from './KridiComponents/AddClient';
 const drawerWidth = 240;
 
 const UseStyles = makeStyles((theme) => ({
@@ -93,7 +94,9 @@ function Kredi(props) {
         <Divider />
       </div>
     );
-  
+    const [state, setState] = useState({
+      isOpen: Boolean(false),
+    });
     const container = window !== undefined ? () => window().document.body : undefined;
   
     return (
@@ -119,6 +122,7 @@ function Kredi(props) {
         <IconButton
       color="inherit"
       edge="end"
+      onClick={() => setState({ isOpen: true })}
       >
           <FaUserPlus />
       </IconButton>
@@ -173,6 +177,10 @@ function Kredi(props) {
       }
     </main>
   </div>
+  <AddClient  
+   handleOpen={state.isOpen}
+   handleClose={() => setState({ isOpen: false })}
+        />
       </>
     )
 }
