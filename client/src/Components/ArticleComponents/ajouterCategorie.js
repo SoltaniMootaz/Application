@@ -57,8 +57,9 @@ const DialogActions = withStyles((theme) => ({
 
 function AjouterCat(props) {
   const url = "http://localhost:3001/api/ajouterCateg";
+  const url4 = "http://localhost:3001/api/ajouterActivite";
   const [error, setError] = useState(false);
-
+var current=new Date();
   const [Data, setData] = useState({
     categorie: "",
   });
@@ -70,6 +71,15 @@ function AjouterCat(props) {
       id_utilisateur: localStorage.getItem('userID')
     })
       .then((res) => {
+        Axios.post(url4, {
+          operation:"aCategorie",
+          id_utilisateur:localStorage.getItem('userID'),
+          date: current.toLocaleString(),
+          detail:Data.categorie,
+        }).catch((err) => {
+          console.log(err.response.data)
+          setError(err.response.data);
+        });
         props.handleClose();
         window.location.reload(false);
         console.log(res.data);

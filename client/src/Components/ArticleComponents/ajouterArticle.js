@@ -94,6 +94,8 @@ function AjouterCat(props) {
   const url = "http://localhost:3001/api/ajouterArticle";
   const url2 = "http://localhost:3001/api/afficherCategorie";
   const url3 = "http://localhost:3001/api/ajouterIngredient";
+  const url4 = "http://localhost:3001/api/ajouterActivite";
+  
 
   const loadIngredients = useSelector(state=>state.loadIngredients)
 
@@ -157,7 +159,7 @@ function AjouterCat(props) {
       </MenuItem>
     )
   });
-
+var current=new Date();
   function submit(e) {
     e.preventDefault();
     Axios.post(url, {
@@ -181,11 +183,22 @@ function AjouterCat(props) {
             setError(err.response.data);
           });
         })
+        Axios.post(url4, {
+          operation:"aArticle",
+          id_utilisateur:localStorage.getItem('userID'),
+          date: current.toLocaleString(),
+          detail:Data.nom,
+        }).catch((err) => {
+          console.log(err.response.data)
+          setError(err.response.data);
+        });
         if(!error) {
           props.handleClose();
           window.location.reload(false);
         }
-      })
+      }
+     
+      )
       .catch((err) => {
         console.log(err.response.data)
         setError(err.response.data);

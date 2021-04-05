@@ -49,7 +49,7 @@ function LogIn() {
   });
 
   useEffect(()=> {
-    localStorage.setItem("userID", "");
+    localStorage.removeItem("userID");
   },[])
 
   const handleSubmit = (event) => {

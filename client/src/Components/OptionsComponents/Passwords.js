@@ -1,8 +1,17 @@
 import { Divider, Grid,TextField,Button } from '@material-ui/core'
 import { Typography } from '@material-ui/core'
-import React from 'react'
+import axios from 'axios'
+import React,{useState} from 'react'
 
 function Passwords() {
+   const url="http://localhost:3001/api/changePassword"
+   const [newpass1, setNewPass1] = useState()
+   function Submit1(){
+    axios.post(url,{
+        id: localStorage.getItem("userId"),
+        mdp: newpass1,
+    }).then(console.log("works")).catch()
+   }
     return (
         <div>
             <Typography variant="h5" style={{color:'#4caf50',fontWeight:'bold'}}>
@@ -22,10 +31,11 @@ function Passwords() {
             shrink: true,
           }}
           variant="outlined"
+          onChange={(e)=>setNewPass1(e)}
         />
                 </Grid>
                 <Grid item xs={5}>
-                <Button variant="contained" style={{marginLeft:'1em',marginTop:'0.79em',height:'3.5em',width:'95%'}} >
+                <Button variant="contained" style={{marginLeft:'1em',marginTop:'0.79em',height:'3.5em',width:'95%'}} onClick={()=>Submit1()}>
                 Changer
                 </Button>
                 </Grid>
