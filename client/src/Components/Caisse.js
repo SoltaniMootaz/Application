@@ -300,30 +300,10 @@ function Caisse(props) {
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Grid container>
-            <Grid item>          
-              <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Type</InputLabel>
-                <Select labelId="demo-simple-select-label" id="demo-simple-select">
-                  <MenuItem value="stock" onClick={() => handleType("s")} default>
-                    Stock
-                  </MenuItem>
-                  <MenuItem value="menu" onClick={() => handleType("m")}>
-                    Menu
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          <Grid item>
-            </Grid>
-            {" "}
-          </Grid>
-          <br />
 
-          {type === "m" ?
+          {localStorage.getItem('commerce') === "menu" ?
             <AfficheArticle search={searchValue} />
            : <AfficheStock search={searchValue} /> }
-
 
         </main>
       </div>

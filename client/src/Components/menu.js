@@ -112,8 +112,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 /////////////////////////////////////////////
 function Article(props) {
-  const urlcat = "http://localhost:3001/api/afficherCategorie";
-  const urlart = "http://localhost:3001/api/afficherArticles";
+  const urlcat = "http://localhost:3001/api/afficherCategorie/";
+  const urlart = "http://localhost:3001/api/afficherArticles/";
   var isLoading = true;
 
   const [dataCat, setDataCat] = useState([]);
@@ -124,14 +124,14 @@ function Article(props) {
   const [value, setValue] = useState();
 
   const getCategories = () => {
-    Axios.get(urlcat)
+    Axios.get(urlcat + localStorage.getItem('userID'))
       .then((res) => setDataCat(res.data))
       .catch((err) => console.log(err));
       setLoading1(false);
   };
 
   const getArticles = () => {
-    Axios.get(urlart)
+    Axios.get(urlart + localStorage.getItem('userID'))
       .then((res) => {
         setDataArt(res.data);
       })

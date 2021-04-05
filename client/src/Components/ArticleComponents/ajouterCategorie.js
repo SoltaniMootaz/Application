@@ -57,8 +57,6 @@ const DialogActions = withStyles((theme) => ({
 
 function AjouterCat(props) {
   const url = "http://localhost:3001/api/ajouterCateg";
-  const [error, setError] = useState(false);
-
   const [Data, setData] = useState({
     categorie: "",
   });
@@ -75,7 +73,6 @@ function AjouterCat(props) {
         console.log(res.data);
       })
       .catch((err) => {
-        setError(true);
         console.log(err.response.data);
       });
   }
