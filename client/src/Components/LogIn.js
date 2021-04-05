@@ -49,7 +49,8 @@ function LogIn() {
   });
 
   useEffect(()=> {
-    localStorage.setItem("userID", "");
+    localStorage.removeItem("userID");
+    localStorage.removeItem("commerce");
   },[])
 
   const handleSubmit = (event) => {
@@ -59,7 +60,12 @@ function LogIn() {
       mdp: user.password,
     })
       .then((res) => {
-        localStorage.setItem('userID',res.data);
+        localStorage.setItem('userID',res.data.id);
+        if(res.data.commerce === "attar") localStorage.setItem('commerce',"stock")
+        else if(res.data.commerce === "hammas") localStorage.setItem('commerce',"stock")
+        else if(res.data.commerce === "café") localStorage.setItem('commerce',"menu")
+        else if(res.data.commerce === "restaurant") localStorage.setItem('commerce',"menu")
+        else if(res.data.commerce === "restaurant") localStorage.setItem('commerce',"menu")     
         window.location.href = "home";
       })
       .catch((err) => {

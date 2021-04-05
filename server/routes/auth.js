@@ -49,7 +49,7 @@ router.post("/api/login", async (req,res) => {
                         }else {
                             //create and assign a token 
                             const token = await jwt.sign({id: result.rows[0].id}, process.env.TOKEN_SECRET);
-                            res.header('auth_token', token).send(result.rows[0].id.toString());
+                            res.header('auth_token', token).send(result.rows[0]);
                         }
                     });
                 }else {

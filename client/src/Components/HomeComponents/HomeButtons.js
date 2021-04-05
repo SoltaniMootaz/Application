@@ -30,15 +30,14 @@ function HomeButtons(props) {
     function styling(){
      return{
          backgroundColor:props.Bcolor,
+         width:"100%"
      };
  }
   return (
     <>
-  
-    <Button size="large" startIcon={props.icon}  className={classes.root} variant="contained" component={Link} to={props.link} style={styling()}>
-          {props.buttonName}
-     </Button>
- 
+      <Button size="large" startIcon={props.icon}  className={classes.root} variant="contained" component={Link} to={props.link} style={styling()}>
+        {props.buttonName}
+      </Button>
     </>
   );
 }

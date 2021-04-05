@@ -122,14 +122,14 @@ function Vente(props) {
     tel: ""
   })
 
+  const[selectedClient, setSelectedClient] = useState();
   const [clientData,setClientData] = useState([])
   const [expanded, setExpanded] = useState(false);
   const [print, setPrint] = useState(false)
-  const [idClient, setIdClient] = useState()
   const clients = [];
 
   const [error,setError] = useState("");
-  const [montant, setMontant] = useState();
+  const [montant, setMontant] = useState(0.000);
   const [rendu, setRendu] = useState(0);
   const [totale, setTotale] = useState([[{
     methode: "espece",
@@ -220,7 +220,10 @@ function Vente(props) {
     .then((res) => {
       setClientData(res.data)
     })
-    setMontant(props.somme)
+    if(print == true)
+      setMontant(0)
+    else
+      setMontant(props.somme)
     setRendu(0)
   },[props.somme,print])
 
@@ -232,15 +235,11 @@ function Vente(props) {
     setClient({...client,tel: e.target.value});
   }
 
-  function handleClientSelec(e) {
-    setIdClient(e);
-  }
-
   const handleAccChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const handleTicket = () => {
+  const handleTicket = (idClient) => {
     var current = new Date();
 
     if(localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))) {
@@ -255,7 +254,8 @@ function Vente(props) {
         operation: "vente",
         methodes: totale,
         id_utilisateur: localStorage.getItem('userID'),
-        id_client: idClient
+        id_client: idClient,
+        typeCommerce: localStorage.getItem('commerce')
       })
       .then(()=> {
         dispatch(VenteTicket(totale))
@@ -276,7 +276,8 @@ function Vente(props) {
         operation: "vente",
         methodes: totale,
         id_utilisateur: localStorage.getItem('userID'),
-        id_client: idClient
+        id_client: idClient,
+        typeCommerce: localStorage.getItem('commerce')
       })
       .then((res)=> {
         localStorage.setItem('numTicket',res.data)
@@ -289,11 +290,14 @@ function Vente(props) {
     }
   }
 
-  const close = () => {
+  const close = (print) => {
     setStyle1(false);setStyle2(false);setStyle3(false);setStyle4(false);
     setCheque(false);setDirect(false);setEspece(true);setKridi(false);
     setRendu(0);
-    setMontant(props.somme);
+    if(print)
+      setMontant(0);
+    else
+      setMontant(props.somme);
     setError();
     setExpanded(false)
     var tmp = totale;
@@ -308,35 +312,41 @@ function Vente(props) {
   const handleClick = () => {
     if(props.somme > 0) {
       setPrint(true);
-      close();
+      close(true);
     }else
       setError("montant doit être supérieur à 0")
   }
 
   function submit(e) {
-    if(montant == 0) {
-      if (kridi) {
-        e.preventDefault();
-        Axios.post(url1,{
-          nomPre: client.nomPre,
-          tel: client.tel,
-          id_utilisateur: localStorage.getItem('userID')
-        }).then(res=>setIdClient(res))
-        .catch(err=>setError(err))
-      }
+    if(props.somme > 0)
+      if(montant == 0) {
+        if(kridi || espece || direct || cheque) {
+          if (kridi) {
+            if(expanded === "panel1") {
+              e.preventDefault();
+              Axios.post(url1,{
+                nomPre: client.nomPre,
+                tel: client.tel,
+                id_utilisateur: localStorage.getItem('userID')
+              }).then(res=> handleTicket(res.data))
+              .catch(err=>setError(err))
 
-      if(kridi || espece || direct || cheque) {
-        handleTicket()
-      }else {
-        setError("veuillez sélectionner un moyen de paiement")
-      }
-    }else 
-      setError("veuillez payer le reste du montant")
+            }else if(expanded === "panel2") {
+              handleTicket(selectedClient)
+            }
+          }else
+            handleTicket()
+
+        }else 
+          setError("veuillez sélectionner un moyen de paiement")
+
+      }else 
+        setError("veuillez payer le reste du montant")
   }
 
-  clientData.map((row, i) => {
-    clients.push(<MenuItem key={i} value={row.nomPre} onClick={()=>handleClientSelec(row.id)}>{row.nomPre}</MenuItem>)
-  })
+    clientData.map((row, i) => {
+      clients.push(<MenuItem key={i} value={row.nomPre} onClick={()=>setSelectedClient(row.id)}>{row.nomPre}</MenuItem>)
+    })
 
   return (
     <>
@@ -401,6 +411,7 @@ function Vente(props) {
                     label="Montant"
                     variant="outlined"
                     type="number"
+                    key={print}
                     autoFocus
                     onChange={(e)=>handleMontant(e.target.value,"espece")}
                     InputProps={{
@@ -612,7 +623,6 @@ function Vente(props) {
                         </Grid>
                         <Grid item xs={12}>
                           <TextField
-                            required
                             id="standard-basic"
                             label="Télèphone"
                             type="text"

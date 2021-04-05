@@ -72,7 +72,7 @@ function AfficherStock(props) {
       }
     }
 
-    
+    setGammes(gammes)
   }
 
   useEffect(() => {
@@ -107,7 +107,6 @@ function AfficherStock(props) {
     <>
       <Grid container>
         {gammes.map((data,index) => {
-          if(data)
           return (
             <>
               <Grid item xs={3} key={index}>
@@ -140,7 +139,6 @@ function AfficherStock(props) {
       <hr />
       <Grid container spacing={3}>
         {stock.map((data1, index) => {
-          if(data1.prix_ttc)
           return (
             <>
               <Grid item xs={3}>
