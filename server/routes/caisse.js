@@ -80,6 +80,17 @@ router.get("/api/afficherClients",(req,res) => {
     })
 })
 
+router.get("/api/afficherVente/:id",(req,res) => {
+    let  id=Number(req.params.id);
+    pool.query('SELECT * FROM mouvement m inner Join ticket t on t.id=m.id_ticket WHERE  t.id_utilisateur=$1 ', [id],(err,result) => {
+        if(err)
+            res.status(400).send(err.toString());
+        else
+            res.status(200).json(result.rows);
+    })
+})
+
+
 
 
 router.post("/api/ticket",async (req,res) => {

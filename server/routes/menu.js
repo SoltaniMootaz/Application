@@ -17,6 +17,19 @@ router.post("/api/ajouterCateg", (req,res) => {
         res.send(err.toString());
     }
 });
+router.post("/api/ajouterActivite", (req,res) => {
+    const {operation, id_utilisateur,date,detail} = req.body;
+    try {
+        pool.query('INSERT INTO activite(operation,"id_utilisateur",date,detail) VALUES ($1,$2,$3,$4) RETURNING *',[operation, id_utilisateur,date,detail], (err) => {
+            if(err)
+                res.status(400).send("erreur");
+            else
+                res.status(201).send("succes");
+        });
+    }catch(err) {
+        res.send(err.toString());
+    }
+});
 
 router.post("/api/ajouterArticle", (req,res) => {
     try {
