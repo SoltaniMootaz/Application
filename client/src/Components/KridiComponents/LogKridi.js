@@ -75,7 +75,7 @@ const Row = (props) => {
                         {details ? details.map((res1,index) => (
                             <TableRow key={res1.id.toString() + index.toString()}>
                             <TableCell component="th" scope="row">
-                                {res1.libelle}
+                                {res1.libelle ? res1.libelle : res1.nom}
                             </TableCell>
                             <TableCell>{res1.quantite}</TableCell>
                             {/* <TableCell align="right">{historyRow.amount}</TableCell> */}

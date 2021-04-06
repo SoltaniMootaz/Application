@@ -36,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
   }));
 function Home() {
     const classes=useStyles();
-    console.log(localStorage.getItem('userID'));
-    console.log(localStorage.getItem('commerce'))
 
     return (
         <>
