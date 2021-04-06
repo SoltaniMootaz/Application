@@ -262,7 +262,7 @@ function Vente(props) {
         handleClick()
       })
       .catch((err)=>{
-        setError(err)
+        setError(err.response.data)
       })
     }else {
       const tmp = loadTicket;

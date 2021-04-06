@@ -94,7 +94,10 @@ const LoadStockByCategorie = (code,value) => (dispatch) => {
                 val.code_a_barre.indexOf(value.toUpperCase()) !== -1)
         }
     }else {
-        products = stock.filter(val=>val.gamme_code === code)
+        if(code)
+            products = stock.filter(val=>val.gamme_code === code)
+        else
+            products = stock;
     }
 
     return dispatch( {
