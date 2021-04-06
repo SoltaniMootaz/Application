@@ -8,11 +8,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { ButtonGroup ,Button} from '@material-ui/core';
+import { ButtonGroup ,Button, Divider} from '@material-ui/core';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    Width: 650,
   },
   Button:{
   },
@@ -24,14 +24,27 @@ function Activite(props) {
   console.log(props.data);
     return (
         <div>
-          <ButtonGroup  variant="contained" color='default'  aria-label="contained primary button group">
+      
+          <ButtonGroup  vvariant="text" color="default"  style={{marginTop:'1.5em'}}>
   <Button onClick={()=>setShow('vente')}>Activité de vente</Button>
   <Button  onClick={()=>setShow('nrml')}>Activité normale</Button>
   
 </ButtonGroup>
-           <TableContainer component={Paper}>
+
+
+           <TableContainer component={Paper} style={{marginTop:'1em'}}>
       <Table className={classes.table} aria-label="simple table">
-       
+       <TableHead >
+         <TableRow>
+           
+           <TableCell style={{fontWeight:'bold',width:'20%'}}>
+             date
+           </TableCell>
+           <TableCell style={{fontWeight:'bold'}}>
+             detail
+           </TableCell>
+         </TableRow>
+       </TableHead>
         <TableBody>
           
          {
@@ -55,7 +68,7 @@ function Activite(props) {
               <TableCell component="th" scope="row">
              {item.date}:
               </TableCell>
-              <TableCell >l'utilisateur {item.id_utilisateur} a effectué un opération {item.operation==="aArticle"? "d'adout d'un article" :"d'ajout d'un category "}</TableCell>
+              <TableCell >l'utilisateur {item.id_utilisateur} a effectué un opération {item.operation==="aArticle"? "d'ajout d'un article" :"d'ajout d'un category "}</TableCell>
               
             </TableRow>
            )}):"":""}

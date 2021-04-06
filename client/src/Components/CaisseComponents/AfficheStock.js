@@ -11,7 +11,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { Grid } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   root: {
     width: "16rem",
@@ -29,7 +29,31 @@ const useStyles = makeStyles({
   typo: {
     paddingLeft: "1em",
   },
+ 
 });
+const theme = createMuiTheme();
+
+theme.typography.h6 = {
+  fontSize: '10px',
+ 
+  [theme.breakpoints.up('md')]: {
+    fontSize: '26px',
+  },
+  [theme.breakpoints.down('md')]: {
+    fontSize: '8px',
+  },
+ 
+};
+theme.typography.h5 = {
+  fontSize: '9px',
+  fontWeight:'300',
+ 
+  [theme.breakpoints.up('md')]: {
+    fontSize: '19px',
+  },
+  [theme.breakpoints.down('md')]: {
+    fontSize: '9px',
+  },};
 
 function AfficherStock(props) {
   const [stock, setStock] = useState([]);
@@ -72,7 +96,7 @@ function AfficherStock(props) {
       }
     }
 
-    
+    setGammes(gammes)
   }
 
   useEffect(() => {
@@ -109,13 +133,14 @@ function AfficherStock(props) {
         {gammes.map((data,index) => {
           return (
             <>
-              <Grid item xs={3} key={index}>
+              <Grid item xl={3} lg={3} md={6} sm={6} xs={6} key={index}style={{marginTop:'1em'}}>
                 {selected == data ? (
                   <Button
                     key={index}
                     variant="contained"
-                    style={{ width: "100%", backgroundColor: "#00bcd4" }}
+                    style={{ width: "95%", backgroundColor: "#00bcd4" }}
                     onClick={() => handleSelected("")}
+                    
                   >
                     <p>{data}</p>
                   </Button>
@@ -123,7 +148,7 @@ function AfficherStock(props) {
                   <Button
                     key={index}
                     variant="contained"
-                    style={{ width: "100%" }}
+                    style={{ width: "95%",}}
                     onClick={() => handleSelected(data)}
                   >
                     <p>{data}</p>
@@ -137,11 +162,11 @@ function AfficherStock(props) {
 
       <br />
       <hr />
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         {stock.map((data1, index) => {
           return (
             <>
-              <Grid item xs={3}>
+              <Grid item lg={3} md={4} xl={3} sm={4} xs={4}>
                 <div key={index} onClick={() => dispatch(LoadTicket(data1))}>
                   <div style={{ padding: "5%" }}>
                     <Card className={classes.root} style={{ width: "100%" }}>
@@ -162,6 +187,7 @@ function AfficherStock(props) {
                             backgroundColor: "#00bcd4",
                           }}
                         >
+                           <ThemeProvider theme={theme}>
                           <Typography
                             noWrap
                             gutterBottom
@@ -171,20 +197,24 @@ function AfficherStock(props) {
                               color: "white",
                               marginLeft: "15%",
                               paddingTop: "5%",
-                              fontSize:"140%"
+                              
                             }}
+                              
                           >
                             {data1.prix_ttc.toFixed(3)}DT
                           </Typography>
+                          </ThemeProvider>
                         </div>
+                        <ThemeProvider theme={theme}>
                         <Typography
                           noWrap
                           gutterBottom
-                          variant="h6"
-                          component="h4"
+                          variant="h5"
+                          style={{marginTop:'1em'}}
                         >
                           {data1.libelle}
                         </Typography>
+                        </ThemeProvider>
                       </CardActionArea>
                     </Card>
                   </div>

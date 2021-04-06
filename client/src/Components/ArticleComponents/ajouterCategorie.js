@@ -85,7 +85,6 @@ var current=new Date();
         console.log(res.data);
       })
       .catch((err) => {
-        setError(true);
         console.log(err.response.data);
       });
   }

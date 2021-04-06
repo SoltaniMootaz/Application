@@ -35,7 +35,7 @@ router.post("/api/ajouterArticle", (req,res) => {
     try {
         const { nom, prix, unite, categorie, id_utilisateur } = req.body;
 
-        pool.query('SELECT id from public.categorie where nom = $1',[categorie], (err,result) => {
+        pool.query('SELECT id from public.categorie where nom = $1 and "id_utilisateur" = $2',[categorie,id_utilisateur], (err,result) => {
             if(err)
                 res.status(400).send(err.toString());
             else if (result.rowCount > 0)
@@ -69,9 +69,11 @@ router.post("/api/ajouterIngredient", (req,res) => {
 });
 
 
-router.get("/api/afficherArticles", (req,res) => {
+router.get("/api/afficherArticles/:id", (req,res) => {
+    const id = Number(req.params.id);
+
     try {
-        pool.query('SELECT * FROM public."articleMenu"', (err, result) => {
+        pool.query('SELECT * FROM public."articleMenu" WHERE "id_utilisateur" = $1',[id], (err, result) => {
             if(err)
                 res.status(400).send(err.toString());
             else {
@@ -79,7 +81,7 @@ router.get("/api/afficherArticles", (req,res) => {
             }
         });
     } catch (error) {
-        console.error(error);
+        console.error(error.toString());
     }
 });
 
@@ -90,10 +92,8 @@ router.delete('/api/deletearticle/:id', function (req, res) {
 try{
    pool.query('DELETE FROM public."articleMenu" WHERE id=$1 RETURNING *', [id], (error, result) =>{
         if (error) {
-            console.log(typeof id);
             res.status(400).send(error.toString());
-        }else {
-            
+        }else {   
             res.status(200).send("deleted");
         }
       });
@@ -103,11 +103,13 @@ try{
 });
 
 
-router.get("/api/afficherCategorie", (req,res) => {
+router.get("/api/afficherCategorie/:id", (req,res) => {
+    const id = Number(req.params.id);
+    
     try {
-        pool.query('SELECT * FROM public.categorie', (err, result) => {
+        pool.query('SELECT * FROM public.categorie WHERE "id_utilisateur" = $1',[id], (err, result) => {
             if(err) {
-                res.status(400).send(err);
+                res.status(400).send(err.toString());
             }else {
                 res.status(200).json(result.rows);
             }

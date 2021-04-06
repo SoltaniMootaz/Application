@@ -16,6 +16,8 @@ import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import {RiLockPasswordFill}from "react-icons/ri"
 import Passwords from './OptionsComponents/Passwords';
+import { IconButton } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +51,14 @@ function Options() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-     
+      <AppBar color="info" position="fixed" className={classes.appBar}>
+        <Toolbar>
+
+          <IconButton  aria-label="add an alarm" component={Link} to='/Home'>
+                <AiFillHome  className="icon2" style={{width:'1.5em',height:'1.5em'}} />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -60,15 +69,7 @@ function Options() {
       >
         <div className={classes.toolbar} />
        
-        <List>
-          
-            <ListItem button component={Link} to='/Home'>
-              <ListItemIcon><AiFillHome style={{color:'white',width:'1.5em',height:'1.5em'}} /></ListItemIcon>
-              <ListItemText primary={"Home"} style={{color:'white'}}/>
-            </ListItem>
-     
-        </List>
-      
+       
         <List>
         
             <ListItem button onClick={()=>{setCurrentPage("mdp")}}>

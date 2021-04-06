@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import CardMedia from '@material-ui/core/CardMedia';
 import { Grid} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   root: {
@@ -33,10 +34,33 @@ const useStyles = makeStyles({
     paddingLeft:'1em'
   },
 });
-  
+const theme = createMuiTheme();
+
+theme.typography.h6 = {
+  fontSize: '10px',
+ 
+  [theme.breakpoints.up('md')]: {
+    fontSize: '20px',
+  },
+  [theme.breakpoints.down('md')]: {
+    fontSize: '8px',
+  },
+ 
+};
+theme.typography.h5 = {
+  fontSize: '9px',
+  fontWeight:'300',
+ 
+  [theme.breakpoints.up('md')]: {
+    fontSize: '19px',
+  },
+  [theme.breakpoints.down('md')]: {
+    fontSize: '9px',
+  },};
+
 function AfficheArticle(props) {
-  const urlcat = "http://localhost:3001/api/afficherCategorie";
-  const urlart = "http://localhost:3001/api/afficherArticles";
+  const urlcat = "http://localhost:3001/api/afficherCategorie/" + localStorage.getItem('userID');
+  const urlart = "http://localhost:3001/api/afficherArticles/" + localStorage.getItem('userID');
 
   const [dataCat, setDataCat] = useState([]);
   const [dataArt, setDataArt] = useState([]);
@@ -105,7 +129,7 @@ function AfficheArticle(props) {
       {dataCat ? dataCat.map((data,index)=> {
         return (
           <>
-            <Grid item xs={3} key={index}>
+            <Grid item xl={3} lg={3} md={6} sm={6} xs={6} key={index}>
               {selected == data.id ? (
                 <Button
                   key={index}
@@ -137,7 +161,7 @@ function AfficheArticle(props) {
         dataArtSpec.map((data1, index) => {
           return (
             <>
-              <Grid item xs={3}>
+              <Grid item lg={3} md={4} xl={3} sm={4} xs={4}>
                 <div key={index} onClick={() => handleClick(data1)}>
                   <div style={{ padding: "5%" }}>
                     <Card className={classes.root} style={{ width: "100%" }}>
@@ -158,6 +182,7 @@ function AfficheArticle(props) {
                             backgroundColor: "#00bcd4",
                           }}
                         >
+                           <ThemeProvider theme={theme}>
                           <Typography
                             noWrap
                             gutterBottom
@@ -172,15 +197,18 @@ function AfficheArticle(props) {
                           >
                             {data1.prix.toFixed(3)}DT
                           </Typography>
+                          </ThemeProvider>
                         </div>
+                        <ThemeProvider theme={theme}>
                         <Typography
                           noWrap
                           gutterBottom
-                          variant="h6"
+                          variant="h5"
                           component="h4"
                         >
                           {data1.nom}
                         </Typography>
+                        </ThemeProvider>
                       </CardActionArea>
                     </Card>
                   </div>

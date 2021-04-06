@@ -10,7 +10,7 @@ import {BiSupport} from 'react-icons/bi';
 import {AiOutlineSetting} from 'react-icons/ai';
 import {RiLogoutBoxRLine} from 'react-icons/ri';
 import { makeStyles } from '@material-ui/core/styles';
-import {Paper,Grid} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     margin: {
@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
 function Home() {
     const classes=useStyles();
     console.log(localStorage.getItem('userID'));
-    
+    console.log(localStorage.getItem('commerce'))
+
     return (
         <>
         
@@ -47,12 +48,17 @@ function Home() {
                 <Grid item sm={4} xs={12}>
            <HomeButtons buttonName='Caisse' icon={<FaCashRegister />} link='/caisse' Bcolor='#00bcd4'/> 
            </Grid>
-           <Grid item sm={4} xs={12} >
+
+           {localStorage.getItem('commerce') === "menu" ? <><Grid item sm={4} xs={12} >
            <HomeButtons buttonName='menu' icon={<BiMenu />} link='/menu'  Bcolor='#00A600'/>
            </Grid>
            <Grid item sm={4} xs={12} > 
            <HomeButtons buttonName='Journal' icon={<IoIosJournal />} link='/Journal' Bcolor='#BF1E4B'/> 
-           </Grid>
+           </Grid></>
+           :<Grid item sm={8} xs={12} > 
+           <HomeButtons buttonName='Journal' icon={<IoIosJournal />} link='/Journal' Bcolor='#BF1E4B'/> 
+           </Grid>}
+
            </Grid>
            <Grid container style={{paddingTop:'1em'}} spacing={4}>
            <Grid item sm={4} xs={12}>

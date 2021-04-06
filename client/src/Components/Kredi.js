@@ -81,6 +81,7 @@ function Kredi(props) {
   useEffect(() => {
   getdata();
   }, []);
+  console.log(userId)
     const drawer = (
       <div>
         <div className={classes.toolbar} />

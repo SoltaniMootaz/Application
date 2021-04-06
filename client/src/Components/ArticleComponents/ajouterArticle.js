@@ -92,7 +92,7 @@ const DialogActions = withStyles((theme) => ({
 
 function AjouterCat(props) {
   const url = "http://localhost:3001/api/ajouterArticle";
-  const url2 = "http://localhost:3001/api/afficherCategorie";
+  const url2 = "http://localhost:3001/api/afficherCategorie/";
   const url3 = "http://localhost:3001/api/ajouterIngredient";
   const url4 = "http://localhost:3001/api/ajouterActivite";
   
@@ -130,7 +130,7 @@ function AjouterCat(props) {
   }
 
   const getCategories = () => {
-    Axios.get(url2)
+    Axios.get(url2 + localStorage.getItem('userID'))
       .then((res) => {
         setCategories(res.data);
       })
@@ -154,7 +154,7 @@ function AjouterCat(props) {
 
   categories.map((categorie, i) => {
     categ.push(
-      <MenuItem key={i} value={categorie.nom}>
+      <MenuItem key={categorie.id} value={categorie.nom}>
         {categorie.nom}
       </MenuItem>
     )
@@ -214,7 +214,7 @@ var current=new Date();
   }
 
   function handlePrix(e) {
-    setData({ ...Data, prix: e.target.value });
+    setData({ ...Data, prix: parseFloat(e.target.value).toFixed(3) });
   }
 
   function handleUnite(e) {
