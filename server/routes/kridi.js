@@ -23,27 +23,30 @@ router.get("/api/detailsTicket/:id",(req,res)=>{
     const  id=Number(req.params.id);
     
     pool.query('SELECT type from public."produitsTicket" WHERE public."produitsTicket".id_ticket = $1',[id],(err,result1)=> {
-        if(result1.rows[0].type === "menu") {
-            pool.query(`SELECT * from public."articleMenu" , public."produitsTicket"
-                WHERE public."produitsTicket".id_ticket = $1
-                AND   public."produitsTicket".id = public."articleMenu".id`,[id],(err,result2)=>{
-                if(err)
-                    res.status(400).send(err.toString());
-                else {
-                    res.status(200).send(result2.rows);
-                }   
-            })
-        }else{
-            pool.query(`SELECT * from public."stock" , public."produitsTicket"
-                WHERE public."produitsTicket".id_ticket = $1
-                AND   public."produitsTicket".id = public."stock".id`,[id],(err,result2)=>{
-                if(err)
-                    res.status(400).send(err.toString());
-                else {
-                    res.status(200).send(result2.rows);
-                }   
-            })
-        }
+        if(err)
+            res.status(400).send(err.toString());
+        else
+            if(result1.rows[0].type === "menu") {
+                pool.query(`SELECT * from public."articleMenu" , public."produitsTicket"
+                    WHERE public."produitsTicket".id_ticket = $1
+                    AND   public."produitsTicket".id = public."articleMenu".id`,[id],(err,result2)=>{
+                    if(err)
+                        res.status(400).send(err.toString());
+                    else {
+                        res.status(200).send(result2.rows);
+                    }   
+                })
+            }else{
+                pool.query(`SELECT * from public."stock" , public."produitsTicket"
+                    WHERE public."produitsTicket".id_ticket = $1
+                    AND   public."produitsTicket".id = public."stock".id`,[id],(err,result2)=>{
+                    if(err)
+                        res.status(400).send(err.toString());
+                    else {
+                        res.status(200).send(result2.rows);
+                    }   
+                })
+            }
     })
 })
 

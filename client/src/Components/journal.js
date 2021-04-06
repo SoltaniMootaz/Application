@@ -72,16 +72,26 @@ function Journal(props) {
       <div>
         <div className={classes.toolbar} />
     
-        <List>
-         
+        {currentPage === "Activite" ? 
+        <List style={{backgroundColor:"#9a183d"}}>
+          
             <ListItem button onClick={()=>{setCurrentPage("Activite")}}>
               <ListItemIcon><BiHistory style={{color:'white',width:'1.5em',height:'1.5em'}} /></ListItemIcon>
               <ListItemText primary={"Activité"} style={{color:'white'}}/>
             </ListItem>
       
         </List>
-       
-        <List>
+       : <List>
+          
+       <ListItem button onClick={()=>{setCurrentPage("Activite")}}>
+         <ListItemIcon><BiHistory style={{color:'white',width:'1.5em',height:'1.5em'}} /></ListItemIcon>
+         <ListItemText primary={"Activité"} style={{color:'white'}}/>
+       </ListItem>
+ 
+        </List>}
+
+        {currentPage === "Recu" ?
+        <List style={{backgroundColor:"#9a183d"}}>
           
             <ListItem button onClick={()=>{setCurrentPage("Recu")}}>
               <ListItemIcon><FaReceipt style={{color:'white',width:'1.4em',height:'1.4em'}} /></ListItemIcon>
@@ -89,6 +99,16 @@ function Journal(props) {
             </ListItem>
         
         </List>
+        :
+        <List>
+          
+          <ListItem button onClick={()=>{setCurrentPage("Recu")}}>
+            <ListItemIcon><FaReceipt style={{color:'white',width:'1.4em',height:'1.4em'}} /></ListItemIcon>
+            <ListItemText primary={"Reçu"} style={{color:'white'}}/>
+          </ListItem>
+      
+        </List>
+        }
       </div>
     );
   

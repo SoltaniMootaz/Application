@@ -74,7 +74,8 @@ function Kredi(props) {
       <div>
         <div className={classes.toolbar} />
         <Divider />
-        <List>
+        {currentPage === "log" ?
+        <List style={{backgroundColor:"#d9d9d9"}}>
          
             <ListItem button onClick={()=>{setCurrentPage("log")}}>
               <ListItemIcon><HiOutlineClipboardList style={{width:'1.5em',height:'1.5em'}} /></ListItemIcon>
@@ -82,15 +83,30 @@ function Kredi(props) {
             </ListItem>
       
         </List>
-       <Divider />
+        : 
         <List>
-          
+            <ListItem button onClick={()=>{setCurrentPage("log")}}>
+              <ListItemIcon><HiOutlineClipboardList style={{width:'1.5em',height:'1.5em'}} /></ListItemIcon>
+              <ListItemText primary={"Log de Kridi"} />
+            </ListItem>
+        </List>
+        }
+       <Divider />
+       {currentPage === "info" ?
+        <List style={{backgroundColor:"#d9d9d9"}}>  
             <ListItem button onClick={()=>{setCurrentPage("info")}}>
               <ListItemIcon><FiUserCheck style={{width:'1.4em',height:'1.4em'}} /></ListItemIcon>
               <ListItemText primary={"Information client"} />
             </ListItem>
-        
         </List>
+        :
+        <List>  
+            <ListItem button onClick={()=>{setCurrentPage("info")}}>
+              <ListItemIcon><FiUserCheck style={{width:'1.4em',height:'1.4em'}} /></ListItemIcon>
+              <ListItemText primary={"Information client"} />
+            </ListItem>
+        </List>
+      }
         <Divider />
       </div>
     );
@@ -177,11 +193,11 @@ function Kredi(props) {
       }
     </main>
   </div>
-  <AddClient  
-   handleOpen={state.isOpen}
-   handleClose={() => setState({ isOpen: false })}
-        />
-      </>
+      <AddClient  
+        handleOpen={state.isOpen}
+        handleClose={() => setState({ isOpen: false })}
+      />
+    </>
     )
 }
 
