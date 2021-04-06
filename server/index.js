@@ -12,6 +12,7 @@ const menuRoute = require('./routes/menu');
 const caisseRoute = require('./routes/caisse');
 const journalRoute = require('./routes/journal');
 const kridiRoute = require('./routes/kridi');
+const settingsRoute = require('./routes/settings');
 
 //Middlewares
 app.use(express.json());
@@ -26,6 +27,7 @@ app.use(menuRoute);
 app.use(caisseRoute);
 app.use(journalRoute);
 app.use(kridiRoute);
+app.use(settingsRoute);
 
 
 const port = 3001;

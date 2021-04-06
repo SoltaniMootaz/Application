@@ -50,6 +50,18 @@ router.get("/api/detailsTicket/:id",(req,res)=>{
     })
 })
 
+
+router.get("/api/afficherClients/:id",(req,res) => {
+    const  id=Number(req.params.id);
+    pool.query(`Select * from client where id_utilisateur=$1`
+            ,[id],(err,result1) => {
+        if(err)
+            res.status(400).send(err.toString());
+        else {
+            res.status(200).send(result1.rows);
+        }         
+    })
+})
 router.post("/api/AjouterClient",(req,res) => {
     const { nomPre, tel, id_utilisateur } = req.body;
     

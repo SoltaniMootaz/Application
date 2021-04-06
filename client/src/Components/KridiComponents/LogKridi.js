@@ -52,7 +52,7 @@ const Row = (props) => {
             <TableCell component="th" scope="row" align="center">
             {row.nomPre}
             </TableCell>
-            <TableCell align="center">Achat</TableCell>
+            <TableCell align="center" style={{fontWeight:'bold'}}>Achat</TableCell>
             <TableCell align="center">{row.date}</TableCell>
             <TableCell align="center">{row.montant.toFixed(3)}</TableCell>
         </TableRow>
@@ -107,10 +107,10 @@ export default function LogKridi() {
             <TableHead>
             <TableRow>
                 <TableCell />
-                <TableCell align="center">Nom et prenom</TableCell>
-                <TableCell align="center">Opération</TableCell>
-                <TableCell align="center">Date</TableCell>
-                <TableCell align="center">Montant</TableCell>
+                <TableCell align="center" style={{fontWeight:'bold'}}>Nom et prenom</TableCell>
+                <TableCell align="center" style={{fontWeight:'bold'}}>Opération</TableCell>
+                <TableCell align="center" style={{fontWeight:'bold'}}>Date</TableCell>
+                <TableCell align="center" style={{fontWeight:'bold'}}>Montant</TableCell>
             </TableRow>
             </TableHead>
             <TableBody>

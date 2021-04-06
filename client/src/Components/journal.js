@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -22,6 +22,11 @@ import {AiFillHome} from 'react-icons/ai'
 import {FaReceipt} from 'react-icons/fa'
 import Activite from './JournalComponents/Activite'
 import Recu from './JournalComponents/Recu'
+import axios from 'axios';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
+import Box from '@material-ui/core/Box';
 const drawerWidth = 240;
 
 const UseStyles = makeStyles((theme) => ({
@@ -67,6 +72,21 @@ function Journal(props) {
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
+    const [data, setData] = useState()
+    const [data2, setData2] = useState()
+    const userId=localStorage.getItem("userID");
+    const url = "http://localhost:3001/api/afficherVente/"+userId;
+    const url2 = "http://localhost:3001/api/afficherActivite/"+userId;
+    const getdata=()=>{
+      axios.get(url).then((res)=>setData(res.data)).catch((err)=>console.log(err))
+      axios.get(url2).then((res)=>setData2(res.data)).catch((err)=>console.log(err))
+
+    }
+   
+  useEffect(() => {
+  getdata();
+  }, []);
+console.log(data);
   
     const drawer = (
       <div>
@@ -112,6 +132,15 @@ function Journal(props) {
       </div>
     );
   
+     const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleChangeIndex = (index) => {
+    setValue(index);
+  };
     const container = window !== undefined ? () => window().document.body : undefined;
   
     return (
@@ -134,6 +163,7 @@ function Journal(props) {
           </IconButton>
         </Toolbar>
       </AppBar>
+    
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
@@ -167,11 +197,13 @@ function Journal(props) {
         </Hidden>
       </nav>
       <main className={classes.content}>
+     
         <div className={classes.toolbar} />
+        
         {currentPage==="Activite"?
         (
             <>
-            <Activite />
+            <Activite data={data} data2={data2}/>
             </> 
 
         ):

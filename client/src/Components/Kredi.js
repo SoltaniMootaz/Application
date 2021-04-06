@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -24,6 +24,8 @@ import{FaUserPlus} from 'react-icons/fa'
 import LogKridi from './KridiComponents/LogKridi'
 import InfoClient from './KridiComponents/InfoClient'
 import AddClient from './KridiComponents/AddClient';
+import axios from 'axios';
+
 const drawerWidth = 240;
 
 const UseStyles = makeStyles((theme) => ({
@@ -69,7 +71,17 @@ function Kredi(props) {
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
-  
+    const [data, setData] = useState()
+    const userId=localStorage.getItem("userID");
+    const url = "http://localhost:3001/api/afficherClients/"+userId;
+    const getdata=()=>{
+      axios.get(url).then((res)=>setData(res.data)).catch((err)=>console.log(err))
+    }
+   
+  useEffect(() => {
+  getdata();
+  }, []);
+  console.log(userId)
     const drawer = (
       <div>
         <div className={classes.toolbar} />
@@ -188,7 +200,7 @@ function Kredi(props) {
       ):
       currentPage==="info"?
       ( <>
-      <InfoClient />
+      <InfoClient data={data}/>
       </>): ""
       }
     </main>
