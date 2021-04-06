@@ -37,10 +37,10 @@ theme.typography.h6 = {
   fontSize: '10px',
  
   [theme.breakpoints.up('md')]: {
-    fontSize: '26px',
+    fontSize: '20px',
   },
   [theme.breakpoints.down('md')]: {
-    fontSize: '8px',
+    fontSize: '12px',
   },
  
 };

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Vente from "./vente";
+import Effacer from "./effacer";
 import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket } from "../../actions";
 import Cuisine from './tickets/cuisine'
-import axios from 'axios'
 
 /////////////////////////////////////////////////////////////////
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -21,7 +21,7 @@ import { AiOutlineAppstoreAdd, AiOutlineDelete, AiOutlineFieldTime } from "react
 import { GrAdd } from "react-icons/gr";
 import { IoMdRemove } from "react-icons/io";
 import {AiOutlineCloseCircle} from "react-icons/ai"
-import Typography from '@material-ui/core/Typography';import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 /////////////////////////////////////////////////////////////////////
 
@@ -66,12 +66,13 @@ const useStyles = makeStyles((theme) => ({
 
 function Ticket() {
   const classes = useStyles();
-  const componentRef = useRef();
   const dispatch = useDispatch();
-  const url = "http://localhost:3001/api/ticket";
 
   const [val, setVal] = React.useState(0);
   const [state, setState] = useState({
+    isOpen: Boolean(false),
+  });
+  const [state1, setState1] = useState({
     isOpen: Boolean(false),
   });
 
@@ -82,31 +83,6 @@ function Ticket() {
 
   //redux load data
   const loadTicket = useSelector((state) => state.loadTicket);
-
-  const Effacer = () => {
-    if(localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))) {
-      const tmp = JSON.parse(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')));
-      var current = new Date();
-
-      axios.post(url, {
-        data: tmp.data,
-        quantite: tmp.quantite,
-        table: tmp.table,
-        somme: somme,
-        date: current.toLocaleString(),
-        operation: "effacé",
-        id_utilisateur: localStorage.getItem('userID')
-      }).then((res)=> {
-        localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
-        dispatch(LoadTicket({}, "remove_all_data"))
-      })
-      .catch(err=>{
-        console.log(err.response.data)
-      })
-    }else {
-      dispatch(LoadTicket({}, "remove_all_data"))
-    }
-  }
 
   const pending = () => {
     if(loadTicket.data.length > 0) {
@@ -281,10 +257,16 @@ function Ticket() {
           label="Effacer"
           style={{ color: "red" }}
           icon={<AiOutlineDelete />}
-          onClick={Effacer}
+          onClick={()=>setState1({ isOpen: true })}
         />
       </BottomNavigation>
  
+      <Effacer
+        handleOpen={state1.isOpen}
+        handleClose={() => setState1({ isOpen: false })}
+        somme={somme}
+      />
+
       <Vente
         handleOpen={state.isOpen}
         handleClose={() => setState({ isOpen: false })}

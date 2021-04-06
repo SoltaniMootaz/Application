@@ -53,7 +53,7 @@ const Row = (props) => {
             {row.nomPre}
             </TableCell>
             <TableCell align="center" style={{fontWeight:'bold'}}>Achat</TableCell>
-            <TableCell align="center">{row.date}</TableCell>
+            <TableCell align="center">{row.date.toString()}</TableCell>
             <TableCell align="center">{row.montant.toFixed(3)}</TableCell>
         </TableRow>
         <TableRow>
@@ -68,7 +68,6 @@ const Row = (props) => {
                     <TableRow>
                         <TableCell>Libelle</TableCell>
                         <TableCell>Quantité</TableCell>
-                        {/* <TableCell align="right">Montant</TableCell> */}
                     </TableRow>
                     </TableHead>
                     <TableBody>
@@ -78,7 +77,6 @@ const Row = (props) => {
                                 {res1.libelle ? res1.libelle : res1.nom}
                             </TableCell>
                             <TableCell>{res1.quantite}</TableCell>
-                            {/* <TableCell align="right">{historyRow.amount}</TableCell> */}
                             </TableRow>
                         )) : ""}
                     </TableBody>

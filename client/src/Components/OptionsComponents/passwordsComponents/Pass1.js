@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import {Paper,Grid,TextField,Button,Typography,ThemeProvider} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
 import { createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
+import axios from 'axios'
+
 const theme = createMuiTheme({
     palette: {
       primary: {
@@ -44,17 +45,34 @@ const useStyles = makeStyles((theme) => ({
   }
   }));
 function Pass1() {
+    const url = "http://localhost:3001/api/changePassword";
+
     const [pass1, setsPass1] = useState()
     const [pass2, setsPass2] = useState()
     const [err, setErr] = useState(false)
 
     const handleSubmit=(event)=> {
         event.preventDefault();
-        if(pass1===pass2){
-            console.log("cle changer");
-        }else{
-            setErr(true)
-        }
+        if(pass1===pass2)
+            if(pass1.length > 6){
+                axios.post(url, {
+                    id : localStorage.getItem('userID'),
+                    mdp: pass1
+                })
+                .then(()=>{
+                    setErr("");
+                    setsPass1("");
+                    setsPass2("");
+                    window.location.reload(false);
+                })
+                .catch(err=> {
+                    setErr(err.response.data)
+                })
+            }else{
+                setErr("Mot de passe doit être plus que 6 caractéres")
+            }
+        else
+            setErr("Vérifier votre mot de passe")
     }
     const handlePass1Change=(e)=> {setsPass1(e.target.value)}
     const handlePass2Change=(e)=> {setsPass2(e.target.value)}
@@ -64,9 +82,10 @@ const classes=useStyles();
               <ThemeProvider theme={theme}>
             <Paper className={classes.padding} style={{width:'75%',justifyContent:'center'}}>
             <Typography variant="h5" style={{color:'#4caf50',fontWeight:'bold'}}>
-                Changer votre mot de passe actuelle:
+                <center>Changer votre mot de passe actuelle:</center>
+                <br />
             </Typography>
-    <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
                 <div className={classes.margin}>
                     <Grid container spacing={8} alignItems="flex-end">
                         
@@ -80,7 +99,7 @@ const classes=useStyles();
                             <TextField color='secondary' id="p2" label="confirmer votre mot de passe" type="password" fullWidth required  onChange={(e)=>handlePass2Change(e)} />
                         </Grid>
                         <Grid xs={12}>
-                        {err ? (<center><Typography style={{color:'red'}}>Mot de passe ne correspond pas</Typography></center>) : ""}
+                        <center><Typography style={{color:'red'}}>{err}</Typography></center>
                         </Grid>
                     </Grid>
                     <br></br>

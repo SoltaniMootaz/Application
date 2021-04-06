@@ -3,6 +3,7 @@ const xlsxFile = require('read-excel-file/node');
 const { query } = require('../database/creerDB-postgreSQL');
 const pool = require('../database/creerDB-postgreSQL');
 var async = require("async");
+const bcrypt = require('bcrypt');
 
 /* router.post("/api/excelToDB",(req,res) => {
     xlsxFile('C:/Users/houss/Desktop/projet1/application/server/produits.xlsx').then((rows) => {
@@ -90,10 +91,8 @@ router.get("/api/afficherVente/:id",(req,res) => {
 })
 
 
-
-
 router.post("/api/ticket",async (req,res) => {
-    const { data, quantite, table, somme, date, operation, id_utilisateur, methodes } = req.body;
+    const { data, quantite, table, somme, date, operation, id_utilisateur, methodes, typeCommerce, id_client } = req.body;
 
     pool.query('SELECT MAX(numero) as numero FROM public.ticket WHERE id_utilisateur = $1',[id_utilisateur],(err,res0)=>{
         if(err) {
@@ -149,5 +148,32 @@ router.post("/api/ticket",async (req,res) => {
         }
     })
 })
+
+router.post("/api/testCle/:id", (req,res) => {
+    try {
+        const { id } = req.params;
+        const { cle } = req.body;
+
+        pool.query("SELECT cle FROM utilisateur WHERE id = $1",[id],(err,result) => {
+            if(err) {
+                console.error('Error executing query', err.stack);
+            }else {
+                if(result.rowCount > 0) {
+                    bcrypt.compare(cle, result.rows[0].cle, async function(err, result1) {
+                        if(err || !result1) {
+                            res.status(400).send("Votre clé est incorrecte");
+                        }else {
+                            res.status(200).send("Success");
+                        }
+                    });
+                }else {
+                    res.status(400).send("Utilisateur n'existe pas");
+                }
+            }
+        });
+    } catch (error) {
+        res.status(400).send(error.toString())
+    }
+});
 
 module.exports = router;

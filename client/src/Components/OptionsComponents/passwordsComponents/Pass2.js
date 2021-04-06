@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import {Paper,Grid,TextField,Button,Typography, ThemeProvider} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
 import { createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
+import axios from 'axios'
+
 const theme = createMuiTheme({
     palette: {
       primary: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   padding: {
       padding: theme.spacing.unit, 
-      maxWidth: '40%',
+      maxWidth: '95%',
       maxHeight:'40em',
       margin: '0 auto',
       display: 'flex',
@@ -45,31 +46,47 @@ const useStyles = makeStyles((theme) => ({
   }));
   
 function Pass1() {
+    const url = "http://localhost:3001/api/changeCle";
     const [pass1, setsPass1] = useState()
     const [pass2, setsPass2] = useState()
     const [err, setErr] = useState(false)
 
     const handleSubmit=(event)=> {
         event.preventDefault();
-        if(pass1===pass2){
-            console.log("cle changer");
-        }else{
-            setErr(true)
-        }
+        if(pass1===pass2)
+            if(pass1===pass2){
+                axios.post(url, {
+                    id : localStorage.getItem('userID'),
+                    cle: pass1
+                })
+                .then(()=>{
+                    setErr();
+                    setsPass1();
+                    setsPass2();
+                    window.location.reload(false);
+                })
+                .catch(err=> {
+                    setErr(err.response.data)
+                })
+            }else{
+                setErr("le clé doit être plus que 6 caractéres");
+            }
+        else
+            setErr("Vérifier votre clé")
     }
     const handlePass1Change=(e)=> {setsPass1(e.target.value)}
     const handlePass2Change=(e)=> {setsPass2(e.target.value)}
 const classes=useStyles();
     return (
         <div>
-             <ThemeProvider theme={theme}>
-
-            <Paper className={classes.padding} style={{width:'33,33%',justifyContent:'center'}}>
+            <ThemeProvider theme={theme}>
+            <Paper className={classes.padding} style={{width:'75%',justifyContent:'center'}}>
             <Typography variant="h5" style={{color:'#4caf50',fontWeight:'bold'}}>
-                Changer votre clé d'utilisation:
+                <center>Changer votre clé d'utilisation:</center>
+                <br />
             </Typography>
            
-    <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div className={classes.margin}>
                     <Grid container spacing={8} alignItems="flex-end">
                         
@@ -83,7 +100,7 @@ const classes=useStyles();
                             <TextField color='secondary' id="p2" label="confirmer votre clé" type="password" fullWidth required  onChange={(e)=>handlePass2Change(e)} />
                         </Grid>
                         <Grid xs={12}>
-                        {err ? (<center><Typography style={{color:'red'}}>Clé ne correspond pas</Typography></center>) : ""}
+                        <center><Typography style={{color:'red'}}>{err}</Typography></center>
                         </Grid>
                     </Grid>
                     <br></br>
