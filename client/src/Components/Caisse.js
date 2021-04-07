@@ -249,7 +249,7 @@ function Caisse(props) {
               onChange={handleSearch}
             />
           </div>
-            
+            {localStorage.getItem("commerce")==="menu"?
             <div className={classes.Badge}>
             <IconButton>
               <Badge color="secondary" overlap="circle" badgeContent="1" variant="dot" onClick={()=>setModal({isOpen: true})}>
@@ -262,7 +262,7 @@ function Caisse(props) {
               handleClose={() => setModal({ isOpen: false })}
             />
 
-            </div>
+            </div>:""}
             
           </Toolbar>
         </AppBar>
