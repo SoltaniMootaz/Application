@@ -19,25 +19,25 @@ const useStyles = makeStyles({
 });
 
 function Activite(props) {
-    const classes = useStyles();
-   const [show, setShow] = useState('vente')
+  const classes = useStyles();
+  const [show, setShow] = useState('vente')
   console.log(props.data);
-    return (
-        <div>
-      
-          <ButtonGroup  vvariant="text" color="default"  style={{marginTop:'1.5em'}}>
-  <Button onClick={()=>setShow('vente')}>Activité de vente</Button>
-  <Button  onClick={()=>setShow('nrml')}>Activité normale</Button>
-  
-</ButtonGroup>
+  return (
+    <div>
+      <center>
+        <ButtonGroup  vvariant="text" color="default"  style={{marginTop:'1.5em'}}>
+          <Button onClick={()=>setShow('vente')}>Activité de vente</Button>
+          <Button  onClick={()=>setShow('nrml')}>Activité normale</Button>
+        </ButtonGroup>
+      </center>
 
-
-           <TableContainer component={Paper} style={{marginTop:'1em'}}>
+  <center>
+    <TableContainer component={Paper} style={{marginTop:'1em',width:"70%"}}>
       <Table className={classes.table} aria-label="simple table">
        <TableHead >
          <TableRow>
            
-           <TableCell style={{fontWeight:'bold',width:'20%'}}>
+           <TableCell style={{fontWeight:'bold',width:'35%'}}>
              date
            </TableCell>
            <TableCell style={{fontWeight:'bold'}}>
@@ -50,7 +50,7 @@ function Activite(props) {
          {
          show==="vente"?
          props.data?
-         props.data.map((item,index)=>{
+         props.data.slice(0).reverse().map((item,index)=>{
            return(
             <TableRow>
               <TableCell component="th" scope="row">
@@ -75,6 +75,7 @@ function Activite(props) {
         </TableBody>
       </Table>
     </TableContainer>
+  </center>
         </div>
     )
 }

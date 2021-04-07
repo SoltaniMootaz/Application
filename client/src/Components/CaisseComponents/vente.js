@@ -220,9 +220,11 @@ function Vente(props) {
     .then((res) => {
       setClientData(res.data)
     })
-    if(print == true)
-      setMontant(0)
-    else
+    if(print == true) {
+      setMontant(0);
+      props.setSomme(0)
+      close();
+    }else
       setMontant(props.somme)
     setRendu(0)
   },[props.somme,print])
@@ -289,15 +291,12 @@ function Vente(props) {
       })
     }
   }
-
-  const close = (print) => {
+  
+  const close = () => {
     setStyle1(false);setStyle2(false);setStyle3(false);setStyle4(false);
     setCheque(false);setDirect(false);setEspece(true);setKridi(false);
     setRendu(0);
-    if(print)
-      setMontant(0);
-    else
-      setMontant(props.somme);
+    setMontant(props.somme);
     setError();
     setExpanded(false)
     var tmp = totale;
@@ -411,7 +410,6 @@ function Vente(props) {
                     label="Montant"
                     variant="outlined"
                     type="number"
-                    key={print}
                     autoFocus
                     onChange={(e)=>handleMontant(e.target.value,"espece")}
                     InputProps={{
