@@ -116,7 +116,7 @@ function Ticket() {
       })
     }
   },[localStorage.getItem('tableIndex')])
-
+   const commerce=localStorage.getItem("commerce");
   useEffect(() => {
     setSomme(calculTotale());
     setFocus("")
@@ -240,13 +240,13 @@ function Ticket() {
         showLabels
         className={classes.root}
       >
-        
+        {commerce==="menu"?
         <BottomNavigationAction
           label="En attente"
           style={{ color: "#ffb300" }}
           icon={<AiOutlineFieldTime />}
           onClick={pending}
-        />
+        />:""}
         <BottomNavigationAction
           label="Payer"
           style={{ color: "#00bcd4" }}
