@@ -271,6 +271,7 @@ function Ticket() {
         handleOpen={state.isOpen}
         handleClose={() => setState({ isOpen: false })}
         somme={somme}
+        setSomme={()=>setSomme()}
       />
       <div style={{display:"none"}}><Cuisine print={print} setPrint={setPrint} /></div>
     </>

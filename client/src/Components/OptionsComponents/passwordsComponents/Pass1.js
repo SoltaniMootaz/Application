@@ -54,7 +54,7 @@ function Pass1() {
     const handleSubmit=(event)=> {
         event.preventDefault();
         if(pass1===pass2)
-            if(pass1.length > 6){
+            if(pass1.length >= 6){
                 axios.post(url, {
                     id : localStorage.getItem('userID'),
                     mdp: pass1
@@ -69,7 +69,7 @@ function Pass1() {
                     setErr(err.response.data)
                 })
             }else{
-                setErr("Mot de passe doit être plus que 6 caractéres")
+                setErr("Mot de passe doit être plus que 5 caractéres")
             }
         else
             setErr("Vérifier votre mot de passe")

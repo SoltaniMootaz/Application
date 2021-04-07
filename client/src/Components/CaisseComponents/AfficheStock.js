@@ -210,7 +210,7 @@ function AfficherStock(props) {
                           noWrap
                           gutterBottom
                           variant="h5"
-                          style={{marginTop:'1em'}}
+                          style={{marginTop:'1em',fontSize:"120%"}}
                         >
                           {data1.libelle}
                         </Typography>
