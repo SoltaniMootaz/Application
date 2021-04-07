@@ -198,8 +198,7 @@ function AfficherStock(props) {
                               marginLeft: "15%",
                               paddingTop: "5%",
                               
-                            }}
-                              
+                            }}     
                           >
                             {data1.prix_ttc.toFixed(3)}DT
                           </Typography>

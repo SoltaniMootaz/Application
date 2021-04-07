@@ -51,6 +51,8 @@ function LogIn() {
   useEffect(()=> {
     localStorage.removeItem("userID");
     localStorage.removeItem("commerce");
+    localStorage.removeItem("tableIndex");
+    //localStorage.removeItem("commerce");
   },[])
 
   const handleSubmit = (event) => {

@@ -36,7 +36,6 @@ function Activite(props) {
       <Table className={classes.table} aria-label="simple table">
        <TableHead >
          <TableRow>
-           
            <TableCell style={{fontWeight:'bold',width:'35%'}}>
              date
            </TableCell>

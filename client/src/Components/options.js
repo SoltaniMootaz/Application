@@ -77,6 +77,11 @@ function Options() {
               <ListItemText primary={"Mots de passe"} style={{color:'white'}}/>
             </ListItem>
 
+
+            <ListItem button onClick={()=>{setCurrentPage("mdp")}}>
+              <ListItemIcon><RiLockPasswordFill  style={{color:'white',width:'1.4em',height:'1.4em'}} /></ListItemIcon>
+              <ListItemText primary={"Mots de passe"} style={{color:'white'}}/>
+            </ListItem>
         </List>
       </Drawer>
       <main className={classes.content}>

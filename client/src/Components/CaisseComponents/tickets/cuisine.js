@@ -26,7 +26,7 @@ const Cuisine = (props) => {
     setHeader(<>
       <p style={{marginLeft:60}}>CAISSE : {localStorage.getItem('userID')}</p>
       <p style={{marginLeft:60}}>TABLE : {localStorage.getItem('tableIndex')}</p>
-      <p style={{marginLeft:-10}}>---------------------------------------</p>
+      <hr />
     </>)
   },[localStorage.getItem('tableIndex')])
 
@@ -34,12 +34,13 @@ const Cuisine = (props) => {
     if(loadTicket.data) {
       setProduits(
         loadTicket.data.map((val,index)=>{
-          return(
-            <tr>
-              <td style={{fontSize:15,textAlign:"center"}}>{loadTicket.quantite[index]}</td>
-              <td style={{fontSize:15,textAlign:"center"}}>{val.libelle}</td>
-            </tr>
-          )
+          if(val)
+            return(
+              <tr>
+                <td style={{fontSize:15,textAlign:"center"}}>{loadTicket.quantite[index]}</td>
+                <td style={{fontSize:15,textAlign:"center"}}>{val.libelle}</td>
+              </tr>
+            )
         })
       )
     }

@@ -57,11 +57,17 @@ const LoadTicket = (data, todo, value) => (dispatch) => {
                     payload: data,
                 });
             case "barcode" :
-                const product = stock.filter(e=>e.code_a_barre === data);
-                return dispatch( {
-                    type: ADD_DATA1,
-                    payload: product[0]
-                });
+                if(stock) {
+                    const product = stock.filter(e=>e.code_a_barre === data);
+                    return dispatch( {
+                        type: ADD_DATA1,
+                        payload: product[0]
+                    });
+                }else
+                    return dispatch( {
+                        type: ADD_DATA1,
+                        payload: ""
+                    });
             case "remove_all_data" :
                 return dispatch( {
                     type: REMOVE_ALL_TICKET,
