@@ -1,23 +1,24 @@
 import React,{useState} from 'react';
+import Passwords from './OptionsComponents/Passwords';
+import Tables from './OptionsComponents/tables';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import {RiLockPasswordFill}from "react-icons/ri"
-import Passwords from './OptionsComponents/Passwords';
 import { IconButton } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import {GiTable} from 'react-icons/gi'
+
+///////////////////////////////////////////////////////
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -71,17 +72,28 @@ function Options() {
        
        
         <List>
-        
-            <ListItem button onClick={()=>{setCurrentPage("mdp")}}>
-              <ListItemIcon><RiLockPasswordFill  style={{color:'white',width:'1.4em',height:'1.4em'}} /></ListItemIcon>
-              <ListItemText primary={"Mots de passe"} style={{color:'white'}}/>
-            </ListItem>
+            {currentPage==="mdp" ?
+              <ListItem button onClick={()=>{setCurrentPage("mdp")}} style={{backgroundColor:"#008000"}}>
+                <ListItemIcon><RiLockPasswordFill  style={{color:'white',width:'1.4em',height:'1.4em'}} /></ListItemIcon>
+                <ListItemText primary={"Mots de passe"} style={{color:'white'}}/>
+              </ListItem>
+            :
+              <ListItem button onClick={()=>{setCurrentPage("mdp")}}>
+                <ListItemIcon><RiLockPasswordFill  style={{color:'white',width:'1.4em',height:'1.4em'}} /></ListItemIcon>
+                <ListItemText primary={"Mots de passe"} style={{color:'white'}}/>
+              </ListItem>}
 
-
-            <ListItem button onClick={()=>{setCurrentPage("mdp")}}>
-              <ListItemIcon><RiLockPasswordFill  style={{color:'white',width:'1.4em',height:'1.4em'}} /></ListItemIcon>
-              <ListItemText primary={"Mots de passe"} style={{color:'white'}}/>
+          <br />
+          {currentPage==="tables" ?
+            <ListItem button onClick={()=>{setCurrentPage("tables")}} style={{backgroundColor:"#008000"}}>
+              <ListItemIcon><GiTable  style={{color:'white',width:'1.4em',height:'1.4em'}} /></ListItemIcon>
+              <ListItemText primary={"Modifier tables"} style={{color:'white'}}/>
             </ListItem>
+          :
+            <ListItem button onClick={()=>{setCurrentPage("tables")}}>
+              <ListItemIcon><GiTable  style={{color:'white',width:'1.4em',height:'1.4em'}} /></ListItemIcon>
+              <ListItemText primary={"Modifier tables"} style={{color:'white'}}/>
+            </ListItem>}
         </List>
       </Drawer>
       <main className={classes.content}>
@@ -90,6 +102,15 @@ function Options() {
       (
           <>
           <Passwords />
+          </> 
+
+      ): ""
+      }
+
+      {currentPage==="tables"?
+      (
+          <>
+          <Tables />
           </> 
 
       ): ""

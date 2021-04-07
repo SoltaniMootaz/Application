@@ -25,7 +25,7 @@ import TousArticle from "./ArticleComponents/TousArticle.js";
 import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
 import AjouterCat from "./ArticleComponents/ajouterCategorie";
 import AjouterArt from "./ArticleComponents/ajouterArticle";
-import ModifierTab from "./ArticleComponents/tables"
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 const drawerWidth = 340;
 
@@ -212,20 +212,6 @@ const drawer = (
          </ListItem>
 
      </List>
-    <Divider />
-    <List>
-         
-         <ListItem  button  onClick={() =>{ 
-           setState({isOpen:false})
-           setState1({ isOpen:false })
-           setState2({isOpen:true})
-           setMobileOpen(false)}}
-           >
-           <ListItemIcon className={classes.icon}><BiPlusCircle style={{width: "2em", height: "2em" }} /></ListItemIcon>
-           <ListItemText primary={'Modifier tables'} />
-         </ListItem>
-
-     </List>
      <Divider />
   </div>
 );
@@ -391,10 +377,6 @@ const container = window !== undefined ? () => window().document.body : undefine
             <AjouterArt
               handleOpen={state1.isOpen}
               handleClose={() => setState1({ isOpen: false })}
-            />
-            <ModifierTab
-              handleOpen={state2.isOpen}
-              handleClose={() => setState2({ isOpen: false })}
             />
       </div>
     );
