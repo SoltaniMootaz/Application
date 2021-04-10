@@ -20,7 +20,7 @@ router.get("/api/afficherLogKridi/:id",(req,res) => {
 })
 
 router.get("/api/detailsTicket/:id",(req,res)=>{
-    const  id=Number(req.params.id);
+    const id = Number(req.params.id);
     
     pool.query('SELECT type from public."produitsTicket" WHERE public."produitsTicket".id_ticket = $1',[id],(err,result1)=> {
         if(err)

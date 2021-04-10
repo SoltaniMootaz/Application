@@ -3,9 +3,11 @@ import Vente from "./vente";
 import Effacer from "./effacer";
 import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket } from "../../actions";
-import Cuisine from './tickets/cuisine'
+import Cuisine from "./tickets/cuisine";
+import * as caisseUtils from "../../Utils/Caisse";
 
 /////////////////////////////////////////////////////////////////
+
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -14,14 +16,18 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import IconButton  from "@material-ui/core/IconButton";
+import IconButton from "@material-ui/core/IconButton";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import { AiOutlineAppstoreAdd, AiOutlineDelete, AiOutlineFieldTime } from "react-icons/ai";
+import {
+  AiOutlineAppstoreAdd,
+  AiOutlineDelete,
+  AiOutlineFieldTime,
+} from "react-icons/ai";
 import { GrAdd } from "react-icons/gr";
 import { IoMdRemove } from "react-icons/io";
-import {AiOutlineCloseCircle} from "react-icons/ai"
-import Typography from '@material-ui/core/Typography';
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import Typography from "@material-ui/core/Typography";
 
 /////////////////////////////////////////////////////////////////////
 
@@ -41,7 +47,7 @@ const StyledTableRow = withStyles((theme) => ({
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
     },
-    width:'100%'
+    width: "100%",
   },
 }))(TableRow);
 const useStyles = makeStyles((theme) => ({
@@ -51,13 +57,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     paddingBottom: 10,
   },
-  table: { width:'100%' },
+  table: { width: "100%" },
   Control: {
     padding: theme.spacing(5),
   },
   root: {
     position: "sticky",
-    width: '99%',
+    width: "99%",
     bottom: 0,
     textAlign: "center",
     paddingBottom: 10,
@@ -67,59 +73,51 @@ const useStyles = makeStyles((theme) => ({
 function Ticket() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const commerce = localStorage.getItem("commerce");
 
   const [val, setVal] = React.useState(0);
-  const [state, setState] = useState({
-    isOpen: Boolean(false),
-  });
-  const [state1, setState1] = useState({
-    isOpen: Boolean(false),
-  });
+  const [state, setState] = useState(false);
+  const [state1, setState1] = useState(false);
 
   const [data, setData] = useState();
   const [somme, setSomme] = useState(0);
   const [focus, setFocus] = useState(0);
-  const [print, setPrint] = useState(false)
+  const [print, setPrint] = useState(false);
 
   //redux load data
   const loadTicket = useSelector((state) => state.loadTicket);
 
   const pending = () => {
-    if(loadTicket.data.length > 0) {
-      setPrint(true)
-      const ticket = {data : loadTicket.data , quantite : loadTicket.quantite , table : localStorage.getItem('tableIndex')}
-      localStorage.setItem('ticket' + localStorage.getItem('tableIndex') , JSON.stringify(ticket)) 
+    if (loadTicket.data.length > 0) {
+      setPrint(true);
+      const ticket = {
+        data: loadTicket.data,
+        quantite: loadTicket.quantite,
+        table: localStorage.getItem("tableIndex"),
+      };
+      localStorage.setItem(
+        "ticket" + localStorage.getItem("tableIndex"),
+        JSON.stringify(ticket)
+      );
     }
-  }
-  
-  const calculTotale = () => {
-    var sm = 0;
-    setSomme(0);
-
-    loadTicket.data.map((e, index) => {
-      if(e) {
-        if (e.prix_ttc) {
-          sm += parseFloat(e.prix_ttc) * parseInt(loadTicket.quantite[index], 10);
-        }
-      }
-    });
-
-    return sm.toFixed(3);
   };
 
   useEffect(() => {
-    dispatch(LoadTicket({}, "remove_all_data"))
-    const ticket = JSON.parse(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')))
-    if(ticket && ticket.data) {
-      ticket.data.map((value,index) => {
-        dispatch(LoadTicket(value,"quantity change",ticket.quantite[index]));
-      })
+    dispatch(LoadTicket({}, "remove_all_data"));
+    const ticket = JSON.parse(
+      localStorage.getItem("ticket" + localStorage.getItem("tableIndex"))
+    );
+    if (ticket && ticket.data) {
+      ticket.data.map((value, index) => {
+        dispatch(LoadTicket(value, "quantity change", ticket.quantite[index]));
+      });
     }
-  },[localStorage.getItem('tableIndex')])
-   const commerce=localStorage.getItem("commerce");
+  }, [localStorage.getItem("tableIndex")]);
+
   useEffect(() => {
-    setSomme(calculTotale());
-    setFocus("")
+    setSomme(0);
+    setSomme(caisseUtils.calculTotale(loadTicket.data, loadTicket.quantite));
+    setFocus("");
     setData(
       loadTicket.data
         .slice(0)
@@ -128,72 +126,112 @@ function Ticket() {
           if (value) {
             return (
               <>
-                <TableRow key={index}  >
-                  <TableCell style={{border:'0'}}  align="left" colSpan={4}>
+                <TableRow key={index}>
+                  <TableCell style={{ border: "0" }} align="left" colSpan={4}>
                     <center>
                       <Typography variant="subtitle1" gutterBottom>
                         {value.libelle}
                       </Typography>
                     </center>
-                    
                   </TableCell>
-                  <IconButton onClick={() => dispatch(LoadTicket(value, "remove_all"))}>
-                      <AiOutlineCloseCircle style={{color:"red", width:"0.9em",alignSelf:"right"}} />
-                    </IconButton>
-                  </TableRow>
-                  <StyledTableRow key={index}>
+                  <IconButton
+                    onClick={() => dispatch(LoadTicket(value, "remove_all"))}
+                  >
+                    <AiOutlineCloseCircle
+                      style={{
+                        color: "red",
+                        width: "0.9em",
+                        alignSelf: "right",
+                      }}
+                    />
+                  </IconButton>
+                </TableRow>
+                <StyledTableRow key={index}>
                   <StyledTableCell align="left">
                     <Typography variant="subtitle1" gutterBottom>
                       {value.prix_ttc.toFixed(3)}
                     </Typography>
                   </StyledTableCell>
 
-                    <StyledTableCell align="right" style={{paddingRight:0}}>
-                      <IconButton onClick={() => dispatch(LoadTicket(value, "remove"))}>
-                        <IoMdRemove style={{ width: "0.5em", height: "0.5em", color:"black"}} />
-                      </IconButton>
-                    
-                      {index === focus ? 
-                        <input
-                          type="text"
-                          name="quantite"
-                          key={loadTicket.quantite.slice(0).reverse()[index]}
-                          defaultValue={loadTicket.quantite.slice(0).reverse()[index]}
-                          autoFocus
-                          onChange={(e)=> {
-                            setFocus(index);
-                            if (e.target.value > 0 && e.target.value !== "") {
-                              dispatch(LoadTicket(value, "quantity change", e.target.value))
-                            }
-                          }}
-                          style={{ maxWidth: "3em",alignContent:"right" }}
-                        />
-                      : 
-                        <input
+                  <StyledTableCell align="right" style={{ paddingRight: 0 }}>
+                    <IconButton
+                      onClick={() => dispatch(LoadTicket(value, "remove"))}
+                    >
+                      <IoMdRemove
+                        style={{
+                          width: "0.5em",
+                          height: "0.5em",
+                          color: "black",
+                        }}
+                      />
+                    </IconButton>
+
+                    {index === focus ? (
+                      <input
                         type="text"
                         name="quantite"
                         key={loadTicket.quantite.slice(0).reverse()[index]}
-                        defaultValue={loadTicket.quantite.slice(0).reverse()[index]}
-                        onChange={(e)=> {
+                        defaultValue={
+                          loadTicket.quantite.slice(0).reverse()[index]
+                        }
+                        autoFocus
+                        onChange={(e) => {
                           setFocus(index);
                           if (e.target.value > 0 && e.target.value !== "") {
-                            dispatch(LoadTicket(value, "quantity change", e.target.value))
+                            dispatch(
+                              LoadTicket(
+                                value,
+                                "quantity change",
+                                e.target.value
+                              )
+                            );
                           }
                         }}
-                        style={{ maxWidth: "3em",alignContent:"right" }}
-                      /> }
-                      
-                  
-                      <IconButton onClick={() => dispatch(LoadTicket(value))}>
-                        <GrAdd style={{ width: "0.5em", height: "0.5em", color:"black" }} />
-                      </IconButton>
-                    </StyledTableCell>
+                        style={{ maxWidth: "3em", alignContent: "right" }}
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        name="quantite"
+                        key={loadTicket.quantite.slice(0).reverse()[index]}
+                        defaultValue={
+                          loadTicket.quantite.slice(0).reverse()[index]
+                        }
+                        onChange={(e) => {
+                          setFocus(index);
+                          if (e.target.value > 0 && e.target.value !== "") {
+                            dispatch(
+                              LoadTicket(
+                                value,
+                                "quantity change",
+                                e.target.value
+                              )
+                            );
+                          }
+                        }}
+                        style={{ maxWidth: "3em", alignContent: "right" }}
+                      />
+                    )}
 
-                    <StyledTableCell align="center" style={{paddingRight:0}}>
-                      <Typography variant="subtitle1" gutterBottom>
-                        {(value.prix_ttc * loadTicket.quantite.slice(0).reverse()[index]).toFixed(3)}
-                      </Typography>
-                    </StyledTableCell>
+                    <IconButton onClick={() => dispatch(LoadTicket(value))}>
+                      <GrAdd
+                        style={{
+                          width: "0.5em",
+                          height: "0.5em",
+                          color: "black",
+                        }}
+                      />
+                    </IconButton>
+                  </StyledTableCell>
+
+                  <StyledTableCell align="center" style={{ paddingRight: 0 }}>
+                    <Typography variant="subtitle1" gutterBottom>
+                      {(
+                        value.prix_ttc *
+                        loadTicket.quantite.slice(0).reverse()[index]
+                      ).toFixed(3)}
+                    </Typography>
+                  </StyledTableCell>
                 </StyledTableRow>
               </>
             );
@@ -204,34 +242,33 @@ function Ticket() {
 
   return (
     <>
-    <center>
+      <center>
+        <br></br>
+        <p style={{ fontSize: "20px", color: "#00695f", display: "inline" }}>
+          Somme: {somme} DT
+        </p>
+      </center>
+      <center>
+        <p style={{ fontSize: "15px", color: "#008394", display: "inline" }}>
+          Table: {localStorage.getItem("tableIndex")}
+        </p>
+      </center>
       <br></br>
-          <p style={{ fontSize: "20px", color: "#00695f", display: "inline" }}>
-            Somme: {somme} DT
-          </p>
-        </center>
-        <center>
-          <p style={{ fontSize: "15px", color: "#008394", display: "inline",  }}>
-            Table: {localStorage.getItem('tableIndex')} 
-          </p></center>
-          <br></br>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
-          <TableHead style={{width:'100%'}}>
+          <TableHead style={{ width: "100%" }}>
             <TableRow>
-              {/* <StyledTableCell align="left">Nom du produit</StyledTableCell> */}
               <StyledTableCell align="left">Prix</StyledTableCell>
-              
-              <StyledTableCell align="center" style={{width:"50em"}}>Quantité</StyledTableCell>
-              <StyledTableCell align="right">Totale</StyledTableCell> 
-
+              <StyledTableCell align="center" style={{ width: "50em" }}>
+                Quantité
+              </StyledTableCell>
+              <StyledTableCell align="right">Totale</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>{data}</TableBody>
         </Table>
       </TableContainer>
 
-  
       <BottomNavigation
         value={val}
         onChange={(event, newValue) => {
@@ -240,40 +277,45 @@ function Ticket() {
         showLabels
         className={classes.root}
       >
-        {commerce==="menu"?
-        <BottomNavigationAction
-          label="En attente"
-          style={{ color: "#ffb300" }}
-          icon={<AiOutlineFieldTime />}
-          onClick={pending}
-        />:""}
+        {commerce === "menu" ? (
+          <BottomNavigationAction
+            label="En attente"
+            style={{ color: "#ffb300" }}
+            icon={<AiOutlineFieldTime />}
+            onClick={pending}
+          />
+        ) : (
+          ""
+        )}
         <BottomNavigationAction
           label="Payer"
           style={{ color: "#00bcd4" }}
           icon={<AiOutlineAppstoreAdd />}
-          onClick={() => setState({ isOpen: true })}
+          onClick={() => setState(true)}
         />
         <BottomNavigationAction
           label="Effacer"
           style={{ color: "red" }}
           icon={<AiOutlineDelete />}
-          onClick={()=>setState1({ isOpen: true })}
+          onClick={() => setState1(true)}
         />
       </BottomNavigation>
- 
+
       <Effacer
-        handleOpen={state1.isOpen}
-        handleClose={() => setState1({ isOpen: false })}
+        handleOpen={state1}
+        handleClose={() => setState1(false)}
         somme={somme}
       />
 
       <Vente
-        handleOpen={state.isOpen}
-        handleClose={() => setState({ isOpen: false })}
+        handleOpen={state}
+        handleClose={() => setState(false)}
         somme={somme}
-        setSomme={()=>setSomme()}
+        setSomme={() => setSomme()}
       />
-      <div style={{display:"none"}}><Cuisine print={print} setPrint={setPrint} /></div>
+      <div style={{ display: "none" }}>
+        <Cuisine print={print} setPrint={setPrint} />
+      </div>
     </>
   );
 }

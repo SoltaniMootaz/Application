@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { LoadTicket } from "../../actions";
-import axios from 'axios'
+import {testCle, saveTicket} from '../../services/Caisse'
 
 //////////////////////////////////////////////////////////
 
@@ -59,65 +59,51 @@ const styles = (theme) => ({
   }))(MuiDialogActions);
 
 function Effacer(props) {
-    const url1 = "http://localhost:3001/api/ticket";
-    const url2 = "http://localhost:3001/api/testCle/" + localStorage.getItem("userID");
     const dispatch = useDispatch();
 
     const [cle, setCle] = useState();
     const [error, setError] = useState();
 
     const supprimer = () => {
-        axios.post(url2, {
-            cle : cle
-        })
-        .then(()=>{
+        testCle(cle)
+          .then(()=>{
             if(localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))) {
-                const tmp = JSON.parse(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')));
-                var current = new Date();
-            
-                axios.post(url1, {
-                    data: tmp.data,
-                    quantite: tmp.quantite,
-                    table: tmp.table,
-                    somme: props.somme,
-                    date: current.toLocaleString(),
-                    operation: "effacé",
-                    id_utilisateur: localStorage.getItem('userID'),
-                    typeCommerce: localStorage.getItem('commerce')
-                }).then(()=> {
-                    props.handleClose();
-                    localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
-                    dispatch(LoadTicket({}, "remove_all_data"))
-                })
-                .catch(err=>{
-                    setError(err.response.data)
-                })
-            }else {
+              saveTicket(props.somme, "effacé").then(()=> {
                 props.handleClose();
+                localStorage.removeItem('ticket' + localStorage.getItem('tableIndex'));
                 dispatch(LoadTicket({}, "remove_all_data"))
+              })
+              .catch(err=>{
+                setError(err.response.data)
+              })
+            }else {
+              props.handleClose();
+              setError();
+              dispatch(LoadTicket({}, "remove_all_data"))
             }
         })
         .catch((err)=>{
-            setError(err.response.data)
+          setError(err.response.data)
         })           
       }
 
   return (
     <>
-    <Dialog fullWidth={true} onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
-        <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
+    <Dialog fullWidth={true} onClose={()=>{props.handleClose();setError()}} aria-labelledby="customized-dialog-title" open={props.handleOpen}>
+        <DialogTitle id="customized-dialog-title" onClose={()=>{props.handleClose();setError()}}>
           Saisir votre clé de suppression
           <center><p style={{color:"red"}}>{error}</p></center>
         </DialogTitle>
         <DialogContent dividers>
             <center>
                 <TextField 
-                    type="password"
-                    id="outlined-basic"
-                    label="Clé"
-                    variant="outlined"
-                    style={{width:"50%"}} 
-                    onChange={(e)=>setCle(e.target.value)}    
+                  required
+                  type="password"
+                  id="outlined-basic"
+                  label="Clé"
+                  variant="outlined"
+                  style={{width:"50%"}} 
+                  onChange={(e)=>setCle(e.target.value)}    
                 />
             </center>
         </DialogContent>

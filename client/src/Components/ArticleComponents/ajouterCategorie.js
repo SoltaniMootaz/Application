@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import Axios from "axios";
+import * as MenuServices from '../../services/Menu'
+import {ajouterActivite} from '../../services/Activite'
+
+///////////////////////////////////////////////////////
+
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -56,41 +60,18 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 function AjouterCat(props) {
-  const url = "http://localhost:3001/api/ajouterCateg";
-  const url4 = "http://localhost:3001/api/ajouterActivite";
-  const [error, setError] = useState(false);
-var current=new Date();
-  const [Data, setData] = useState({
-    categorie: "",
-  });
+  const [Data, setData] = useState();
 
   function submit(e) {
     e.preventDefault();
-    Axios.post(url, {
-      categorie: Data.categorie,
-      id_utilisateur: localStorage.getItem('userID')
-    })
+
+    MenuServices.ajouterCategorie(Data)
       .then((res) => {
-        Axios.post(url4, {
-          operation:"aCategorie",
-          id_utilisateur:localStorage.getItem('userID'),
-          date: current.toLocaleString(),
-          detail:Data.categorie,
-        }).catch((err) => {
-          console.log(err.response.data)
-          setError(err.response.data);
-        });
+        ajouterActivite("aCategorie", Data)
         props.handleClose();
         window.location.reload(false);
         console.log(res.data);
       })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  }
-
-  function handle(e) {
-    setData({...Data,categorie:e.target.value});
   }
 
   return (
@@ -103,7 +84,7 @@ var current=new Date();
           <Grid container >
             <Grid container >
               <Grid item xs={12}>
-                <TextField id="standard-basic" label="Catégorie : jus, café..." required onChange={(e) => handle(e)} style={{width:'100%'}}/>
+                <TextField id="standard-basic" label="Catégorie : jus, café..." required onChange={(e) => setData(e.target.value)} style={{width:'100%'}}/>
               </Grid>
             </Grid>
           </Grid>
