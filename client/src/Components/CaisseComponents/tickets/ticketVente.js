@@ -36,7 +36,7 @@ const TicketVente = (props) => {
       setProduits(
         loadTicket.data.map((val,index)=>{
           if(val) {
-            quant += loadTicket.quantite[index];
+            quant += 1;
             tot = parseFloat(tot) + (parseInt(loadTicket.quantite[index],10) * parseFloat(val.prix_ttc));
             return(
               <tr>

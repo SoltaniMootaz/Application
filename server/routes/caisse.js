@@ -92,7 +92,8 @@ router.get("/api/afficherVente/:id",(req,res) => {
 
 
 router.post("/api/ticket",async (req,res) => {
-    const { data, quantite, table, somme, date, operation, id_utilisateur, methodes, typeCommerce, id_client } = req.body;
+    const { data, quantite, somme, date, operation, id_utilisateur, methodes, typeCommerce, id_client } = req.body;
+    var {table} = req.body
 
     pool.query('SELECT MAX(numero) as numero FROM public.ticket WHERE id_utilisateur = $1',[id_utilisateur],(err,res0)=>{
         if(err) {
@@ -105,13 +106,17 @@ router.post("/api/ticket",async (req,res) => {
             else  
                 num = 0;
 
+            if(!table) table = -1;
+
             pool.query('INSERT INTO public.ticket(somme,"id_utilisateur","table","numero") VALUES($1,$2,$3,$4) RETURNING *',[parseFloat(somme),id_utilisateur,parseInt(table,10),num],(err, res1) => {
                 if(err) {
+                    console.log("here")
                     res.status(400).send(err.toString())
                 }else {
                     data.map((value,index) => {
                         pool.query('INSERT INTO public."produitsTicket" VALUES($1,$2,$3,$4) RETURNING *',[value.id,res1.rows[0].id,quantite[index],typeCommerce],(err) => {
                             if(err) {
+                                console.log("here1")
                                 res.status(400).send(err.toString())
                             }
                         })
@@ -119,6 +124,7 @@ router.post("/api/ticket",async (req,res) => {
 
                     pool.query('INSERT INTO public."mouvement"(operation, date, id_ticket) VALUES($1,$2,$3) RETURNING *',[operation, date, res1.rows[0].id],(err) => {
                         if(err) {
+                            console.log("here2")
                             res.status(400).send(err.toString())
                         }
                     })
@@ -126,7 +132,7 @@ router.post("/api/ticket",async (req,res) => {
                     if(methodes)
                         methodes.map(value=>{
                             if(value[0].montant>0) {
-                                if(id_client)
+                                if(value[0].methode === "kridi")
                                     pool.query('INSERT INTO public."methodeVente"(nom, montant, id_ticket, id_client) VALUES($1,$2,$3,$4) RETURNING *',[value[0].methode, value[0].montant, res1.rows[0].id, id_client],(err) => {
                                         if(err) {
                                             console.log(err.toString())

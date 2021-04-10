@@ -1,7 +1,6 @@
-import Axios from 'axios'
 import { REMOVE_ALL_TICKET,REMOVE_ALL_DATA,REMOVE_DATA,GET_DATA_ERROR,GET_DATA_REQUEST,GET_DATA_SUCCESS,GET_DATA_SUCCESS1,ADD_DATA1 } from './actions'
+import {loadStock} from '../services/Caisse'
 
-const url = "http://localhost:3001/api/stock/" + localStorage.getItem("userID");
 var stock;
 
 const LoadStock = () => {
@@ -17,19 +16,20 @@ const LoadStock = () => {
                 payload: stock
             });
         else
-        Axios.get(url).then(res => {   
-            stock = res.data;  
-            return  dispatch( {
-                    type: GET_DATA_SUCCESS,
-                    payload: res.data
-                });
-            })
-            .catch(err => {
-              return dispatch( {
-                    type: GET_DATA_ERROR,
-                    payload: err
-                });
-            })
+            loadStock()
+                .then(res => {   
+                    stock = res.data;  
+                    return  dispatch( {
+                            type: GET_DATA_SUCCESS,
+                            payload: res.data
+                        });
+                    })
+                .catch(err => {
+                return dispatch( {
+                        type: GET_DATA_ERROR,
+                        payload: err
+                    });
+                })
     }
 }
 
