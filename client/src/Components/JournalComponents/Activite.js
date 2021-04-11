@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -21,6 +21,16 @@ function Activite(props) {
   const classes = useStyles();
   const [show, setShow] = useState("vente");
 
+  const getTime = (date) => {
+    return (
+      date.toLocaleString('en-GB', {minimumIntegerDigits: 2, useGrouping:false})
+    );
+  };
+
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[])
+
   return (
     <div>
       <center>
@@ -29,8 +39,11 @@ function Activite(props) {
           color="default"
           style={{ marginTop: "1.5em" }}
         >
-          <Button onClick={() => setShow("vente")}>Activité de vente</Button>
-          <Button onClick={() => setShow("nrml")}>Activité normale</Button>
+          {show === "vente" ? <Button onClick={() => setShow("vente")} style={{backgroundColor:"#ea7b9a"}}>Activité de vente</Button> 
+          : <Button onClick={() => setShow("vente")}>Activité de vente</Button>}
+
+          {show === "normal" ? <Button onClick={() => setShow("normal")} style={{backgroundColor:"#ea7b9a"}}>Activité normale</Button> 
+          : <Button onClick={() => setShow("normal")}>Activité normale</Button>}
         </ButtonGroup>
       </center>
 
@@ -57,26 +70,33 @@ function Activite(props) {
                       .map((item, index) => (
                         <TableRow key={index}>
                           <TableCell component="th" scope="row">
-                            {item.date}:
+                            {getTime(new Date(item.date))}
                           </TableCell>
                           <TableCell>
-                            l'utilisateur {item.id_utilisateur} a effectué un
-                            opération{" "}
+                            l'utilisateur {item.id_utilisateur} a effectué une
+                            opération
                             {item.operation === "vente"
-                              ? "de vente "
-                              : "de suppression "}{" "}
-                            sur la ticket numero: {item.id_ticket}
+                              ? " de vente "
+                              : " de suppression "}
+                            sur la ticket numero: <p style={{display:"inline",color:"blue",textDecoration:"underline"}} 
+                                                     onClick={()=>{
+                                                       props.changePage("Recu");
+                                                       localStorage.setItem("id", item.numero)
+                                                     }}
+                                                  >{item.numero}</p>
                           </TableCell>
                         </TableRow>
                       ))
                   : ""
                 : ""}
-              {show === "nrml"
+              {show === "normal"
                 ? props.data2
-                  ? props.data2.map((item, index) => (
+                  ? props.data2
+                    .slice(0)
+                    .reverse().map((item, index) => (
                       <TableRow key={index}>
                         <TableCell component="th" scope="row">
-                          {item.date}:
+                          {getTime(new Date(item.date))}
                         </TableCell>
                         <TableCell>
                           l'utilisateur {item.id_utilisateur} a effectué un

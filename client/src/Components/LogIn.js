@@ -48,6 +48,7 @@ function LogIn() {
 		localStorage.removeItem("userID");
 		localStorage.removeItem("commerce");
 		localStorage.setItem("tableIndex", 1);
+		localStorage.setItem("caisse", true)
 	}, []);
 
 	const handleSubmit = (event) => {

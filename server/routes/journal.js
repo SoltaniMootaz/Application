@@ -13,7 +13,7 @@ router.get("/api/afficherActivite/:id",(req,res) => {
 })
 
 router.get("/api/afficherRecu/:commerce/:id",(req,res) => {
-    const {commerce,id} =req.params;
+    const {commerce,id} = req.params;
 
     if(commerce === "stock") {
         pool.query(`SELECT public."ticket".numero, public."stock".libelle, public."stock".prix_ttc, public."methodeVente".nom as methode, 

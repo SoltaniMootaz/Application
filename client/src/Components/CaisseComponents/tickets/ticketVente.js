@@ -59,16 +59,15 @@ const TicketVente = (props) => {
     if(venteTicket.data.length > 0)
       setPayment(
         venteTicket.data.map(val=>{
-          if(val[0])
-            if(val[0].montant > 0) {
-              rend += parseFloat(val[0].montant)
-              return(<>         
-                  <tr>
-                    <td style={{fontSize:12}}>{val[0].methode}&nbsp;:</td>
-                    <td style={{fontSize:12}}>{parseFloat(val[0].montant).toFixed(3)}&nbsp;DT</td>
-                  </tr>
-              </>)
-            }
+          if(val.montant > 0) {
+            rend += parseFloat(val.montant)
+            return(<>         
+                <tr>
+                  <td style={{fontSize:12}}>{val.methode}&nbsp;:</td>
+                  <td style={{fontSize:12}}>{parseFloat(val.montant).toFixed(3)}&nbsp;DT</td>
+                </tr>
+            </>)
+          }
         })
       )
     

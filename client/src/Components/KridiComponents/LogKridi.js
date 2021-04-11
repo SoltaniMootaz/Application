@@ -53,7 +53,12 @@ const Row = (props) => {
 				<TableCell align="center" style={{ fontWeight: "bold" }}>
 					Achat
 				</TableCell>
-				<TableCell align="center">{row.date.toString()}</TableCell>
+				<TableCell align="center">
+					{new Date(row.date).toLocaleDateString() + ' '
+					+ new Date(row.date).getHours()+ ':' 
+					+ new Date(row.date).getMinutes() + ':' 
+					+ new Date(row.date).getSeconds()}
+				</TableCell>
 				<TableCell align="center">{row.montant.toFixed(3)}</TableCell>
 			</TableRow>
 			<TableRow>
