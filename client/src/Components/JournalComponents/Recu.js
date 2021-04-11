@@ -17,6 +17,17 @@ function Recu() {
     afficherRecu().then((res) => setData(res.data));
   }, []);
 
+  useEffect(()=> {
+    if(localStorage.getItem("id"))
+      if(document.getElementById(+localStorage.getItem("id") - 1)) {
+        document.querySelector("[id='"+ (localStorage.getItem("id") - 1) +"']").scrollIntoView({
+          behavior: 'smooth'
+        });
+
+        localStorage.removeItem("id")
+      }
+  },[arr])
+
   return (
     <>
       {data
@@ -49,7 +60,7 @@ function Recu() {
                             if (!lib.includes(row1.libelle)) {
                               lib.push(row1.libelle);
                               return (
-                                <TableRow key={index}>
+                                <TableRow id={row.numero} key={index}>
                                   <TableCell style={{ width: "50%" }}>
                                     {row1.libelle}
                                   </TableCell>

@@ -131,16 +131,16 @@ router.post("/api/ticket",async (req,res) => {
 
                     if(methodes)
                         methodes.map(value=>{
-                            if(value[0].montant>0) {
-                                if(value[0].methode === "kridi")
-                                    pool.query('INSERT INTO public."methodeVente"(nom, montant, id_ticket, id_client) VALUES($1,$2,$3,$4) RETURNING *',[value[0].methode, value[0].montant, res1.rows[0].id, id_client],(err) => {
+                            if(value.montant>0) {
+                                if(value.methode === "kridi")
+                                    pool.query('INSERT INTO public."methodeVente"(nom, montant, id_ticket, id_client) VALUES($1,$2,$3,$4) RETURNING *',[value.methode, value.montant, res1.rows[0].id, id_client],(err) => {
                                         if(err) {
                                             console.log(err.toString())
                                             res.status(400).send(err.toString())
                                         }
                                     })
                                 else
-                                    pool.query('INSERT INTO public."methodeVente"(nom, montant, id_ticket) VALUES($1,$2,$3) RETURNING *',[value[0].methode, value[0].montant, res1.rows[0].id],(err) => {
+                                    pool.query('INSERT INTO public."methodeVente"(nom, montant, id_ticket) VALUES($1,$2,$3) RETURNING *',[value.methode, value.montant, res1.rows[0].id],(err) => {
                                         if(err) {
                                             res.status(400).send(err.toString())
                                         }

@@ -42,12 +42,23 @@ function Home() {
         <Grid container>
           <Grid container spacing={4}>
             <Grid item sm={4} xs={12}>
-              <HomeButtons
-                buttonName="Caisse"
-                icon={<FaCashRegister />}
-                link="/caisse"
-                Bcolor="#00bcd4"
-              />
+              {localStorage.getItem("caisse") === "true" ?
+                <HomeButtons
+                  buttonName="Caisse"
+                  icon={<FaCashRegister />}
+                  link="/caisse"
+                  Bcolor="#00bcd4"
+                  disabled="false"
+                />
+              :
+                <HomeButtons
+                  buttonName="Caisse"
+                  icon={<FaCashRegister />}
+                  link="/caisse"
+                  Bcolor="#00bcd4"
+                  disabled="true"
+                />
+              }
             </Grid>
 
             {localStorage.getItem("commerce") === "menu" ? (

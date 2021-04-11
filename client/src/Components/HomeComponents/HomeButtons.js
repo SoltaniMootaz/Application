@@ -35,9 +35,15 @@ function HomeButtons(props) {
  }
   return (
     <>
-      <Button size="large" startIcon={props.icon}  className={classes.root} variant="contained" component={Link} to={props.link} style={styling()}>
-        {props.buttonName}
-      </Button>
+     {props.disabled === "true" ?
+        <Button size="large" disabled startIcon={props.icon}  className={classes.root} variant="contained" component={Link} to={props.link} style={styling()}>
+          {props.buttonName}
+        </Button>
+      :
+        <Button size="large" startIcon={props.icon}  className={classes.root} variant="contained" component={Link} to={props.link} style={styling()}>
+          {props.buttonName}
+        </Button>
+     }
     </>
   );
 }
