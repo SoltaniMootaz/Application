@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { afficherTickets } from "../../services/Caisse";
+import { afficherTicket } from "../../services/Caisse";
 import { afficherLogKridi } from "../../services/Kridi";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -32,8 +32,14 @@ const Row = (props) => {
 	const classes = useRowStyles();
 
 	useEffect(() => {
-		afficherTickets(row.id).then((res) => setDetails(res.data));
+		afficherTicket(row.id_ticket).then((res) => setDetails(res.data));
 	}, [props.row]);
+
+	const getTime = (date) => {
+		return (
+		  date.toLocaleString('en-GB', {minimumIntegerDigits: 2, useGrouping:false})
+		);
+	  };
 
 	return (
 		<React.Fragment>
@@ -54,10 +60,7 @@ const Row = (props) => {
 					Achat
 				</TableCell>
 				<TableCell align="center">
-					{new Date(row.date).toLocaleDateString() + ' '
-					+ new Date(row.date).getHours()+ ':' 
-					+ new Date(row.date).getMinutes() + ':' 
-					+ new Date(row.date).getSeconds()}
+					{getTime(new Date(row.date))}
 				</TableCell>
 				<TableCell align="center">{row.montant.toFixed(3)}</TableCell>
 			</TableRow>

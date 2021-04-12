@@ -91,9 +91,10 @@ router.get("/api/afficherVente/:id",(req,res) => {
 })
 
 
-router.post("/api/ticket",async (req,res) => {
-    const { data, quantite, somme, date, operation, id_utilisateur, methodes, typeCommerce, id_client } = req.body;
-    var {table} = req.body
+router.post("/api/ticket/:id",async (req,res) => {
+    const { data, quantite, somme, date, operation, methodes, typeCommerce, id_client } = req.body;
+    const id_utilisateur = req.params.id;
+    var {table} = req.body;
 
     pool.query('SELECT MAX(numero) as numero FROM public.ticket WHERE id_utilisateur = $1',[id_utilisateur],(err,res0)=>{
         if(err) {

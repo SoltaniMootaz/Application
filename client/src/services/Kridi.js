@@ -12,7 +12,7 @@ const ajouterClient = async (nomPre, tel) => {
 }
 
 const afficherClients = async () => {
-    const result = await axios.get(env.API_URL + "afficherClients")
+    const result = await axios.get(env.API_URL + "afficherClients/" + localStorage.getItem('userID'))
 
     return result
 }

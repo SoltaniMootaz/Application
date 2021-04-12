@@ -19,9 +19,11 @@ function Recu() {
 
   useEffect(()=> {
     if(localStorage.getItem("id"))
-      if(document.getElementById(+localStorage.getItem("id") - 1)) {
-        document.querySelector("[id='"+ (localStorage.getItem("id") - 1) +"']").scrollIntoView({
-          behavior: 'smooth'
+      if(document.getElementById(+localStorage.getItem("id"))) {
+        document.querySelector("[id='"+ (+localStorage.getItem("id")) +"']").scrollIntoView({
+          behavior: "smooth", 
+          block: "end", 
+          inline: "nearest"
         });
 
         localStorage.removeItem("id")
@@ -31,14 +33,14 @@ function Recu() {
   return (
     <>
       {data
-        ? data.map((row) => {
+        ? data.slice(0).reverse().map((row) => {
             if (!arr.includes(row.numero)) {
               var lib = [];
               var methd = [];
               arr.push(row.numero);
               return (
                 <center>
-                  <TableContainer component={Paper} style={{ width: "40%" }}>
+                  <TableContainer id={row.numero} component={Paper} style={{ width: "40%" }}>
                     <Table aria-label="spanning table">
                       <TableHead>
                         <TableRow>
@@ -60,7 +62,7 @@ function Recu() {
                             if (!lib.includes(row1.libelle)) {
                               lib.push(row1.libelle);
                               return (
-                                <TableRow id={row.numero} key={index}>
+                                <TableRow key={index}>
                                   <TableCell style={{ width: "50%" }}>
                                     {row1.libelle}
                                   </TableCell>

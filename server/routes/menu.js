@@ -1,7 +1,5 @@
 const router = require('express').Router();
-const sqlite3 = require('sqlite3').verbose();
 const pool = require('../database/creerDB-postgreSQL');
-const db = new sqlite3.Database('./database/mydb.db');
 const verif = require('./verifToken');
 
 router.post("/api/ajouterCateg", (req,res) => {
