@@ -103,10 +103,10 @@ function Recap(props) {
                                 </TableCell>
                                 <TableCell>
                                   l'utilisateur {item.id_utilisateur} a effectué
-                                  une opération{" "}
-                                  {item.operation === "vente"
-                                    ? "de vente "
-                                    : "de suppression "}{" "}
+                                  une opération de
+                                  <p style={{ fontWeight: "bold", display:"inline" }}>{item.operation === "vente"
+                                    ? " vente "
+                                    : " suppression "}</p>
                                   sur la ticket numero: <p style={{display:"inline",color:"blue",textDecoration:"underline"}} 
                                                           onClick={()=>{
                                                             props.changePage("Recu");

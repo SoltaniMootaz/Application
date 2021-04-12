@@ -11,6 +11,9 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
+import logo from '../images/logo.png'
+import Image from 'material-ui-image'
+
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -40,6 +43,16 @@ function Home() {
     <>
       <div className={classes.padding}>
         <Grid container>
+          <Grid container>
+            <Grid item sm={4} xs={1}></Grid>
+            <Grid item sm={4} xs={10}>
+              <Image
+                src={logo}
+                imageStyle={{ width: '100%', height: '80%' }}
+                style={{marginTop:"-70%"}} 
+              />
+            </Grid>
+          </Grid>
           <Grid container spacing={4}>
             <Grid item sm={4} xs={12}>
               {localStorage.getItem("caisse") === "true" ?
