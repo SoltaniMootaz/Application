@@ -7,9 +7,9 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {AiFillHome} from "react-icons/ai";
-import { Link, ThemeProvider } from '@material-ui/core';
+import {  ThemeProvider } from '@material-ui/core';
 import { createMuiTheme } from "@material-ui/core/styles";
-
+import {Link} from 'react-router-dom'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -37,7 +37,7 @@ function StockAppBar() {
       <ThemeProvider theme={theme}>
       <AppBar position="static">
         <Toolbar>
-        <IconButton aria-label="add an alarm" component={Link} to="/Home">
+        <IconButton aria-label="" component={Link} to="/Home">
               <AiFillHome
                 className="icon"
                 style={{ width: "1.5em", height: "1.5em" }}

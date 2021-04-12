@@ -24,6 +24,7 @@ const StyledTableCell = withStyles((theme) => ({
   const useStyles = makeStyles({
     table: {
       minWidth: 700,
+      maxHeight:'30em'
     },
   });
 
