@@ -8,13 +8,18 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TextField from '@material-ui/core/TextField';
 
 function Recu() {
   const [data, setData] = useState();
+  const [data1, setData1] = useState()
   var arr = [];
 
   useEffect(() => {
-    afficherRecu().then((res) => setData(res.data));
+    afficherRecu().then((res) => {
+      setData(res.data)
+      setData1(res.data)
+    });
   }, []);
 
   useEffect(()=> {
@@ -30,10 +35,27 @@ function Recu() {
       }
   },[arr])
 
+  const handleChange = async (e) => {
+		if(e.target.value !== "")
+			setData1(data.filter(val=>val.numero == e.target.value))
+		else
+			setData1(data)
+	}
+
   return (
     <>
-      {data
-        ? data.slice(0).reverse().map((row) => {
+    <center>
+      <TextField 
+        id="standard-search" 
+        label="Rechercher ticket" 
+        type="search" 
+        variant="outlined" 
+        onChange={(e)=>handleChange(e)}
+      />
+    </center>
+			<br /><br />
+      {data1
+        ? data1.slice(0).reverse().map((row) => {
             if (!arr.includes(row.numero)) {
               var lib = [];
               var methd = [];

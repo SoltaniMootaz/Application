@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import TextField from '@material-ui/core/TextField';
 
 const useRowStyles = makeStyles({
 	root: {
@@ -39,7 +40,7 @@ const Row = (props) => {
 		return (
 		  date.toLocaleString('en-GB', {minimumIntegerDigits: 2, useGrouping:false})
 		);
-	  };
+	};	
 
 	return (
 		<React.Fragment>
@@ -101,12 +102,33 @@ const Row = (props) => {
 
 export default function LogKridi() {
 	const [clients, setClients] = useState();
+	const [data, setData] = useState()
 
 	useEffect(() => {
-		afficherLogKridi().then((res) => setClients(res.data));
+		afficherLogKridi().then((res) => {
+			setClients(res);
+			setData(res.data);
+		});
 	}, []);
 
-	return (
+	const handleChange = async (e) => {
+		if(e.target.value !== "")
+			setData(await clients.data.filter(val=> val.nomPre.toLowerCase().indexOf(e.target.value) > -1 ))
+		else
+			setData(clients.data)
+	}
+
+	return (<>
+		<TextField 
+			id="standard-search" 
+			label="Rechercher" 
+			type="search" 
+			variant="outlined" 
+			style={{marginLeft:"80%"}}
+			onChange={(e)=>handleChange(e)}
+		/>
+		<br /><br />
+
 		<TableContainer component={Paper}>
 			<Table aria-label="collapsible table">
 				<TableHead>
@@ -127,11 +149,11 @@ export default function LogKridi() {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{clients
-						? clients.map((row) => <Row key={row.name} row={row} />)
+					{data
+						? data.map((row) => <Row key={row.name} row={row} />)
 						: ""}
 				</TableBody>
 			</Table>
 		</TableContainer>
-	);
+	</>);
 }

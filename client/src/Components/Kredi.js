@@ -120,7 +120,7 @@ function Kredi(props) {
 						<ListItemIcon>
 							<FiUserCheck style={{ width: "1.4em", height: "1.4em" }} />
 						</ListItemIcon>
-						<ListItemText primary={"Information client"} />
+						<ListItemText primary={"Information clients"} />
 					</ListItem>
 				</List>
 			)}
