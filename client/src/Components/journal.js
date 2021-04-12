@@ -302,7 +302,7 @@ function Journal(props) {
             </>
           ) : currentPage === "Recap" ? (
             <>
-              <Recap data={data} data2={data2} />
+              <Recap data={data} data2={data2} changePage={changePage} />
             </>
           ) : (
             ""

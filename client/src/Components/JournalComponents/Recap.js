@@ -107,7 +107,12 @@ function Recap(props) {
                                   {item.operation === "vente"
                                     ? "de vente "
                                     : "de suppression "}{" "}
-                                  sur la ticket numero: {item.id_ticket}
+                                  sur la ticket numero: <p style={{display:"inline",color:"blue",textDecoration:"underline"}} 
+                                                          onClick={()=>{
+                                                            props.changePage("Recu");
+                                                            localStorage.setItem("id", item.numero)
+                                                          }}
+                                                        >{item.numero}</p>
                                 </TableCell>
                               </TableRow>
                             );

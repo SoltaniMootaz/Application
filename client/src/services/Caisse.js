@@ -21,7 +21,7 @@ const saveTicket = async (somme, operation, methodes, idClient, loadTicket) => {
     if(localStorage.getItem('ticket' + localStorage.getItem('tableIndex'))) {
         const tmp = JSON.parse(localStorage.getItem('ticket' + localStorage.getItem('tableIndex')));
 
-        result = await axios.post(env.API_URL + "ticket", {
+        result = await axios.post(env.API_URL + "ticket/" + localStorage.getItem('userID'), {
             data: tmp.data,
             quantite: tmp.quantite,
             table: tmp.table,
@@ -29,14 +29,13 @@ const saveTicket = async (somme, operation, methodes, idClient, loadTicket) => {
             date: current.toLocaleString(),
             operation: operation,
             methodes: methodes,
-            id_utilisateur: localStorage.getItem('userID'),
             id_client: idClient,
             typeCommerce: localStorage.getItem('commerce')
         })
     }else {
         const tmp = loadTicket;
 
-        result = await axios.post(env.API_URL + "ticket", {
+        result = await axios.post(env.API_URL + "ticket/" + localStorage.getItem('userID'), {
             data: tmp.data,
             quantite: tmp.quantite,
             table: localStorage.getItem('tableIndex'),
@@ -44,7 +43,6 @@ const saveTicket = async (somme, operation, methodes, idClient, loadTicket) => {
             date: current.toLocaleString(),
             operation: operation,
             methodes: methodes,
-            id_utilisateur: localStorage.getItem('userID'),
             id_client: idClient,
             typeCommerce: localStorage.getItem('commerce')
         })
@@ -55,7 +53,7 @@ const saveTicket = async (somme, operation, methodes, idClient, loadTicket) => {
     return result
 }
 
-const afficherTickets = async (id) => {
+const afficherTicket = async (id) => {
     const result = await axios.get(env.API_URL + "detailsTicket/" + id);
     return result;
 }
@@ -64,5 +62,5 @@ export {
     loadStock,
     testCle,
     saveTicket,
-    afficherTickets
+    afficherTicket
 }
