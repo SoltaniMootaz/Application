@@ -13,6 +13,7 @@ const caisseRoute = require('./routes/caisse');
 const journalRoute = require('./routes/journal');
 const kridiRoute = require('./routes/kridi');
 const settingsRoute = require('./routes/settings');
+const stockRoute = require('./routes/stock');
 
 //Middlewares
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use(caisseRoute);
 app.use(journalRoute);
 app.use(kridiRoute);
 app.use(settingsRoute);
+app.use(stockRoute);
 
 
 const port = 3001;

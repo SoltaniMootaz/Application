@@ -104,7 +104,7 @@ function Home() {
               <HomeButtons
                 buttonName="Stock"
                 icon={<FaWarehouse />}
-                link="#"
+                link="/stock"
                 Bcolor="#2E8DEF"
               />
             </Grid>

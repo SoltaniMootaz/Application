@@ -15,6 +15,7 @@ import Cuisine from './Components/CaisseComponents/tickets/cuisine'
 import journal from './Components/journal';
 import Kredi from './Components/Kredi';
 import Options from './Components/options';
+import Stock from './Components/Stock';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <PrivateRoute exact path="/Journal" component={journal}></PrivateRoute>
           <PrivateRoute exact path="/Kridi" component={Kredi}></PrivateRoute>
           <PrivateRoute exact path="/options" component={Options}></PrivateRoute>
+          <PrivateRoute exact path="/stock" component={Stock}></PrivateRoute>
         </Switch>
       </Router>
     </div>
