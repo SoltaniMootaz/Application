@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import "./css/Article.css";
-import { Link } from "react-router-dom";
-import TousArticle from "./ArticleComponents/TousArticle.js";
-import ArticlesChercher from "./ArticleComponents/ArticleChercher.js";
-import AjouterCat from "./ArticleComponents/ajouterCategorie";
-import AjouterArt from "./ArticleComponents/ajouterArticle";
-import { loadCategories, loadArticles } from "../services/Menu";
 
-import { Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import TousArticle from "../_ArticleComponents/TousArticle.js";
+import ArticlesChercher from "../_ArticleComponents/ArticleChercher.js";
+import AjouterCat from "../_ArticleComponents/ajouterCategorie";
+import AjouterArt from "../_ArticleComponents/ajouterArticle";
+import { loadCategories, loadArticles } from "../../services/Menu";
+
+
 import { AiFillHome } from "react-icons/ai";
 import { BiPlusCircle } from "react-icons/bi";
 import { VscSearch } from "react-icons/vsc";
@@ -238,14 +238,7 @@ function Article(props) {
   );
   const container =
     window !== undefined ? () => window().document.body : undefined;
-  if (isLoading1 && isLoading2) {
-    return (
-      <Spinner animation="border" role="status">
-        <span className="sr-only">Loading...</span>
-      </Spinner>
-    );
-  } else {
-    isLoading = false;
+  
 
     return (
       <div className={classes.root}>
@@ -339,7 +332,7 @@ function Article(props) {
         />
       </div>
     );
-  }
+
 }
 
 export default Article;

@@ -1,5 +1,5 @@
 import React from "react";
-import HomeButtons from "./HomeComponents/HomeButtons";
+import HomeButtons from "../_HomeComponents/HomeButtons";
 import { FaCashRegister } from "react-icons/fa";
 import { BiMenu } from "react-icons/bi";
 import { IoIosJournal } from "react-icons/io";
@@ -11,7 +11,7 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
-import logo from '../images/logo.png'
+import logo from '../../images/logo.png'
 import Image from 'material-ui-image'
 
 

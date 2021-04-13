@@ -41,7 +41,7 @@ function Recap(props) {
         <div>
           <GrMoney style={{width:50,height:20}} />
           <p style={{color:"#8bc34a",fontSize:25,marginBottom:0,display:"inline"}}>
-            Totale : {ventes ? getTotale(ventes).toFixed(3) : 0.000} DT
+            <text style={{color:'black'}}>Totale :</text> {ventes ? getTotale(ventes).toFixed(3) : 0.000} DT
           </p>
         </div>
         <ButtonGroup

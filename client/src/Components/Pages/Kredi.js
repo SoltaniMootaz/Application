@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import LogKridi from "./KridiComponents/LogKridi";
-import InfoClient from "./KridiComponents/InfoClient";
-import AddClient from "./KridiComponents/AddClient";
-import { afficherClients } from "../services/Kridi";
+import LogKridi from "../_KridiComponents/LogKridi";
+import InfoClient from "../_KridiComponents/InfoClient";
+import AddClient from "../_KridiComponents/AddClient";
+import { afficherClients } from "../../services/Kridi";
 
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";

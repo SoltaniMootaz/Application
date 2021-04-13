@@ -2,9 +2,9 @@ import { Button } from '@material-ui/core'
 import { Grid, } from '@material-ui/core'
 import {makeStyles } from '@material-ui/core/styles'
 import React,{useState} from 'react'
-import StockAddProduit from './StockComponents/StockAddProduit'
-import StockAppBar from './StockComponents/StockAppbar'
-import StockTable from './StockComponents/StockTable'
+import StockAddProduit from '../_StockComponents/StockAddProduit'
+import StockAppBar from '../_StockComponents/StockAppbar'
+import StockTable from '../_StockComponents/StockTable'
 
 const useStyles = makeStyles((theme) => ({
 

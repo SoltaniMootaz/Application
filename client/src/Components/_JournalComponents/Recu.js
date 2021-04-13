@@ -9,6 +9,18 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TextField from '@material-ui/core/TextField';
+import { makeStyles } from "@material-ui/core";
+
+const useStyle=makeStyles((theme)=>({
+   tablePaper:{
+    [theme.breakpoints.up("md")]: {
+      width:'45%'
+    },
+    [theme.breakpoints.down("md")]: {
+      width:'90%'
+    }
+   }
+}))
 
 function Recu() {
   const [data, setData] = useState();
@@ -41,7 +53,7 @@ function Recu() {
 		else
 			setData1(data)
 	}
-
+  const classes=useStyle();
   return (
     <>
     <center>
@@ -62,7 +74,7 @@ function Recu() {
               arr.push(row.numero);
               return (
                 <center>
-                  <TableContainer id={row.numero} component={Paper} style={{ width: "40%" }}>
+                  <TableContainer id={row.numero} className={classes.tablePaper} component={Paper} >
                     <Table aria-label="spanning table">
                       <TableHead>
                         <TableRow>

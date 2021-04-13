@@ -1,32 +1,26 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { LoadTicket } from "../actions";
-
-import Ticket from "./CaisseComponents/ticket";
-import AfficheArticle from "./CaisseComponents/AfficheArticle";
-import AfficheStock from "./CaisseComponents/AfficheStock";
-import "./css/Article.css";
-import { AiFillHome } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import Table from "../Components/CaisseComponents/tables";
-import BarcodeReader from "react-barcode-reader";
-
-////////////////////////////////////////////////////////////
-
-import AppBar from "@material-ui/core/AppBar";
-import Badge from "@material-ui/core/Badge";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-import Toolbar from "@material-ui/core/Toolbar";
+import { LoadTicket } 			from "../../actions";
+import Ticket 				from "../_CaisseComponents/ticket";
+import AfficheArticle 		from "../_CaisseComponents/AfficheArticle";
+import AfficheStock 		from "../_CaisseComponents/AfficheStock";
+import { AiFillHome } 		from "react-icons/ai";
+import { Link } 			from "react-router-dom";
+import Table				from "../_CaisseComponents/tables";
+import AppBar 				from "@material-ui/core/AppBar";
+import Badge 				from "@material-ui/core/Badge";
+import CssBaseline 			from "@material-ui/core/CssBaseline";
+import Divider 				from "@material-ui/core/Divider";
+import Drawer  				from "@material-ui/core/Drawer";
+import Hidden  				from "@material-ui/core/Hidden";
+import IconButton 			from "@material-ui/core/IconButton";
+import Toolbar 				from "@material-ui/core/Toolbar";
 import { makeStyles, fade } from "@material-ui/core/styles";
-import { InputBase } from "@material-ui/core";
-import { SiAirtable } from "react-icons/si";
-import SearchIcon from "@material-ui/icons/Search";
+import { InputBase } 		from "@material-ui/core";
+import { SiAirtable } 		from "react-icons/si";
+import BarcodeReader 		from "react-barcode-reader";
+import SearchIcon 			from "@material-ui/icons/Search";
 
-///////////////////////////////////////////////////////////////
 
 const drawerWidth = 400;
 
@@ -47,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 			flexShrink: 0,
 		},
 		[theme.breakpoints.down("md")]: {
-			width: 300,
+			width: 320,
 			flexShrink: 0,
 		},
 	},
@@ -75,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 			width: drawerWidth,
 		},
 		[theme.breakpoints.down("md")]: {
-			width: 300,
+			width: 320,
 		},
 	},
 	content: {

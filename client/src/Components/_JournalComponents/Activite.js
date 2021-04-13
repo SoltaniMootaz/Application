@@ -12,7 +12,7 @@ import { ButtonGroup, Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
   table: {
-    Width: 650,
+    Width: 700,
   },
   Button: {},
 });
