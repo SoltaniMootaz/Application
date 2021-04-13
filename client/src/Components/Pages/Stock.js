@@ -2,7 +2,7 @@ import { Button } from '@material-ui/core'
 import { Grid, } from '@material-ui/core'
 import {makeStyles } from '@material-ui/core/styles'
 import React,{useState} from 'react'
-import StockAddArticle from '../_StockComponents/StockAddArticle'
+import StockAddProduit from '../_StockComponents/StockAddProduit'
 import StockAppBar from '../_StockComponents/StockAppbar'
 import StockTable from '../_StockComponents/StockTable'
 
@@ -25,15 +25,17 @@ function Stock() {
           <div className={classes.toolbar} />
              <Grid container style={{marginBottom:'2em'}}>
                  <Grid xs={6}>
-                     <Button variant="contained" style={{backgroundColor:'#4dabf5',color:'white',height:'4em',width:'100%'}} onClick={()=>setOpen(true)}>Ajouter un nouveau article</Button>
+                     <Button variant="contained" style={{backgroundColor:'#4dabf5',color:'white',height:'4em',width:'100%'}} onClick={()=>setOpen(true)}>Ajouter un nouveau produit</Button>
                  </Grid>
                  </Grid> 
                <StockTable />
               
                
            </main>
-           <StockAddArticle  handleOpen={open}
-        handleClose={() => setOpen(false)}></StockAddArticle>
+          <StockAddProduit  
+            handleOpen={open}
+            handleClose={() => setOpen(false)}>
+          </StockAddProduit>
         </div>
     )
 }
