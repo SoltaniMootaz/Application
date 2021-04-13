@@ -154,13 +154,14 @@ function Ticket() {
                   </StyledTableCell>
 
                   <StyledTableCell align="right" style={{ paddingRight: 0 }}>
+                    <div style={{display:'flex'}}>
                     <IconButton
                       onClick={() => dispatch(LoadTicket(value, "remove"))}
                     >
                       <IoMdRemove
                         style={{
-                          width: "0.5em",
-                          height: "0.5em",
+                          width: "0.4em",
+                          height: "0.4em",
                           color: "black",
                         }}
                       />
@@ -187,7 +188,7 @@ function Ticket() {
                             );
                           }
                         }}
-                        style={{ maxWidth: "3em", alignContent: "right" }}
+                        style={{ maxWidth: "3em", alignContent: "center" ,height:'2.4em'}}
                       />
                     ) : (
                       <input
@@ -209,19 +210,20 @@ function Ticket() {
                             );
                           }
                         }}
-                        style={{ maxWidth: "3em", alignContent: "right" }}
+                        style={{ maxWidth: "3em", alignContent: "center",height:'2.4em' }}
                       />
                     )}
 
                     <IconButton onClick={() => dispatch(LoadTicket(value))}>
                       <GrAdd
                         style={{
-                          width: "0.5em",
-                          height: "0.5em",
+                          width: "0.4em",
+                          height: "0.4em",
                           color: "black",
                         }}
                       />
                     </IconButton>
+                    </div>
                   </StyledTableCell>
 
                   <StyledTableCell align="center" style={{ paddingRight: 0 }}>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { signup } from "../services/Authentification";
+import { signup } from "../../services/Authentification";
 import "react-phone-number-input/style.css";
-import "../App.css";
+import "../../App.css";
 
 import PropTypes from "prop-types";
 import {

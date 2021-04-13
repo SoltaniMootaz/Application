@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Passwords from "./OptionsComponents/Passwords";
-import Tables from "./OptionsComponents/tables";
+import Passwords from "../_OptionsComponents/Passwords";
+import Tables from "../_OptionsComponents/tables";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";

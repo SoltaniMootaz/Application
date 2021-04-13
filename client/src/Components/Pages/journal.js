@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import * as journal from "../services/Journal";
-import Activite from "./JournalComponents/Activite";
-import Recu from "./JournalComponents/Recu";
-import Recap from "./JournalComponents/Recap";
-import ClotureAlert from './JournalComponents/ClotureAlert'
+import * as journal from "../../services/Journal";
+import Activite from "../_JournalComponents/Activite";
+import Recu from "../_JournalComponents/Recu";
+import Recap from "../_JournalComponents/Recap";
+import ClotureAlert from '../_JournalComponents/ClotureAlert'
 
 import { Link } from "react-router-dom";
 import { BiHistory } from "react-icons/bi";
@@ -203,7 +203,7 @@ function Journal(props) {
       <div className={classes.root}>
         <CssBaseline />
         <AppBar color="info" position="fixed" className={classes.appBar}>
-          <Toolbar>
+          <Toolbar style={{justifyContent:'space-between'}}>
             <div>
             <IconButton
               color="inherit"
@@ -221,15 +221,15 @@ function Journal(props) {
               />
             </IconButton> 
           </div>
-          <div style={{marginLeft:"70%"}}>
+          <div >
             {currentPage !== "Recap" ? "" :
 
             localStorage.getItem("caisse") === "true" ?
               <Button
                 variant="contained"
-                style={{backgroundColor:"#8bc34a"}}
+                style={{backgroundColor:"#8bc34a",color:'white'}}
                 className={classes.button}
-                startIcon={<AiFillUnlock />}
+                startIcon={<AiFillUnlock style={{color:'white'}}/>}
                 onClick={()=>{
                   setOpen(true);
                 }}
@@ -239,7 +239,7 @@ function Journal(props) {
             :
               <Button
                 variant="contained"
-                style={{backgroundColor:"#ff0000"}}
+                style={{backgroundColor:"#ff0000",color:'white'}}
                 className={classes.button}
                 startIcon={<AiFillLock />}
                 onClick={()=>{

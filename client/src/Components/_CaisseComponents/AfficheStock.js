@@ -41,7 +41,7 @@ theme.typography.h6 = {
     fontSize: "20px",
   },
   [theme.breakpoints.down("md")]: {
-    fontSize: "12px",
+    fontSize: "10px",
   },
 };
 theme.typography.h5 = {

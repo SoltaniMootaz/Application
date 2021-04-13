@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import { login } from "../services/Authentification";
-import "../App.css";
+import { login } from "../../services/Authentification";
+import "../../App.css";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, TextField, Grid, Button } from "@material-ui/core";

@@ -5,17 +5,17 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import Home from './Components/Home.js'
-import LogIn from './Components/LogIn.js'
-import SignUp from './Components/SignUp.js'
-import menu from './Components/menu.js'
-import Caisse from './Components/Caisse.js'
-import PrivateRoute from './PrivateRoute'
-import Cuisine from './Components/CaisseComponents/tickets/cuisine'
-import journal from './Components/journal';
-import Kredi from './Components/Kredi';
-import Options from './Components/options';
-import Stock from './Components/Stock';
+import Home from './Components/Pages/Home.js'
+import LogIn from './Components/Authentification/LogIn'
+import SignUp from './Components/Authentification/SignUp'
+import menu from './Components/Pages/menu'
+import Caisse from './Components/Pages/Caisse'
+import PrivateRoute from './Routing/PrivateRoute'
+import Cuisine from './Components/_CaisseComponents/tickets/cuisine'
+import journal from './Components/Pages/journal';
+import Kredi from './Components/Pages/Kredi';
+import Options from './Components/Pages/options';
+import Stock from './Components/Pages/Stock';
 
 function App() {
   return (
