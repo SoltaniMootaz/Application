@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {search} from '../../Utils/Kridi'
 
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -25,9 +26,7 @@ function InfoClient(props) {
 
 	const handleChange = async (e) => {
 		if(e.target.value !== "") {
-			setData(await props.data.filter(val=>
-				val.nomPre.toLowerCase().indexOf(e.target.value) > -1 || val.telephone.indexOf(e.target.value) > -1
-			))	
+			setData(await search(data, e.target.value))	
 		}else
 			setData(props.data)
 	}

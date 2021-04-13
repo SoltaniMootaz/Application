@@ -9,6 +9,7 @@ import "./css/Article.css";
 import { AiFillHome } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import Table from "../Components/CaisseComponents/tables";
+import BarcodeReader from "react-barcode-reader";
 
 ////////////////////////////////////////////////////////////
 
@@ -23,7 +24,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import { InputBase } from "@material-ui/core";
 import { SiAirtable } from "react-icons/si";
-import BarcodeReader from "react-barcode-reader";
 import SearchIcon from "@material-ui/icons/Search";
 
 ///////////////////////////////////////////////////////////////

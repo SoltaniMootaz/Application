@@ -1,7 +1,10 @@
 import { Paper,Table,TableBody,TableCell,TableHead,TableRow } from '@material-ui/core'
 import React,{useEffect, useState} from 'react';
+import {loadUserStock} from "../../services/Stock"
+import {search} from "../../Utils/Stock"
+
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import loadUserStock from "../../services/Stock"
+import TextField from '@material-ui/core/TextField';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -29,19 +32,35 @@ const StyledTableCell = withStyles((theme) => ({
   });
 
 function StockTable() {
+  const classes = useStyles();
+  const [data, setData] = useState()
+  const [data1, setData1] = useState()
 
-    const classes = useStyles();
-   const [data, setData] = useState()
-    useEffect(() => {
-        loadUserStock().then( (res) =>{
-            setData(res.data)
-            console.log(data);
-        })
-    }, [])
+  useEffect(() => {
+    loadUserStock().then( (res) =>{
+        setData(res.data)
+        setData1(res.data)
+    })
+  }, [])
+
+  const handleChange = async (e) => {
+		if(e.target.value !== "") {
+			setData1(await search(data, e.target.value))	
+		}else
+			setData1(data)
+	}
    
     return (
-        <div>
-            <Paper >
+        <div>       
+          <Paper >
+            <TextField 
+              id="standard-search" 
+              label="Rechercher" 
+              type="search" 
+              variant="outlined" 
+              style={{marginLeft:"80%", marginTop:"-5.5em",marginBottom:"1em"}}
+              onChange={(e)=>handleChange(e)}
+            />
             <Table className={classes.table} aria-label="customized table">
             <TableHead>
                  <TableRow>
@@ -53,7 +72,7 @@ function StockTable() {
                  </TableRow>
             </TableHead>
             <TableBody>
-                {data? data.map( (row)=>(
+                {data1 ? data1.map( (row)=>(
             <StyledTableRow >
                     <StyledTableCell component="th" scope="row">{row.id_produit}</StyledTableCell>
                     <StyledTableCell >{row.libelle}</StyledTableCell>

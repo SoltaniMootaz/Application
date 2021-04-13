@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { afficherTicket } from "../../services/Caisse";
 import { afficherLogKridi } from "../../services/Kridi";
+import {search} from '../../Utils/Kridi'
 
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -113,7 +114,7 @@ export default function LogKridi() {
 
 	const handleChange = async (e) => {
 		if(e.target.value !== "")
-			setData(await clients.data.filter(val=> val.nomPre.toLowerCase().indexOf(e.target.value) > -1 ))
+			setData(await search(data, e.target.value))
 		else
 			setData(clients.data)
 	}
