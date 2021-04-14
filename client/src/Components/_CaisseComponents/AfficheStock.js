@@ -70,7 +70,7 @@ function AfficherStock(props) {
   var src = def;
   const classes = useStyles();
   const isSRC = (data) => {
-    if (data == "NULL") return true;
+    if (data === "NULL" || data === null) return true;
     else return false;
   };
 
