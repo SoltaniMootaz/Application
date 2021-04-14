@@ -50,7 +50,7 @@ const Cuisine = (props) => {
       {header}
       <table style={{marginLeft:5}} width="200px" cellSpacing="5px">
         <tr>
-          <th style={{fontSize:15}}>Nb</th>
+          <th style={{fontSize:15}}>Quantité</th>
           <th style={{fontSize:15}}>Description</th>
         </tr>
         {produits}

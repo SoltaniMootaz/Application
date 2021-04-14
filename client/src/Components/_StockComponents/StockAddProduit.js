@@ -82,6 +82,7 @@ function StockAddProduit(props) {
       )
         .then((res) => {
           props.handleClose();
+          setError();
         })
         .catch((err) => {
           setError(err.response.data);
@@ -104,6 +105,15 @@ function StockAddProduit(props) {
     if (data.length > 0) setCategorie(data);
   };
 
+  const handleClose = () => {
+    props.handleClose();
+    setError();
+    setCategorie();
+    setCodeBarre();
+    setLibelle();
+    setPrixAchat();
+  }
+
   useEffect(async () => {
     if (gammes.length === 0) {
       const stock = await loadStock();
@@ -120,11 +130,11 @@ function StockAddProduit(props) {
       />
       <Dialog
         fullWidth={true}
-        onClose={props.handleClose}
+        onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={props.handleOpen}
       >
-        <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
+        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Ajouter un produit
           <p style={{ color: "red" }}>{error}</p>
         </DialogTitle>
@@ -133,6 +143,7 @@ function StockAddProduit(props) {
             <Grid item xs={12}>
               <TextField
                 required
+                autoFocus
                 id="standard-basic"
                 key={libelle}
                 label="Libelle"
@@ -146,11 +157,12 @@ function StockAddProduit(props) {
               item
               style={{ marginTop: "2em", marginBottom: "-1em", width: "95%" }}
             >
+              {categorie ? 
               <CreatableSelect
                 required
+                autoFocus
                 isClearable
-                key={categorie}
-                value={{ value: categorie, label: categorie, isFixed: true}}
+                value={{ value: categorie, label: categorie}}
                 onChange={(e) => {
                   if (e) handleCategorie(e.value);
                 }}
@@ -158,11 +170,25 @@ function StockAddProduit(props) {
                 options={gammes}
                 placeholder={"Catégorie"}
               />
+              :
+              <CreatableSelect
+                required
+                autoFocus
+                isClearable
+                onChange={(e) => {
+                  if (e) handleCategorie(e.value);
+                }}
+                onInputChange={(e) => handleCategorie(e)}
+                options={gammes}
+                placeholder={"Catégorie"}
+              />
+              }
             </Grid>
 
             <Grid item xs={12}>
               <TextField
                 required
+                autoFocus
                 key={codeBarre}
                 defaultValue={codeBarre}
                 id="standard-basic"
@@ -175,6 +201,7 @@ function StockAddProduit(props) {
             <Grid item xs={12}>
               <TextField
                 required
+                autoFocus
                 key={prixAchat}
                 defaultValue={prixAchat}
                 type="number"
@@ -188,6 +215,7 @@ function StockAddProduit(props) {
             <Grid item xs={12}>
               <TextField
                 required
+                autoFocus
                 type="number"
                 id="standard-basic"
                 label="Prix de vente"
@@ -199,6 +227,7 @@ function StockAddProduit(props) {
             <Grid item xs={12}>
               <TextField
                 required
+                autoFocus
                 type="number"
                 defaultValue="1"
                 id="standard-basic"
