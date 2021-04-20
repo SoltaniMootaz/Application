@@ -1,26 +1,23 @@
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket, LoadStock, LoadStockByCategorie } from "../../actions";
 import * as caisseUtils from "../../Utils/Caisse";
 
 import def from "./img/def.jpg";
-
 import Carousel from 'react-elastic-carousel';
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
-
 import { Grid, useScrollTrigger } from "@material-ui/core";
+
 
 import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Pagination from '@material-ui/lab/Pagination';
-
 
 import { IconButton } from "@material-ui/core";
 
@@ -146,15 +143,12 @@ window.addEventListener('scroll', ()=>{
     <>
     <Carousel itemsToShow={3} pagination={false} >
         {gammes.map((data, index) => (
-          <div className="WrappedItems"
-            key={index}>
+          <div className="WrappedItems" key={index} >
             {selected == data ? (
               <Button
                 key={index}
                 variant="contained"
-
                 style={{ width: "17em", backgroundColor: "#00bcd4" }}
-
                 onClick={() => handleSelected("")}
               >
                 <p>{data}</p>
@@ -163,15 +157,12 @@ window.addEventListener('scroll', ()=>{
               <Button
                 key={index}
                 variant="contained"
-
                 style={{ width: "17em" }}
-
                 onClick={() => handleSelected(data)}
               >
                 <p>{data}</p>
               </Button>
             )}
-
           </div>
           
         ))}
@@ -180,7 +171,6 @@ window.addEventListener('scroll', ()=>{
       <hr />
       <div >
       <Grid container spacing={2} >
-
         {stockData ? stockData.map((data1, index) => {
           if(data1)
             return (
@@ -239,7 +229,6 @@ window.addEventListener('scroll', ()=>{
           )
         }) : ""}
       </Grid>
-
       </div>
 
       <hr />
@@ -262,12 +251,10 @@ window.addEventListener('scroll', ()=>{
           />
         </div> 
       : ""}
-
     
 <IconButton onClick={()=>{ window.scrollTo({top: 0, behavior: 'smooth'});}} style={{height: '6em',width:'6em', display: show ? 'flex' : 'none'}}>
   <FaArrowCircleUp className="BackToTop"/>
 </IconButton>
-
     </>
   );
 }

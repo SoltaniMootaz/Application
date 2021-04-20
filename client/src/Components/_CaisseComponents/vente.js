@@ -28,7 +28,6 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { Divider, ButtonGroup } from "@material-ui/core";
 import { IoMdCash } from "react-icons/io";
@@ -266,12 +265,11 @@ function Vente(props) {
 			>
 				<DialogTitle id="customized-dialog-title" onClose={close}>
 					<Grid container>
-						<Grid item xs={4}>
+						<Grid item xs={6}>
 							<p style={{ display: "inline", color: "#00695f" }}>
 								À payer : {montant} DT
 							</p>
 						</Grid>
-						<Grid item xs={2}></Grid>
 						<Grid item xs={6}>
 							<p style={{ display: "inline", color: "#b51c07" }}>
 								Rendu monnaie : -{rendu} DT
