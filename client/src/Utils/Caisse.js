@@ -75,11 +75,23 @@ const setTotaleToNull = (data) => {
     return data;
 }
 
+const getStock = (page, nbProduits, data) => {
+    const res = [];
+
+    for(var i = (page * nbProduits - nbProduits);i< (page * nbProduits);i++) {
+        if(data[i])
+            res.push(data[i])
+    }
+
+    return res;
+}
+
 export {
     getGammes,
     getTables,
     calculTotale,
     calculSomme,
     getClients,
-    setTotaleToNull
+    setTotaleToNull,
+    getStock
 }

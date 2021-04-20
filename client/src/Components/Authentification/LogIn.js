@@ -49,6 +49,8 @@ function LogIn() {
 		localStorage.removeItem("commerce");
 		localStorage.setItem("tableIndex", 1);
 		localStorage.setItem("caisse", true)
+		for(var i=1;i<=localStorage.getItem('nbTables');i++)
+			localStorage.removeItem('ticket' + i)
 	}, []);
 
 	const handleSubmit = (event) => {
