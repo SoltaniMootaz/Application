@@ -7,8 +7,12 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    Grid
+
+    Grid,
+    ThemeProvider
   } from "@material-ui/core";
+  import { makeStyles } from "@material-ui/core/styles";
+  import { createMuiTheme } from "@material-ui/core/styles";
 
 export default function Payer(props) {
     const [montant, setMontant] = useState();
@@ -20,8 +24,17 @@ export default function Payer(props) {
         setMontant()
     }
 
+    const theme = createMuiTheme({
+        palette: {
+            primary: {
+                main:"#DC572E" ,
+            },
+        },
+    });
     return (
         <div>
+            	<ThemeProvider theme={theme}>
+
         <Dialog
             fullWidth={true}
             open={props.open}
@@ -91,6 +104,9 @@ export default function Payer(props) {
                 </Button>
             </DialogActions>
         </Dialog>
+
+        </ThemeProvider>
+
         </div>
     );
 }
