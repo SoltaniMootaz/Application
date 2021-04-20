@@ -2,14 +2,8 @@ import React, { useEffect, useState } from "react";
 import {search} from '../../Utils/Kridi'
 
 import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import TextField from '@material-ui/core/TextField';
+import {Button, TextField, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table} from '@material-ui/core';
+import {GiReceiveMoney} from "react-icons/gi";
 
 const useStyles = makeStyles({
 	table: {
@@ -60,6 +54,10 @@ function InfoClient(props) {
 							<TableCell style={{ fontWeight: "bold" }}>
 								Numéro du telephone
 							</TableCell>
+							<TableCell style={{ fontWeight: "bold" }}>
+								Montant
+							</TableCell>
+							<TableCell></TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -71,6 +69,17 @@ function InfoClient(props) {
 										</TableCell>
 										<TableCell>{item.nomPre}</TableCell>
 										<TableCell>{item.telephone}</TableCell>
+										<TableCell>{item.montant.toFixed(3) }DT</TableCell>
+										<TableCell>
+											<Button
+												variant="contained"
+												color="default"
+												className={classes.button}
+												startIcon={<GiReceiveMoney />}
+											>
+												Payer
+											</Button>
+										</TableCell>
 									</TableRow>
 								))
 							: ""}
