@@ -1,19 +1,30 @@
+
 import React, { useEffect, useState } from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket, LoadStock, LoadStockByCategorie } from "../../actions";
 import * as caisseUtils from "../../Utils/Caisse";
 
 import def from "./img/def.jpg";
 
+import Carousel from 'react-elastic-carousel';
+
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
-import { Grid } from "@material-ui/core";
+
+import { Grid, useScrollTrigger } from "@material-ui/core";
+
 import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Pagination from '@material-ui/lab/Pagination';
+
+
+import { IconButton } from "@material-ui/core";
+
+import {FaArrowCircleUp} from 'react-icons/fa'
 
 const useStyles = makeStyles({
   root: {
@@ -63,7 +74,6 @@ function AfficherStock(props) {
   const [gammes, setGammes] = useState([]);
   const [page, setPage] = useState(1);
   const [stockData, setStockData] = useState([]);
-
   const nbProduits = 25;
   const dispatch = useDispatch();
   const loadStock = useSelector((state) => state.loadStock);
@@ -122,25 +132,29 @@ function AfficherStock(props) {
     setStockData(await caisseUtils.getStock(page, nbProduits, stock))
   },[page, loadStock, stock])
 
+  const trigger=useScrollTrigger();
+ const [show, setShow] = useState(trigger?true: false)
+ 
+window.addEventListener('scroll', ()=>{
+  if (!show && window.pageYOffset > 300){
+    setShow(true)
+  } else if (show&& window.pageYOffset <= 300){
+    setShow(false)
+  }
+})
   return (
     <>
-      <Grid container>
+    <Carousel itemsToShow={3} pagination={false} >
         {gammes.map((data, index) => (
-          <Grid
-            item
-            xl={3}
-            lg={3}
-            md={6}
-            sm={6}
-            xs={6}
-            key={index}
-            style={{ marginTop: "1em" }}
-          >
+          <div className="WrappedItems"
+            key={index}>
             {selected == data ? (
               <Button
                 key={index}
                 variant="contained"
-                style={{ width: "95%", backgroundColor: "#00bcd4" }}
+
+                style={{ width: "17em", backgroundColor: "#00bcd4" }}
+
                 onClick={() => handleSelected("")}
               >
                 <p>{data}</p>
@@ -149,19 +163,24 @@ function AfficherStock(props) {
               <Button
                 key={index}
                 variant="contained"
-                style={{ width: "95%" }}
+
+                style={{ width: "17em" }}
+
                 onClick={() => handleSelected(data)}
               >
                 <p>{data}</p>
               </Button>
             )}
-          </Grid>
-        ))}
-      </Grid>
 
+          </div>
+          
+        ))}
+</Carousel>
       <br />
       <hr />
-      <Grid container spacing={2}>
+      <div >
+      <Grid container spacing={2} >
+
         {stockData ? stockData.map((data1, index) => {
           if(data1)
             return (
@@ -220,6 +239,9 @@ function AfficherStock(props) {
           )
         }) : ""}
       </Grid>
+
+      </div>
+
       <hr />
 
       {stock.length > 0 ? 
@@ -240,6 +262,11 @@ function AfficherStock(props) {
           />
         </div> 
       : ""}
+
+    
+<IconButton onClick={()=>{ window.scrollTo({top: 0, behavior: 'smooth'});}} style={{height: '6em',width:'6em', display: show ? 'flex' : 'none'}}>
+  <FaArrowCircleUp className="BackToTop"/>
+</IconButton>
 
     </>
   );
