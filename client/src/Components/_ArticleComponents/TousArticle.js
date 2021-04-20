@@ -47,70 +47,68 @@ function TousArticle(props) {
     else return false;
   };
 
-  if (!props.isLoading) {
-    return (
-      <>
-        {props.dataCat.map((data, index) => (
-          <Paper className={classes.Paper} key={index}>
-            <div key={data.nom} style={{ width: "100%" }}>
-              <Accordion square defaultExpanded={index === 0}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography variant="h4" className={classes.typo}>
-                    {data.nom}
-                  </Typography>
-                </AccordionSummary>
+  return (
+    <>
+      {props.dataCat ? props.dataCat.map((data, index) => (
+        <Paper className={classes.Paper} key={index}>
+          <div key={data.nom} style={{ width: "100%" }}>
+            <Accordion square defaultExpanded={index === 0}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h4" className={classes.typo}>
+                  {data.nom}
+                </Typography>
+              </AccordionSummary>
 
-                <AccordionDetails>
-                  <Grid container spacing={2}>
-                    {props.dataArt.map((data1) => (
-                      <div
-                        key={data1.id_categorie}
-                        style={{ marginLeft: "0em", paddingTop: "1em" }}
-                      >
-                        {data1.id_categorie === data.id ? (
-                          <Grid item>
-                            <Card
-                              className={classes.root}
-                              key={data1.nomCategorie}
-                            >
-                              <CardHeader
-                                action={
-                                  <IconButton aria-label="delete">
-                                    <MdDelete
-                                      onClick={() => {
-                                        deleteArticle(data1.id).then(() =>
-                                          window.location.reload(false)
-                                        );
-                                      }}
-                                    />
-                                  </IconButton>
-                                }
-                                title={data1.nom}
-                                subheader={data1.prix.toFixed(3) + " DT"}
+              <AccordionDetails>
+                <Grid container spacing={2}>
+                  {props.dataArt ? props.dataArt.map((data1) => (
+                    <div
+                      key={data1.id_categorie}
+                      style={{ marginLeft: "0em", paddingTop: "1em" }}
+                    >
+                      {data1.id_categorie === data.id ? (
+                        <Grid item>
+                          <Card
+                            className={classes.root}
+                            key={data1.nomCategorie}
+                          >
+                            <CardHeader
+                              action={
+                                <IconButton aria-label="delete">
+                                  <MdDelete
+                                    onClick={() => {
+                                      deleteArticle(data1.id).then(() =>
+                                        window.location.reload(false)
+                                      );
+                                    }}
+                                  />
+                                </IconButton>
+                              }
+                              title={data1.nom}
+                              subheader={data1.prix.toFixed(3) + " DT"}
+                            />
+
+                            <CardActionArea>
+                              <CardMedia
+                                className={classes.media}
+                                image={isSRC(data1.image) ? src : data1.image}
                               />
-
-                              <CardActionArea>
-                                <CardMedia
-                                  className={classes.media}
-                                  image={isSRC(data1.image) ? src : data1.image}
-                                />
-                              </CardActionArea>
-                            </Card>
-                          </Grid>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    ))}{" "}
-                  </Grid>
-                </AccordionDetails>
-              </Accordion>
-            </div>
-          </Paper>
-        ))}
-      </>
-    );
-  }
+                            </CardActionArea>
+                          </Card>
+                        </Grid>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  )) : ""}{" "}
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
+          </div>
+        </Paper>
+      )) : ""}
+    </>
+  );
 }
 
 TousArticle.propTypes = {

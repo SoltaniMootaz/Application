@@ -5,11 +5,11 @@ const pool = require('../database/creerDB-postgreSQL');
 var async = require("async");
 const bcrypt = require('bcrypt');
 
-/* router.post("/api/excelToDB",(req,res) => {
+router.post("/api/excelToDB",(req,res) => {
     xlsxFile('C:/Users/houss/Desktop/projet1/application/server/produits.xlsx').then((rows) => {
         for (i in rows){
             if(i>0) {
-                pool.query('INSERT INTO public.stock(id,"code_a_barre",libelle,prix_ttc,image,qte_stock,prix_vente_public,gamme_code) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',[rows[i][0],rows[i][2],rows[i][4],rows[i][32],rows[i][22],rows[i][15],rows[i][37],rows[i][8]],(err,result)=>{
+                pool.query('INSERT INTO public.stock("code_a_barre",libelle,prix_ttc,image,qte_stock,prix_vente_public,gamme_code) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *',[rows[i][2] + '6',rows[i][4] + '6',rows[i][32],rows[i][22],rows[i][15],rows[i][37],rows[i][8]],(err,result)=>{
                     if(err) 
                         console.error(err.toString());
                 })
@@ -17,12 +17,11 @@ const bcrypt = require('bcrypt');
         }
         res.status(200).send("succes");
     }).catch(err => res.send(err.toString()));
-}); */
+});
 
-/* router.post("/api/stockToUser",(req,res)=>{
+router.post("/api/stockToUser",(req,res)=>{
     pool.query('SELECT * FROM public.stock',(err,result) => {
         if(!err && result.rowCount > 0) {
-            console.log(result.rows.id)
             result.rows.map(val=> {
                 pool.query('INSERT into public."stockUtilisateur" VALUES($1,$2,$3,$4)',[28,val.id,10,10.00],(err,result1) => {
                     if(err) {
@@ -33,8 +32,10 @@ const bcrypt = require('bcrypt');
         }else{
             res.status(400).send(err.toString());
         }
+
+        res.status(200).send("succes")
     })
-})  */
+})
 
 router.get("/api/stock/:id",async (req,res) => {
     const { id } = req.params;
