@@ -1,15 +1,19 @@
 import React, { useEffect, useState,useRef } from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket, LoadStock, LoadStockByCategorie } from "../../actions";
 import * as caisseUtils from "../../Utils/Caisse";
 
 import def from "./img/def.jpg";
 import Carousel from 'react-elastic-carousel';
+
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
 import { Grid, useScrollTrigger } from "@material-ui/core";
+
+
 import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
@@ -18,6 +22,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import { IconButton } from "@material-ui/core";
 
 import {FaArrowCircleUp} from 'react-icons/fa'
+
 const useStyles = makeStyles({
   root: {
     width: "16rem",
@@ -123,6 +128,7 @@ function AfficherStock(props) {
   useEffect(async ()=>{
     setStockData(await caisseUtils.getStock(page, nbProduits, stock))
   },[page, loadStock, stock])
+
   const trigger=useScrollTrigger();
  const [show, setShow] = useState(trigger?true: false)
  
@@ -137,10 +143,7 @@ window.addEventListener('scroll', ()=>{
     <>
     <Carousel itemsToShow={3} pagination={false} >
         {gammes.map((data, index) => (
-          <div className="WrappedItems"
-            key={index}
-          
-          >
+          <div className="WrappedItems" key={index} >
             {selected == data ? (
               <Button
                 key={index}
@@ -227,6 +230,7 @@ window.addEventListener('scroll', ()=>{
         }) : ""}
       </Grid>
       </div>
+
       <hr />
 
       {stock.length > 0 ? 
