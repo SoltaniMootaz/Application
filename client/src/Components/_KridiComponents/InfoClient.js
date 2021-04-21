@@ -31,10 +31,9 @@ function InfoClient(props) {
     setOpen(value);
   }
 
-
   useEffect(() => {
     setData(props.data);
-  }, []);
+  }, [props.data]);
 
   const handleChange = async (e) => {
     if (e.target.value !== "") {
@@ -87,18 +86,30 @@ function InfoClient(props) {
                     <TableCell>{item.telephone}</TableCell>
                     <TableCell>{item.montant.toFixed(3)}DT</TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
-                        color="default"
-                        className={classes.button}
-                        startIcon={<GiReceiveMoney />}
-                        onClick={()=> {
-                          setOpen(true)
-                          setClient(item)
-                        }}
-                      >
-                        Payer
-                      </Button>
+                      {item.montant === 0 ? 
+                        <Button
+                          variant="contained"
+                          color="default"
+                          disabled
+                          className={classes.button}
+                          startIcon={<GiReceiveMoney />}
+                        >
+                          Payer
+                        </Button>
+                      :
+                        <Button
+                          variant="contained"
+                          color="default"
+                          className={classes.button}
+                          startIcon={<GiReceiveMoney />}
+                          onClick={()=> {
+                            setOpen(true)
+                            setClient(item)
+                          }}
+                        >
+                          Payer
+                        </Button>
+                      }
                     </TableCell>
                   </TableRow>
                 ))

@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { updateClient } from '../../services/Kridi';
 
+import { createMuiTheme } from "@material-ui/core/styles";
 import {
     Button,
     TextField,
@@ -7,22 +9,13 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-
     Grid,
     ThemeProvider
   } from "@material-ui/core";
-  import { makeStyles } from "@material-ui/core/styles";
-  import { createMuiTheme } from "@material-ui/core/styles";
 
 export default function Payer(props) {
     const [montant, setMontant] = useState();
     const [max, setMax] = useState()
-
-    const handleClose = () => {
-        props.handleDialog(false);
-        setMax()
-        setMontant()
-    }
 
     const theme = createMuiTheme({
         palette: {
@@ -31,10 +24,21 @@ export default function Payer(props) {
             },
         },
     });
+
+    const handleClose = () => {
+        props.handleDialog(false);
+        setMax()
+        setMontant()
+    }
+
+    const handleUpdate = () => {
+        updateClient(props.client.id, montant)
+        handleClose();
+    }
+
     return (
         <div>
-            	<ThemeProvider theme={theme}>
-
+        <ThemeProvider theme={theme}>
         <Dialog
             fullWidth={true}
             open={props.open}
@@ -44,17 +48,17 @@ export default function Payer(props) {
         >
             <DialogTitle id="alert-dialog-title">
                 <Grid container>
-					<Grid item xs={7}>
+					<Grid item xs={6}>
                         <p style={{display:"inline-flex"}}>Client : {props.client ? props.client.nomPre : ""}</p>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={6}>
                         <p style={{display:"inline-flex"}}>
-                            À payer : &nbsp;
+                            Montant restant : &nbsp;
                             {props.client ?
                                 montant ? (props.client.montant.toFixed(3) - montant).toFixed(3) 
                                 : props.client.montant.toFixed(3)              
                             : "0.000"} 
-                            DT
+                            &nbsp;DT
                         </p>
                     </Grid>
                 </Grid>
@@ -65,17 +69,20 @@ export default function Payer(props) {
                 <TextField 
                     id="outlined-basic" 
                     type="number"
-                    label="Montant" 
+                    label="Montant à payer" 
                     variant="outlined"
                     autoFocus
                     key={max}
                     defaultValue={max}
                     onChange={(e)=>{
+                        if(e.target.value > props.client.montant)
+                            e.target.value = props.client.montant
+                            
                         if(max)
                             setMontant();
-                        else
+                        else 
                             setMontant(e.target.value);
-                            
+                        
                         setMax();
                     }}
                 />
@@ -99,14 +106,12 @@ export default function Payer(props) {
                 <Button onClick={handleClose} color="primary">
                     Annuler
                 </Button>
-                <Button onClick={handleClose} color="primary">
-                Valider
+                <Button onClick={handleUpdate} color="primary">
+                    Valider
                 </Button>
             </DialogActions>
         </Dialog>
-
         </ThemeProvider>
-
         </div>
     );
 }

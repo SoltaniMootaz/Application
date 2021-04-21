@@ -16,7 +16,7 @@ import Hidden  				from "@material-ui/core/Hidden";
 import IconButton 			from "@material-ui/core/IconButton";
 import Toolbar 				from "@material-ui/core/Toolbar";
 import { makeStyles, fade } from "@material-ui/core/styles";
-import { InputBase } 		from "@material-ui/core";
+import { InputBase, Slide, useScrollTrigger } 		from "@material-ui/core";
 import { SiAirtable } 		from "react-icons/si";
 import BarcodeReader 		from "react-barcode-reader";
 import SearchIcon 			from "@material-ui/icons/Search";
@@ -138,6 +138,7 @@ const useStyles = makeStyles((theme) => ({
 function Caisse() {
 	const dispatch = useDispatch();
 	const [searchValue, setSearchValue] = useState();
+	const trigger = useScrollTrigger();
 
 	const handleScan = (data) => {
 		dispatch(LoadTicket(data, "barcode"));
@@ -174,6 +175,7 @@ function Caisse() {
 			/>
 			<div className={classes.root}>
 				<CssBaseline />
+				<Slide appear={false} direction="down" in={!trigger}>
 				<AppBar
 					position="fixed"
 					className={classes.appBar}
@@ -227,6 +229,7 @@ function Caisse() {
 						)}
 					</Toolbar>
 				</AppBar>
+				</Slide>
 				<nav className={classes.drawer} aria-label="mailbox folders">
 					<Hidden implementation="css">
 						<Drawer

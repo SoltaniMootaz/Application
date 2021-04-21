@@ -48,7 +48,7 @@ const Cuisine = (props) => {
   return (<>
     <div id="content1">
       {header}
-      <table style={{marginLeft:5}} width="200px" cellSpacing="5px">
+      <table width="180px" cellSpacing="5px">
         <tr>
           <th style={{fontSize:15}}>Quantité</th>
           <th style={{fontSize:15}}>Description</th>

@@ -40,7 +40,7 @@ const TicketVente = (props) => {
             tot = parseFloat(tot) + (parseInt(loadTicket.quantite[index],10) * parseFloat(val.prix_ttc));
             return(
               <tr>
-                <td style={{fontSize:10,textAlign:"center"}}>{loadTicket.quantite[index].toString() + "x " + val.libelle}</td>
+                <td style={{fontSize:12,textAlign:"center"}}>{loadTicket.quantite[index].toString() + "x " + val.libelle}</td>
                 <td style={{fontSize:12,textAlign:"center"}}>{val.prix_ttc.toFixed(3)}</td>
                 <td style={{fontSize:12,textAlign:"center"}}>{(val.prix_ttc * loadTicket.quantite[index]).toFixed(3)}</td>
               </tr>

@@ -23,8 +23,15 @@ const afficherLogKridi = async () => {
     return result
 }
 
+const updateClient = async (id, montant) => {
+    const result = await axios.put(env.API_URL + "ModifierMontant/" + id,{montant: montant})
+
+    return result
+}
+
 export {
     ajouterClient,
     afficherClients,
-    afficherLogKridi
+    afficherLogKridi,
+    updateClient
 }

@@ -75,7 +75,7 @@ function Kredi(props) {
 
 	useEffect(() => {
 		afficherClients().then((res) => setData(res.data));
-	}, []);
+	}, [afficherClients()]);
 
 	const drawer = (
 		<div>
