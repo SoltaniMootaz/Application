@@ -156,10 +156,8 @@ Form.Group{
 .Gammes{
   position: -webkit-sticky;
   position: sticky;
-  
-  padding-top: 4em;
-  padding-bottom: 2em;
   top: 0;
+  padding-top: 4em;
   z-index: 2;
   background-color: #fafafa;
 }
@@ -169,9 +167,9 @@ Form.Group{
   overflow-y: hidden;
   display: flex;
   max-height: 7em;
- width: 60em;
- height: 6em;
- flex-wrap: nowrap;
+  width: 60em;
+  height: 6em;
+  flex-wrap: nowrap;
 
 }
 /* .Wrapper::-webkit-scrollbar{
@@ -181,7 +179,7 @@ Form.Group{
   flex: 0 0 auto;
   padding-top: 1em;
   padding-right: 1em;
- padding-left: 1em;
+  padding-left: 1em;
 }
 .rec.rec-arrow:enabled:hover {
   background-color: #33c9dc;
@@ -202,15 +200,13 @@ Form.Group{
   position: fixed; 
   width: 4em;
   bottom: 20px;
-  
   height: 4em;
-  
   z-index: 1000;
   cursor: pointer;
   animation: fadeIn 0.3s;
   transition: opacity 0.7s;
   opacity: 1;
-  right: 0;
+  right: 10px;
 }
 .BackToTop:hover{
   opacity: 1;

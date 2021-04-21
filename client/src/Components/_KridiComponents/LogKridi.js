@@ -82,13 +82,15 @@ const Row = (props) => {
 								</TableHead>
 								<TableBody>
 									{details
-										? details.map((res1, index) => (
-												<TableRow key={index}>
-													<TableCell component="th" scope="row">
-														{res1.libelle ? res1.libelle : res1.nom}
-													</TableCell>
-													<TableCell>{res1.quantite}</TableCell>
-												</TableRow>
+										? details.slice(0)
+										.reverse()
+										.map((res1, index) => (
+											<TableRow key={index}>
+												<TableCell component="th" scope="row">
+													{res1.libelle ? res1.libelle : res1.nom}
+												</TableCell>
+												<TableCell>{res1.quantite}</TableCell>
+											</TableRow>
 										  ))
 										: ""}
 								</TableBody>

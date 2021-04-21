@@ -81,7 +81,7 @@ function StockAddProduit(props) {
         categorie
       )
         .then((res) => {
-          props.handleClose();
+          window.location.reload(false)
           setError();
         })
         .catch((err) => {

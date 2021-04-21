@@ -51,7 +51,6 @@ router.get("/api/detailsTicket/:id",(req,res)=>{
     })
 })
 
-
 router.get("/api/afficherClients/:id",(req,res) => {
     const {id} = req.params;
 
@@ -73,6 +72,18 @@ router.post("/api/AjouterClient",(req,res) => {
         else{
             res.status(200).send((result.rows[0].id).toString());
         }
+    })
+})
+
+router.put("/api/ModifierMontant/:id",(req,res)=>{
+    const {id} = req.params;
+    const {montant} = req.body;
+
+    pool.query('UPDATE public."client" SET montant = ((SELECT montant FROM public."client" WHERE id = $2) - $1) WHERE id = $2',[montant, id],(err)=>{
+        if(err) {
+            res.status(400).send(err.toString())
+        }else
+            res.status(200).send("succes")
     })
 })
 

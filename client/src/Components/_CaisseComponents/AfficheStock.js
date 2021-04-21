@@ -66,7 +66,7 @@ function AfficherStock(props) {
   const [gammes, setGammes] = useState([]);
   const [page, setPage] = useState(1);
   const [stockData, setStockData] = useState([]);
-  const nbProduits = 25;
+  const nbProduits = 50;
   const dispatch = useDispatch();
   const loadStock = useSelector((state) => state.loadStock);
   const loadStockByCategorie = useSelector(
@@ -135,12 +135,10 @@ window.addEventListener('scroll', ()=>{
 })
   return (
     <>
+    <div className="Gammes">
     <Carousel itemsToShow={3} pagination={false} >
         {gammes.map((data, index) => (
-          <div className="WrappedItems"
-            key={index}
-          
-          >
+          <div className="WrappedItems" key={index} >
             {selected == data ? (
               <Button
                 key={index}
@@ -163,7 +161,8 @@ window.addEventListener('scroll', ()=>{
           </div>
           
         ))}
-</Carousel>
+    </Carousel>
+    </div>
       <br />
       <hr />
       <div >
@@ -248,9 +247,7 @@ window.addEventListener('scroll', ()=>{
         </div> 
       : ""}
     
-<IconButton onClick={()=>{ window.scrollTo({top: 0, behavior: 'smooth'});}} style={{height: '6em',width:'6em', display: show ? 'flex' : 'none'}}>
-  <FaArrowCircleUp className="BackToTop"/>
-</IconButton>
+      <FaArrowCircleUp className="BackToTop" onClick={()=>{ window.scrollTo({top: 0, behavior: 'smooth'});}} style={{display: show ? 'flex' : 'none'}}/>
     </>
   );
 }
