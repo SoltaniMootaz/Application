@@ -75,7 +75,7 @@ function Ticket() {
   const dispatch = useDispatch();
   const commerce = localStorage.getItem("commerce");
 
-  const [val, setVal] = React.useState(0);
+  const [val, setVal] = useState(0);
   const [state, setState] = useState(false);
   const [state1, setState1] = useState(false);
 

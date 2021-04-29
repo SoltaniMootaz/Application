@@ -68,7 +68,7 @@ function StockTable() {
           style={{marginLeft:"80%", marginTop:"-5.5em",marginBottom:"1em"}}
           onChange={(e)=>handleChange(e)}
         />
-        <Table className={classes.table} aria-label="customized table">
+        <Table stickyHeader className={classes.table} aria-label="customized table">
         <TableHead>
               <TableRow>
                 <StyledTableCell>#id</StyledTableCell>

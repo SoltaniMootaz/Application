@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState} from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket, LoadStock, LoadStockByCategorie } from "../../actions";
@@ -69,9 +69,12 @@ function AfficherStock(props) {
   const [gammes, setGammes] = useState([]);
   const [page, setPage] = useState(1);
   const [stockData, setStockData] = useState([]);
+  const trigger=useScrollTrigger();
+  const [show, setShow] = useState(trigger?true: false)
   const nbProduits = 50;
   const dispatch = useDispatch();
   const loadStock = useSelector((state) => state.loadStock);
+
   const loadStockByCategorie = useSelector(
     (state) => state.loadStockByCategorie
   );
@@ -127,8 +130,7 @@ function AfficherStock(props) {
     setStockData(await caisseUtils.getStock(page, nbProduits, stock))
   },[page, loadStock, stock])
 
-  const trigger=useScrollTrigger();
- const [show, setShow] = useState(trigger?true: false)
+  
  
 window.addEventListener('scroll', ()=>{
   if (!show && window.pageYOffset > 300){
