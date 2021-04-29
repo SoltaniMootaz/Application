@@ -59,7 +59,7 @@ function StockTable() {
    
   return (
     <div>       
-      <Paper >
+      <Paper style={{maxHeight:'20em',overflowY:'scroll'}}>
         <TextField 
           id="standard-search" 
           label="Rechercher" 
