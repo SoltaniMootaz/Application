@@ -4,7 +4,7 @@ import { LoadTicket } from "../../actions";
 import { loadArticles, loadCategories } from "../../services/Menu";
 import * as MenuUtils from "../../Utils/Menu";
 
-import def from "./img/def.jpg";
+import def from "../../images/def.jpg";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";

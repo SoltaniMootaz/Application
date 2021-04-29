@@ -24,8 +24,14 @@ const loadAllStock = async () => {
     return result;
 }
 
+const recommend = async () => {
+    const result = await axios.get(env.API_URL + "recommend/" + localStorage.getItem("userID"));
+    return result.data;
+}
+
 export {
     loadUserStock,
     ajouterProduit,
-    loadAllStock
+    loadAllStock,
+    recommend
 }

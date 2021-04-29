@@ -65,7 +65,7 @@ function StockAddProduit(props) {
   const [codeBarre, setCodeBarre] = useState();
   const [prixAchat, setPrixAchat] = useState();
   const [prixVente, setPrixVente] = useState();
-  const [quantite, setQuantite] = useState();
+  const [quantite, setQuantite] = useState(1);
   const [categorie, setCategorie] = useState();
   const [gammes, setGammes] = useState([]);
   const [error, setError] = useState();

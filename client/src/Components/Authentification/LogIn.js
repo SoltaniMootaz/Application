@@ -53,26 +53,31 @@ function LogIn() {
 			localStorage.removeItem('ticket' + i)
 	}, []);
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
-		login(user.email, user.password)
-			.then((res) => {
-				localStorage.setItem("userID", res.data.id);
-				if (res.data.commerce === "attar")
-					localStorage.setItem("commerce", "stock");
-				else if (res.data.commerce === "hammas")
-					localStorage.setItem("commerce", "stock");
-				else if (res.data.commerce === "café")
-					localStorage.setItem("commerce", "menu");
-				else if (res.data.commerce === "restaurant")
-					localStorage.setItem("commerce", "menu");
-				else if (res.data.commerce === "patisserie")
-					localStorage.setItem("commerce", "menu");
-				window.location.href = "home";
-			})
-			.catch((err) => {
-				setError(err.response.data);
-			});
+		navigator.geolocation.getCurrentPosition((pos)=> {
+
+			login(user.email, user.password, pos.coords.latitude, pos.coords.longitude)
+				.then((res) => {
+					console.log(res)
+					localStorage.setItem("userID", res.data.id);
+					if (res.data.commerce === "attar")
+						localStorage.setItem("commerce", "stock");
+					else if (res.data.commerce === "hammas")
+						localStorage.setItem("commerce", "stock");
+					else if (res.data.commerce === "café")
+						localStorage.setItem("commerce", "menu");
+					else if (res.data.commerce === "restaurant")
+						localStorage.setItem("commerce", "menu");
+					else if (res.data.commerce === "patisserie")
+						localStorage.setItem("commerce", "menu");
+
+					window.location.href = "home";
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		})
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

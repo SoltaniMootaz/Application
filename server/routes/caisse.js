@@ -6,15 +6,16 @@ var async = require("async");
 const bcrypt = require('bcrypt');
 
 /* router.post("/api/excelToDB",(req,res) => {
-    xlsxFile('C:/Users/houss/Desktop/projet1/application/server/produits.xlsx').then((rows) => {
-        for (i in rows){
-            if(i>0) {
-                pool.query('INSERT INTO public.stock("code_a_barre",libelle,prix_ttc,image,qte_stock,prix_vente_public,gamme_code) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *',[rows[i][2] + '6',rows[i][4] + '6',rows[i][32],rows[i][22],rows[i][15],rows[i][37],rows[i][8]],(err,result)=>{
-                    if(err) 
-                        console.error(err.toString());
-                })
+    xlsxFile('C:/Users/houss/OneDrive/Bureau/projet1/application/server/produits.xlsx').then((rows) => {
+        for(var j = 7;j<50;j++)
+            for (i in rows){
+                if(i>0) {
+                    pool.query('INSERT INTO public.stock("code_a_barre",libelle,prix_ttc,image,qte_stock,prix_vente_public,gamme_code) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *',[rows[i][2] + j,rows[i][4] + j,rows[i][32],rows[i][22],rows[i][15],rows[i][37],rows[i][8]],(err,result)=>{
+                        if(err) 
+                            console.error(err.toString());
+                    })
+                }
             }
-        }
         res.status(200).send("succes");
     }).catch(err => res.send(err.toString()));
 });
@@ -58,7 +59,7 @@ router.get("/api/stock/:id",async (req,res) => {
     }catch(err) {
         res.status(400).send(err.toString());
     }
-});
+}); 
 
 router.get("/api/afficherVente/:id",(req,res) => {
     let  id=Number(req.params.id);
@@ -68,14 +69,12 @@ router.get("/api/afficherVente/:id",(req,res) => {
         else
             res.status(200).json(result.rows);
     })
-})
+}) 
 
 
 router.post("/api/ticket/:id",async (req,res) => {
     const { data, quantite, somme, date, operation, methodes, typeCommerce, id_client } = req.body;
     const id_utilisateur = req.params.id;
-
-
     var {table} = req.body;
 
     pool.query('SELECT MAX(numero) as numero FROM public.ticket WHERE id_utilisateur = $1',[id_utilisateur],(err,res0)=>{
@@ -96,12 +95,20 @@ router.post("/api/ticket/:id",async (req,res) => {
                     res.status(400).send(err.toString())
                 }else {
                     data.map((value,index) => {
-                        if(value)
-                        pool.query('INSERT INTO public."produitsTicket" VALUES($1,$2,$3,$4) RETURNING *',[value.id,res1.rows[0].id,quantite[index],typeCommerce],(err) => {
-                            if(err) {
-                                res.status(400).send(err.toString())
-                            }
-                        })
+                        if(value) {
+                            pool.query('INSERT INTO public."produitsTicket" VALUES($1,$2,$3,$4) RETURNING *',[value.id,res1.rows[0].id,quantite[index],typeCommerce],(err) => {
+                                if(err) {
+                                    res.status(400).send(err.toString())
+                                }
+                            })
+
+                            if(operation === "vente")
+                                pool.query(`INSERT INTO public."tableMouvement"("id_produit",type,quantite,prix,date,"user_id")
+                                            VALUES($1,$2,$3,$4,$5,$6)`,[value.id,"achat",quantite[index],value.prix_ttc,date,id_utilisateur],err=>{
+                                    if(err)
+                                        res.status(400).send(err.toString())
+                                })
+                        }
                     })
 
                     pool.query('INSERT INTO public."mouvement"(operation, date, id_ticket) VALUES($1,$2,$3) RETURNING *',[operation, date, res1.rows[0].id],(err) => {
