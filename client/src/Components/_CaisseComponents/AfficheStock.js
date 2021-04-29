@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket, LoadStock, LoadStockByCategorie } from "../../actions";
 import * as caisseUtils from "../../Utils/Caisse";
 
-import def from "./img/def.jpg";
+import def from "../../images/def.jpg";
 import Carousel from 'react-elastic-carousel';
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,8 +18,6 @@ import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Pagination from '@material-ui/lab/Pagination';
-
-import { IconButton } from "@material-ui/core";
 
 import {FaArrowCircleUp} from 'react-icons/fa'
 

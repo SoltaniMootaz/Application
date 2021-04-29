@@ -15,12 +15,14 @@ const signup = async (email,nom,prenom,adr,tel,mdp,commerce) => {
     return result;
 }
 
-const login = async (email,password) => {
+const login = async (email,password,lat,long) => {
     const result = await axios.post(env.API_URL + "login", {
         email: email,
         mdp: password,
-      })
-    
+        lat: lat,
+        long: long
+    })
+
     return result;
 }
 
