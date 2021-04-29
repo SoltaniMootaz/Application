@@ -20,8 +20,20 @@ const getScannedProduit = async (data, value) => {
     )
 }
 
+const loopStock = (data, length) => {
+    const arr = [];
+
+    for(var i=0; i<length; i++) {
+        if(data[i])
+            arr.push(data[i])
+    }
+
+    return arr;
+}
+
 export {
     setSelectValues,
     search,
-    getScannedProduit
+    getScannedProduit,
+    loopStock
 }
