@@ -61,17 +61,6 @@ router.get("/api/stock/:id",async (req,res) => {
     }
 }); 
 
-router.get("/api/afficherVente/:id",(req,res) => {
-    let  id=Number(req.params.id);
-    pool.query('SELECT * FROM mouvement m inner Join ticket t on t.id=m.id_ticket WHERE  t.id_utilisateur=$1 ', [id],(err,result) => {
-        if(err)
-            res.status(400).send(err.toString());
-        else
-            res.status(200).json(result.rows);
-    })
-}) 
-
-
 router.post("/api/ticket/:id",async (req,res) => {
     const { data, quantite, somme, date, operation, methodes, typeCommerce, id_client } = req.body;
     const id_utilisateur = req.params.id;
