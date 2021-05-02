@@ -4,6 +4,7 @@ import { search, loopStock } from "../../Utils/Stock";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -13,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import StockStats from "./StockStats";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -46,7 +48,8 @@ function StockTable() {
   const [data1, setData1] = useState();
   const [length, setLength] = useState(20);
   const [searching, setSearching] = useState(false);
-
+  const [currentStat, setCurrentStat] = useState(0);
+  const [state, setState] = useState(false);
   useEffect(() => {
     loadUserStock().then(async (res) => {
       setAllData(res.data);
@@ -91,7 +94,7 @@ function StockTable() {
       setLength(length + 20);
     }
   };
-
+   
   return (
     <div>
       <Paper>
@@ -126,12 +129,14 @@ function StockTable() {
                   <StyledTableCell>Prix achat</StyledTableCell>
                   <StyledTableCell>Prix vente</StyledTableCell>
                   <StyledTableCell>Quantité</StyledTableCell>
+                  <StyledTableCell>Statistique</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody style={{ width: "100%" }}>
                 {data1.map((row, index) => {
+                  let idP=row.id_produit;
                   if (row)
-                    return (
+                    return (                     
                       <StyledTableRow key={index}>
                         <StyledTableCell component="th" scope="row">
                           {row.id_produit}
@@ -140,6 +145,12 @@ function StockTable() {
                         <StyledTableCell>{row.prix_ttc}</StyledTableCell>
                         <StyledTableCell>{row.prix_vente}</StyledTableCell>
                         <StyledTableCell>{row.quantite}</StyledTableCell>
+                        <StyledTableCell><Button value={idP}
+                         onClick={()=>{
+                           console.log(idP);
+                           setCurrentStat(idP)
+                           setState(true)}}
+                        >Voir</Button></StyledTableCell>
                       </StyledTableRow>
                     );
                 })}
@@ -163,7 +174,11 @@ function StockTable() {
           ""
         )}
       </Paper>
-    </div>
+      {state?(
+      <StockStats handleOpen={state} handleClose={() => setState(false)} idP={currentStat} />
+      ):""
+}
+          </div>
   );
 }
 
