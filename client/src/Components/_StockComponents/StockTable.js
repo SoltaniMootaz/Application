@@ -126,10 +126,9 @@ function StockTable() {
                 <TableRow>
                   <StyledTableCell>#id</StyledTableCell>
                   <StyledTableCell>Libelle</StyledTableCell>
-                  <StyledTableCell>Prix achat</StyledTableCell>
-                  <StyledTableCell>Prix vente</StyledTableCell>
-                  <StyledTableCell>Quantité</StyledTableCell>
-                  <StyledTableCell>Statistique</StyledTableCell>
+                  <StyledTableCell>Prix d'achat</StyledTableCell>
+                  <StyledTableCell>Prix de vente</StyledTableCell>
+                  <StyledTableCell></StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody style={{ width: "100%" }}>
@@ -144,7 +143,6 @@ function StockTable() {
                         <StyledTableCell>{row.libelle}</StyledTableCell>
                         <StyledTableCell>{row.prix_ttc}</StyledTableCell>
                         <StyledTableCell>{row.prix_vente}</StyledTableCell>
-                        <StyledTableCell>{row.quantite}</StyledTableCell>
                         <StyledTableCell><Button value={idP}
                          onClick={()=>{
                            console.log(idP);

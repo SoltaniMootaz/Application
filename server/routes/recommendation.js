@@ -19,49 +19,60 @@ router.get("/api/recommend/:id",(req,res) => {
 
                     const products = [];
 
-                    closeUsers.forEach((value, index)=>{
-                        pool.query('SELECT "id_produit", quantite FROM public."tableMouvement" WHERE "user_id" = $1',[value], (err,result)=>{
-                            if(result.rowCount > 0){              
-                                 result.rows.map(async val1=>{
-                                    await getProducts(val1, products);
-                                })
-                            }
+                    if(closeUsers.length == 0) 
+                        res.status(400).send('no result')
+                    else {
+                        closeUsers.forEach((value, index)=>{
+                            pool.query('SELECT "id_produit", quantite FROM public."tableMouvement" WHERE "user_id" = $1',[value], async (err,result)=>{
+                                if(result.rowCount > 0){              
+                                    result.rows.map(async val1=>{
+                                        await getProducts(val1, products);
+                                    })
+                                }
 
-                            if(index === closeUsers.length -1) {
-                                if(products) {
-                                    if(products.length > 0) {
-                                        const maxProds = sort(products)
+                                if(index === closeUsers.length -1) {
+                                    if(products) {
+                                        if(products.length > 0) {
+                                            const Prods = [];
 
-                                        const Prods = [];
-                                        maxProds.forEach((value, index1)=>{
-                                            pool.query(`SELECT * FROM public.stock WHERE id = $1 
-                                            AND NOT EXISTS (SELECT * from public."stockUtilisateur" 
-                                            WHERE "id_produit" = $1 AND "id_utilisateur" = $2)`,[value.id, id],(err,result)=>{
-                                                if(err)
-                                                    res.status(400).send(err.toString())
-                                                else if(index1 === maxProds.length - 1){
-                                                    res.status(200).send(Prods)
-                                                }else if(result.rowCount > 0)
-                                                    Prods.push(
-                                                        {
-                                                            id: result.rows[0].id,
-                                                            libelle: result.rows[0].libelle,
-                                                            image: result.rows[0].image,
-                                                            prix: result.rows[0].prix_ttc,
-                                                            quantite_vendu: value.quantite 
-                                                        }
-                                                    )
-                                                else
-                                                    res.status(400).send('no result')
+                                            products.forEach((value, index1)=>{
+                                                pool.query(`SELECT * FROM public.stock WHERE id = $1 
+                                                AND NOT EXISTS (SELECT * from public."stockUtilisateur" 
+                                                WHERE "id_produit" = $1 AND "id_utilisateur" = $2)`,[value.id, id],async (err,result)=>{
+                                                    if(err)
+                                                        res.status(400).send(err.toString())
+                                                    else if(result.rowCount > 0) {
+                                                        Prods.push(
+                                                            {
+                                                                id: result.rows[0].id,
+                                                                libelle: result.rows[0].libelle,
+                                                                image: result.rows[0].image,
+                                                                prix: result.rows[0].prix_ttc,
+                                                                quantite_vendu: value.quantite 
+                                                            }
+                                                        )
+
+                                                        //if(index1 === products.length - 1)
+                                                            
+                                                    }
+                                                })
                                             })
-                                        })
+
+                                            setTimeout(()=>{
+                                                if(Prods.length === 0)
+                                                    res.status(400).send('no result')
+                                                else
+                                                    res.status(200).json(Prods)
+                                            },2000)
+
+                                        }else
+                                            res.status(400).send('no result')
                                     }else
                                         res.status(400).send('no result')
-                                }else
-                                    res.status(400).send('no result')
-                            }
+                                }
+                            })
                         })
-                    })
+                    }
                 }
             })
         else
@@ -99,32 +110,6 @@ const getProducts = async (val1, products) => {
     if(!test) {            
         products.push({id: val1.id_produit, quantite : val1.quantite})
     }
-}
-
-const sort = (arr) => {
-    const result = []
-
-    for(var i=0; i<10; i++) {
-        const maximum = max(arr, result);
-        if(maximum)
-            result.push(maximum);
-    }
-
-    return result;
-}
-
-const max = (arr, result) => {
-    var max = 0;
-    var res;
-
-    arr.forEach(val=>{
-        if(val.quantite > max && !result.includes(val)) {
-            max = val.quantite;
-            res = val;
-        }
-    })
-
-    return res;
 }
 
 module.exports = router;

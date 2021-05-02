@@ -1,25 +1,15 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { LoadTicket, LoadStock, LoadStockByCategorie } from "../../actions";
 import * as caisseUtils from "../../Utils/Caisse";
-
 import def from "../../images/def.jpg";
+import {FaArrowCircleUp} from 'react-icons/fa'
+
 import Carousel from 'react-elastic-carousel';
-
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardMedia from "@material-ui/core/CardMedia";
-import { Grid, useScrollTrigger } from "@material-ui/core";
-
-
-import { Typography } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import { makeStyles, Card, CardActionArea, CardMedia, Grid, useScrollTrigger, Typography, Button } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Pagination from '@material-ui/lab/Pagination';
-
-import {FaArrowCircleUp} from 'react-icons/fa'
 
 const useStyles = makeStyles({
   root: {
@@ -140,7 +130,7 @@ window.addEventListener('scroll', ()=>{
   return (
     <>
     <div className="Gammes">
-    <Carousel itemsToShow={3} pagination={false} >
+    <Carousel itemsToShow={3} pagination={false}>
         {gammes.map((data, index) => (
           <div className="WrappedItems" key={index} >
             {selected == data ? (

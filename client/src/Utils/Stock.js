@@ -32,6 +32,33 @@ const loopStock = (data, length) => {
 
     return arr;
 }
+
+const sort = async (arr) => {
+    const tmpArr = [];
+    const sortedArr = [];
+    
+    arr.forEach(value=>{
+        tmpArr.push(value.quantite_vendu)
+    })
+
+    tmpArr.sort(function(a, b){return b-a});
+
+    for(var i=0; i<10 ; i++)
+        sortedArr.push(tmpArr[i])
+
+    arr.forEach(async value=>{
+        for(var i=0; i<sortedArr.length; i++){
+            if(sortedArr[i])
+                if(!sortedArr[i].id && sortedArr[i] === value.quantite_vendu) {
+                    sortedArr[i] = value;
+                    break;
+                }
+        }
+    })
+
+    return sortedArr
+}
+
 const filterChartDataDate= async ()=>{
     const currentDate = new Date();
     var last30DaysDate = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -75,7 +102,8 @@ export {
     setSelectValues,
     search,
     getScannedProduit,
-    loopStock,    
+    loopStock,
+    sort,
     filterChartDataDate,
     filtercChartDataVente
 }

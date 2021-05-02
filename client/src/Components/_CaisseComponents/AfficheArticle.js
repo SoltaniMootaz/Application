@@ -14,6 +14,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import Carousel from 'react-elastic-carousel';
+
 
 const useStyles = makeStyles({
   root: {
@@ -116,33 +118,32 @@ function AfficheArticle(props) {
 
   return (
     <>
-      <Grid container>
-        {dataCat
-          ? dataCat.map((data, index) => (
-              <Grid item xl={3} lg={3} md={6} sm={6} xs={6} key={index}>
-                {selected == data.id ? (
-                  <Button
-                    key={index}
-                    variant="contained"
-                    style={{ width: "100%", backgroundColor: "#00bcd4" }}
-                    onClick={() => handleSelected("")}
-                  >
-                    <p>{data.nom}</p>
-                  </Button>
-                ) : (
-                  <Button
-                    key={index}
-                    variant="contained"
-                    style={{ width: "100%" }}
-                    onClick={() => handleSelected(data.id)}
-                  >
-                    <p>{data.nom}</p>
-                  </Button>
-                )}
-              </Grid>
-            ))
-          : ""}
-      </Grid>
+    <Carousel itemsToShow={3} pagination={false} >
+        {dataCat.map((data, index) => (
+          <div className="WrappedItems" key={index} >
+            {selected == data.id ? (
+              <Button
+                key={index}
+                variant="contained"
+                style={{ width: "17em", backgroundColor: "#00bcd4" }}
+                onClick={() => handleSelected("")}
+              >
+                <p>{data.nom}</p>
+              </Button>
+            ) : (
+              <Button
+                key={index}
+                variant="contained"
+                style={{ width: "17em" }}
+                onClick={() => handleSelected(data.id)}
+              >
+                <p>{data.nom}</p>
+              </Button>
+            )}
+          </div>
+          
+        ))}
+    </Carousel>
       <br />
       <hr />
       <Grid container spacing={3}>

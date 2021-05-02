@@ -47,25 +47,29 @@ const Row = (props) => {
 		<React.Fragment>
 			<TableRow className={classes.root}>
 				<TableCell>
-					<IconButton
-						aria-label="expand row"
-						size="small"
-						onClick={() => setOpen(!open)}
-					>
-						{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-					</IconButton>
+					{row.operation == 'vente' ? 
+						<IconButton
+							aria-label="expand row"
+							size="small"
+							onClick={() => setOpen(!open)}
+						>
+							{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+						</IconButton>
+					: "" }
 				</TableCell>
+				
 				<TableCell component="th" scope="row" align="center">
 					{row.nomPre}
 				</TableCell>
 				<TableCell align="center" style={{ fontWeight: "bold" }}>
-					Achat
+					{row.operation}
 				</TableCell>
 				<TableCell align="center">
 					{getTime(new Date(row.date))}
 				</TableCell>
 				<TableCell align="center">{row.montant.toFixed(3)}</TableCell>
 			</TableRow>
+			
 			<TableRow>
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
@@ -76,8 +80,8 @@ const Row = (props) => {
 							<Table size="small" aria-label="purchases">
 								<TableHead>
 									<TableRow>
-										<TableCell>Libelle</TableCell>
-										<TableCell>Quantité</TableCell>
+										<TableCell><b>Libelle</b></TableCell>
+										<TableCell><b>Quantité</b></TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -99,6 +103,7 @@ const Row = (props) => {
 					</Collapse>
 				</TableCell>
 			</TableRow>
+			
 		</React.Fragment>
 	);
 };
