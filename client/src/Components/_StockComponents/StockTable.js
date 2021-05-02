@@ -125,7 +125,6 @@ function StockTable() {
                   <StyledTableCell>Libelle</StyledTableCell>
                   <StyledTableCell>Prix achat</StyledTableCell>
                   <StyledTableCell>Prix vente</StyledTableCell>
-                  <StyledTableCell>Quantité</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody style={{ width: "100%" }}>
@@ -139,7 +138,6 @@ function StockTable() {
                         <StyledTableCell>{row.libelle}</StyledTableCell>
                         <StyledTableCell>{row.prix_ttc}</StyledTableCell>
                         <StyledTableCell>{row.prix_vente}</StyledTableCell>
-                        <StyledTableCell>{row.quantite}</StyledTableCell>
                       </StyledTableRow>
                     );
                 })}

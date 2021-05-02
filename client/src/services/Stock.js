@@ -6,13 +6,12 @@ const loadUserStock = async () => {
     return result;
 }
 
-const ajouterProduit = async (libelle, codeBarre, prix_achat, prix_vente, quantite, categorie) => {
+const ajouterProduit = async (libelle, codeBarre, prix_achat, prix_vente, categorie) => {
     const result = await axios.post(env.API_URL + "ajouterProduit/" + localStorage.getItem("userID"), {
         libelle: libelle,
         codeBarre : codeBarre, 
         prix_achat : prix_achat, 
         prix_vente : prix_vente,
-        quantite : quantite,
         categorie : categorie
     });
     
@@ -25,8 +24,12 @@ const loadAllStock = async () => {
 }
 
 const recommend = async () => {
-    const result = await axios.get(env.API_URL + "recommend/" + localStorage.getItem("userID"));
-    return result.data;
+    try {
+        const result = await axios.get(env.API_URL + "recommend/" + localStorage.getItem("userID"));
+        return result.data;
+    }catch(err){
+        return err.response.data
+    }
 }
 
 export {
