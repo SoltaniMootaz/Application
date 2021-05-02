@@ -37,7 +37,8 @@ router.post("/api/signup", async (req,res) => {
 
 router.post("/api/login", async (req,res) => {
     try {
-        const { email,mdp } = req.body;
+        const { email,mdp,lat,long } = req.body;
+
         pool.query("SELECT id,mdp,commerce FROM utilisateur WHERE email = $1",[email],(err,result) => {
             if(err) {
                 console.error('Error executing query', err.stack);
@@ -47,9 +48,16 @@ router.post("/api/login", async (req,res) => {
                         if(err || !result1) {
                             res.status(400).send("Mot de passe incorrecte");
                         }else {
+                            pool.query(`UPDATE utilisateur
+                                        SET coords = point($1, $2)
+                                        WHERE id = $3 RETURNING *`,[lat,long,result.rows[0].id],(err)=>{
+                                if(err)
+                                    console.log(err.toString())
+                            })
+
                             //create and assign a token 
                             const token = await jwt.sign({id: result.rows[0].id}, process.env.TOKEN_SECRET);
-                            res.header('auth_token', token).send(result.rows[0].id.toString());
+                            res.header('auth_token', token).send(result.rows[0]);
                         }
                     });
                 }else {

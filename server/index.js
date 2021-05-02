@@ -10,6 +10,11 @@ app.use(cors());
 const authRoute = require('./routes/auth');
 const menuRoute = require('./routes/menu');
 const caisseRoute = require('./routes/caisse');
+const journalRoute = require('./routes/journal');
+const kridiRoute = require('./routes/kridi');
+const settingsRoute = require('./routes/settings');
+const stockRoute = require('./routes/stock');
+const recommRoute = require('./routes/recommendation');
 
 //Middlewares
 app.use(express.json());
@@ -22,6 +27,11 @@ app.use(express.urlencoded({
 app.use(authRoute);
 app.use(menuRoute);
 app.use(caisseRoute);
+app.use(journalRoute);
+app.use(kridiRoute);
+app.use(settingsRoute);
+app.use(stockRoute);
+app.use(recommRoute);
 
 
 const port = 3001;

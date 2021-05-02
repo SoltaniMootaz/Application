@@ -90,7 +90,7 @@ Form.Group{
   
  }
  .icon1{
-   color: #8a8a8a;
+   color: #999797;
  }
  
  .icon1:active{
@@ -99,16 +99,19 @@ Form.Group{
  .icon1:hover{
   color:#00A600;
 }
-
+.icon2{
+  color:#999797 ;
+}
 .icon{
   color:white;
 }
-/* .icon:active{
-  color:#00A0B1;
+ .icon2:active{
+  color:#BF1E4B;
 }
-.icon:hover{
- color:#00A0B1;
-} */
+
+.icon2:hover{
+ color:#BF1E4B;
+} 
  @media (max-width: 768px){
   .homeBtn{
     display: none;
@@ -149,4 +152,62 @@ Form.Group{
 }
 .container {
   padding: 2px 16px;
+}
+.Gammes{
+  /* position: -webkit-sticky;
+  position: sticky;
+  padding-top: 4em; */
+  top: 0;
+  z-index: 2;
+  background-color: #fafafa;
+}
+.Wrapper{
+  white-space:nowrap;
+  overflow-x:scroll;
+  overflow-y: hidden;
+  display: flex;
+  max-height: 7em;
+  width: 60em;
+  height: 6em;
+  flex-wrap: nowrap;
+
+}
+/* .Wrapper::-webkit-scrollbar{
+  display: none
+} */
+.WrappedItems{
+  flex: 0 0 auto;
+  padding-top: 1em;
+  padding-right: 1em;
+  padding-left: 1em;
+}
+.rec.rec-arrow:enabled:hover {
+  background-color: #33c9dc;
+}
+.rec.rec-arrow:active {
+  background-color: #33c9dc;
+}
+.rec.rec-arrow:hover { 
+  background-color: #33c9dc;
+}
+.rec.rec-arrow::after {
+  background-color: #33c9dc;
+}
+.rec{
+  height:7em
+}
+.BackToTop{
+  position: fixed; 
+  width: 4em;
+  bottom: 20px;
+  height: 4em;
+  z-index: 1000;
+  cursor: pointer;
+  animation: fadeIn 0.3s;
+  transition: opacity 0.7s;
+  opacity: 1;
+  right: 10px;
+}
+.BackToTop:hover{
+  opacity: 1;
 }

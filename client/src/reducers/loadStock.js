@@ -1,4 +1,4 @@
-import { GET_DATA_ERROR,GET_DATA_REQUEST,GET_DATA_SUCCESS } from '../actions/actions'
+import { GET_DATA_ERROR,GET_DATA_REQUEST,GET_DATA_SUCCESS,GET_DATA_SUCCESS1 } from '../actions/actions'
 
 const initialState = {
     data: [],
@@ -30,4 +30,16 @@ const loadStock = (state = initialState,action = {}) => {
     }
 }
 
-export default loadStock;
+const loadStockByCategorie = (state = initialState, action = {}) => {
+    switch (action.type) {
+        case GET_DATA_SUCCESS1: 
+            return {
+                data: action.payload,
+                loading: false,
+                error: ""
+            };
+        default: return state;
+    }
+}
+
+export {loadStock, loadStockByCategorie};
