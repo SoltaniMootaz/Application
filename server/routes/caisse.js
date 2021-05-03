@@ -93,7 +93,7 @@ router.post("/api/ticket/:id",async (req,res) => {
 
                             if(operation === "vente")
                                 pool.query(`INSERT INTO public."tableMouvement"("id_produit",type,quantite,prix,date,"user_id")
-                                            VALUES($1,$2,$3,$4,$5,$6)`,[value.id,"achat",quantite[index],value.prix_ttc,date,id_utilisateur],err=>{
+                                            VALUES($1,$2,$3,$4,$5,$6)`,[value.id,"vente",quantite[index],value.prix_ttc,date,id_utilisateur],err=>{
                                     if(err)
                                         res.status(400).send(err.toString())
                                 })

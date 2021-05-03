@@ -120,8 +120,6 @@ function Article(props) {
 
   const [dataCat, setDataCat] = useState([]);
   const [dataArt, setDataArt] = useState([]);
-  const [isLoading1, setLoading1] = useState(true);
-  const [isLoading2, setLoading2] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
   const [value, setValue] = useState();
   const [state, setState] = useState(false);
@@ -135,12 +133,10 @@ function Article(props) {
   useEffect(() => {
     loadCategories().then((res) => {
       setDataCat(res.data);
-      setLoading1(false);
     });
 
     loadArticles().then((res) => {
       setDataArt(res.data);
-      setLoading2(false);
     });
   }, []);
 

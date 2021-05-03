@@ -11,10 +11,12 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  useScrollTrigger
 } from "@material-ui/core";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import StockStats from "./StockStats";
+import {FaArrowCircleUp} from 'react-icons/fa'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -49,7 +51,19 @@ function StockTable() {
   const [length, setLength] = useState(20);
   const [searching, setSearching] = useState(false);
   const [currentStat, setCurrentStat] = useState(0);
+  const [libelle, setLibelle] = useState();
   const [state, setState] = useState(false);
+  const trigger=useScrollTrigger();
+  const [show, setShow] = useState(trigger?true: false)
+
+  window.addEventListener('scroll', ()=>{
+    if (!show && window.pageYOffset > 500){
+      setShow(true)
+    } else if (show&& window.pageYOffset <= 500){
+      setShow(false)
+    }
+  })
+
   useEffect(() => {
     loadUserStock().then(async (res) => {
       setAllData(res.data);
@@ -147,8 +161,9 @@ function StockTable() {
                          onClick={()=>{
                            console.log(idP);
                            setCurrentStat(idP)
+                           setLibelle(row.libelle)
                            setState(true)}}
-                        >Voir</Button></StyledTableCell>
+                        >Statistiques</Button></StyledTableCell>
                       </StyledTableRow>
                     );
                 })}
@@ -173,9 +188,11 @@ function StockTable() {
         )}
       </Paper>
       {state?(
-      <StockStats handleOpen={state} handleClose={() => setState(false)} idP={currentStat} />
+      <StockStats handleOpen={state} handleClose={() => setState(false)} idP={currentStat} libelle={libelle} />
       ):""
 }
+
+<FaArrowCircleUp className="BackToTop" onClick={()=>{ window.scrollTo({top: 0, behavior: 'smooth'});}} style={{display: show ? 'flex' : 'none'}}/>
           </div>
   );
 }

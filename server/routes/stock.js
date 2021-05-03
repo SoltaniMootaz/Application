@@ -50,6 +50,7 @@ router.get("/api/allStock", (req,res) => {
             res.status(200).send(result.rows)
     })
 })
+
 router.get("/api/allMouvement/:id/:idP", (req,res) => {
   const {id}=req.params;
   const {idP}=req.params;

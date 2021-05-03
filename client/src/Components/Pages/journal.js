@@ -232,6 +232,7 @@ function Journal(props) {
                 startIcon={<AiFillUnlock style={{color:'white'}}/>}
                 onClick={()=>{
                   setOpen(true);
+                  setCaisse(false)
                 }}
               >
                 Clôturer la caisse
@@ -243,8 +244,7 @@ function Journal(props) {
                 className={classes.button}
                 startIcon={<AiFillLock />}
                 onClick={()=>{
-                  localStorage.setItem('caisse',true);
-                  localStorage.setItem('openingTime',new Date().getTime());
+                  setOpen(true);
                   setCaisse(true)
                 }}
               >
@@ -255,7 +255,7 @@ function Journal(props) {
           </Toolbar>
         </AppBar>
 
-        <ClotureAlert open={open} setOpen={setOpen} />
+        <ClotureAlert open={open} setOpen={setOpen} caisse={caisse} />
 
         <nav className={classes.drawer} aria-label="mailbox folders">
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
