@@ -13,10 +13,11 @@ import {
   TableCell,
   TableBody,
   Table,
-  Typography,
   Grid
 } from "@material-ui/core";
 import { GiReceiveMoney } from "react-icons/gi";
+import { GrMoney } from "react-icons/gr";
+
 
 const useStyles = makeStyles({
   table: {
@@ -48,8 +49,9 @@ function InfoClient(props) {
   return (
     <div>
       <Grid container>
-        <Grid item xs={4}>
-          <Typography style={{marginTop:"1em"}}><h4>Totale : {totale.toFixed(3) + " DT"}</h4></Typography>
+        <Grid item xs={4} style={{paddingTop:"1em"}}>
+          <GrMoney style={{ width: 50, height: 20 }} />
+          <h4 style={{display:'inline', fontSize:"1.3em"}}>Totale : {totale.toFixed(3) + " DT"}</h4>
         </Grid>
         <Grid item xs={6}></Grid>
         <Grid item xs={2}>
