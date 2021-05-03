@@ -89,7 +89,7 @@ function SignUp() {
 
 	const CountrySelect = ({ value, onChange, labels, ...rest }) => (
 		<>
-			<InputLabel htmlFor="commerce">Commerce</InputLabel>
+			<InputLabel htmlFor="commerce">Pays</InputLabel>
 			<Select
 				native
 				inputProps={{

@@ -125,7 +125,7 @@ function AfficheArticle(props) {
               <Button
                 key={index}
                 variant="contained"
-                style={{ width: "17em", backgroundColor: "#00bcd4" }}
+                style={{ width: "17em", backgroundColor: "#00bcd4",color:'white' }}
                 onClick={() => handleSelected("")}
               >
                 <p>{data.nom}</p>

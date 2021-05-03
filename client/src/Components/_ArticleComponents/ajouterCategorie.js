@@ -4,7 +4,7 @@ import {ajouterActivite} from '../../services/Activite'
 
 ///////////////////////////////////////////////////////
 
-import { withStyles } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -18,7 +18,14 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
 ////////////////////////////////////////////////////////
-
+const theme = createMuiTheme({
+	palette: {
+		primary: {
+			main:"#00A600"  ,
+		},
+		
+	},
+});
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -90,9 +97,11 @@ function AjouterCat(props) {
           </Grid>
         </DialogContent>
         <DialogActions style={{justifyContent:'center'}}>
-          <Fab color="primary" aria-label="add" onClick={(e) => submit(e)}>
+        <ThemeProvider theme={theme}>
+          <Fab color="primary" aria-label="add" onClick={(e) => submit(e)} >
           <AddIcon />
           </Fab>
+          </ThemeProvider>
         </DialogActions>
       </Dialog>
     </>

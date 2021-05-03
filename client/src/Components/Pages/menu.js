@@ -19,7 +19,7 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
-import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme, makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
@@ -106,6 +106,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+const theme = createMuiTheme({
+	palette: {
+		primary: {
+			main:"#00A600"  ,
+		},
+		
+	},
+});
 /////////////////////////////////////////////
 function Article(props) {
   var isLoading = true;
@@ -251,7 +259,7 @@ function Article(props) {
                 style={{ width: "1.5em", height: "1.5em" }}
               />
             </IconButton>
-
+              <ThemeProvider theme={theme}>
             <TextField
               id="input-with-icon-textfield"
               placeholder="Recherche"
@@ -265,6 +273,7 @@ function Article(props) {
               className={classes.search}
               onChange={handleSearch}
             />
+            </ThemeProvider>
             <IconButton
               color="inherit"
               aria-label="open drawer"

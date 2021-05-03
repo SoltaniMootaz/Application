@@ -6,7 +6,7 @@ import { ajouterActivite } from "../../services/Activite";
 
 ///////////////////////////////////////////////////////////////////////
 
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
@@ -27,7 +27,14 @@ import AddIcon from "@material-ui/icons/Add";
 import { useSelector } from "react-redux";
 
 ////////////////////////////////////////////////////////////////////////////
-
+const theme = createMuiTheme({
+	palette: {
+		primary: {
+			main:"#00A600"  ,
+		},
+		
+	},
+});
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -360,7 +367,9 @@ function AjouterCat(props) {
             </Grid>
           </form>
         </DialogContent>
+       
         <DialogActions style={{ justifyContent: "center" }}>
+        <ThemeProvider theme={theme}>
           <Fab
             color="primary"
             aria-label="add"
@@ -368,8 +377,9 @@ function AjouterCat(props) {
               submit(e);
             }}
           >
-            <AddIcon />
+            <AddIcon style={{backgroundColor:'#00A600"'}}/>
           </Fab>
+          </ThemeProvider>
         </DialogActions>
       </Dialog>
     </>

@@ -299,7 +299,7 @@ function Vente(props) {
 										{espece ? (
 											<Button
 												onClick={() => setEspece(!espece)}
-												style={{ backgroundColor: "#00bcd4" }}
+												style={{ backgroundColor: "#00bcd4",color:'white' }}
 												startIcon={<IoMdCash />}
 											>
 												espece
@@ -316,7 +316,7 @@ function Vente(props) {
 										{cheque ? (
 											<Button
 												onClick={() => setCheque(!cheque)}
-												style={{ backgroundColor: "#00bcd4" }}
+												style={{ backgroundColor: "#00bcd4",color:'white' }}
 												startIcon={<FaMoneyCheckAlt />}
 											>
 												cheque
@@ -333,8 +333,8 @@ function Vente(props) {
 										{direct ? (
 											<Button
 												onClick={() => setDirect(!direct)}
-												style={{ backgroundColor: "#00bcd4" }}
-												startIcon={<GrCreditCard />}
+												style={{ backgroundColor: "#00bcd4",color:'white'}}
+												startIcon={<GrCreditCard style={{color:'white'}}/>}
 											>
 												en ligne
 											</Button>
@@ -350,7 +350,7 @@ function Vente(props) {
 										{kridi ? (
 											<Button
 												onClick={() => setKridi(!kridi)}
-												style={{ backgroundColor: "#00bcd4" }}
+												style={{ backgroundColor: "#00bcd4",color:'white' }}
 												startIcon={<IoIosPaper />}
 											>
 												Kridi

@@ -14,14 +14,12 @@ router.get("/api/afficherStock/:id",(req,res) => {
 })
 
 router.post("/api/ajouterProduit/:id", (req,res) => {
-    const { libelle, codeBarre, prix_achat, prix_vente, categorie } = req.body;
+    const { libelle, codeBarre, prix_achat, prix_vente, quantite, categorie } = req.body;
     const {id} = req.params;
 
     pool.query('SELECT * from public."stock" WHERE "code_a_barre" = $1',[codeBarre],(err,result0) => {
-        if(err)
-            res.status(400).send(err.toString());
-        else if(result0.rowCount > 0) {
-            pool.query('INSERT INTO public."stockUtilisateur"(id_utilisateur, id_produit, prix_vente) VALUES($1,$2,$3)',[id,result0.rows[0].id,prix_vente],(err,result2)=>{
+        if(result0.rowCount > 0) {
+            pool.query('INSERT INTO public."stockUtilisateur" VALUES($1,$2,$3,$4)',[id,result0.rows[0].id,quantite,prix_vente],(err,result2)=>{
                 if(err)
                     res.status(400).send(err.toString());
                 else
@@ -32,7 +30,7 @@ router.post("/api/ajouterProduit/:id", (req,res) => {
                 if(err)
                     res.status(400).send(err.toString());
                 else {
-                    pool.query('INSERT INTO public."stockUtilisateur"(id_utilisateur, id_produit, prix_vente) VALUES($1,$2,$3)',[id,result1.rows[0].id,prix_vente],(err,result2)=>{
+                    pool.query('INSERT INTO public."stockUtilisateur" VALUES($1,$2,$3,$4)',[id,result1.rows[0].id,quantite,prix_vente],(err,result2)=>{
                         if(err)
                             res.status(400).send(err.toString());
                         else

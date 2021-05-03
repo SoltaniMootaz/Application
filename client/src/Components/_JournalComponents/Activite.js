@@ -39,10 +39,10 @@ function Activite(props) {
           color="default"
           style={{ marginTop: "1.5em" }}
         >
-          {show === "vente" ? <Button onClick={() => setShow("vente")} style={{backgroundColor:"#ea7b9a"}}>Activité de vente</Button> 
+          {show === "vente" ? <Button onClick={() => setShow("vente")} style={{backgroundColor:"#ea7b9a",color:'white'}}>Activité de vente</Button> 
           : <Button onClick={() => setShow("vente")}>Activité de vente</Button>}
 
-          {show === "normal" ? <Button onClick={() => setShow("normal")} style={{backgroundColor:"#ea7b9a"}}>Activité normale</Button> 
+          {show === "normal" ? <Button onClick={() => setShow("normal")} style={{backgroundColor:"#ea7b9a",color:'white'}}>Activité normale</Button> 
           : <Button onClick={() => setShow("normal")}>Activité normale</Button>}
         </ButtonGroup>
       </center>

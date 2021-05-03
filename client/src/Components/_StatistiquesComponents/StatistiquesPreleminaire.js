@@ -9,7 +9,7 @@ function StatistiquesPreleminaire() {
             <Grid item xs={1}></Grid>
             <Grid item xs={5}>
                 <Grid item xs={12}>
-            <Paper style={{with:'90%'}}>
+            <Paper elevation={3} style={{with:'90%'}}>
             <Line 
             height={300}
             width={100}
@@ -48,7 +48,7 @@ function StatistiquesPreleminaire() {
         </Paper>
         </Grid>
         <Grid item xs={12} style={{paddingTop:'1em'}}>
-        <Paper style={{with:'90%'}}>
+        <Paper style={{with:'90%'}} elevation={3}>
             <Line 
             height={300}
             width={100}
@@ -82,7 +82,7 @@ function StatistiquesPreleminaire() {
         </Grid>
         </Grid>
             <Grid item xs={5}>
-            <Paper style={{height:'100%',with:'90%'}}>
+            <Paper style={{height:'100%',with:'90%'}} elevation={3}>
             <Pie 
             height={300}
             width={100}
@@ -118,7 +118,7 @@ function StatistiquesPreleminaire() {
             <Grid item xs={1}></Grid>
             <Grid item xs={1}></Grid>
             <Grid item xs={10} style={{paddingTop:'1em'}}>
-            <Paper style={{with:'90%'}}>
+            <Paper style={{with:'90%'}} elevation={3}>
             <Bar 
             height={300}
             width={100}

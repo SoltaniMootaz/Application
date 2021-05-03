@@ -16,6 +16,8 @@ import { AiFillHome } from "react-icons/ai";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { IconButton } from "@material-ui/core";
 import { GiTable } from "react-icons/gi";
+import { BiKey } from "react-icons/bi";
+import Keys from "../_OptionsComponents/Keys";
 
 ///////////////////////////////////////////////////////
 
@@ -56,7 +58,7 @@ function Options() {
 				<Toolbar>
 					<IconButton aria-label="add an alarm" component={Link} to="/Home">
 						<AiFillHome
-							className="icon2"
+							className="icon1"
 							style={{ width: "1.5em", height: "1.5em" }}
 						/>
 					</IconButton>
@@ -105,6 +107,44 @@ function Options() {
 							</ListItemIcon>
 							<ListItemText
 								primary={"Mots de passe"}
+								style={{ color: "white" }}
+							/>
+						</ListItem>
+					)}
+
+					<br />
+					{currentPage === "key" ? (
+						<ListItem
+							button
+							onClick={() => {
+								setCurrentPage("key");
+							}}
+							style={{ backgroundColor: "#008000" }}
+						>
+							<ListItemIcon>
+								<BiKey
+									style={{ color: "white", width: "1.4em", height: "1.4em" }}
+								/>
+							</ListItemIcon>
+							<ListItemText
+								primary={"Clé d'utilisation"}
+								style={{ color: "white" }}
+							/>
+						</ListItem>
+					) : (
+						<ListItem
+							button
+							onClick={() => {
+								setCurrentPage("key");
+							}}
+						>
+							<ListItemIcon>
+								<BiKey
+									style={{ color: "white", width: "1.4em", height: "1.4em" }}
+								/>
+							</ListItemIcon>
+							<ListItemText
+								primary={"Clé d'utilisation"}
 								style={{ color: "white" }}
 							/>
 						</ListItem>
@@ -166,6 +206,13 @@ function Options() {
 				{currentPage === "tables" ? (
 					<>
 						<Tables />
+					</>
+				) : (
+					""
+				)}	
+				{currentPage === "key" ? (
+					<>
+						<Keys />
 					</>
 				) : (
 					""
