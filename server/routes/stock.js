@@ -53,4 +53,15 @@ router.get("/api/allStock", (req,res) => {
     })
 })
 
+router.get("/api/allMouvement/:id/:idP", (req,res) => {
+    const {id}=req.params;
+    const {idP}=req.params;
+      pool.query('SELECT quantite,date FROM public."tableMouvement" where type=$1 and user_id=$2 and id_produit=$3',["vente",id,idP],(err,result)=>{
+          if(err)
+              res.status(400).send(err.toString())
+          else
+              res.status(200).send(result.rows)
+      })
+  })
+
 module.exports = router;
