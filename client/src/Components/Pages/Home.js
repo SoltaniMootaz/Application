@@ -109,7 +109,7 @@ function Home() {
               <HomeButtons
                 buttonName="Statistiques"
                 icon={<BiStats />}
-                link="#"
+                link="/statistiques"
                 Bcolor="#DC572E"
               />
             </Grid>
