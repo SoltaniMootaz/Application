@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { search } from "../../Utils/Kridi";
+import { search, getTotale } from "../../Utils/Kridi";
 import Payer from './Payer'
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,6 +13,8 @@ import {
   TableCell,
   TableBody,
   Table,
+  Typography,
+  Grid
 } from "@material-ui/core";
 import { GiReceiveMoney } from "react-icons/gi";
 
@@ -26,13 +28,15 @@ function InfoClient(props) {
   const [data, setData] = useState();
   const [open, setOpen] = useState(false);
   const [client, setClient] = useState();
+  const [totale, setTotale] = useState(0);
 
   const handleDialog = (value) => {
     setOpen(value);
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     setData(props.data);
+    setTotale(await getTotale(props.data))
   }, [props.data]);
 
   const handleChange = async (e) => {
@@ -43,15 +47,21 @@ function InfoClient(props) {
 
   return (
     <div>
-      <TextField
-        id="standard-search"
-        label="Rechercher"
-        type="search"
-        variant="outlined"
-        style={{ marginLeft: "80%" }}
-        onChange={(e) => handleChange(e)}
-      />
-
+      <Grid container>
+        <Grid item xs={4}>
+          <Typography style={{marginTop:"1em"}}><h4>Totale : {totale.toFixed(3) + " DT"}</h4></Typography>
+        </Grid>
+        <Grid item xs={6}></Grid>
+        <Grid item xs={2}>
+          <TextField
+            id="standard-search"
+            label="Rechercher"
+            type="search"
+            variant="outlined"
+            onChange={(e) => handleChange(e)}
+          />
+        </Grid>
+      </Grid>
       <br />
       <br />
       <TableContainer component={Paper}>

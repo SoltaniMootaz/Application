@@ -12,6 +12,7 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
+import Grid from '@material-ui/core/grid';
 
 const styles = (theme) => ({
     root: {
@@ -97,7 +98,14 @@ function StockStats(props) {
         open={props.handleOpen}
       >
         <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
-          Ajouter un client
+          <Grid container>
+            <Grid item xs={8}>
+              <Typography style={{display:"inline"}}>Statistique : Quantité vendu</Typography> 
+            </Grid>
+            <Grid item xs={4}>
+              <Typography style={{display:"inline", textAlign:'right'}}>{props.libelle}</Typography>
+            </Grid>
+          </Grid>
         </DialogTitle>
         <DialogContent dividers>
           <center>

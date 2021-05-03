@@ -7,6 +7,17 @@ const search = async (data, value) => {
                 return await data.filter(val=>val.nomPre.toLowerCase().indexOf(value) > -1 || val.operation.toLowerCase().indexOf(value) > -1)
 }
 
+const getTotale = (data) => {
+    var tot = 0;
+
+    data.map(val=>{
+      tot += val.montant;
+    })
+
+    return tot;
+}
+
 export {
-    search
+    search,
+    getTotale
 }
