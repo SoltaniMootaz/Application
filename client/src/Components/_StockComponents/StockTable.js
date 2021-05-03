@@ -49,7 +49,9 @@ function StockTable() {
   const [length, setLength] = useState(20);
   const [searching, setSearching] = useState(false);
   const [currentStat, setCurrentStat] = useState(0);
+  const [libelle, setLibelle] = useState();
   const [state, setState] = useState(false);
+
   useEffect(() => {
     loadUserStock().then(async (res) => {
       setAllData(res.data);
@@ -147,8 +149,9 @@ function StockTable() {
                          onClick={()=>{
                            console.log(idP);
                            setCurrentStat(idP)
+                           setLibelle(row.libelle)
                            setState(true)}}
-                        >Voir</Button></StyledTableCell>
+                        >Statistiques</Button></StyledTableCell>
                       </StyledTableRow>
                     );
                 })}
@@ -173,7 +176,7 @@ function StockTable() {
         )}
       </Paper>
       {state?(
-      <StockStats handleOpen={state} handleClose={() => setState(false)} idP={currentStat} />
+      <StockStats handleOpen={state} handleClose={() => setState(false)} idP={currentStat} libelle={libelle} />
       ):""
 }
           </div>
