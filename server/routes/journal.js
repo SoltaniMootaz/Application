@@ -12,6 +12,17 @@ router.get("/api/afficherActivite/:id",(req,res) => {
     })
 })
 
+router.get("/api/afficherVente/:id",(req,res) => {
+    let {id} = req.params;
+    
+    pool.query('SELECT * FROM mouvement m inner Join ticket t on t.id=m.id_ticket WHERE  t.id_utilisateur=$1 ', [id],(err,result) => {
+        if(err)
+            res.status(400).send(err.toString());
+        else
+            res.status(200).json(result.rows);
+    })
+}) 
+
 router.get("/api/afficherRecu/:commerce/:id",(req,res) => {
     const {commerce,id} = req.params;
 

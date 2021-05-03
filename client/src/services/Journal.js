@@ -3,6 +3,7 @@ import env from "react-dotenv";
 
 const afficherVente = async () => {
     const result = await axios.get(env.API_URL + "afficherVente/" + localStorage.getItem("userID"))
+    console.log(result)
     return result
 }
 

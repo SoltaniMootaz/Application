@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as Stock from "../../services/Stock";
-import { setSelectValues, getScannedProduit } from "../../Utils/Stock";
+import {sort} from "../../Utils/Stock"
 import Card from "./Card"
 
 import { withStyles } from "@material-ui/core/styles";
@@ -10,6 +10,7 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = (theme) => ({
   root: {
@@ -49,17 +50,21 @@ const DialogContent = withStyles((theme) => ({
 
 function Recommendation(props) {
   const [error, setError] = useState();
-  const [data, setDate] = useState();
+  const [data, setData] = useState();
 
   const handleClose = () => {
     props.handleClose();
-    setError();
   }
 
     useEffect(async()=>{
-        const produits = await Stock.recommend();
-        console.log(produits)
-        setDate(produits)
+        var produits = await Stock.recommend();
+        
+        if(produits === "no result" || produits.length == 0) {
+          setError("Aucune résultat")
+        }else {
+          produits = await sort(produits);
+          setData(produits)
+        }
     },[])
 
   return (
@@ -73,13 +78,12 @@ function Recommendation(props) {
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
         Les produits les plus vendus dans votre région.
-          <p style={{ color: "red" }}>{error}</p>
         </DialogTitle>
         <DialogContent dividers>
-            {data ? data.map((value,index)=>(
+            {error ? <center><h4>{error}</h4></center> : data ? data.map((value,index)=>(
                 <Card data={value} key={index}></Card>
             ))           
-            : ""}
+            :  <center><CircularProgress /></center>}
         </DialogContent>
       </Dialog>
     </div>

@@ -24,7 +24,10 @@ const afficherLogKridi = async () => {
 }
 
 const updateClient = async (id, montant) => {
-    const result = await axios.put(env.API_URL + "ModifierMontant/" + id,{montant: montant})
+    const result = await axios.put(env.API_URL + "ModifierMontant/" + id,{
+        montant: montant, 
+        date: new Date().toLocaleString()
+    })
 
     return result
 }

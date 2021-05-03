@@ -65,7 +65,6 @@ function StockAddProduit(props) {
   const [codeBarre, setCodeBarre] = useState();
   const [prixAchat, setPrixAchat] = useState();
   const [prixVente, setPrixVente] = useState();
-  const [quantite, setQuantite] = useState(1);
   const [categorie, setCategorie] = useState();
   const [gammes, setGammes] = useState([]);
   const [error, setError] = useState();
@@ -77,7 +76,6 @@ function StockAddProduit(props) {
         codeBarre,
         prixAchat,
         prixVente,
-        quantite,
         categorie
       )
         .then((res) => {
@@ -221,19 +219,6 @@ function StockAddProduit(props) {
                 label="Prix de vente"
                 style={{ width: "95%", marginTop: "2em" }}
                 onChange={(e) => setPrixVente(e.target.value)}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                required
-                autoFocus
-                type="number"
-                defaultValue="1"
-                id="standard-basic"
-                label="Quantité"
-                style={{ width: "95%", marginTop: "2em", marginBottom: "3em" }}
-                onChange={(e) => setQuantite(e.target.value)}
               />
             </Grid>
           </Grid>
