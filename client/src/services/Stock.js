@@ -37,10 +37,27 @@ const recommend = async () => {
     }
 }
 
+const loadFournisseurs = async () => {
+    const result = await axios.get(env.API_URL + "fournisseurs");
+    return result;
+}
+
+const ajoutCommande = async (fournisseur, piece, prodQuant) => {
+    const result = await axios.post(env.API_URL + "ajouterCommande/" + localStorage.getItem("userID"), {
+        num_piece : piece,
+        id_fournisseur : fournisseur,
+        produits : prodQuant
+    });
+
+    return result;
+}
+
 export {
     loadUserStock,
     ajouterProduit,
     loadAllStock,
     recommend,
-    loadAllMouvement
+    loadAllMouvement,
+    loadFournisseurs,
+    ajoutCommande
 }

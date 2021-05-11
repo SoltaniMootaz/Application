@@ -1,10 +1,11 @@
-import { Table } from "@material-ui/core"
-
 const setSelectValues = (data) => {
     const result = []
 
     data.map(val=> {
-        result.push({ value: val, label: val, isFixed: true})
+        if(val.nom)
+            result.push({ value: val.nom, label: val.nom, id: val.id})
+        else
+            result.push({ value: val, label: val, isFixed: true})
     })
 
     return result

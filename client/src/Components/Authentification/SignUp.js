@@ -27,13 +27,10 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: "#f7f7f7",
 		opacity: "0.8",
-
-		position: "fixed",
 		width: "100%",
 		height: "100%",
-		top: "0px",
-		left: "0px",
 		zIndex: "1000",
+		position: "absolute"
 	},
 	padding: {
 		padding: theme.spacing.unit,
@@ -44,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		marginTop: "75px",
 		[theme.breakpoints.down("sm")]: {
-			maxWidth: "75%",
+			maxWidth: "85%",
 		},
 	},
 }));
@@ -255,6 +252,9 @@ function SignUp() {
 					</div>
 				</form>
 			</Paper>
+			<div style={{backgroundColor: "#f7f7f7",}}>
+				<br />
+			</div>
 		</div>
 	);
 }

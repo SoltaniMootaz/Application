@@ -159,7 +159,6 @@ function StockTable() {
                         <StyledTableCell>{row.prix_vente}</StyledTableCell>
                         <StyledTableCell><Button value={idP}
                          onClick={()=>{
-                           console.log(idP);
                            setCurrentStat(idP)
                            setLibelle(row.libelle)
                            setState(true)}}

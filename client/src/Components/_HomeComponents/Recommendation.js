@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import * as Stock from "../../services/Stock";
-import {sort} from "../../Utils/Stock"
+import React, { useState } from "react";
 import Card from "./Card"
 
 import { withStyles } from "@material-ui/core/styles";
@@ -50,22 +48,15 @@ const DialogContent = withStyles((theme) => ({
 
 function Recommendation(props) {
   const [error, setError] = useState();
-  const [data, setData] = useState();
 
   const handleClose = () => {
     props.handleClose();
   }
 
-    useEffect(async()=>{
-        var produits = await Stock.recommend();
-        
-        if(produits === "no result" || produits.length == 0) {
-          setError("Aucune résultat")
-        }else {
-          produits = await sort(produits);
-          setData(produits)
-        }
-    },[])
+  setTimeout(()=>{
+    if(props.data.length == 0)
+      setError("Aucune résultat");
+  },3000)
 
   return (
     <div>
@@ -80,10 +71,10 @@ function Recommendation(props) {
         Les produits les plus vendus dans votre région.
         </DialogTitle>
         <DialogContent dividers>
-            {error ? <center><h4>{error}</h4></center> : data ? data.map((value,index)=>(
+            {props.data.length > 0 ? props.data.map((value,index)=>(
                 <Card data={value} key={index}></Card>
             ))           
-            :  <center><CircularProgress /></center>}
+            :  error ? <center><h4>{error}</h4></center> : <center><CircularProgress /></center>}
         </DialogContent>
       </Dialog>
     </div>
