@@ -62,7 +62,6 @@ const styles = (theme) => ({
 
 function StockStats(props) {
   const [dates,setDates]=useState([])
-  console.log(props.idP);
   const [data,setData]=useState()
   
   

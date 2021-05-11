@@ -40,25 +40,16 @@ router.post("/api/stockToUser",(req,res)=>{
 
 router.get("/api/stock/:id",async (req,res) => {
     const { id } = req.params;
-    var stock = [{}];
-
-    try {
-        const result = await pool.query('select * from public."stockUtilisateur" WHERE "id_utilisateur" = $1',[id])
-        const result1 = await pool.query('select * from public."stock"');
-
-        result.rows.map((element,index)=> {
-            for(var i=0;i<result1.rowCount;i++) {
-                if(element.id_produit == result1.rows[i].id)  {
-                    stock[index] = result1.rows[i];
-                    break;
-                }
-            }
-        });
-
-        res.status(200).json(stock)
-    }catch(err) {
-        res.status(400).send(err.toString());
-    }
+    
+    pool.query(`select * from public."stockUtilisateur", public.stock
+    WHERE "id_utilisateur" = $1  
+    AND quantite > 0
+    AND public."stockUtilisateur".id_produit = public.stock.id`,[id],(err, result)=>{
+        if(err)
+            res.status(400).send(err.toString())
+        else
+            res.status(200).json(result.rows)
+    })
 }); 
 
 router.post("/api/ticket/:id",async (req,res) => {

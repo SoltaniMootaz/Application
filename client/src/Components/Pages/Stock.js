@@ -3,9 +3,9 @@ import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
 import StockAddProduit from "../_StockComponents/StockAddProduit";
+import StockAddCommande from "../_StockComponents/StockAddCommande";
 import StockAppBar from "../_StockComponents/StockAppbar";
 import StockTable from "../_StockComponents/StockTable";
-import Recommendation from "../_StockComponents/Recommendation";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -40,7 +40,7 @@ function Stock() {
               Ajouter un nouveau produit
             </Button>
           </Grid>
-          <Grid xs={1}></Grid>
+          <Grid item xs={1}></Grid>
           <Grid xs={3}>
             <Button
               variant="contained"
@@ -52,7 +52,7 @@ function Stock() {
               }}
               onClick={() => setOpen1(true)}
             >
-              Recommendation
+              Ajouter une commande
             </Button>
           </Grid>
         </Grid>
@@ -62,10 +62,10 @@ function Stock() {
         handleOpen={open}
         handleClose={() => setOpen(false)}
       ></StockAddProduit>
-      <Recommendation
+      <StockAddCommande
         handleOpen={open1}
         handleClose={() => setOpen1(false)}
-      ></Recommendation>
+      ></StockAddCommande>
     </div>
   );
 }

@@ -70,22 +70,23 @@ function StockAddProduit(props) {
   const [error, setError] = useState();
 
   const handleClick = () => {
-    if (categorie.length > 0)
-      Stock.ajouterProduit(
-        libelle,
-        codeBarre,
-        prixAchat,
-        prixVente,
-        categorie
-      )
-        .then((res) => {
-          window.location.reload(false)
-          setError();
-        })
-        .catch((err) => {
-          setError(err.response.data);
-        });
-    else setError("Veuiller choisir une catégorie");
+    if(categorie)
+      if (categorie.length > 0)
+        Stock.ajouterProduit(
+          libelle,
+          codeBarre,
+          prixAchat,
+          prixVente,
+          categorie
+        )
+          .then((res) => {
+            window.location.reload(false)
+            setError();
+          })
+          .catch((err) => {
+            setError(err.response.data);
+          });
+      else setError("Veuiller choisir une catégorie");
   };
 
   const handleScan = async (data) => {
@@ -136,6 +137,7 @@ function StockAddProduit(props) {
           Ajouter un produit
           <p style={{ color: "red" }}>{error}</p>
         </DialogTitle>
+        <form>
         <DialogContent dividers>
           <Grid container fullWidth>
             <Grid item xs={12}>
@@ -224,10 +226,11 @@ function StockAddProduit(props) {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClick} color="primary">
+          <Button autoFocus onClick={handleClick} color="primary" type="submit">
             Valider
           </Button>
         </DialogActions>
+        </form>
       </Dialog>
     </div>
   );

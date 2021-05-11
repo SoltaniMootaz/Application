@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HomeButtons from "../_HomeComponents/HomeButtons";
-import { FaCashRegister } from "react-icons/fa";
-import { BiMenu } from "react-icons/bi";
+import Recommendation from '../_HomeComponents/Recommendation'
+import * as Stock from "../../services/Stock";
+import {sort} from "../../Utils/Stock"
+
+import { FaCashRegister, FaWarehouse } from "react-icons/fa";
+import { BiMenu, BiStats, BiSupport } from "react-icons/bi";
 import { IoIosJournal } from "react-icons/io";
-import { BiStats } from "react-icons/bi";
-import { FaWarehouse } from "react-icons/fa";
-import { AiFillBook } from "react-icons/ai";
-import { BiSupport } from "react-icons/bi";
-import { AiOutlineSetting } from "react-icons/ai";
+import { AiFillBook, AiOutlineSetting } from "react-icons/ai";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { RiGpsLine } from 'react-icons/ri'
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Grid, Badge, IconButton, CircularProgress, Typography } from "@material-ui/core";
+
 import logo from '../../images/logo.png'
 import Image from 'material-ui-image'
 
@@ -32,12 +34,73 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: "75%",
     },
     [theme.breakpoints.down("xs")]: {
-      marginLeft: "5em",
+      marginLeft: "3em",
     },
+  },
+
+  buttons : {
+    [theme.breakpoints.down("sm")]: {
+      marginTop:"-3em"
+    },
+    [theme.breakpoints.up("md")]: {
+      marginTop:"-8em"
+    },
+  },
+
+  gps :  {
+    [theme.breakpoints.up("md")]: {
+      marginLeft:"30%",
+      marginTop:"-80%"
+    },
+    [theme.breakpoints.down("md")]: {
+      marginLeft:"50%",
+      marginTop:"-30%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginLeft:"4em",
+      paddingTop:"1em"
+    }
+  },
+
+  logo : {
+    [theme.breakpoints.up("md")]: {
+      marginTop:"-8em",
+      marginLeft:"-14em",
+    },
+
+    [theme.breakpoints.down("md")]: {
+      marginTop:"-2.5em",
+      marginLeft:"-14em",
+    },
+
+    [theme.breakpoints.down("xs")]: {
+      marginTop:"-3em",
+      marginLeft:"0",
+    }
+  },
+  iconButtonLabel: {
+    display: 'flex',
+    flexDirection: 'column',
   },
 }));
 function Home() {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [recommended, setRecommended] = useState([]);
+  const [length, setLength] = useState();
+
+  useEffect(async ()=>{
+    var produits = await Stock.recommend();
+
+    if(produits === "no result" || produits.length == 0) {
+      setRecommended([]);
+      setLength('0')
+    }else {
+      produits = await sort(produits);
+      setRecommended(produits)
+      setLength(produits.length)
+    }
+  },[])
 
   return (
     <>
@@ -48,12 +111,28 @@ function Home() {
             <Grid item sm={4} xs={10}>
               <Image
                 src={logo}
-                imageStyle={{ width: '100%', height: '80%' }}
-                style={{marginTop:"-70%"}} 
+                imageStyle={{ width: '70%', height: '60%' }}
+                className={classes.logo}
+              />
+            </Grid>
+            <Grid item sm={4} xs={10}>
+              <Badge badgeContent={length} color="primary" className={classes.gps} >
+                <IconButton classes={{label: classes.iconButtonLabel}}>
+                  <RiGpsLine 
+                    style={{ width:'4em', height:'4em' }}
+                    onClick={()=>setOpen(true)}
+                  />
+                  <div><Typography style={{fontSize:15, fontWeight:"bold"}}>Recommendation</Typography></div>
+                </IconButton>
+              </Badge>
+              <Recommendation
+                handleOpen={open}
+                handleClose={() => setOpen(false)}
+                data={recommended}
               />
             </Grid>
           </Grid>
-          <Grid container spacing={4}>
+          <Grid container spacing={4} className={classes.buttons}>
             <Grid item sm={4} xs={12}>
               {localStorage.getItem("caisse") === "true" ?
                 <HomeButtons
@@ -151,8 +230,9 @@ function Home() {
               <HomeButtons
                 buttonName="Logout"
                 icon={<RiLogoutBoxRLine />}
-                link="/Log-In"
+                /* link="/Log-In" */
                 Bcolor="#0A5BC4"
+                onClick={()=>console.log("clicked")}
               />
             </Grid>
           </Grid>
