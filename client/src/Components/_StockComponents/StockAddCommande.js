@@ -81,7 +81,6 @@ function StockAddCommande(props) {
 
 	const addToProdQuant = (operation, value, index) => {
 		const tmp = prodQuant;
-		console.log(tmp)
 
 		if(tmp[index])
 			if(operation === "produit") 
@@ -188,16 +187,26 @@ function StockAddCommande(props) {
 		
 							{produits.map((value, index) => (
 								<>
-									<Grid item xs={8}>
+									<Grid item xs={6}>
 										{value}
 									</Grid>
-									<Grid item xs={4}>
+									<Grid item xs={3}>
 										<TextField
 											required
 											type="number"
 											variant="outlined"
 											onChange={(e)=>addToProdQuant("quantite", e.target.value, index)}
 											label="Quantité"
+											style={{ width: "100%" }}
+										></TextField>
+									</Grid>
+									<Grid item xs={3}>
+										<TextField
+											required
+											type="number"
+											variant="outlined"
+											onChange={(e)=>addToProdQuant("quantite", e.target.value, index)}
+											label="Prix d'achat"
 											style={{ width: "100%" }}
 										></TextField>
 									</Grid>

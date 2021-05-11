@@ -78,14 +78,12 @@ router.post("/api/ajouterCommande/:id", (req,res)=>{
     pool.query('INSERT INTO public.commande(num_piece, id_fournisseur, id_utilisateur) VALUES($1,$2,$3) RETURNING *'
     ,[+num_piece,+id_fournisseur,+id_utilisateur],(err, result)=>{
         if(err) {
-            console.log(err.toString())
             res.status(400).send(err.toString() + '1')
         }else
             produits.forEach((val, index)=>{
                 if(val.produit !== "null" && val.quantite !== "null")
                     pool.query(`UPDATE public."stockUtilisateur" SET quantite = $1 WHERE id_produit = $2`,[+val.quantite,val.produit],(err, result)=>{
                         if(err) {
-                            console.log(err.toString())
                             res.status(400).send(err.toString())
                         }
                     })

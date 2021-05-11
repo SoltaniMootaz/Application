@@ -28,7 +28,7 @@ router.get('/api/Top5/:id',(req,res)=>{
 router.get('/api/Fournisseur/:id',(req,res)=>{
     const {id}=req.params;
     pool.query(`SELECT f.nom,tm.id_fournisseur,count(tm.id_fournisseur) as cnt2
-     From public."fournisseur" as f
+        From public."fournisseur" as f
         Join public."tableMouvement" as tm on f.id=tm.id_fournisseur
         where tm.user_id=$1 group by tm.id_fournisseur,f.nom order by cnt2 desc`,[id],(err,result)=>{
         if(err)
