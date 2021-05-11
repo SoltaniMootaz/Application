@@ -17,13 +17,14 @@ import Kredi from './Components/Pages/Kredi';
 import Options from './Components/Pages/options';
 import Stock from './Components/Pages/Stock';
 import Statistiques from './Components/Pages/Statistiques';
+import TestingPage from './Components/Pages/TestingPage';
 
 function App() {
   return (
     <div className="App">
       <Router>   
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/">S
             <Redirect to="/Log-in"></Redirect>
           </Route>
 
@@ -39,6 +40,7 @@ function App() {
           <PrivateRoute exact path="/options" component={Options}></PrivateRoute>
           <PrivateRoute exact path="/stock" component={Stock}></PrivateRoute>
           <PrivateRoute exact path="/statistiques" component={Statistiques}></PrivateRoute>
+          <PrivateRoute exact path="/test" component={TestingPage}></PrivateRoute>
         </Switch>
       </Router>
     </div>
