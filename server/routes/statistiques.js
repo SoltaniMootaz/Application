@@ -19,6 +19,7 @@ router.get('/api/Top5/:id',(req,res)=>{
            { 
                var arr=[];
                for(var i=0; i<5;i++){
+                if(result.rows[i]==null) continue;
                      arr.push(result.rows[i])
                }
                res.status(200).send(arr)
@@ -31,6 +32,28 @@ router.get('/api/Fournisseur/:id',(req,res)=>{
         From public."fournisseur" as f
         Join public."tableMouvement" as tm on f.id=tm.id_fournisseur
         where tm.user_id=$1 group by tm.id_fournisseur,f.nom order by cnt2 desc`,[id],(err,result)=>{
+        if(err)
+            res.status(400).send(err.toString())
+        else
+        { 
+            var arr=[];
+            for(var i=0; i<5;i++){
+                if(result.rows[i]==null) continue;
+                  
+                arr.push(result.rows[i])
+            }
+            res.status(200).send(arr)
+         }
+    })
+})
+router.get('/api/methodeVente/:id',(req,res)=>{
+    const {id}=req.params;
+    pool.query(`Select mv.nom,Sum(mv.montant) as total
+                from public."methodeVente" as mv
+                join (select id_ticket,nom from public."methodeVente") as mv2 on mv.nom=mv2.nom
+                join ticket as t on mv2.id_ticket=t.id
+                where id_utilisateur=$1
+                group by mv.nom` ,[id],(err,result)=>{
         if(err)
             res.status(400).send(err.toString())
         else

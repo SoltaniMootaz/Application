@@ -41,4 +41,9 @@ const loadFournisseur= async () => {
       
         return result;
     }
-export{loadTop5,loadFournisseur,loadNombreVente,LoadNombreAchat,loadQteVente,loadQteAchat,loadProfitVente,loadSortieAchat}
+    const loadMethodeVente= async () => {
+        const result = await axios.get(env.API_URL + "methodeVente/" + localStorage.getItem("userID") );
+      
+        return result;
+    }
+export{loadTop5,loadFournisseur,loadNombreVente,LoadNombreAchat,loadQteVente,loadQteAchat,loadProfitVente,loadSortieAchat,loadMethodeVente}

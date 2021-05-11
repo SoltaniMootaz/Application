@@ -3,22 +3,36 @@ function SetTop5Values(array){
     array.filter((item)=>arr.push(item.cnt))
 return arr
 }
+
 function SetTop5Labels(array){
     var arr=[]
-  array.filter((item)=>arr.push(item.libelle))
+    array.filter((item)=>arr.push(item.libelle))
     return arr
     }
 
-    function SetFAchat(array){
-        var arr=[]
-      array.filter((item)=>arr.push(item.cnt2))
-        return arr
-        }
-        function SetFournisseurs(array){
-            var arr=[]
-          array.filter((item)=>arr.push(item.nom))
-            return arr
-            }
+function SetFAchat(array){
+    var arr=[]
+    array.filter((item)=>arr.push(item.cnt2))
+    return arr
+    }
+
+function SetFournisseurs(array){
+    var arr=[]
+    array.filter((item)=>arr.push(item.nom))
+    return arr
+    }
+
+function setMethodeVenteLabels(data){
+    var arr=[]
+    data.filter((item)=>arr.push(item.nom))
+    return arr
+}
+
+function setMethodeVenteValue(data){
+    var arr=[]
+    data.filter((item)=>arr.push(item.total))
+    return arr
+}
 function SetData(data,dates){
  var array=[];
  var test;
@@ -40,7 +54,7 @@ function SetData(data,dates){
  return array
 }
 function SetBarData(data,dates){
-    console.log(dates);
+    
     var array=[];
     var test;
     if(data&&dates){
@@ -60,4 +74,19 @@ function SetBarData(data,dates){
     }}
     return array
    }
-export{SetTop5Labels,SetTop5Values,SetFAchat,SetFournisseurs,SetData,SetBarData}
+   function chartRandomColors(length){
+       var arr=[];
+       var r,g,b,tempColor
+       for(var i=0;i<length;i++){
+        
+             r = Math.floor(Math.random() * 255);
+             g = Math.floor(Math.random() * 255);
+             b = Math.floor(Math.random() * 255);
+            tempColor= "rgb(" + r + "," + g + "," + b + ")";
+         
+           arr.push(tempColor)
+       }
+       console.log(arr);
+       return arr;
+   }
+export{SetTop5Labels,SetTop5Values,SetFAchat,SetFournisseurs,SetData,SetBarData,setMethodeVenteLabels,setMethodeVenteValue,chartRandomColors}

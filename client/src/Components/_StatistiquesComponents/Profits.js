@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
-import { Grid, Paper } from '@material-ui/core'
+import { Grid, Paper, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { Doughnut, Pie } from 'react-chartjs-2';
-import { loadFournisseur, LoadNombreAchat, loadNombreVente, loadTop5 } from '../../services/Statistiques';
-import { SetTop5Labels, SetTop5Values,SetFAchat,SetFournisseurs } from '../../Utils/Statistiques';
+import { loadFournisseur, loadMethodeVente, LoadNombreAchat, loadNombreVente, loadTop5 } from '../../services/Statistiques';
+import { SetTop5Labels, SetTop5Values,SetFAchat,SetFournisseurs, setMethodeVenteValue, setMethodeVenteLabels, chartRandomColors } from '../../Utils/Statistiques';
 
 function Profits() {
     
@@ -12,13 +12,15 @@ function Profits() {
     const [top5Value,setTop5Value]=useState();
     const [fournisseur,setFournisseur]=useState();
     const [fournisseurNbrAchat,setFournisseurNbrAchat]=useState();
-    const [nbrVente,setNbrVente]=useState();
-    const [nbrAchat,setNbrAchat]=useState();
+    const [valueVente,setValueVente]=useState();
+    const [labelVente,setLabelVente]=useState();
+    
 
 useEffect(async () => {
     await loadTop5().then((res)=>{
         setTop5Libelle(SetTop5Labels(res.data))
         setTop5Value(SetTop5Values(res.data))
+        
     })
 }, [])
 useEffect(async () => {
@@ -28,29 +30,25 @@ useEffect(async () => {
     })
 }, [])
 useEffect(async () => {
-    await loadNombreVente().then((res)=>{
-        setNbrVente(res.data[0].count)
+    await loadMethodeVente().then((res)=>{
+        console.log(res.data);
+        setValueVente(setMethodeVenteValue(res.data))
+        setLabelVente(setMethodeVenteLabels(res.data))
         
     })
 }, [])
-useEffect(async () => {
-    await LoadNombreAchat().then((res)=>{
-       
-        setNbrAchat(res.data[0].count)
-        
-    })
-}, [])
- console.log(nbrVente);
+
+
     return (
         <center>
 
              <Grid container style={{marginTop:'0.5em'}}spacing={3}>
                  
                  <Grid item xs={4}>
-                     <Paper style={{width:'95%'}} elevation={3}>
+                     <Paper style={{width:'95%',height:'25em'}} elevation={3}>
                      <Grid container>
-                     <Grid item xs={12}>Profit par jour</Grid>
-                     <Grid item xs={12}> <Doughnut 
+                     <Grid item xs={12}><Typography style={{fontWeight:'bolder',color:'#393e46'}}>Votre 5 meilleurs produits:</Typography></Grid>
+                     <Grid item xs={12}> <Doughnut style={{padding:'1em'}}
             height={300}
             width={100}
             data = {{
@@ -61,19 +59,17 @@ useEffect(async () => {
                     fill: false,
                     tension: 0.1,
                     backgroundColor: [
-                        'rgb(75, 192, 192)',
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)',
-                        'rgb(30, 200, 90)'
-                      ],
-                      borderColor:[
-                        'rgb(75, 192, 192)',
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)' ,
-                        'rgb(30, 200, 90)' 
-                      ],
+                    '#003f5c',
+                    '#77acf1',
+                    '#511281',
+                    '#f14668',
+                    '#ffd880'],
+                      borderColor:   [
+                        '#003f5c',
+                        '#77acf1',
+                        '#511281',
+                        '#f14668',
+                        '#ffd880'], 
                       hoverOffset: 4
                   }],
                 
@@ -84,9 +80,10 @@ useEffect(async () => {
                      </Grid>
                      </Paper>
                      </Grid>
-                 <Grid item xs={4}><Paper style={{width:'95%'}} elevation={3}><Grid container>
-                     <Grid item xs={12}>Profit par jour</Grid>
+                 <Grid item xs={4}><Paper style={{width:'95%',height:'25em'}} elevation={3}><Grid container>
+                     <Grid item xs={12}><Typography style={{fontWeight:'bolder',color:'#393e46'}}>Votre fournisseurs</Typography></Grid>
                      <Grid item xs={12}> <Pie 
+                     style={{padding:'1em'}}
             height={300}
             width={100}
             data = {{
@@ -97,18 +94,18 @@ useEffect(async () => {
                     fill: false,
                     tension: 0.1,
                     backgroundColor: [
-                        'rgb(75, 192, 192)',
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)',
-                        'rgb(30, 200, 90)'
+                        '#e84545',
+                        '#caf7e3',
+                        '#e4bad4',
+                        '#f39189',
+                        '#9ddfd3'
                       ],
                       borderColor:[
-                        'rgb(75, 192, 192)',
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)' ,
-                        'rgb(30, 200, 90)' 
+                        '#e84545',
+                        '#caf7e3',
+                        '#e4bad4',
+                        '#f39189',
+                        '#9ddfd3' 
                       ],
                       hoverOffset: 4
                   }],
@@ -118,27 +115,37 @@ useEffect(async () => {
                     
         }} ></Pie></Grid>
                      </Grid></Paper></Grid>
-                 <Grid item xs={4}><Paper style={{width:'95%'}} elevation={3}> <Grid container>
-                     <Grid item xs={12}>Profit par jour</Grid>
+                 <Grid item xs={4}><Paper style={{width:'95%',height:'25em'}} elevation={3}> <Grid container>
+                     <Grid item xs={12}><Typography style={{fontWeight:'bolder',color:'#393e46'}}>Votre méthode de vente la plus utilisée</Typography></Grid>
                      <Grid item xs={12}> <Doughnut 
+                     style={{padding:'1em'}}
             height={300}
             width={100}
             data = {{
-        labels:["Nombre vente","Nombre achat"],
+        labels:labelVente?labelVente:"",
                  datasets: [{
                     label: 'My First Dataset',
-                    data:nbrAchat && nbrVente? [nbrVente,nbrAchat] : [],
+                    data:valueVente? valueVente: [],
                     fill: false,
                     tension: 0.1,
                     backgroundColor: [
-                        'rgb(75, 192, 192)',
-                        'rgb(255, 99, 132)',
+                        '#c64756',
+                        '#ff8882',
+                        "#d8f8b7",
+                        "#2978b5",
+                        "#ff8303",
+                        "#98ddca",
+                        "#28b5b5"
                       
                       ],
                       borderColor:[
-                        'rgb(75, 192, 192)',
-                        'rgb(255, 99, 132)',
-                        
+                        '#c64756',
+                        '#ff8882',
+                        "#d8f8b7",
+                        "#2978b5",
+                        "#ff8303",
+                        "#98ddca",
+                        "#28b5b5"
                       ],
                       hoverOffset: 4
                   }],
