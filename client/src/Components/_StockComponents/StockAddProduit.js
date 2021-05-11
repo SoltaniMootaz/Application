@@ -63,7 +63,6 @@ const DialogActions = withStyles((theme) => ({
 function StockAddProduit(props) {
   const [libelle, setLibelle] = useState();
   const [codeBarre, setCodeBarre] = useState();
-  const [prixAchat, setPrixAchat] = useState();
   const [prixVente, setPrixVente] = useState();
   const [categorie, setCategorie] = useState();
   const [gammes, setGammes] = useState([]);
@@ -75,7 +74,6 @@ function StockAddProduit(props) {
         Stock.ajouterProduit(
           libelle,
           codeBarre,
-          prixAchat,
           prixVente,
           categorie
         )
@@ -95,7 +93,6 @@ function StockAddProduit(props) {
     if(result.length > 0) {
       setLibelle(result[0].libelle)
       setCodeBarre(result[0].code_a_barre)
-      setPrixAchat(result[0].prix_ttc)
       setCategorie(result[0].gamme_code)
     }
 	};
@@ -110,7 +107,6 @@ function StockAddProduit(props) {
     setCategorie();
     setCodeBarre();
     setLibelle();
-    setPrixAchat();
   }
 
   useEffect(async () => {
@@ -195,20 +191,6 @@ function StockAddProduit(props) {
                 label="Code a barre"
                 style={{ width: "95%", marginTop: "2em" }}
                 onChange={(e) => setCodeBarre(e.target.value)}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                required
-                autoFocus
-                key={prixAchat}
-                defaultValue={prixAchat}
-                type="number"
-                id="standard-basic"
-                label="Prix d'achat"
-                style={{ width: "95%", marginTop: "2em" }}
-                onChange={(e) => setPrixAchat(e.target.value)}
               />
             </Grid>
 

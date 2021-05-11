@@ -64,7 +64,7 @@ function StockAddCommande(props) {
     const [stock, setStock] = useState([])
     const [produits, setProduits] = useState([])
 	const [piece, setPiece] = useState()
-	const [prodQuant, setProdQuant] = useState([{produit: null, quantite: null}])
+	const [prodQuant, setProdQuant] = useState([{produit: null, quantite: null, prix: null}])
 
 	const handleClose = () => {
 		props.handleClose();
@@ -82,21 +82,16 @@ function StockAddCommande(props) {
 	const addToProdQuant = (operation, value, index) => {
 		const tmp = prodQuant;
 
-		if(tmp[index])
-			if(operation === "produit") 
-				tmp[index].produit = value
-			else
-				tmp[index].quantite = value
-		else
-			do {
-				tmp.push({produit: null, quantite: null})
+		while(!tmp[index]) {
+			tmp.push({produit: null, quantite: null})
+		}
 
-				if(tmp[index])
-					if(operation === "produit") 
-						tmp[index].produit = value
-					else
-						tmp[index].quantite = value
-			}while(!tmp[index])
+		if(operation === "produit") 
+			tmp[index].produit = value
+		else if (operation === "quantite")
+			tmp[index].quantite = value
+		else if (operation === "prix")
+			tmp[index].prix = value
 
 		setProdQuant(tmp)
 	}
@@ -159,8 +154,12 @@ function StockAddCommande(props) {
 									required
 									autoFocus
 									isClearable
-									onChange={e=>{ if (e) setFournisseur(e.id) }}
-									onInputChange={(e) => setFournisseur(e)}
+									onChange={e=>{ 
+										if(e.id)
+											setFournisseur(e.id) 
+										else
+											setFournisseur(e.value)
+									}}
 									options={fournisseurs}
 									placeholder={"Fournisseur"}
 								/>
@@ -193,21 +192,28 @@ function StockAddCommande(props) {
 									<Grid item xs={3}>
 										<TextField
 											required
+											key={index}
 											type="number"
 											variant="outlined"
 											onChange={(e)=>addToProdQuant("quantite", e.target.value, index)}
 											label="Quantité"
-											style={{ width: "100%" }}
 										></TextField>
 									</Grid>
 									<Grid item xs={3}>
 										<TextField
 											required
-											type="number"
+											key={index}
+											type="string"
 											variant="outlined"
-											onChange={(e)=>addToProdQuant("quantite", e.target.value, index)}
 											label="Prix d'achat"
-											style={{ width: "100%" }}
+											onChange={(e)=> {
+												const prix = e.target.value
+
+												if(!isNaN(parseInt(prix[prix.length - 1], 10)) || prix[prix.length - 1] === '.')
+													addToProdQuant("prix", e.target.value, index)
+												else
+													e.target.value = prix.substring(0, prix.length - 1)
+											}}
 										></TextField>
 									</Grid>
 								</>
