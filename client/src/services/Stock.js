@@ -6,13 +6,12 @@ const loadUserStock = async () => {
     return result;
 }
 
-const ajouterProduit = async (libelle, codeBarre, prix_achat, prix_vente, categorie) => {
+const ajouterProduit = async (libelle, codeBarre, prix_vente, categorie) => {
     const result = await axios.post(env.API_URL + "ajouterProduit/" + localStorage.getItem("userID"), {
         libelle: libelle,
         codeBarre : codeBarre, 
-        prix_achat : prix_achat, 
         prix_vente : prix_vente,
-        categorie : categorie
+        categorie : categorie,
     });
     
     return result;
@@ -43,10 +42,13 @@ const loadFournisseurs = async () => {
 }
 
 const ajoutCommande = async (fournisseur, piece, prodQuant) => {
+    var current = new Date();
+    
     const result = await axios.post(env.API_URL + "ajouterCommande/" + localStorage.getItem("userID"), {
         num_piece : piece,
         id_fournisseur : fournisseur,
-        produits : prodQuant
+        produits : prodQuant,
+        date: current.toLocaleString()
     });
 
     return result;

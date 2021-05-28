@@ -68,7 +68,7 @@ function Recommendation(props) {
         scroll="paper"
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-        Les produits les plus vendus dans votre région.
+        <Typography>Les produits les plus vendus dans votre région (Rayon de 1 kilomètre).</Typography>
         </DialogTitle>
         <DialogContent dividers>
             {props.data.length > 0 ? props.data.map((value,index)=>(

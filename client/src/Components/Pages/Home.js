@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop:"-3em"
     },
     [theme.breakpoints.up("md")]: {
-      marginTop:"-8em"
+      marginTop:"-10em"
     },
   },
 
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("md")]: {
       marginLeft:"50%",
-      marginTop:"-30%",
+      marginTop:"-20%",
     },
     [theme.breakpoints.down("sm")]: {
       marginLeft:"4em",
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.down("xs")]: {
-      marginTop:"-3em",
+      marginTop:"-1em",
       marginLeft:"0",
     }
   },

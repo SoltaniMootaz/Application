@@ -65,6 +65,8 @@ function AfficherStock(props) {
   const loadStockByCategorie = useSelector(
     (state) => state.loadStockByCategorie
   );
+  const trigger=useScrollTrigger();
+  const [show, setShow] = useState(trigger?true: false)
 
   var src = def;
   const classes = useStyles();
@@ -116,17 +118,16 @@ function AfficherStock(props) {
   useEffect(async ()=>{
     setStockData(await caisseUtils.getStock(page, nbProduits, stock))
   },[page, loadStock, stock])
-
-  const trigger=useScrollTrigger();
- const [show, setShow] = useState(trigger?true: false)
  
-window.addEventListener('scroll', ()=>{
-  if (!show && window.pageYOffset > 300){
-    setShow(true)
-  } else if (show&& window.pageYOffset <= 300){
-    setShow(false)
-  }
-})
+  window.addEventListener('scroll', ()=>{
+    if (!show && window.pageYOffset > 300){
+      setShow(true)
+    } else if (show&& window.pageYOffset <= 300){
+      setShow(false)
+    }
+  })
+
+  
   return (
     <>
     <div className="Gammes">

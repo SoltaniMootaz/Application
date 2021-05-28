@@ -1,7 +1,10 @@
-function SetTop5Values(array){
-    var arr=[]
-    array.filter((item)=>arr.push(item.cnt))
-return arr
+function SetTop5Values(array) {
+	var arr = [];
+	array.filter((item) => {
+        if(item)
+            arr.push(item.cnt)
+    });
+	return arr;
 }
 
 function SetTop5Labels(array){
