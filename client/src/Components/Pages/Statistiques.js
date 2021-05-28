@@ -17,7 +17,9 @@ function Statistiques() {
         <div className={classes.root}>
             <StatAppBar />
             <Profits />
+            <div style={{marginTop:'1em'}}>
             <StatistiquesPreleminaire />
+            </div>
         </div>
     )
 }

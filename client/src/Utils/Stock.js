@@ -1,3 +1,4 @@
+
 const setSelectValues = (data) => {
     const result = []
 
@@ -97,7 +98,7 @@ function filtercChartDataVente(data,dates)
 
        array.push(qte)
    }}
-   console.log(array);
+   
    return  array;  
 }
 export {

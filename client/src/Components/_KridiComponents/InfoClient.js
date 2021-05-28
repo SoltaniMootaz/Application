@@ -51,7 +51,7 @@ function InfoClient(props) {
       <Grid container>
         <Grid item xs={4} style={{paddingTop:"1em"}}>
           <GrMoney style={{ width: 50, height: 20 }} />
-          <h4 style={{display:'inline', fontSize:"1.3em"}}>Totale : {totale.toFixed(3) + " DT"}</h4>
+          <h4 style={{display:'inline', fontSize:"1.3em"}}>Total : {totale.toFixed(3) + " DT"}</h4>
         </Grid>
         <Grid item xs={6}></Grid>
         <Grid item xs={2}>
@@ -78,10 +78,10 @@ function InfoClient(props) {
                 id
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }}>
-                Nom et prénom
+                Nom
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }}>
-                Numéro du telephone
+                Télephone
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Montant</TableCell>
               <TableCell></TableCell>

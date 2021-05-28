@@ -15,7 +15,7 @@ const kridiRoute = require('./routes/kridi');
 const settingsRoute = require('./routes/settings');
 const stockRoute = require('./routes/stock');
 const recommRoute = require('./routes/recommendation');
-const testRoute= require('./routes/test')
+const StatistiquesRoute= require('./routes/statistiques')
 
 //Middlewares
 app.use(express.json());
@@ -33,7 +33,7 @@ app.use(kridiRoute);
 app.use(settingsRoute);
 app.use(stockRoute);
 app.use(recommRoute);
-app.use(testRoute);
+app.use(StatistiquesRoute);
 
 
 const port = 3001;

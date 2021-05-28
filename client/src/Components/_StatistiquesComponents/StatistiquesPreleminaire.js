@@ -5,6 +5,7 @@ import { Bar, Line, Pie } from 'react-chartjs-2'
 import { loadQteAchat, loadQteVente,loadProfitVente,loadSortieAchat } from '../../services/Statistiques';
 import { filterChartDataDate } from '../../Utils/Stock';
 import { SetData,SetBarData } from '../../Utils/Statistiques';
+import { Typography } from '@material-ui/core';
 
 function StatistiquesPreleminaire() {
     const [dates,setDates]=useState();
@@ -27,22 +28,26 @@ function StatistiquesPreleminaire() {
         })}
           return array;
       }
-    const labels=['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+  
     return (
         <Grid container spacing={4}>
             <Grid item xs={1}></Grid>
                 <Grid item xs={10}>
             <Paper elevation={3} style={{with:'90%'}}>
+                <Grid container>
+                <Grid item xs={12}><center><Typography style={{fontWeight:'bolder',color:'#393e46'}}>La quantité des produits vendues ce mois-ci</Typography></center></Grid>
+                <Grid item xs={12}>
             <Line 
             height={300}
             width={100}
             data = {{
         labels: DateFormatter(dates),
   datasets: [{
-    label: 'My First Dataset',
+    label: 'Ventes',
     data: SetData(data1,dates),
     fill: false,
     borderColor: 'rgb(75, 192, 192)',
+    backgroundColor: 'rgb(75, 192, 192)',
     tension: 0.1
   }],
  
@@ -62,22 +67,28 @@ function StatistiquesPreleminaire() {
         }]
     }
         }} ></Line>
+        </Grid>
+        </Grid>
         </Paper>
         </Grid>
         <Grid item xs={1}></Grid>
         <Grid item xs={1}></Grid>
         <Grid item xs={10} style={{paddingTop:'1em'}}>
         <Paper style={{with:'90%'}} elevation={3}>
+        <Grid container>
+                <Grid item xs={12}><center><Typography style={{fontWeight:'bolder',color:'#393e46'}}>La quantité des produits achetés ce mois-ci</Typography></center></Grid>
+                <Grid item xs={12}>
             <Line 
             height={300}
             width={100}
             data = {{
         labels: DateFormatter(dates),
   datasets: [{
-    label: 'My second Dataset',
+    label: 'Achats',
     data: SetData(data2,dates),
     fill: false,
     borderColor: 'rgb(186, 100, 118)',
+    backgroundColor:'rgb(186, 100, 118)',
     tension: 0.1
   }],
  
@@ -97,6 +108,8 @@ function StatistiquesPreleminaire() {
         }]
     }
         }} ></Line>
+        </Grid>
+        </Grid>
         </Paper>
         
         </Grid>
@@ -104,13 +117,16 @@ function StatistiquesPreleminaire() {
             <Grid item xs={1}></Grid>
             <Grid item xs={10} style={{paddingTop:'1em'}}>
             <Paper style={{with:'90%'}} elevation={3}>
+            <Grid container>
+                <Grid item xs={12}><center><Typography style={{fontWeight:'bolder',color:'#393e46'}}>Vos revenus par rapport a vos dépenses ce mois-ci</Typography></center></Grid>
+                <Grid item xs={12}>
             <Bar 
             height={300}
             width={100}
             data = {{
         labels: DateFormatter(dates),
   datasets: [{
-    label: 'profit vente',
+    label: 'Revenus',
     data: SetBarData(profit,dates),
     fill: false,
     backgroundColor: [
@@ -123,7 +139,7 @@ function StatistiquesPreleminaire() {
       ],
     tension: 0.1
   },{
-    label: 'sortie achat',
+    label: 'Dépenses',
     data: SetBarData(sortie,dates),
     fill: false,
     backgroundColor: [
@@ -153,6 +169,8 @@ function StatistiquesPreleminaire() {
         }]
     }
         }} ></Bar>
+        </Grid>
+        </Grid>
         </Paper>
             </Grid>
             <Grid item xs={1}></Grid>
